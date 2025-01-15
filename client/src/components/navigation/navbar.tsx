@@ -42,8 +42,11 @@ export function Navbar() {
       <div className="container flex h-16 items-center">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
-            <GlobeIcon className="h-6 w-6" />
-            <span className="font-bold">SOLVY Ecosystem</span>
+            <img 
+              src="/attached_assets/fulllogo.png" 
+              alt="SOLVY Ecosystem" 
+              className="h-8"
+            />
           </Link>
         </div>
 

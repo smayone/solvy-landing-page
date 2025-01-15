@@ -5,41 +5,74 @@ export function Services() {
   const services = [
     {
       title: "DECIDEY",
-      description: "NGO Education Platform",
+      description: "Decentralized Empowerment Control Identity Data Economy of Yours",
+      longDescription: "Control Your Identity, Data, and Economy. Our NGO Operations focus on tech company revenue tax repatriation, transparent donation management, and community-focused initiatives.",
       icon: GraduationCap,
-      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
+      features: [
+        "Comprehensive blockchain and DeFi education",
+        "Interactive learning modules",
+        "Community-driven knowledge sharing",
+        "AI-driven financial education content"
+      ],
+      logo: "/attached_assets/SolvyLogo-1024.png" 
     },
     {
       title: "SOLVY",
-      description: "Financial Services",
+      description: "Revolutionary Vehicle Mechanism Platform",
+      longDescription: "A platform enabling secure, transparent, and efficient financial transactions across borders.",
       icon: LineChart,
-      image: "https://images.unsplash.com/photo-1683313060361-da015696d16f",
+      features: [
+        "Cross-border payment solutions",
+        "Decentralized remittance system",
+        "Smart contract automation",
+        "Comprehensive financial tools"
+      ],
+      logo: "/attached_assets/SolvyLogo-1024.png"
     },
     {
       title: "MAN",
       description: "Mandatory Audit Network",
+      longDescription: "Comprehensive tracking and monitoring system ensuring transparency and accountability across all platform activities.",
       icon: Shield,
-      image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb",
+      features: [
+        "Real-time transaction monitoring",
+        "Automated compliance checks",
+        "Transparent audit trails",
+        "Multi-level access control"
+      ],
+      logo: "/attached_assets/SolvyLogo-1024.png" 
     },
   ];
 
   return (
-    <section className="container py-16" id="services">
+    <section className="container py-16" id="ecosystem">
+      <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
+        The SOLVY Ecosystem
+      </h2>
       <div className="grid gap-8 md:grid-cols-3">
         {services.map((service) => (
           <Card key={service.title} className="relative overflow-hidden">
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-10"
-              style={{ backgroundImage: `url(${service.image})` }}
-            />
             <CardHeader>
               <div className="flex items-center gap-4">
-                <service.icon className="h-8 w-8 text-primary" />
+                <img 
+                  src={service.logo} 
+                  alt={service.title}
+                  className="h-12 w-12"
+                />
                 <CardTitle>{service.title}</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{service.description}</p>
+              <p className="font-medium text-primary mb-2">{service.description}</p>
+              <p className="text-muted-foreground mb-4">{service.longDescription}</p>
+              <ul className="space-y-2">
+                {service.features.map((feature, index) => (
+                  <li key={index} className="flex items-center gap-2">
+                    <service.icon className="h-4 w-4 text-primary" />
+                    <span className="text-sm">{feature}</span>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
         ))}
