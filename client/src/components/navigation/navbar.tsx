@@ -6,16 +6,36 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   const links = [
-    { href: "#decidey", label: "DECIDEY" },
-    { href: "#solvy", label: "SOLVY" },
-    { href: "#man", label: "MAN" },
+    { href: "#decidey", label: t('nav.decidey') },
+    { href: "#solvy", label: t('nav.solvy') },
+    { href: "#man", label: t('nav.man') },
   ];
+
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Español' },
+    { code: 'vi', label: 'Tiếng Việt' },
+    { code: 'zh', label: '中文' },
+    { code: 'ko', label: '한국어' },
+  ];
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   return (
     <nav className="fixed w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 border-b">
@@ -39,7 +59,26 @@ export function Navbar() {
               </Link>
             ))}
           </nav>
-          <Button>Connect Wallet</Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <GlobeIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {languages.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => changeLanguage(lang.code)}
+                >
+                  {lang.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Button>{t('nav.connect_wallet')}</Button>
 
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
