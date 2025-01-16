@@ -1,222 +1,85 @@
-import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { GlobeIcon, Menu, Wallet } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { WalletTutorial } from "@/components/wallet/wallet-tutorial";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { solvyDomains } from "@/lib/domains";
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { getSolvyChainStatus } from "@/lib/web3";
-import { domains } from "@/lib/domains";
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showWalletTutorial, setShowWalletTutorial] = useState(false);
-  const [walletStatus, setWalletStatus] = useState<{
-    isConnected: boolean;
-    chainName: string;
-  } | null>(null);
-  const { t, i18n } = useTranslation();
-
-  // Organize navigation into categories
-  const mainLinks = [
-    { 
-      href: "/dashboard", 
-      label: "Dashboard",
-      description: "View your financial dashboard"
+  const mainNavItems = [
+    {
+      href: "/",
+      label: "Home",
+      description: "Return to the main page"
     },
-    { 
-      href: "/analytics", 
-      label: "Analytics",
-      description: "Analyze your financial data"
+    {
+      href: "/dashboard",
+      label: "Dashboard",
+      description: "View your financial analytics"
     },
     {
       href: "/payments",
       label: "Payments",
       description: "Make payments using SOLVY chain"
+    },
+    {
+      href: "/nft-avatar",
+      label: "NFT Avatar",
+      description: "Create your unique NFT avatar"
     }
   ];
 
-  const languages = [
-    { code: 'en', label: 'English' },
-    { code: 'es', label: 'Español' },
-    { code: 'vi', label: 'Tiếng Việt' },
-    { code: 'zh', label: '中文' },
-    { code: 'ko', label: '한국어' },
-  ];
-
-  useEffect(() => {
-    const checkWalletStatus = async () => {
-      const status = await getSolvyChainStatus();
-      if (status) {
-        setWalletStatus({
-          isConnected: status.isConnected,
-          chainName: status.chainName,
-        });
-      }
-    };
-
-    checkWalletStatus();
-    const interval = setInterval(checkWalletStatus, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
-
-  const domainLinks = Object.entries(domains.subdomains).map(([key, value]) => ({
-    href: `https://${value.domain}`,
-    label: key.toUpperCase(),
-    description: value.description,
-    external: true
-  }));
-
   return (
-    <nav className="fixed w-full z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <img 
-                src="/attached_assets/fulllogo.png" 
-                alt="SOLVY" 
-                className="h-12 w-auto"
-              />
-            </Link>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <nav className="hidden md:flex items-center space-x-6">
-              {mainLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
-                >
-                  {link.label}
+    <nav className="w-full border-b">
+      <div className="flex h-16 items-center px-4">
+        <NavigationMenu>
+          <NavigationMenuList>
+            {/* Main Navigation Items */}
+            {mainNavItems.map((item) => (
+              <NavigationMenuItem key={item.href}>
+                <Link href={item.href}>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {item.label}
+                  </NavigationMenuLink>
                 </Link>
-              ))}
+              </NavigationMenuItem>
+            ))}
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    Domains
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[240px]">
-                  {domainLinks.map((link) => (
-                    <DropdownMenuItem key={link.href} asChild>
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col"
-                      >
-                        <span className="font-medium">{link.label}</span>
-                        <span className="text-xs text-muted-foreground">
-                          {link.description}
-                        </span>
-                      </a>
-                    </DropdownMenuItem>
+            {/* SOLVY Domains Dropdown */}
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>SOLVY Domains</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  {solvyDomains.map((domain) => (
+                    <li key={domain.domain}>
+                      <NavigationMenuLink asChild>
+                        <a
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          href={`https://${domain.domain}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <div className="text-sm font-medium leading-none">{domain.name}</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            {domain.description}
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
                   ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </nav>
-
-            <ThemeToggle />
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <GlobeIcon className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {languages.map((lang) => (
-                  <DropdownMenuItem
-                    key={lang.code}
-                    onClick={() => changeLanguage(lang.code)}
-                  >
-                    {lang.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Button 
-              variant={walletStatus?.isConnected ? "outline" : "default"}
-              onClick={() => setShowWalletTutorial(true)}
-              className="hidden sm:flex"
-            >
-              <Wallet className="mr-2 h-4 w-4" />
-              {walletStatus?.isConnected ? walletStatus.chainName : t('nav.connect_wallet')}
-            </Button>
-
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <div className="flex flex-col space-y-4 mt-4">
-                  {mainLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="text-sm font-medium transition-colors hover:text-primary"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                  <DropdownMenuSeparator />
-                  {domainLinks.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-medium transition-colors hover:text-primary"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.label}
-                    </a>
-                  ))}
-                  <Button 
-                    variant={walletStatus?.isConnected ? "outline" : "default"}
-                    onClick={() => {
-                      setShowWalletTutorial(true);
-                      setIsOpen(false);
-                    }}
-                    className="w-full"
-                  >
-                    <Wallet className="mr-2 h-4 w-4" />
-                    {walletStatus?.isConnected ? walletStatus.chainName : t('nav.connect_wallet')}
-                  </Button>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
-
-      <WalletTutorial 
-        open={showWalletTutorial} 
-        onOpenChange={setShowWalletTutorial}
-      />
     </nav>
   );
 }

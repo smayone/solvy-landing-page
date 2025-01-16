@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import TechCompanies from "@/pages/tech-companies";
 import Payments from "@/pages/payments";
+import NFTAvatar from "@/pages/nft-avatar";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/tech-companies" component={TechCompanies} />
       <Route path="/payments" component={Payments} />
+      <Route path="/nft-avatar" component={NFTAvatar} />
       <Route component={NotFound} />
     </Switch>
   );

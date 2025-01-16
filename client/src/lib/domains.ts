@@ -1,57 +1,67 @@
 // Domain configuration for solvy.chain ecosystem
-export const domains = {
-  root: 'solvy.chain',
-  subdomains: {
-    education: {
-      domain: 'education.solvy.chain',
-      description: 'Educational platform for blockchain and financial literacy',
-      registrar: 'Freename',
-      registrationDate: '2025-01-06',
-      registrant: 'Sean Mayo'
-    },
-    decidey: {
-      domain: 'decidey.solvy.chain',
-      description: 'Decentralized Empowerment Control Identity Data Economy of Yours',
-      registrar: 'Freename',
-      registrationDate: '2025-01-06',
-      registrant: 'Sean Mayo'
-    },
-    solvy: {
-      domain: 'solvy.solvy.chain',
-      description: 'Core SOLVY platform services and financial solutions',
-      registrar: 'Freename',
-      registrationDate: '2025-01-06',
-      registrant: 'Sean Mayo'
-    },
-    business: {
-      domain: 'business.solvy.chain',
-      description: 'Business services and blockchain solutions',
-      registrar: 'Freename',
-      registrationDate: '2025-01-06',
-      registrant: 'Sean Mayo'
-    },
-    ebl: {
-      domain: 'ebl.solvy.chain',
-      description: 'Evergreen Beauty Lounge services',
-      registrar: 'Freename',
-      registrationDate: '2025-01-06',
-      registrant: 'Sean Mayo'
-    },
-    remittance: {
-      domain: 'remittance.solvy.chain',
-      description: 'Cross-border payment and remittance services',
-      registrar: 'Freename',
-      registrationDate: '2025-01-06',
-      registrant: 'Sean Mayo'
-    },
-    man: {
-      domain: 'man.solvy.chain',
-      description: 'Mandatory Audit Network',
-      registrar: 'Freename',
-      registrationDate: '2025-01-06',
-      registrant: 'Sean Mayo'
-    }
+export interface Domain {
+  name: string;
+  domain: string;
+  description: string;
+  registrationDate: string;
+}
+
+export const solvyDomains: Domain[] = [
+  {
+    name: "SOLVY Main",
+    domain: "solvy.solvy.chain",
+    description: "Main platform for SOLVY financial solutions",
+    registrationDate: "2025-01-06"
   },
+  {
+    name: "Business",
+    domain: "business.solvy.chain",
+    description: "Enterprise solutions and business services",
+    registrationDate: "2025-01-06"
+  },
+  {
+    name: "Education",
+    domain: "education.solvy.chain",
+    description: "Educational resources and learning platform",
+    registrationDate: "2025-01-06"
+  },
+  {
+    name: "Decidey",
+    domain: "decidey.solvy.chain",
+    description: "Decision-making and governance platform",
+    registrationDate: "2025-01-06"
+  },
+  {
+    name: "EBL",
+    domain: "ebl.solvy.chain",
+    description: "Electronic banking and financial services",
+    registrationDate: "2025-01-06"
+  },
+  {
+    name: "Remittance",
+    domain: "remittance.solvy.chain",
+    description: "Cross-border payment and remittance services",
+    registrationDate: "2025-01-06"
+  },
+  {
+    name: "Management",
+    domain: "man.solvy.chain",
+    description: "Platform management and administration",
+    registrationDate: "2025-01-06"
+  }
+];
+
+export const getDomainConfig = (host: string) => {
+  if (!host) return null;
+
+  const subdomain = solvyDomains.find(
+    config => config.domain === host
+  );
+
+  return subdomain || null;
+};
+
+export const domains = {
   dns: {
     doh: 'https://dns1.noto.network',
     ipv4: [
@@ -59,14 +69,4 @@ export const domains = {
       '34.154.254.177'
     ]
   }
-};
-
-export const getDomainConfig = (host: string) => {
-  if (!host) return null;
-
-  const subdomain = Object.values(domains.subdomains).find(
-    config => config.domain === host
-  );
-
-  return subdomain || null;
 };

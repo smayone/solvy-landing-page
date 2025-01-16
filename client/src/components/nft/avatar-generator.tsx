@@ -1,187 +1,55 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const COLORS = [
-  "#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEEAD",
-  "#D4A5A5", "#9A89B4", "#FF9999", "#A3D39C", "#7FDBFF"
-];
-
-const SHAPES = ["circle", "square", "triangle", "hexagon", "star"];
-
-interface AvatarGeneratorProps {
-  onGenerate?: (avatarDataUrl: string) => void;
-}
-
-export function AvatarGenerator({ onGenerate }: AvatarGeneratorProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [complexity, setComplexity] = useState(5);
-  const [primaryColor, setPrimaryColor] = useState(COLORS[0]);
-  const [shape, setShape] = useState(SHAPES[0]);
-  const { toast } = useToast();
+export function AvatarGenerator() {
+  const [avatarSeed, setAvatarSeed] = useState("");
+  const [generatedAvatarUrl, setGeneratedAvatarUrl] = useState("");
 
   const generateAvatar = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Set background
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Generate unique pattern based on parameters
-    for (let i = 0; i < complexity; i++) {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
-      const size = (Math.random() * 50) + 20;
-
-      ctx.fillStyle = primaryColor;
-      ctx.beginPath();
-
-      switch (shape) {
-        case "circle":
-          ctx.arc(x, y, size / 2, 0, Math.PI * 2);
-          break;
-        case "square":
-          ctx.rect(x - size / 2, y - size / 2, size, size);
-          break;
-        case "triangle":
-          ctx.moveTo(x, y - size / 2);
-          ctx.lineTo(x + size / 2, y + size / 2);
-          ctx.lineTo(x - size / 2, y + size / 2);
-          break;
-        case "hexagon":
-          for (let i = 0; i < 6; i++) {
-            const angle = (Math.PI / 3) * i;
-            const px = x + size * Math.cos(angle);
-            const py = y + size * Math.sin(angle);
-            if (i === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-          }
-          break;
-        case "star":
-          for (let i = 0; i < 5; i++) {
-            const angle = (Math.PI * 2 * i) / 5 - Math.PI / 2;
-            const px = x + size * Math.cos(angle);
-            const py = y + size * Math.sin(angle);
-            if (i === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-          }
-          break;
-      }
-
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    if (onGenerate) {
-      onGenerate(canvas.toDataURL());
-    }
-
-    toast({
-      title: "Avatar Generated",
-      description: "Your unique NFT avatar has been created!",
-    });
+    // For now, using a placeholder avatar service
+    // This will be replaced with actual NFT generation logic
+    const newAvatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${avatarSeed || Math.random()}`;
+    setGeneratedAvatarUrl(newAvatarUrl);
   };
-
-  useEffect(() => {
-    generateAvatar();
-  }, [complexity, primaryColor, shape]);
 
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>Generate NFT Avatar</CardTitle>
-        <CardDescription>
-          Customize your unique NFT avatar by adjusting the parameters below
-        </CardDescription>
+        <CardTitle>Generate Your NFT Avatar</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div>
-          <canvas
-            ref={canvasRef}
-            width={400}
-            height={400}
-            className="w-full aspect-square rounded-lg border mb-4"
+      <CardContent className="space-y-4">
+        <div className="flex justify-center mb-6">
+          <Avatar className="w-32 h-32">
+            <AvatarImage src={generatedAvatarUrl} />
+            <AvatarFallback>Avatar</AvatarFallback>
+          </Avatar>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="seed">Customization Seed</Label>
+          <Input
+            id="seed"
+            placeholder="Enter a seed for your avatar"
+            value={avatarSeed}
+            onChange={(e) => setAvatarSeed(e.target.value)}
           />
         </div>
 
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label>Complexity</Label>
-            <Slider
-              value={[complexity]}
-              onValueChange={([value]) => setComplexity(value)}
-              min={1}
-              max={10}
-              step={1}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Primary Color</Label>
-            <Select value={primaryColor} onValueChange={setPrimaryColor}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {COLORS.map((color) => (
-                  <SelectItem key={color} value={color}>
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-4 h-4 rounded-full"
-                        style={{ backgroundColor: color }}
-                      />
-                      {color}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Shape</Label>
-            <Select value={shape} onValueChange={setShape}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {SHAPES.map((s) => (
-                  <SelectItem key={s} value={s}>
-                    {s.charAt(0).toUpperCase() + s.slice(1)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
+        <div className="flex gap-4">
           <Button onClick={generateAvatar} className="w-full">
             Generate New Avatar
+          </Button>
+          <Button variant="secondary" className="w-full">
+            Mint as NFT
           </Button>
         </div>
       </CardContent>
     </Card>
   );
 }
+
+export default AvatarGenerator;
