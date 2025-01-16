@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { connectWallet, getSolvyChainStatus } from "@/lib/web3";
-import { AlertCircle, CheckCircle2, Wallet, Shield, Coins, Building2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Wallet, Shield, Coins, Building2, CreditCard, Smartphone, DollarSign } from "lucide-react";
 
 const steps = [
   {
@@ -59,13 +59,59 @@ const steps = [
     },
   },
   {
+    title: "Set Up VA Payment Integration",
+    description: "Configure your account to receive VA payments directly into your SOLVY wallet.",
+    icon: DollarSign,
+    benefits: [
+      "Direct VA payment deposits",
+      "Automatic payment scheduling",
+      "Secure payment verification",
+      "Transaction history tracking"
+    ],
+    checkCondition: async () => {
+      const status = await getSolvyChainStatus();
+      return status?.isConnected;
+    },
+  },
+  {
+    title: "SOLVY Card Setup",
+    description: "Get your SOLVY card for seamless payments both online and in-person.",
+    icon: CreditCard,
+    benefits: [
+      "Physical and virtual card options",
+      "Direct VA payment access",
+      "Instant transaction notifications",
+      "Worldwide acceptance"
+    ],
+    checkCondition: async () => {
+      const status = await getSolvyChainStatus();
+      return status?.isConnected;
+    },
+  },
+  {
+    title: "Mobile Access",
+    description: "Access your SOLVY wallet and make payments on the go with our mobile app.",
+    icon: Smartphone,
+    benefits: [
+      "Secure mobile payments",
+      "Real-time balance updates",
+      "Payment notifications",
+      "Biometric authentication"
+    ],
+    checkCondition: async () => {
+      const status = await getSolvyChainStatus();
+      return status?.isConnected;
+    },
+  },
+  {
     title: "Setup Complete",
-    description: "You're now ready to use SOLVY chain! You can manage VA payments, perform cross-border transactions, and more.",
+    description: "You're now ready to use the complete SOLVY ecosystem! Manage your VA payments, use your SOLVY card, and access your account from anywhere.",
     icon: Building2,
     benefits: [
-      "Ready for VA payment integration",
-      "Access to all SOLVY services",
-      "Secure financial sovereignty"
+      "VA payment integration complete",
+      "SOLVY card ready for use",
+      "Mobile access enabled",
+      "Full financial sovereignty achieved"
     ],
     checkCondition: async () => {
       const status = await getSolvyChainStatus();
@@ -115,7 +161,7 @@ export function WalletTutorial({ open, onOpenChange }: { open: boolean; onOpenCh
             Connect to SOLVY Chain
           </DialogTitle>
           <DialogDescription>
-            Follow these steps to connect your wallet and access SOLVY features, including VA payment integration.
+            Follow these steps to connect your wallet and set up VA payments with your SOLVY card.
           </DialogDescription>
         </DialogHeader>
         <div className="mt-4 space-y-6">
