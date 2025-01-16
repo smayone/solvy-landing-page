@@ -40,7 +40,6 @@ const steps = [
 ];
 
 export function WalletTutorial({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
-  const [currentStep, setCurrentStep] = useState(0);
   const [stepStatuses, setStepStatuses] = useState<Record<number, boolean>>({});
   const [selectedWallet, setSelectedWallet] = useState<WalletConnector | null>(null);
   const { activate, active, account } = useWeb3React();
@@ -80,7 +79,7 @@ export function WalletTutorial({ open, onOpenChange }: { open: boolean; onOpenCh
             Connect to SOLVY Chain
           </DialogTitle>
           <DialogDescription>
-            Choose your preferred wallet to connect with SOLVY chain.
+            Follow these steps to connect with SOLVY chain
           </DialogDescription>
         </DialogHeader>
 
