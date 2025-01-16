@@ -1,51 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap, LineChart, Shield } from "lucide-react";
 
-const DecideyLogo = () => (
-  <svg viewBox="0 0 100 100" className="h-12 w-12">
-    <defs>
-      <linearGradient id="decidey-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style={{ stopColor: '#4B9FFF', stopOpacity: 1 }} />
-        <stop offset="100%" style={{ stopColor: '#2C7BE5', stopOpacity: 1 }} />
-      </linearGradient>
-    </defs>
-    <g fill="url(#decidey-gradient)">
-      <path d="M50,5 L65,15 L80,5 L75,25 L90,35 L70,40 L65,60 L50,45 L35,60 L30,40 L10,35 L25,25 L20,5 L35,15 Z" />
-      <text x="50" y="45" fontSize="24" textAnchor="middle" fill="white" fontFamily="Arial Black">D</text>
-    </g>
-  </svg>
-);
-
-const SolvyLogo = () => (
-  <svg viewBox="0 0 100 100" className="h-12 w-12">
-    <defs>
-      <linearGradient id="solvy-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style={{ stopColor: '#4B9FFF', stopOpacity: 1 }} />
-        <stop offset="100%" style={{ stopColor: '#2C7BE5', stopOpacity: 1 }} />
-      </linearGradient>
-    </defs>
-    <g fill="url(#solvy-gradient)">
-      <path d="M50,5 L65,15 L80,5 L75,25 L90,35 L70,40 L65,60 L50,45 L35,60 L30,40 L10,35 L25,25 L20,5 L35,15 Z" />
-      <text x="50" y="45" fontSize="24" textAnchor="middle" fill="white" fontFamily="Arial Black">S</text>
-    </g>
-  </svg>
-);
-
-const ManLogo = () => (
-  <svg viewBox="0 0 100 100" className="h-12 w-12">
-    <defs>
-      <linearGradient id="man-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style={{ stopColor: '#4B9FFF', stopOpacity: 1 }} />
-        <stop offset="100%" style={{ stopColor: '#2C7BE5', stopOpacity: 1 }} />
-      </linearGradient>
-    </defs>
-    <g fill="url(#man-gradient)">
-      <path d="M50,5 L65,15 L80,5 L75,25 L90,35 L70,40 L65,60 L50,45 L35,60 L30,40 L10,35 L25,25 L20,5 L35,15 Z" />
-      <text x="50" y="45" fontSize="24" textAnchor="middle" fill="white" fontFamily="Arial Black">M</text>
-    </g>
-  </svg>
-);
-
 export function Services() {
   const services = [
     {
@@ -59,7 +14,7 @@ export function Services() {
         "Community-driven knowledge sharing",
         "AI-driven financial education content"
       ],
-      Logo: DecideyLogo
+      logo: "/attached_assets/SolvyLogo-1024.png"
     },
     {
       title: "SOLVY",
@@ -72,7 +27,7 @@ export function Services() {
         "Smart contract automation",
         "Comprehensive financial tools"
       ],
-      Logo: SolvyLogo
+      logo: "/attached_assets/SolvyLogo-1024.png"
     },
     {
       title: "MAN",
@@ -85,7 +40,7 @@ export function Services() {
         "Transparent audit trails",
         "Multi-level access control"
       ],
-      Logo: ManLogo
+      logo: "/attached_assets/SolvyLogo-1024.png"
     },
   ];
 
@@ -99,7 +54,11 @@ export function Services() {
           <Card key={service.title} className="relative overflow-hidden">
             <CardHeader>
               <div className="flex items-center gap-4">
-                <service.Logo />
+                <img 
+                  src={service.logo} 
+                  alt={service.title}
+                  className="h-12 w-12"
+                />
                 <CardTitle>{service.title}</CardTitle>
               </div>
             </CardHeader>
