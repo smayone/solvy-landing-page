@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, Fingerprint, User } from "lucide-react";
+import { Crown } from "@/components/ui/crown";
 
 interface BiometricData {
   name: string;
@@ -75,13 +76,16 @@ export function AvatarGenerator() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex justify-center mb-6">
-          <Avatar className="w-32 h-32">
-            <AvatarImage src={generatedAvatarUrl} />
-            <AvatarFallback>
-              <User className="h-16 w-16 text-muted-foreground" />
-            </AvatarFallback>
-          </Avatar>
+        <div className="flex justify-center mb-6 relative">
+          <div className="relative">
+            <Crown className="absolute -top-8 left-1/2 -translate-x-1/2 w-48 h-48 text-primary/20" />
+            <Avatar className="w-32 h-32 relative z-10">
+              <AvatarImage src={generatedAvatarUrl} />
+              <AvatarFallback>
+                <User className="h-16 w-16 text-muted-foreground" />
+              </AvatarFallback>
+            </Avatar>
+          </div>
         </div>
 
         <div className="space-y-4">
