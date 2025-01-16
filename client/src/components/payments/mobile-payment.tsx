@@ -8,13 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -22,7 +15,7 @@ import { Smartphone, CreditCard, QrCode, Shield, Wallet } from "lucide-react";
 import { Web3Provider } from "@ethersproject/providers";
 import { getSolvyChainStatus } from "@/lib/web3";
 import { useWeb3React } from "@web3-react/core";
-import { connectors } from "@/lib/connectors";
+import { connectors, type WalletConnector } from "@/lib/connectors";
 import { ethers } from "ethers";
 
 interface PaymentProps {
@@ -35,17 +28,14 @@ interface PaymentProps {
 export function MobilePayment({ amount, recipient, open, onOpenChange }: PaymentProps) {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "qr" | "wallet" | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
+  const [selectedWallet, setSelectedWallet] = useState<WalletConnector | null>(null);
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const { activate, account, library } = useWeb3React();
 
-  const handleWalletConnect = async (walletId: string) => {
+  const handleWalletConnect = async (walletId: WalletConnector) => {
     try {
       const connector = connectors[walletId];
-      if (!connector) {
-        throw new Error("Invalid wallet connector");
-      }
       await activate(connector.connector);
       setSelectedWallet(walletId);
     } catch (error) {
@@ -144,7 +134,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[425px] max-h-[85vh] overflow-y-auto">
         <DialogHeader className="sticky top-0 bg-background pb-4 z-10">
           <DialogTitle className="flex items-center gap-2">
             <Smartphone className="h-5 w-5" />
@@ -155,67 +145,67 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
           </DialogDescription>
         </DialogHeader>
 
-        <div className="py-4">
+        <div className="py-4 space-y-4">
           {!paymentMethod ? (
             <div className="grid gap-4">
               {paymentOptions.map((option) => (
-                <Card
+                <Button
                   key={option.id}
-                  className="cursor-pointer transition-colors hover:bg-muted"
+                  variant="outline"
+                  className="w-full p-6 h-auto flex items-center justify-start gap-4 hover:bg-accent"
                   onClick={() => setPaymentMethod(option.id)}
                 >
-                  <CardHeader className="flex flex-row items-center gap-4 py-3">
-                    <option.icon className="h-8 w-8 text-primary" />
-                    <div>
-                      <CardTitle className="text-lg">{option.title}</CardTitle>
-                      <CardDescription>{option.description}</CardDescription>
+                  <option.icon className="h-6 w-6 flex-shrink-0" />
+                  <div className="text-left">
+                    <div className="font-semibold">{option.title}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {option.description}
                     </div>
-                  </CardHeader>
-                </Card>
+                  </div>
+                </Button>
               ))}
             </div>
           ) : paymentMethod === "wallet" && !selectedWallet ? (
             <div className="grid gap-4">
-              {Object.entries(connectors).map(([id, wallet]) => (
-                <Card
+              {(Object.entries(connectors) as [WalletConnector, typeof connectors[keyof typeof connectors]][]).map(([id, wallet]) => (
+                <Button
                   key={id}
-                  className="cursor-pointer transition-colors hover:bg-muted"
+                  variant="outline"
+                  className="w-full p-6 h-auto flex items-center justify-start gap-4 hover:bg-accent"
                   onClick={() => handleWalletConnect(id)}
                 >
-                  <CardHeader className="flex flex-row items-center gap-4 py-3">
-                    <img src={wallet.icon} alt={wallet.name} className="h-8 w-8" />
-                    <div>
-                      <CardTitle className="text-lg">{wallet.name}</CardTitle>
-                      <CardDescription>{wallet.description}</CardDescription>
+                  <img src={wallet.icon} alt={wallet.name} className="h-8 w-8 flex-shrink-0" />
+                  <div className="text-left">
+                    <div className="font-semibold">{wallet.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {wallet.description}
                     </div>
-                  </CardHeader>
-                </Card>
+                  </div>
+                </Button>
               ))}
             </div>
           ) : (
-            <div className="space-y-4">
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="space-y-4">
-                    {amount && (
-                      <div>
-                        <Label>Amount</Label>
-                        <div className="text-2xl font-bold">${amount.toFixed(2)}</div>
-                      </div>
-                    )}
-                    {recipient && (
-                      <div>
-                        <Label>Recipient</Label>
-                        <div className="font-medium">{recipient}</div>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Shield className="h-4 w-4" />
-                      Secured by SOLVY chain on Polygon network
+            <div className="space-y-6">
+              <div className="rounded-lg border bg-card p-6 text-card-foreground">
+                <div className="space-y-4">
+                  {amount && (
+                    <div>
+                      <Label>Amount</Label>
+                      <div className="text-2xl font-bold">${amount.toFixed(2)}</div>
                     </div>
+                  )}
+                  {recipient && (
+                    <div>
+                      <Label>Recipient</Label>
+                      <div className="font-medium break-all">{recipient}</div>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Shield className="h-4 w-4" />
+                    Secured by SOLVY chain on Polygon network
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               <div className="flex gap-2 sticky bottom-0 bg-background pt-4">
                 <Button
