@@ -10,87 +10,115 @@ const resources = {
         vulture_economy: 'In a "vulture economy," businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a wildfire-resistant forest, and your data was protected like a vault?',
         solutions_valued: 'Solvy.chain: Solutions Valued You. We\'re breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.',
       },
-      benefits: {
-        financial_autonomy: {
-          title: 'Financial autonomy',
-          description: 'Take control of your money, your way.'
-        },
-        data_security: {
-          title: 'Data security',
-          description: 'Protect your identity and assets with blockchain technology.'
-        },
-        community_strength: {
-          title: 'Community strength',
-          description: 'Join a network of support and shared prosperity.'
-        }
+      evergreen: {
+        title: 'Evergreen Beauty Lounge',
+        subtitle: 'Experience luxury beauty services with the convenience of SOLVY payments.',
+        book_now: 'Book Now with SOLVY',
+        services: 'Services',
+        gift_cards: 'Gift Cards',
+        gift_card_bonus: 'Get ${bonus} bonus value!',
+        total_value: 'Total Value',
+        purchase_with_solvy: 'Purchase with SOLVY',
+        book_appointment: 'Book Appointment',
+        booking_success: 'Appointment booked!',
+        booking_error: 'Failed to book appointment. Please try again.',
+        gift_card_success: 'Gift card purchased successfully!',
+        gift_card_error: 'Failed to purchase gift card. Please try again.',
       },
       nav: {
         decidey: 'DECIDEY',
         solvy: 'SOLVY',
         man: 'MAN',
         connect_wallet: 'Connect Wallet',
-        language: 'Language'
+        language: 'Language',
+        evergreen: 'Evergreen Beauty',
+        analytics: 'Analytics'
       }
     }
   },
   es: {
     translation: {
-      hero: {
-        title: 'SOLVY: Obtén Soberanía Financiera',
-        vulture_economy: 'En una "economía buitre", las empresas giran en torno a las necesidades individuales, beneficiándose de las vulnerabilidades en lugar de fomentar el crecimiento. ¿Pero qué pasaría si tus finanzas fueran tan resistentes como un bosque resistente a los incendios y tus datos estuvieran protegidos como una bóveda?',
-        solutions_valued: 'Solvy.chain: Soluciones que te Valoran. Estamos rompiendo esas cadenas, construyendo un futuro cooperativo impulsado por DAO donde el comercio es mutuamente beneficioso y verdaderamente empodera a los individuos.',
-      },
-      benefits: {
-        financial_autonomy: {
-          title: 'Autonomía financiera',
-          description: 'Toma el control de tu dinero, a tu manera.'
-        },
-        data_security: {
-          title: 'Seguridad de datos',
-          description: 'Protege tu identidad y activos con tecnología blockchain.'
-        },
-        community_strength: {
-          title: 'Fuerza comunitaria',
-          description: 'Únete a una red de apoyo y prosperidad compartida.'
-        }
+      evergreen: {
+        title: 'Salón de Belleza Evergreen',
+        subtitle: 'Experimente servicios de belleza de lujo con la conveniencia de los pagos SOLVY.',
+        book_now: 'Reserve Ahora con SOLVY',
+        services: 'Servicios',
+        gift_cards: 'Tarjetas de Regalo',
+        gift_card_bonus: '¡Obtenga ${bonus} de valor adicional!',
+        total_value: 'Valor Total',
+        purchase_with_solvy: 'Comprar con SOLVY',
+        book_appointment: 'Reservar Cita',
+        booking_success: '¡Cita reservada!',
+        booking_error: 'Error al reservar cita. Por favor, inténtelo de nuevo.',
+        gift_card_success: '¡Tarjeta de regalo comprada con éxito!',
+        gift_card_error: 'Error al comprar la tarjeta de regalo. Por favor, inténtelo de nuevo.',
       },
       nav: {
         decidey: 'DECIDEY',
         solvy: 'SOLVY',
         man: 'MAN',
         connect_wallet: 'Conectar Billetera',
-        language: 'Idioma'
+        language: 'Idioma',
+        evergreen: 'Belleza Evergreen',
+        analytics: 'Análisis'
       }
     }
   },
   vi: {
     translation: {
-      hero: {
-        title: 'SOLVY: Đạt được Chủ quyền Tài chính',
-        vulture_economy: 'Trong một "nền kinh tế kền kền", các doanh nghiệp xoay quanh nhu cầu cá nhân, thu lợi từ những điểm yếu thay vì thúc đẩy tăng trưởng. Nhưng nếu tài chính của bạn bền vững như một khu rừng chống cháy và dữ liệu của bạn được bảo vệ như một két sắt thì sao?',
-        solutions_valued: 'Solvy.chain: Giải pháp Đánh giá Bạn. Chúng tôi đang phá vỡ những xiềng xích đó, xây dựng một tương lai hợp tác được điều hành bởi DAO, nơi thương mại mang lại lợi ích cho cả hai bên và thực sự trao quyền cho cá nhân.',
+      evergreen: {
+        title: 'Phòng Làm Đẹp Evergreen',
+        subtitle: 'Trải nghiệm dịch vụ làm đẹp cao cấp với thanh toán tiện lợi qua SOLVY.',
+        book_now: 'Đặt Lịch với SOLVY',
+        services: 'Dịch Vụ',
+        gift_cards: 'Thẻ Quà Tặng',
+        gift_card_bonus: 'Nhận thêm ${bonus} giá trị!',
+        total_value: 'Tổng Giá Trị',
+        purchase_with_solvy: 'Mua với SOLVY',
+        book_appointment: 'Đặt Lịch Hẹn',
+        booking_success: 'Đã đặt lịch hẹn!',
+        booking_error: 'Không thể đặt lịch hẹn. Vui lòng thử lại.',
+        gift_card_success: 'Đã mua thẻ quà tặng thành công!',
+        gift_card_error: 'Không thể mua thẻ quà tặng. Vui lòng thử lại.',
       }
-      // Additional Vietnamese translations will be added similarly
     }
   },
   zh: {
     translation: {
-      hero: {
-        title: 'SOLVY: 获得金融主权',
-        vulture_economy: '在"秃鹫经济"中，企业围绕个人需求盘旋，从漏洞中获利而不是促进增长。但是，如果您的财务像防火林一样坚韧，您的数据像保险库一样受到保护，会怎样？',
-        solutions_valued: 'Solvy.chain：重视您的解决方案。我们正在打破这些枷锁，建立一个由DAO驱动的合作未来，在这里贸易和商业是互惠互利的，真正赋予个人力量。',
+      evergreen: {
+        title: '常青美容院',
+        subtitle: '体验豪华美容服务，享受SOLVY支付的便利。',
+        book_now: '立即用SOLVY预约',
+        services: '服务项目',
+        gift_cards: '礼品卡',
+        gift_card_bonus: '获得${bonus}额外价值！',
+        total_value: '总价值',
+        purchase_with_solvy: '用SOLVY购买',
+        book_appointment: '预约',
+        booking_success: '预约成功！',
+        booking_error: '预约失败。请重试。',
+        gift_card_success: '礼品卡购买成功！',
+        gift_card_error: '礼品卡购买失败。请重试。',
       }
-      // Additional Chinese translations will be added similarly
     }
   },
   ko: {
     translation: {
-      hero: {
-        title: 'SOLVY: 금융 주권 획득',
-        vulture_economy: '"벌처 이코노미"에서 기업들은 개인의 필요를 중심으로 돌며, 성장을 촉진하기보다는 취약점을 이용해 이익을 얻습니다. 하지만 당신의 재정이 산불에 강한 숲처럼 견고하고, 데이터가 금고처럼 보호된다면 어떨까요?',
-        solutions_valued: 'Solvy.chain: 당신을 소중히 여기는 솔루션. 우리는 이러한 사슬을 깨고, DAO가 주도하는 협력적 미래를 구축하여 거래와 상업이 상호 이익이 되고 진정으로 개인에게 힘을 실어주는 것을 목표로 합니다.',
+      evergreen: {
+        title: '에버그린 뷰티 라운지',
+        subtitle: 'SOLVY 결제의 편리함과 함께 럭셔리 뷰티 서비스를 경험하세요.',
+        book_now: 'SOLVY로 지금 예약',
+        services: '서비스',
+        gift_cards: '기프트 카드',
+        gift_card_bonus: '${bonus} 보너스 가치 받기!',
+        total_value: '총 가치',
+        purchase_with_solvy: 'SOLVY로 구매',
+        book_appointment: '예약하기',
+        booking_success: '예약이 완료되었습니다!',
+        booking_error: '예약에 실패했습니다. 다시 시도해주세요.',
+        gift_card_success: '기프트 카드 구매가 완료되었습니다!',
+        gift_card_error: '기프트 카드 구매에 실패했습니다. 다시 시도해주세요.',
       }
-      // Additional Korean translations will be added similarly
     }
   }
 };

@@ -32,18 +32,10 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+    <section className="relative py-20">
+      <div className="mx-auto max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="order-2 lg:order-1">
-            <img 
-              src="/attached_assets/IMG_0615.jpeg" 
-              alt="Financial Sovereignitity" 
-              className="rounded-lg shadow-xl w-full max-w-2xl mx-auto"
-            />
-          </div>
-
-          <div className="order-1 lg:order-2">
+          <div className="max-w-2xl">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl mb-6">
               SOLVY
             </h1>
@@ -80,6 +72,14 @@ export function Hero() {
                 Learn More
               </Button>
             </div>
+          </div>
+
+          <div className="relative mt-8 lg:mt-0">
+            <img 
+              src="/attached_assets/IMG_0615.jpeg" 
+              alt="Financial Sovereignitity" 
+              className="rounded-lg shadow-xl w-full object-cover"
+            />
           </div>
         </div>
       </div>

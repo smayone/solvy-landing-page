@@ -9,12 +9,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <Features />
-        <Communities />
-        <CTA />
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative isolate">
+          <Hero />
+          <Services />
+          <Features />
+          <Communities />
+          <CTA />
+        </div>
       </main>
     </div>
   );
