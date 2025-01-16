@@ -39,7 +39,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
     try {
       setIsProcessing(true);
       const status = await getSolvyChainStatus();
-      
+
       if (!status?.isConnected) {
         toast({
           title: "Wallet not connected",
@@ -52,15 +52,15 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
       // Here we'll integrate with Polygon network for payment processing
       const provider = new Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      
+
       // TODO: Add actual payment processing logic here
       // This is where we'll integrate with the Polygon network
-      
+
       toast({
         title: "Payment Successful",
         description: "Your payment has been processed through SOLVY chain",
       });
-      
+
       onOpenChange(false);
       setLocation("/dashboard");
     } catch (error) {
@@ -92,8 +92,8 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="sticky top-0 bg-background pb-4 z-10">
           <DialogTitle className="flex items-center gap-2">
             <Smartphone className="h-5 w-5" />
             SOLVY Mobile Payment
@@ -102,68 +102,70 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
             Choose your preferred payment method
           </DialogDescription>
         </DialogHeader>
-        
-        {!paymentMethod ? (
-          <div className="grid gap-4">
-            {paymentOptions.map((option) => (
-              <Card
-                key={option.id}
-                className="cursor-pointer transition-colors hover:bg-muted"
-                onClick={() => setPaymentMethod(option.id)}
-              >
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <option.icon className="h-8 w-8 text-primary" />
-                  <div>
-                    <CardTitle className="text-lg">{option.title}</CardTitle>
-                    <CardDescription>{option.description}</CardDescription>
-                  </div>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  {amount && (
-                    <div>
-                      <Label>Amount</Label>
-                      <div className="text-2xl font-bold">${amount.toFixed(2)}</div>
-                    </div>
-                  )}
-                  {recipient && (
-                    <div>
-                      <Label>Recipient</Label>
-                      <div className="font-medium">{recipient}</div>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Shield className="h-4 w-4" />
-                    Secured by SOLVY chain on Polygon network
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
 
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setPaymentMethod(null)}
-                disabled={isProcessing}
-              >
-                Back
-              </Button>
-              <Button 
-                className="flex-1"
-                onClick={handlePayment}
-                disabled={isProcessing}
-              >
-                {isProcessing ? "Processing..." : "Confirm Payment"}
-              </Button>
+        <div className="py-4">
+          {!paymentMethod ? (
+            <div className="grid gap-4">
+              {paymentOptions.map((option) => (
+                <Card
+                  key={option.id}
+                  className="cursor-pointer transition-colors hover:bg-muted"
+                  onClick={() => setPaymentMethod(option.id)}
+                >
+                  <CardHeader className="flex flex-row items-center gap-4 py-3">
+                    <option.icon className="h-8 w-8 text-primary" />
+                    <div>
+                      <CardTitle className="text-lg">{option.title}</CardTitle>
+                      <CardDescription>{option.description}</CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="space-y-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    {amount && (
+                      <div>
+                        <Label>Amount</Label>
+                        <div className="text-2xl font-bold">${amount.toFixed(2)}</div>
+                      </div>
+                    )}
+                    {recipient && (
+                      <div>
+                        <Label>Recipient</Label>
+                        <div className="font-medium">{recipient}</div>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Shield className="h-4 w-4" />
+                      Secured by SOLVY chain on Polygon network
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="flex gap-2 sticky bottom-0 bg-background pt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setPaymentMethod(null)}
+                  disabled={isProcessing}
+                >
+                  Back
+                </Button>
+                <Button 
+                  className="flex-1"
+                  onClick={handlePayment}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? "Processing..." : "Confirm Payment"}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
