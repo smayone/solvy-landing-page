@@ -13,6 +13,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,15 +29,8 @@ export function Navbar() {
   } | null>(null);
   const { t, i18n } = useTranslation();
 
-  // Generate navigation links from domains
-  const links = Object.entries(domains.subdomains).map(([key, value]) => ({
-    href: `#${key}`,
-    label: t(`nav.${key}`),
-    description: value.description
-  }));
-
-  // Add application routes
-  links.push(
+  // Organize navigation into categories
+  const mainLinks = [
     { 
       href: "/dashboard", 
       label: "Dashboard",
@@ -47,17 +41,12 @@ export function Navbar() {
       label: "Analytics",
       description: "Analyze your financial data"
     },
-    { 
-      href: "/tech-companies", 
-      label: "Tech Companies",
-      description: "View tech company analytics"
-    },
     {
       href: "/payments",
       label: "Payments",
       description: "Make payments using SOLVY chain"
     }
-  );
+  ];
 
   const languages = [
     { code: 'en', label: 'English' },
@@ -87,6 +76,13 @@ export function Navbar() {
     i18n.changeLanguage(lng);
   };
 
+  const domainLinks = Object.entries(domains.subdomains).map(([key, value]) => ({
+    href: `https://${value.domain}`,
+    label: key.toUpperCase(),
+    description: value.description,
+    external: true
+  }));
+
   return (
     <nav className="fixed w-full z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -103,7 +99,7 @@ export function Navbar() {
 
           <div className="flex items-center space-x-4">
             <nav className="hidden md:flex items-center space-x-6">
-              {links.map((link) => (
+              {mainLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -112,6 +108,31 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    Domains
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[240px]">
+                  {domainLinks.map((link) => (
+                    <DropdownMenuItem key={link.href} asChild>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col"
+                      >
+                        <span className="font-medium">{link.label}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {link.description}
+                        </span>
+                      </a>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </nav>
 
             <ThemeToggle />
@@ -151,7 +172,7 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent>
                 <div className="flex flex-col space-y-4 mt-4">
-                  {links.map((link) => (
+                  {mainLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
@@ -160,6 +181,19 @@ export function Navbar() {
                     >
                       {link.label}
                     </Link>
+                  ))}
+                  <DropdownMenuSeparator />
+                  {domainLinks.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium transition-colors hover:text-primary"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.label}
+                    </a>
                   ))}
                   <Button 
                     variant={walletStatus?.isConnected ? "outline" : "default"}
