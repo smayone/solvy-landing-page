@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 
 const storyboardItems = [
   {
+    title: "Achieve Sovereignitity",
+    description: "Where Self-Sovereign Identity Creates Income Potential",
+  },
+  {
     title: "Financial sovereignitity",
     description: "Take control of your identity, data, and financial destiny.",
   },
@@ -41,9 +45,6 @@ export function Hero() {
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
           SOLVY
         </h1>
-        <p className="mt-4 text-xl text-muted-foreground">
-          Achieve Sovereignitity: Where Self-Sovereign Identity Creates Income Potential
-        </p>
 
         <p className="mt-4 text-muted-foreground text-right">
           In a "vulture economy," businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a wildfire-resistant forest, and your data was protected like a vault?
