@@ -45,37 +45,39 @@ export function Services() {
   ];
 
   return (
-    <section className="container py-16" id="ecosystem">
-      <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
-        The SOLVY Ecosystem
-      </h2>
-      <div className="grid gap-8 md:grid-cols-3">
-        {services.map((service) => (
-          <Card key={service.title} className="relative overflow-hidden">
-            <CardHeader>
-              <div className="flex items-center gap-4">
-                <img 
-                  src={service.logo} 
-                  alt={service.title}
-                  className="h-12 w-12"
-                />
-                <CardTitle>{service.title}</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="font-medium text-primary mb-2">{service.description}</p>
-              <p className="text-muted-foreground mb-4">{service.longDescription}</p>
-              <ul className="space-y-2">
-                {service.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <service.icon className="h-4 w-4 text-primary" />
-                    <span className="text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
+    <section className="py-16" id="ecosystem">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
+          The SOLVY Ecosystem
+        </h2>
+        <div className="grid gap-8 md:grid-cols-3">
+          {services.map((service) => (
+            <Card key={service.title} className="relative overflow-hidden">
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={service.logo} 
+                    alt={service.title}
+                    className="h-12 w-12"
+                  />
+                  <CardTitle>{service.title}</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="font-medium text-primary mb-2">{service.description}</p>
+                <p className="text-muted-foreground mb-4">{service.longDescription}</p>
+                <ul className="space-y-2">
+                  {service.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <service.icon className="h-4 w-4 text-primary" />
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   );
