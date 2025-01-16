@@ -26,6 +26,7 @@ export function Navbar() {
     { href: "#man", label: t('nav.man') },
     { href: "/analytics", label: "Analytics" },
     { href: "/evergreen", label: "Evergreen Beauty" },
+    { href: "/remittance", label: "Remittance" },
   ];
 
   const languages = [
