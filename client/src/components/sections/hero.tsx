@@ -45,6 +45,13 @@ export function Hero() {
           Achieve Sovereignitity: Where Self-Sovereign Identity Creates Income Potential
         </p>
 
+        <p className="mt-4 text-muted-foreground text-right">
+          In a "vulture economy," businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a wildfire-resistant forest, and your data was protected like a vault?
+        </p>
+        <p className="mt-2 text-muted-foreground text-right">
+          <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
+        </p>
+
         <div className="h-24 overflow-hidden my-8">
           <AnimatePresence mode="wait">
             <motion.div

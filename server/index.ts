@@ -1,11 +1,14 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { AddressInfo } from "net";
+import path from "path";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Serve static files from attached_assets
+app.use('/attached_assets', express.static(path.join(process.cwd(), 'attached_assets')));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -53,34 +56,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Try to start the server with retries for different ports
-  const startServer = (port: number, maxRetries: number = 3): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      const tryStart = (retryCount: number) => {
-        server.listen(port, "0.0.0.0")
-          .on("error", (err: NodeJS.ErrnoException) => {
-            if (err.code === "EADDRINUSE" && retryCount < maxRetries) {
-              log(`Port ${port} in use, trying ${port + 1}...`);
-              server.close();
-              tryStart(retryCount + 1);
-            } else {
-              reject(err);
-            }
-          })
-          .on("listening", () => {
-            const addr = server.address() as AddressInfo;
-            log(`Server running on port ${addr.port}`);
-            resolve();
-          });
-      };
-      tryStart(0);
-    });
-  };
-
-  try {
-    await startServer(5000);
-  } catch (error) {
-    log(`Failed to start server: ${error}`);
-    process.exit(1);
-  }
+  const PORT = 5000;
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`Server running on port ${PORT}`);
+  });
 })();
