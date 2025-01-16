@@ -84,104 +84,108 @@ export default function EvergreenBeauty() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="container py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">Evergreen Beauty Lounge</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Experience luxury beauty services with the convenience of SOLVY payments. 
-            Book your appointment today and transform your beauty routine.
-          </p>
-        </div>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold tracking-tight mb-4">Evergreen Beauty Lounge</h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Experience luxury beauty services with the convenience of SOLVY payments. 
+              Book your appointment today and transform your beauty routine.
+            </p>
+          </div>
 
-        <Tabs defaultValue="services" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2 max-w-[400px] mx-auto">
-            <TabsTrigger value="services">Services</TabsTrigger>
-            <TabsTrigger value="gift-cards">Gift Cards</TabsTrigger>
-          </TabsList>
+          <Tabs defaultValue="services" className="space-y-8">
+            <div className="flex justify-center">
+              <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
+                <TabsTrigger value="services">Services</TabsTrigger>
+                <TabsTrigger value="gift-cards">Gift Cards</TabsTrigger>
+              </TabsList>
+            </div>
 
-          <TabsContent value="services" className="space-y-8">
-            {services.map((category) => (
-              <div key={category.category} className="space-y-4">
-                <h2 className="text-2xl font-semibold flex items-center gap-2">
-                  {category.category === "Hair Care" ? <Scissors className="h-6 w-6" /> :
-                   category.category === "Nail Care" ? <Sparkles className="h-6 w-6" /> :
-                   <Sparkles className="h-6 w-6" />}
-                  {category.category}
+            <TabsContent value="services" className="space-y-8">
+              {services.map((category) => (
+                <div key={category.category} className="space-y-4">
+                  <h2 className="text-2xl font-semibold flex items-center gap-2">
+                    {category.category === "Hair Care" ? <Scissors className="h-6 w-6" /> :
+                     category.category === "Nail Care" ? <Sparkles className="h-6 w-6" /> :
+                     <Sparkles className="h-6 w-6" />}
+                    {category.category}
+                  </h2>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {category.items.map((service) => (
+                      <Card key={service.id}>
+                        <CardHeader>
+                          <CardTitle className="text-lg">{service.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex justify-between items-center mb-4">
+                            <span className="text-2xl font-bold">${service.price}</span>
+                            <span className="text-muted-foreground">{service.duration}</span>
+                          </div>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button className="w-full">
+                                Book Now with SOLVY
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                              <DialogHeader>
+                                <DialogTitle>Book {service.name}</DialogTitle>
+                              </DialogHeader>
+                              <BookingForm
+                                services={[service]}
+                                onSubmit={bookAppointment.mutateAsync}
+                              />
+                            </DialogContent>
+                          </Dialog>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="gift-cards" className="space-y-8">
+              <div className="max-w-3xl mx-auto">
+                <h2 className="text-2xl font-semibold flex items-center gap-2 mb-6">
+                  <Gift className="h-6 w-6" />
+                  SOLVY Gift Cards
                 </h2>
                 <div className="grid gap-4 md:grid-cols-3">
-                  {category.items.map((service) => (
-                    <Card key={service.id}>
+                  {giftCards.map((card) => (
+                    <Card key={card.amount}>
                       <CardHeader>
-                        <CardTitle className="text-lg">{service.name}</CardTitle>
+                        <CardTitle className="text-lg">
+                          ${card.amount} Gift Card
+                        </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-2xl font-bold">${service.price}</span>
-                          <span className="text-muted-foreground">{service.duration}</span>
+                        <div className="space-y-4">
+                          <p className="text-muted-foreground">
+                            Get ${card.bonus} bonus value!
+                          </p>
+                          <div className="text-2xl font-bold">
+                            ${card.amount + card.bonus} Total Value
+                          </div>
+                          <Button
+                            className="w-full"
+                            variant="outline"
+                            onClick={() => handleGiftCardPurchase(card.amount)}
+                            disabled={purchaseGiftCard.isPending}
+                          >
+                            Purchase with SOLVY
+                          </Button>
                         </div>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button className="w-full">
-                              Book Now with SOLVY
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                              <DialogTitle>Book {service.name}</DialogTitle>
-                            </DialogHeader>
-                            <BookingForm
-                              services={[service]}
-                              onSubmit={bookAppointment.mutateAsync}
-                            />
-                          </DialogContent>
-                        </Dialog>
                       </CardContent>
                     </Card>
                   ))}
                 </div>
               </div>
-            ))}
-          </TabsContent>
-
-          <TabsContent value="gift-cards" className="space-y-8">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl font-semibold flex items-center gap-2 mb-6">
-                <Gift className="h-6 w-6" />
-                SOLVY Gift Cards
-              </h2>
-              <div className="grid gap-4 md:grid-cols-3">
-                {giftCards.map((card) => (
-                  <Card key={card.amount}>
-                    <CardHeader>
-                      <CardTitle className="text-lg">
-                        ${card.amount} Gift Card
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <p className="text-muted-foreground">
-                          Get ${card.bonus} bonus value!
-                        </p>
-                        <div className="text-2xl font-bold">
-                          ${card.amount + card.bonus} Total Value
-                        </div>
-                        <Button
-                          className="w-full"
-                          variant="outline"
-                          onClick={() => handleGiftCardPurchase(card.amount)}
-                          disabled={purchaseGiftCard.isPending}
-                        >
-                          Purchase with SOLVY
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );
