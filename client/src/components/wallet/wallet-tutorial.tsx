@@ -9,9 +9,8 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { getSolvyChainStatus } from "@/lib/web3";
 import { AlertCircle, CheckCircle2, Wallet, Shield, Coins } from "lucide-react";
-import { connectors, type WalletConnector } from "@/lib/web3/connectors";
-import { useWeb3React } from "@web3-react/core";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ethers } from 'ethers';
 
 const steps = [
   {
@@ -39,16 +38,36 @@ const steps = [
   }
 ];
 
+const supportedWallets = {
+  metamask: {
+    name: 'MetaMask',
+    icon: '/wallet-icons/metamask.svg',
+    description: 'Connect with your MetaMask wallet',
+  }
+};
+
 export function WalletTutorial({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const [stepStatuses, setStepStatuses] = useState<Record<number, boolean>>({});
-  const [selectedWallet, setSelectedWallet] = useState<WalletConnector | null>(null);
-  const { activate, active, account } = useWeb3React();
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
 
-  const handleWalletConnect = async (walletId: WalletConnector) => {
+  const handleWalletConnect = async () => {
     try {
-      const connector = connectors[walletId];
-      await activate(connector.connector);
-      setSelectedWallet(walletId);
+      if (typeof window.ethereum === 'undefined') {
+        throw new Error('Please install MetaMask or another Web3 wallet');
+      }
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      setConnectedAddress(address);
+      setStepStatuses(prev => ({ ...prev, 1: true }));
+
+      // Check if we're on Polygon network
+      const network = await provider.getNetwork();
+      if (network.chainId === 137) {
+        setStepStatuses(prev => ({ ...prev, 2: true }));
+      }
     } catch (error) {
       console.error('Failed to connect wallet:', error);
     }
@@ -56,8 +75,7 @@ export function WalletTutorial({ open, onOpenChange }: { open: boolean; onOpenCh
 
   useEffect(() => {
     const checkStatus = async () => {
-      if (account) {
-        setStepStatuses(prev => ({ ...prev, 1: true }));
+      if (connectedAddress) {
         const status = await getSolvyChainStatus();
         if (status?.isConnected) {
           setStepStatuses(prev => ({ ...prev, 2: true }));
@@ -68,7 +86,7 @@ export function WalletTutorial({ open, onOpenChange }: { open: boolean; onOpenCh
     checkStatus();
     const interval = setInterval(checkStatus, 1000);
     return () => clearInterval(interval);
-  }, [account]);
+  }, [connectedAddress]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -84,13 +102,13 @@ export function WalletTutorial({ open, onOpenChange }: { open: boolean; onOpenCh
         </DialogHeader>
 
         <div className="mt-4 space-y-6">
-          {!selectedWallet ? (
+          {!connectedAddress ? (
             <div className="grid gap-4">
-              {Object.entries(connectors).map(([id, wallet]) => (
+              {Object.entries(supportedWallets).map(([id, wallet]) => (
                 <Card
                   key={id}
                   className="cursor-pointer transition-colors hover:bg-muted"
-                  onClick={() => handleWalletConnect(id as WalletConnector)}
+                  onClick={handleWalletConnect}
                 >
                   <CardHeader className="flex flex-row items-center space-y-0 pb-2">
                     <img src={wallet.icon} alt={wallet.name} className="h-8 w-8 mr-4" />

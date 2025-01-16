@@ -11,11 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Smartphone, CreditCard, QrCode, Shield, Wallet } from "lucide-react";
-import { Web3Provider } from "@ethersproject/providers";
-import { getSolvyChainStatus } from "@/lib/web3";
-import { useWeb3React } from "@web3-react/core";
-import { connectors, type WalletConnector } from "@/lib/web3/connectors";
 import { ethers } from "ethers";
+import { getSolvyChainStatus } from "@/lib/web3";
 
 interface PaymentProps {
   amount?: number;
@@ -27,17 +24,52 @@ interface PaymentProps {
 export function MobilePayment({ amount, recipient, open, onOpenChange }: PaymentProps) {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "qr" | "wallet" | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedWallet, setSelectedWallet] = useState<WalletConnector | null>(null);
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-  const { activate, account, library } = useWeb3React<Web3Provider>();
 
-  const handleWalletConnect = async (walletId: WalletConnector) => {
+  const handleWalletConnect = async () => {
     try {
-      const connector = connectors[walletId];
-      await activate(connector.connector);
-      setSelectedWallet(walletId);
+      if (typeof window.ethereum === 'undefined') {
+        throw new Error('Please install MetaMask or another Web3 wallet');
+      }
 
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      await signer.getAddress();
+
+      // Check if we're on Polygon network
+      const network = await provider.getNetwork();
+      if (network.chainId !== 137) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${(137).toString(16)}` }],
+          });
+        } catch (error: any) {
+          if (error.code === 4902) {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: `0x${(137).toString(16)}`,
+                chainName: 'Polygon Mainnet',
+                nativeCurrency: {
+                  name: 'MATIC',
+                  symbol: 'MATIC',
+                  decimals: 18
+                },
+                rpcUrls: ['https://polygon-rpc.com'],
+                blockExplorerUrls: ['https://polygonscan.com/']
+              }]
+            });
+          } else {
+            throw error;
+          }
+        }
+      }
+
+      setIsWalletConnected(true);
       toast({
         title: "Wallet Connected",
         description: "Successfully connected to SOLVY chain",
@@ -67,11 +99,13 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
       }
 
       if (paymentMethod === "wallet") {
-        if (!library || !account) {
-          throw new Error("Wallet not connected");
+        if (typeof window.ethereum === 'undefined') {
+          throw new Error('Wallet not found');
         }
 
-        const signer = library.getSigner();
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+
         // Transaction on Polygon network
         const tx = await signer.sendTransaction({
           to: recipient,
@@ -168,24 +202,21 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
                 </Button>
               ))}
             </div>
-          ) : paymentMethod === "wallet" && !selectedWallet ? (
+          ) : paymentMethod === "wallet" && !isWalletConnected ? (
             <div className="grid gap-4">
-              {(Object.entries(connectors) as [WalletConnector, typeof connectors[keyof typeof connectors]][]).map(([id, wallet]) => (
-                <Button
-                  key={id}
-                  variant="outline"
-                  className="w-full p-6 h-auto flex items-center justify-start gap-4 hover:bg-accent"
-                  onClick={() => handleWalletConnect(id)}
-                >
-                  <img src={wallet.icon} alt={wallet.name} className="h-8 w-8 flex-shrink-0" />
-                  <div className="text-left">
-                    <div className="font-semibold">{wallet.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {wallet.description}
-                    </div>
+              <Button
+                variant="outline"
+                className="w-full p-6 h-auto flex items-center justify-start gap-4 hover:bg-accent"
+                onClick={handleWalletConnect}
+              >
+                <img src="/wallet-icons/metamask.svg" alt="MetaMask" className="h-8 w-8 flex-shrink-0" />
+                <div className="text-left">
+                  <div className="font-semibold">MetaMask</div>
+                  <div className="text-sm text-muted-foreground">
+                    Connect with your MetaMask wallet
                   </div>
-                </Button>
-              ))}
+                </div>
+              </Button>
             </div>
           ) : (
             <div className="space-y-6">
@@ -213,13 +244,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
               <div className="flex gap-2 sticky bottom-0 bg-background pt-4">
                 <Button
                   variant="outline"
-                  onClick={() => {
-                    if (selectedWallet) {
-                      setSelectedWallet(null);
-                    } else {
-                      setPaymentMethod(null);
-                    }
-                  }}
+                  onClick={() => setPaymentMethod(null)}
                   disabled={isProcessing}
                 >
                   Back

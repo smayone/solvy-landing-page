@@ -1,19 +1,18 @@
-import { InjectedConnector } from '@web3-react/injected-connector';
+import { ethers } from 'ethers';
 
 // Polygon Network ID
 export const CHAIN_ID = 137;
 
-export const injected = new InjectedConnector({
-  supportedChainIds: [CHAIN_ID],
-});
+export type WalletInfo = {
+  name: string;
+  icon: string;
+  description: string;
+};
 
-export const connectors = {
+export const wallets: Record<string, WalletInfo> = {
   metamask: {
-    connector: injected,
     name: 'MetaMask',
     icon: '/wallet-icons/metamask.svg',
     description: 'Connect with your MetaMask wallet',
   },
-} as const;
-
-export type WalletConnector = keyof typeof connectors;
+};
