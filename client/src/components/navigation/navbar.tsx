@@ -39,6 +39,15 @@ export function Navbar() {
   return (
     <nav className="w-full border-b">
       <div className="flex h-16 items-center px-4">
+        <div className="flex items-center mr-4">
+          <Link href="/">
+            <img 
+              src="/attached_assets/fulllogo.png" 
+              alt="SOLVY" 
+              className="h-8 w-auto"
+            />
+          </Link>
+        </div>
         <NavigationMenu>
           <NavigationMenuList>
             {/* Main Navigation Items */}
