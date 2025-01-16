@@ -4,7 +4,7 @@ import { GraduationCap, LineChart, Shield } from "lucide-react";
 export function Services() {
   const services = [
     {
-      title: "DECIDEY",
+      title: "DECIDEY (dee-see-day)",
       description: "Decentralized Empowerment Control Identity Data Economy of Yours",
       longDescription: "Control Your Identity, Data, and Economy. Our NGO Operations focus on tech company revenue tax repatriation, transparent donation management, and community-focused initiatives.",
       icon: GraduationCap,

@@ -26,7 +26,7 @@ export const solvyDomains: Domain[] = [
     registrationDate: "2025-01-06"
   },
   {
-    name: "Decidey",
+    name: "DECIDEY",
     domain: "decidey.solvy.chain",
     description: "Decision-making and governance platform",
     registrationDate: "2025-01-06"
