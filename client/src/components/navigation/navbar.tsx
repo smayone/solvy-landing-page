@@ -37,9 +37,26 @@ export function Navbar() {
 
   // Add application routes
   links.push(
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/analytics", label: "Analytics" },
-    { href: "/tech-companies", label: "Tech Companies" }
+    { 
+      href: "/dashboard", 
+      label: "Dashboard",
+      description: "View your financial dashboard"
+    },
+    { 
+      href: "/analytics", 
+      label: "Analytics",
+      description: "Analyze your financial data"
+    },
+    { 
+      href: "/tech-companies", 
+      label: "Tech Companies",
+      description: "View tech company analytics"
+    },
+    {
+      href: "/payments",
+      label: "Payments",
+      description: "Make payments using SOLVY chain"
+    }
   );
 
   const languages = [

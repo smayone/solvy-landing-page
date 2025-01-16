@@ -1,26 +1,23 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { connectWallet } from '@/lib/web3';
+import { useWeb3React } from '@web3-react/core';
+import { injected } from '@/lib/web3/connectors';
 import { Wallet } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 export function WalletConnection() {
   const [isConnecting, setIsConnecting] = useState(false);
-  const [account, setAccount] = useState<string | null>(null);
+  const { active, account, activate, deactivate } = useWeb3React();
   const { toast } = useToast();
 
-  const handleConnect = async () => {
+  const connect = async () => {
     setIsConnecting(true);
     try {
-      const provider = await connectWallet();
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      setAccount(address);
-      
+      await activate(injected);
       toast({
         title: "Wallet Connected",
-        description: "Successfully connected to Polygon network",
+        description: "Successfully connected to SOLVY chain",
       });
     } catch (error: any) {
       toast({
@@ -33,12 +30,20 @@ export function WalletConnection() {
     }
   };
 
-  const handleDisconnect = () => {
-    setAccount(null);
-    toast({
-      title: "Wallet Disconnected",
-      description: "Your wallet has been disconnected",
-    });
+  const disconnect = () => {
+    try {
+      deactivate();
+      toast({
+        title: "Wallet Disconnected",
+        description: "Your wallet has been disconnected",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Disconnection Failed",
+        description: error.message || "Failed to disconnect wallet",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -46,7 +51,7 @@ export function WalletConnection() {
       <CardContent className="pt-6">
         <div className="space-y-4">
           <div className="text-sm">
-            {account ? (
+            {active ? (
               <div className="text-green-500">Connected</div>
             ) : (
               <div className="text-yellow-500">Not Connected</div>
@@ -59,13 +64,13 @@ export function WalletConnection() {
             </div>
           )}
           <Button
-            onClick={account ? handleDisconnect : handleConnect}
-            variant={account ? "destructive" : "default"}
+            onClick={active ? disconnect : connect}
+            variant={active ? "destructive" : "default"}
             className="w-full"
             disabled={isConnecting}
           >
             <Wallet className="mr-2 h-4 w-4" />
-            {isConnecting ? "Connecting..." : account ? "Disconnect Wallet" : "Connect Wallet"}
+            {isConnecting ? "Connecting..." : active ? "Disconnect Wallet" : "Connect Wallet"}
           </Button>
         </div>
       </CardContent>

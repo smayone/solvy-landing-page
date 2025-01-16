@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { getSolvyChainStatus } from "@/lib/web3";
 import { AlertCircle, CheckCircle2, Wallet, Shield, Coins } from "lucide-react";
-import { connectors, type WalletConnector } from "@/lib/connectors";
+import { connectors, type WalletConnector } from "@/lib/web3/connectors";
 import { useWeb3React } from "@web3-react/core";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 

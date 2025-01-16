@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -8,14 +9,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Smartphone, CreditCard, QrCode, Shield, Wallet } from "lucide-react";
 import { Web3Provider } from "@ethersproject/providers";
 import { getSolvyChainStatus } from "@/lib/web3";
 import { useWeb3React } from "@web3-react/core";
-import { connectors, type WalletConnector } from "@/lib/connectors";
+import { connectors, type WalletConnector } from "@/lib/web3/connectors";
 import { ethers } from "ethers";
 
 interface PaymentProps {
@@ -31,13 +30,18 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
   const [selectedWallet, setSelectedWallet] = useState<WalletConnector | null>(null);
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-  const { activate, account, library } = useWeb3React();
+  const { activate, account, library } = useWeb3React<Web3Provider>();
 
   const handleWalletConnect = async (walletId: WalletConnector) => {
     try {
       const connector = connectors[walletId];
       await activate(connector.connector);
       setSelectedWallet(walletId);
+
+      toast({
+        title: "Wallet Connected",
+        description: "Successfully connected to SOLVY chain",
+      });
     } catch (error) {
       console.error('Failed to connect wallet:', error);
       toast({
@@ -63,13 +67,12 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
       }
 
       if (paymentMethod === "wallet") {
-        // Handle blockchain payment
         if (!library || !account) {
           throw new Error("Wallet not connected");
         }
 
         const signer = library.getSigner();
-        // Example transaction - replace with actual SOLVY contract interaction
+        // Transaction on Polygon network
         const tx = await signer.sendTransaction({
           to: recipient,
           value: ethers.utils.parseEther(amount?.toString() || "0"),
@@ -77,7 +80,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
 
         await tx.wait();
       } else if (paymentMethod === "card") {
-        // Handle SOLVY card payment
+        // Handle SOLVY card payment through Stripe
         const response = await fetch('/api/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -99,7 +102,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
 
       onOpenChange(false);
       setLocation("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Payment error:", error);
       toast({
         title: "Payment Failed",
@@ -221,7 +224,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
                 >
                   Back
                 </Button>
-                <Button 
+                <Button
                   className="flex-1"
                   onClick={handlePayment}
                   disabled={isProcessing}

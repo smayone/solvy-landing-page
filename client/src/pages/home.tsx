@@ -1,5 +1,5 @@
 import { Navbar } from "@/components/navigation/navbar";
-import { ConnectionStatus } from "@/components/web3/connection-status";
+import { ConnectionStatus } from "@/components/web3/ConnectionStatus";
 import { Hero } from "@/components/sections/hero";
 import { Services } from "@/components/sections/services";
 import { Features } from "@/components/sections/features";
