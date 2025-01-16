@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { WalletConnection } from "@/components/web3/WalletConnection";
 
 const storyboardItems = [
   {
@@ -68,7 +67,6 @@ export function Hero() {
             </div>
 
             <div className="space-y-6">
-              <WalletConnection />
               <div className="flex flex-wrap gap-4">
                 <Button size="lg" variant="outline">
                   Learn More
