@@ -23,6 +23,7 @@ export function Navbar() {
     { href: "#decidey", label: t('nav.decidey') },
     { href: "#solvy", label: t('nav.solvy') },
     { href: "#man", label: t('nav.man') },
+    { href: "/analytics", label: "Analytics" },
   ];
 
   const languages = [
