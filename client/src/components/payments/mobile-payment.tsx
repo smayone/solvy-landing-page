@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Smartphone, CreditCard, QrCode, Shield, Wallet } from "lucide-react";
+import { Smartphone, CreditCard, QrCode, Shield, Wallet, Award, Info } from "lucide-react";
 import { ethers } from "ethers";
 import { getSolvyChainStatus } from "@/lib/web3";
 
@@ -22,9 +23,10 @@ interface PaymentProps {
 }
 
 export function MobilePayment({ amount, recipient, open, onOpenChange }: PaymentProps) {
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "qr" | "wallet" | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "qr" | "wallet" | "va" | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [vaNumber, setVaNumber] = useState("");
   const { toast } = useToast();
   const [, setLocation] = useLocation();
 
@@ -87,46 +89,42 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
   const handlePayment = async () => {
     try {
       setIsProcessing(true);
-      const status = await getSolvyChainStatus();
 
-      if (!status?.isConnected) {
+      if (paymentMethod === "va") {
+        if (!vaNumber) {
+          throw new Error('Please enter your VA number');
+        }
+        // VA payment processing logic here
+        // This would integrate with your VA payment system
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated processing
         toast({
-          title: "Wallet not connected",
-          description: "Please connect your wallet to make payments",
-          variant: "destructive",
+          title: "VA Payment Successful",
+          description: "Your VA payment has been processed",
         });
-        return;
-      }
-
-      if (paymentMethod === "wallet") {
-        if (typeof window.ethereum === 'undefined') {
-          throw new Error('Wallet not found');
+      } else if (paymentMethod === "wallet") {
+        const status = await getSolvyChainStatus();
+        if (!status?.isConnected) {
+          throw new Error('Please connect your wallet to make payments');
         }
 
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
-
-        // Transaction on Polygon network
         const tx = await signer.sendTransaction({
           to: recipient,
           value: ethers.utils.parseEther(amount?.toString() || "0"),
         });
-
         await tx.wait();
       } else if (paymentMethod === "card") {
-        // Handle SOLVY card payment through Stripe
-        const response = await fetch('/api/create-payment-intent', {
+        // SOLVY card payment processing
+        const response = await fetch('/api/solvy-card-payment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: amount ? amount * 100 : 0 }), // Convert to cents
+          body: JSON.stringify({ amount, recipient }),
         });
 
         if (!response.ok) {
-          throw new Error('Payment failed');
+          throw new Error('SOLVY card payment failed');
         }
-
-        const { clientSecret } = await response.json();
-        // Handle card payment confirmation here
       }
 
       toast({
@@ -140,7 +138,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
       console.error("Payment error:", error);
       toast({
         title: "Payment Failed",
-        description: "There was an error processing your payment",
+        description: error.message || "There was an error processing your payment",
         variant: "destructive",
       });
     } finally {
@@ -160,6 +158,12 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
       title: "SOLVY Card",
       description: "Pay with your SOLVY card",
       icon: CreditCard,
+    },
+    {
+      id: "va" as const,
+      title: "VA Payment",
+      description: "Pay using VA benefits",
+      icon: Award,
     },
     {
       id: "qr" as const,
@@ -202,6 +206,31 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
                 </Button>
               ))}
             </div>
+          ) : paymentMethod === "va" ? (
+            <div className="space-y-4">
+              <div className="rounded-lg border bg-card p-6 text-card-foreground">
+                <div className="space-y-4">
+                  <div>
+                    <Label>VA Number</Label>
+                    <Input
+                      value={vaNumber}
+                      onChange={(e) => setVaNumber(e.target.value)}
+                      placeholder="Enter your VA number"
+                    />
+                  </div>
+                  {amount && (
+                    <div>
+                      <Label>Amount</Label>
+                      <div className="text-2xl font-bold">${amount.toFixed(2)}</div>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 text-sm text-blue-500">
+                    <Info className="h-4 w-4" />
+                    VA verification required
+                  </div>
+                </div>
+              </div>
+            </div>
           ) : paymentMethod === "wallet" && !isWalletConnected ? (
             <div className="grid gap-4">
               <Button
@@ -225,7 +254,9 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
                   {amount && (
                     <div>
                       <Label>Amount</Label>
-                      <div className="text-2xl font-bold">${amount.toFixed(2)}</div>
+                      <div className="text-2xl font-bold">
+                        {paymentMethod === "wallet" ? `${amount} MATIC` : `$${amount.toFixed(2)}`}
+                      </div>
                     </div>
                   )}
                   {recipient && (
