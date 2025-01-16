@@ -24,9 +24,9 @@ function Router() {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <main className="pt-20">
+        <main className="flex-1 pt-20 w-full max-w-[1440px] mx-auto">
           <Router />
         </main>
       </div>
