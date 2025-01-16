@@ -76,6 +76,7 @@
     "stripe": "^17.5.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
+    "use-sound": "^4.0.3",
     "vaul": "^1.1.0",
     "web3": "^1.10.4",
     "wouter": "^3.3.5",
