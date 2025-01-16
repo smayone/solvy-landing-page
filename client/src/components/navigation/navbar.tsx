@@ -25,6 +25,7 @@ export function Navbar() {
     { href: "#solvy", label: t('nav.solvy') },
     { href: "#man", label: t('nav.man') },
     { href: "/analytics", label: "Analytics" },
+    { href: "/evergreen", label: "Evergreen Beauty" },
   ];
 
   const languages = [
@@ -42,13 +43,13 @@ export function Navbar() {
   return (
     <nav className="fixed w-full z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between"> {/* Increased height from h-16 to h-20 */}
+        <div className="flex h-20 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <img 
                 src="/attached_assets/fulllogo.png" 
                 alt="SOLVY" 
-                className="h-12 w-auto" /* Increased height from h-8 to h-12 */
+                className="h-12 w-auto"
               />
             </Link>
           </div>
