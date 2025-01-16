@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import { domains, getDomainConfig } from './domains';
+import { ethers } from 'ethers';
 
 declare global {
   interface Window {
@@ -52,6 +53,10 @@ export const connectWallet = async () => {
         }
       }
 
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send('eth_requestAccounts', []);
+      const signer = provider.getSigner();
+
       return accounts[0];
     } catch (error) {
       console.error('Error connecting wallet:', error);
@@ -77,18 +82,26 @@ export const getCurrentDomain = () => {
 };
 
 export const getSolvyChainStatus = async () => {
-  const web3 = setupWeb3();
-  if (!web3) return null;
+  if (typeof window.ethereum === 'undefined') {
+    return {
+      isConnected: false,
+      networkId: null,
+      currentDomain: getCurrentDomain(),
+      domainConfig: null,
+      chainName: 'No Wallet'
+    };
+  }
 
   try {
-    const networkId = await web3.eth.net.getId();
-    const isConnectedToPolygon = networkId === BigInt(SOLVY_CHAIN_ID);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const network = await provider.getNetwork();
+    const isConnectedToPolygon = network.chainId === SOLVY_CHAIN_ID;
     const currentDomain = getCurrentDomain();
     const domainConfig = currentDomain ? getDomainConfig(`${currentDomain}.${domains.root}`) : null;
 
     return {
       isConnected: isConnectedToPolygon,
-      networkId,
+      networkId: network.chainId,
       currentDomain,
       domainConfig,
       chainName: isConnectedToPolygon ? 'SOLVY Chain (Polygon)' : 'Wrong Network'

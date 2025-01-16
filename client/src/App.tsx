@@ -8,6 +8,12 @@ import Analytics from "@/pages/analytics";
 import EvergreenBeauty from "@/pages/evergreen";
 import TechCompanies from "@/pages/tech-companies";
 import Dashboard from "@/pages/dashboard";
+import { Web3ReactProvider } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+
+function getLibrary(provider: any) {
+  return new Web3Provider(provider);
+}
 
 function Router() {
   return (
@@ -24,10 +30,12 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
-    </QueryClientProvider>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <QueryClientProvider client={queryClient}>
+        <Router />
+        <Toaster />
+      </QueryClientProvider>
+    </Web3ReactProvider>
   );
 }
 

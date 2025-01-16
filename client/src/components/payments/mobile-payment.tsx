@@ -18,9 +18,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Smartphone, CreditCard, QrCode, Shield } from "lucide-react";
+import { Smartphone, CreditCard, QrCode, Shield, Wallet } from "lucide-react";
 import { Web3Provider } from "@ethersproject/providers";
 import { getSolvyChainStatus } from "@/lib/web3";
+import { useWeb3React } from "@web3-react/core";
+import { connectors } from "@/lib/connectors";
+import { ethers } from "ethers";
 
 interface PaymentProps {
   amount?: number;
@@ -30,10 +33,30 @@ interface PaymentProps {
 }
 
 export function MobilePayment({ amount, recipient, open, onOpenChange }: PaymentProps) {
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "qr" | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "qr" | "wallet" | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
   const { toast } = useToast();
   const [, setLocation] = useLocation();
+  const { activate, account, library } = useWeb3React();
+
+  const handleWalletConnect = async (walletId: string) => {
+    try {
+      const connector = connectors[walletId];
+      if (!connector) {
+        throw new Error("Invalid wallet connector");
+      }
+      await activate(connector.connector);
+      setSelectedWallet(walletId);
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+      toast({
+        title: "Connection Failed",
+        description: "Failed to connect wallet. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handlePayment = async () => {
     try {
@@ -49,12 +72,35 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
         return;
       }
 
-      // Here we'll integrate with Polygon network for payment processing
-      const provider = new Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
+      if (paymentMethod === "wallet") {
+        // Handle blockchain payment
+        if (!library || !account) {
+          throw new Error("Wallet not connected");
+        }
 
-      // TODO: Add actual payment processing logic here
-      // This is where we'll integrate with the Polygon network
+        const signer = library.getSigner();
+        // Example transaction - replace with actual SOLVY contract interaction
+        const tx = await signer.sendTransaction({
+          to: recipient,
+          value: ethers.utils.parseEther(amount?.toString() || "0"),
+        });
+
+        await tx.wait();
+      } else if (paymentMethod === "card") {
+        // Handle SOLVY card payment
+        const response = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: amount ? amount * 100 : 0 }), // Convert to cents
+        });
+
+        if (!response.ok) {
+          throw new Error('Payment failed');
+        }
+
+        const { clientSecret } = await response.json();
+        // Handle card payment confirmation here
+      }
 
       toast({
         title: "Payment Successful",
@@ -76,6 +122,12 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
   };
 
   const paymentOptions = [
+    {
+      id: "wallet" as const,
+      title: "Crypto Wallet",
+      description: "Pay with your connected wallet",
+      icon: Wallet,
+    },
     {
       id: "card" as const,
       title: "SOLVY Card",
@@ -122,6 +174,24 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
                 </Card>
               ))}
             </div>
+          ) : paymentMethod === "wallet" && !selectedWallet ? (
+            <div className="grid gap-4">
+              {Object.entries(connectors).map(([id, wallet]) => (
+                <Card
+                  key={id}
+                  className="cursor-pointer transition-colors hover:bg-muted"
+                  onClick={() => handleWalletConnect(id)}
+                >
+                  <CardHeader className="flex flex-row items-center gap-4 py-3">
+                    <img src={wallet.icon} alt={wallet.name} className="h-8 w-8" />
+                    <div>
+                      <CardTitle className="text-lg">{wallet.name}</CardTitle>
+                      <CardDescription>{wallet.description}</CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
           ) : (
             <div className="space-y-4">
               <Card>
@@ -150,7 +220,13 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
               <div className="flex gap-2 sticky bottom-0 bg-background pt-4">
                 <Button
                   variant="outline"
-                  onClick={() => setPaymentMethod(null)}
+                  onClick={() => {
+                    if (selectedWallet) {
+                      setSelectedWallet(null);
+                    } else {
+                      setPaymentMethod(null);
+                    }
+                  }}
                   disabled={isProcessing}
                 >
                   Back
