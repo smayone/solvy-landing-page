@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { domains, getDomainConfig } from '../../server/domains';
+import { domains, getDomainConfig } from './domains';
 
 declare global {
   interface Window {

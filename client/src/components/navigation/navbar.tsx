@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { GlobeIcon, Menu } from "lucide-react";
+import { GlobeIcon, Menu, Wallet } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { WalletTutorial } from "@/components/wallet/wallet-tutorial";
 import {
   Sheet,
   SheetContent,
@@ -13,11 +14,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { getSolvyChainStatus } from "@/lib/web3";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showWalletTutorial, setShowWalletTutorial] = useState(false);
+  const [walletStatus, setWalletStatus] = useState<{
+    isConnected: boolean;
+    chainName: string;
+  } | null>(null);
   const { t, i18n } = useTranslation();
 
   const links = [
@@ -39,12 +46,28 @@ export function Navbar() {
     { code: 'ko', label: '한국어' },
   ];
 
+  useEffect(() => {
+    const checkWalletStatus = async () => {
+      const status = await getSolvyChainStatus();
+      if (status) {
+        setWalletStatus({
+          isConnected: status.isConnected,
+          chainName: status.chainName,
+        });
+      }
+    };
+
+    checkWalletStatus();
+    const interval = setInterval(checkWalletStatus, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
 
   return (
-    <nav className="fixed w-full z-50">
+    <nav className="fixed w-full z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <div className="flex items-center">
@@ -90,7 +113,14 @@ export function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button variant="outline">{t('nav.connect_wallet')}</Button>
+            <Button 
+              variant={walletStatus?.isConnected ? "outline" : "default"}
+              onClick={() => setShowWalletTutorial(true)}
+              className="hidden sm:flex"
+            >
+              <Wallet className="mr-2 h-4 w-4" />
+              {walletStatus?.isConnected ? walletStatus.chainName : t('nav.connect_wallet')}
+            </Button>
 
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="md:hidden">
@@ -110,12 +140,28 @@ export function Navbar() {
                       {link.label}
                     </Link>
                   ))}
+                  <Button 
+                    variant={walletStatus?.isConnected ? "outline" : "default"}
+                    onClick={() => {
+                      setShowWalletTutorial(true);
+                      setIsOpen(false);
+                    }}
+                    className="w-full"
+                  >
+                    <Wallet className="mr-2 h-4 w-4" />
+                    {walletStatus?.isConnected ? walletStatus.chainName : t('nav.connect_wallet')}
+                  </Button>
                 </div>
               </SheetContent>
             </Sheet>
           </div>
         </div>
       </div>
+
+      <WalletTutorial 
+        open={showWalletTutorial} 
+        onOpenChange={setShowWalletTutorial}
+      />
     </nav>
   );
 }
