@@ -45,7 +45,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center space-x-2">
             <img 
               src="/attached_assets/fulllogo.png" 
-              alt="SOLVY Ecosystem" 
+              alt="SOLVY" 
               className="h-8"
             />
           </Link>
