@@ -24,9 +24,11 @@ export function Navbar() {
     { href: "#decidey", label: t('nav.decidey') },
     { href: "#solvy", label: t('nav.solvy') },
     { href: "#man", label: t('nav.man') },
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/analytics", label: "Analytics" },
     { href: "/evergreen", label: "Evergreen Beauty" },
     { href: "/remittance", label: "Remittance" },
+    { href: "/tech-companies", label: "Tech Companies" },
   ];
 
   const languages = [

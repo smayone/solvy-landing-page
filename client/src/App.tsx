@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import Analytics from "@/pages/analytics";
 import EvergreenBeauty from "@/pages/evergreen";
 import TechCompanies from "@/pages/tech-companies";
+import Dashboard from "@/pages/dashboard";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/analytics" component={Analytics} />
       <Route path="/evergreen" component={EvergreenBeauty} />
       <Route path="/tech-companies" component={TechCompanies} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />
     </Switch>
   );
