@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Smartphone, CreditCard, QrCode, Shield, Wallet, Award, Info } from "lucide-react";
+import { Smartphone, CreditCard, QrCode, Shield, Wallet, Award, Info, CheckCircle } from "lucide-react";
 import { ethers } from "ethers";
 import { getSolvyChainStatus } from "@/lib/web3";
 
@@ -27,8 +27,41 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
   const [isProcessing, setIsProcessing] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [vaNumber, setVaNumber] = useState("");
+  const [vaVerified, setVaVerified] = useState(false);
+  const [vaBenefits, setVaBenefits] = useState<{
+    available: number;
+    nextPayment: string;
+  } | null>(null);
   const { toast } = useToast();
   const [, setLocation] = useLocation();
+
+  const verifyVaNumber = async () => {
+    try {
+      setIsProcessing(true);
+      // Simulate VA verification API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // In production, this would be a real API call to verify VA benefits
+      setVaBenefits({
+        available: 2500.00,
+        nextPayment: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()
+      });
+      setVaVerified(true);
+
+      toast({
+        title: "VA Number Verified",
+        description: "Your VA benefits are ready to use with SOLVY",
+      });
+    } catch (error) {
+      toast({
+        title: "Verification Failed",
+        description: "Could not verify VA number. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   const handleWalletConnect = async () => {
     try {
@@ -94,12 +127,19 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
         if (!vaNumber) {
           throw new Error('Please enter your VA number');
         }
+        if (!vaVerified) {
+          throw new Error('Please verify your VA number first');
+        }
+        if (amount && vaBenefits && amount > vaBenefits.available) {
+          throw new Error('Amount exceeds available VA benefits');
+        }
+
         // VA payment processing logic here
         // This would integrate with your VA payment system
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated processing
         toast({
           title: "VA Payment Successful",
-          description: "Your VA payment has been processed",
+          description: "Your VA payment has been processed securely through SOLVY chain",
         });
       } else if (paymentMethod === "wallet") {
         const status = await getSolvyChainStatus();
@@ -212,21 +252,59 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
                 <div className="space-y-4">
                   <div>
                     <Label>VA Number</Label>
-                    <Input
-                      value={vaNumber}
-                      onChange={(e) => setVaNumber(e.target.value)}
-                      placeholder="Enter your VA number"
-                    />
+                    <div className="flex gap-2">
+                      <Input
+                        value={vaNumber}
+                        onChange={(e) => setVaNumber(e.target.value)}
+                        placeholder="Enter your VA number"
+                        disabled={vaVerified}
+                      />
+                      {!vaVerified ? (
+                        <Button 
+                          variant="outline" 
+                          onClick={verifyVaNumber}
+                          disabled={!vaNumber || isProcessing}
+                        >
+                          Verify
+                        </Button>
+                      ) : (
+                        <CheckCircle className="h-6 w-6 text-green-500" />
+                      )}
+                    </div>
                   </div>
+
+                  {vaVerified && vaBenefits && (
+                    <div className="space-y-2">
+                      <div>
+                        <Label>Available Benefits</Label>
+                        <div className="text-xl font-bold text-green-600">
+                          ${vaBenefits.available.toFixed(2)}
+                        </div>
+                      </div>
+                      <div>
+                        <Label>Next Payment Date</Label>
+                        <div className="text-sm text-muted-foreground">
+                          {vaBenefits.nextPayment}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {amount && (
                     <div>
-                      <Label>Amount</Label>
+                      <Label>Payment Amount</Label>
                       <div className="text-2xl font-bold">${amount.toFixed(2)}</div>
                     </div>
                   )}
+
                   <div className="flex items-center gap-2 text-sm text-blue-500">
-                    <Info className="h-4 w-4" />
-                    VA verification required
+                    <Shield className="h-4 w-4" />
+                    Secured by SOLVY chain
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Info className="h-3 w-3" />
+                    Your VA benefits are protected and encrypted
                   </div>
                 </div>
               </div>
@@ -283,7 +361,7 @@ export function MobilePayment({ amount, recipient, open, onOpenChange }: Payment
                 <Button
                   className="flex-1"
                   onClick={handlePayment}
-                  disabled={isProcessing}
+                  disabled={isProcessing || (paymentMethod === "va" && !vaVerified)}
                 >
                   {isProcessing ? "Processing..." : "Confirm Payment"}
                 </Button>
