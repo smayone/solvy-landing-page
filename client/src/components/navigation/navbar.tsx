@@ -17,6 +17,7 @@ import {
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getSolvyChainStatus } from "@/lib/web3";
+import { domains } from "@/lib/domains";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,16 +28,19 @@ export function Navbar() {
   } | null>(null);
   const { t, i18n } = useTranslation();
 
-  const links = [
-    { href: "#decidey", label: t('nav.decidey') },
-    { href: "#solvy", label: t('nav.solvy') },
-    { href: "#man", label: t('nav.man') },
+  // Generate navigation links from domains
+  const links = Object.entries(domains.subdomains).map(([key, value]) => ({
+    href: `#${key}`,
+    label: t(`nav.${key}`),
+    description: value.description
+  }));
+
+  // Add application routes
+  links.push(
     { href: "/dashboard", label: "Dashboard" },
     { href: "/analytics", label: "Analytics" },
-    { href: "/evergreen", label: "Evergreen Beauty" },
-    { href: "/remittance", label: "Remittance" },
-    { href: "/tech-companies", label: "Tech Companies" },
-  ];
+    { href: "/tech-companies", label: "Tech Companies" }
+  );
 
   const languages = [
     { code: 'en', label: 'English' },
