@@ -35,12 +35,42 @@ export const services = pgTable("services", {
   price: integer("price"),
 });
 
+export const appointments = pgTable("appointments", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  serviceId: integer("service_id").references(() => services.id),
+  scheduledFor: timestamp("scheduled_for").notNull(),
+  status: text("status").notNull().default("pending"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const giftCards = pgTable("gift_cards", {
+  id: serial("id").primaryKey(),
+  code: text("code").unique().notNull(),
+  amount: integer("amount").notNull(),
+  balance: integer("balance").notNull(),
+  purchasedBy: integer("purchased_by").references(() => users.id),
+  redeemedBy: integer("redeemed_by").references(() => users.id),
+  expiresAt: timestamp("expires_at"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 export const insertMembershipSchema = createInsertSchema(memberships);
 export const selectMembershipSchema = createSelectSchema(memberships);
+export const insertAppointmentSchema = createInsertSchema(appointments);
+export const selectAppointmentSchema = createSelectSchema(appointments);
+export const insertGiftCardSchema = createInsertSchema(giftCards);
+export const selectGiftCardSchema = createSelectSchema(giftCards);
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
 export type InsertMembership = typeof memberships.$inferInsert;
 export type SelectMembership = typeof memberships.$inferSelect;
+export type InsertAppointment = typeof appointments.$inferInsert;
+export type SelectAppointment = typeof appointments.$inferSelect;
+export type InsertGiftCard = typeof giftCards.$inferInsert;
+export type SelectGiftCard = typeof giftCards.$inferSelect;
