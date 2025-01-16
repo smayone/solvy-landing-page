@@ -39,8 +39,9 @@ export function Navbar() {
   return (
     <nav className="w-full border-b">
       <div className="flex h-16 items-center px-4">
-        <div className="flex items-center mr-4">
-          <Link href="/">
+        <div className="flex items-center mr-6">
+          <Link href="/" className="flex items-center gap-4">
+            <span className="text-2xl font-bold">SOLVY</span>
             <img 
               src="/attached_assets/fulllogo.png" 
               alt="SOLVY" 
