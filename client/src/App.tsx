@@ -1,10 +1,10 @@
-import { Switch, Route } from "wouter";
+import { Web3ReactProvider } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
-import { Web3ReactProvider } from '@web3-react/core';
-import { Web3Provider } from '@ethersproject/providers';
-import { ConnectionStatus } from "@/components/web3/connection-status";
+import { Switch, Route } from "wouter";
+import { WalletConnection } from "@/components/web3/WalletConnection";
 import NotFound from "@/pages/not-found";
 
 function getLibrary(provider: any) {
@@ -21,7 +21,7 @@ function Home() {
         <p className="text-lg text-muted-foreground">
           Connect your wallet to interact with SOLVY Chain
         </p>
-        <ConnectionStatus />
+        <WalletConnection />
       </div>
     </div>
   );
@@ -36,7 +36,7 @@ function Router() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <QueryClientProvider client={queryClient}>
@@ -46,5 +46,3 @@ function App() {
     </Web3ReactProvider>
   );
 }
-
-export default App;

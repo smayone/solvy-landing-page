@@ -1,9 +1,56 @@
 import { ethers } from 'ethers';
-import { CHAIN_ID } from './connectors';
+
+// Polygon Network ID
+export const CHAIN_ID = 137;
 
 declare global {
   interface Window {
     ethereum?: any;
+  }
+}
+
+export async function connectWallet() {
+  if (typeof window.ethereum === 'undefined') {
+    throw new Error('Please install MetaMask or another Web3 wallet');
+  }
+
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+
+    const network = await provider.getNetwork();
+    if (network.chainId !== CHAIN_ID) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${CHAIN_ID.toString(16)}` }],
+        });
+      } catch (error: any) {
+        if (error.code === 4902) {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: `0x${CHAIN_ID.toString(16)}`,
+              chainName: 'Polygon Mainnet',
+              nativeCurrency: {
+                name: 'MATIC',
+                symbol: 'MATIC',
+                decimals: 18
+              },
+              rpcUrls: ['https://polygon-rpc.com'],
+              blockExplorerUrls: ['https://polygonscan.com/']
+            }]
+          });
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    return provider;
+  } catch (error) {
+    console.error('Failed to connect wallet:', error);
+    throw error;
   }
 }
 
