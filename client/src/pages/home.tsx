@@ -12,10 +12,10 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <main>
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container mx-auto px-4">
             <div className="text-center">
               <div className="flex items-center justify-center gap-4">
-                <h1 className="text-6xl font-bold tracking-tighter text-center mb-4">
+                <h1 className="text-2xl font-bold tracking-tighter text-center mb-4">
                   SOLVY
                 </h1>
                 <img
