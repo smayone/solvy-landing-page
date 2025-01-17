@@ -4,12 +4,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { Switch, Route } from "wouter";
 import { Navbar } from "@/components/navigation/navbar";
 import Home from "@/pages/home";
+import NFTAvatarPage from "@/pages/nft-avatar";
+import MemberHome from "@/pages/member-home";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/member" component={MemberHome} />
+      <Route path="/nft-avatar" component={NFTAvatarPage} />
       <Route component={NotFound} />
     </Switch>
   );

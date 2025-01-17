@@ -8,8 +8,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve static files from attached_assets
-app.use('/attached_assets', express.static(path.join(process.cwd(), 'attached_assets')));
+// Serve static files from attached_assets with proper CORS headers
+app.use('/attached_assets', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+}, express.static(path.join(process.cwd(), 'attached_assets')));
 
 // Domain resolution middleware
 app.use((req, res, next) => {

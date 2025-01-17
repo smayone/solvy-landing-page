@@ -6,17 +6,17 @@ export default function Home() {
       <main>
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between max-w-4xl mx-auto">
-              <div className="flex-1 flex justify-center">
+            <div className="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto">
+              <div className="flex-1 flex justify-center mb-8 md:mb-0">
                 <img
-                  src="/attached_assets/fulllogo.png"
+                  src="attached_assets/fulllogo.png"
                   alt="SOLVY Logo"
                   className="h-56 w-auto object-contain" 
                 />
               </div>
               <div className="flex-1 flex justify-center">
                 <CartoonAvatar
-                  src="/attached_assets/focusgirl.png"
+                  src="attached_assets/focusgirl.png"
                   alt="Profile"
                   className="h-56 w-56 border-4 border-background shadow-xl"
                 />
