@@ -3,6 +3,8 @@ import { Services } from "@/components/sections/services";
 import { Features } from "@/components/sections/features";
 import { Communities } from "@/components/sections/communities";
 import { CTA } from "@/components/sections/cta";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { User } from "lucide-react";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -10,24 +12,25 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <main>
-        <section className="relative py-16 overflow-hidden">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className="relative py-8">
+          <div className="mx-auto max-w-7xl px-4">
             <div className="text-center">
-              <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="flex items-center justify-center gap-4">
                 <h1 className="text-6xl font-bold tracking-tighter">SOLVY</h1>
                 <img
                   src="/attached_assets/fulllogo.png"
                   alt="SOLVY Logo"
-                  className="h-16 w-auto"
+                  className="h-24 w-auto"
                 />
-                <img
-                  src="/images/hero-image.jpg"
-                  alt="SOLVY Platform"
-                  className="h-48 w-auto rounded-lg shadow-2xl"
-                />
+                <Avatar className="h-32 w-32">
+                  <AvatarImage src="/attached_assets/IMG_0615.jpeg" alt="Profile" />
+                  <AvatarFallback>
+                    <User className="h-16 w-16" />
+                  </AvatarFallback>
+                </Avatar>
               </div>
 
-              <div className="max-w-[800px] mx-auto">
+              <div className="max-w-[800px] mx-auto mt-8">
                 <p className="text-xl text-muted-foreground">
                   {t('hero.vulture_economy')}
                 </p>
