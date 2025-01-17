@@ -8,34 +8,25 @@ export function Navbar() {
     {
       href: "/",
       label: "Home",
-      icon: Home,
-      description: "Return to the main page"
+      icon: Home
     },
     {
-      href: "/dashboard",
+      href: "/member",
       label: "Dashboard",
-      icon: Layout,
-      description: "View your financial analytics"
-    },
-    {
-      href: "/payments",
-      label: "Payments",
-      icon: CreditCard,
-      description: "Make payments using SOLVY chain"
+      icon: Layout
     },
     {
       href: "/nft-avatar",
       label: "NFT Avatar",
-      icon: User,
-      description: "Create your unique NFT avatar"
+      icon: User
     }
   ];
 
   return (
-    <nav className="w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="flex h-16 items-center px-4 container mx-auto">
         <div className="flex items-center mr-6">
-          <Link href="/" className="flex items-center gap-4">
+          <Link href="/">
             <img 
               src="/attached_assets/fulllogo.png" 
               alt="SOLVY" 
@@ -55,7 +46,6 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Wallet Connection */}
         <div className="ml-4">
           <WalletConnection />
         </div>

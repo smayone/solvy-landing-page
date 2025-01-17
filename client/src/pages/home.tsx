@@ -1,13 +1,6 @@
-import { useTranslation } from "react-i18next";
-import { Services } from "@/components/sections/services";
-import { Features } from "@/components/sections/features";
-import { Communities } from "@/components/sections/communities";
-import { CTA } from "@/components/sections/cta";
 import { CartoonAvatar } from "@/components/ui/cartoon-avatar";
 
 export default function Home() {
-  const { t } = useTranslation();
-
   return (
     <div className="min-h-screen bg-background">
       <main>
@@ -32,19 +25,14 @@ export default function Home() {
 
             <div className="max-w-[800px] mx-auto mt-8">
               <p className="text-xl text-muted-foreground">
-                {t('hero.vulture_economy')}
+                Companies are profiting billions from your data, which they hold captive in their databases-and they're counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
               </p>
               <p className="mt-4 text-xl text-muted-foreground">
-                {t('hero.solutions_valued')}
+                Solvy.chain: Solutions Valued You. We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
               </p>
             </div>
           </div>
         </section>
-
-        <Services />
-        <Features />
-        <Communities />
-        <CTA />
       </main>
     </div>
   );
