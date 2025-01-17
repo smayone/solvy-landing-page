@@ -23,7 +23,7 @@ export default function Home() {
               </div>
               <div className="flex-1 flex justify-center">
                 <CartoonAvatar
-                  src="/attached_assets/IMG_0615.jpeg"
+                  src="/attached_assets/focusgirl.png"
                   alt="Profile"
                   className="h-56 w-56 border-4 border-background shadow-xl"
                 />
