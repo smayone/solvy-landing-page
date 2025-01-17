@@ -13,17 +13,21 @@ export default function Home() {
       <main>
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between gap-8">
-              <img
-                src="/attached_assets/fulllogo.png"
-                alt="SOLVY Logo"
-                className="h-64 w-auto flex-1" 
-              />
-              <CartoonAvatar
-                src="/attached_assets/IMG_0615.jpeg"
-                alt="Profile"
-                className="h-48 w-48 border-4 border-background shadow-xl"
-              />
+            <div className="flex items-center justify-between max-w-4xl mx-auto">
+              <div className="flex-1 flex justify-center">
+                <img
+                  src="/attached_assets/fulllogo.png"
+                  alt="SOLVY Logo"
+                  className="h-56 w-auto object-contain" 
+                />
+              </div>
+              <div className="flex-1 flex justify-center">
+                <CartoonAvatar
+                  src="/attached_assets/IMG_0615.jpeg"
+                  alt="Profile"
+                  className="h-56 w-56 border-4 border-background shadow-xl"
+                />
+              </div>
             </div>
 
             <div className="max-w-[800px] mx-auto mt-8">
