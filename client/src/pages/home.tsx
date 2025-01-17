@@ -1,26 +1,18 @@
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import useSound from "use-sound";
 import { Services } from "@/components/sections/services";
 import { Features } from "@/components/sections/features";
 import { Communities } from "@/components/sections/communities";
 import { CTA } from "@/components/sections/cta";
 
 export default function Home() {
-  const { t, i18n } = useTranslation();
-  const [playWelcome] = useSound(`/sounds/welcome-${i18n.language}.mp3`);
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background">
       <main>
-        <section className="relative py-12 overflow-hidden">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="flex flex-col items-center"
-            >
+        <section className="relative py-16 overflow-hidden">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
               <div className="flex items-center justify-center gap-4 mb-8">
                 <h1 className="text-6xl font-bold tracking-tighter">SOLVY</h1>
                 <img
@@ -35,7 +27,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="max-w-2xl mx-auto text-center">
+              <div className="max-w-[800px] mx-auto">
                 <p className="text-xl text-muted-foreground">
                   {t('hero.vulture_economy')}
                 </p>
@@ -43,9 +35,10 @@ export default function Home() {
                   {t('hero.solutions_valued')}
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
+
         <Services />
         <Features />
         <Communities />
