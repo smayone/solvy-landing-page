@@ -3,8 +3,7 @@ import { Services } from "@/components/sections/services";
 import { Features } from "@/components/sections/features";
 import { Communities } from "@/components/sections/communities";
 import { CTA } from "@/components/sections/cta";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { User } from "lucide-react";
+import { CartoonAvatar } from "@/components/ui/cartoon-avatar";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -12,26 +11,23 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <main>
-        <section className="relative py-8">
-          <div className="mx-auto max-w-7xl px-4">
+        <section className="py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <div className="flex items-center justify-center gap-4">
-                <h1 className="text-6xl font-bold tracking-tighter">SOLVY</h1>
+                <h1 className="text-6xl font-bold tracking-tighter text-center mb-4">
+                  SOLVY
+                </h1>
                 <img
                   src="/attached_assets/fulllogo.png"
                   alt="SOLVY Logo"
-                  className="h-32 w-auto" // Increased from h-24 to h-32
+                  className="h-48 w-auto" 
                 />
-                <Avatar className="h-32 w-32 border-4 border-background shadow-xl">
-                  <AvatarImage 
-                    src="/attached_assets/IMG_0615.jpeg" 
-                    alt="Profile"
-                    className="object-cover"
-                  />
-                  <AvatarFallback>
-                    <User className="h-16 w-16" />
-                  </AvatarFallback>
-                </Avatar>
+                <CartoonAvatar
+                  src="/attached_assets/IMG_0615.jpeg"
+                  alt="Profile"
+                  className="h-32 w-32 border-4 border-background shadow-xl"
+                />
               </div>
 
               <div className="max-w-[800px] mx-auto mt-8">
