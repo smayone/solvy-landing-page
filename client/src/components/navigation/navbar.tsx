@@ -1,7 +1,7 @@
 import { Link } from "wouter";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { solvyDomains } from "@/lib/domains";
+import { WalletConnection } from "@/components/web3/WalletConnection";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -49,16 +49,16 @@ export function Navbar() {
             />
           </Link>
         </div>
-        <NavigationMenu>
+        <NavigationMenu className="flex-1">
           <NavigationMenuList>
             {/* Main Navigation Items */}
             {mainNavItems.map((item) => (
               <NavigationMenuItem key={item.href}>
-                <Link href={item.href}>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Button variant="ghost" asChild>
+                  <Link href={item.href}>
                     {item.label}
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </Button>
               </NavigationMenuItem>
             ))}
 
@@ -69,19 +69,20 @@ export function Navbar() {
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {solvyDomains.map((domain) => (
                     <li key={domain.domain}>
-                      <NavigationMenuLink asChild>
+                      <Button variant="ghost" className="w-full justify-start" asChild>
                         <a
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                           href={`https://${domain.domain}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <div className="text-sm font-medium leading-none">{domain.name}</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            {domain.description}
-                          </p>
+                          <div className="space-y-1">
+                            <div className="text-sm font-medium leading-none">{domain.name}</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              {domain.description}
+                            </p>
+                          </div>
                         </a>
-                      </NavigationMenuLink>
+                      </Button>
                     </li>
                   ))}
                 </ul>
@@ -89,6 +90,11 @@ export function Navbar() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+
+        {/* Wallet Connection */}
+        <div className="ml-4 w-64">
+          <WalletConnection />
+        </div>
       </div>
     </nav>
   );

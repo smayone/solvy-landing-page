@@ -14,32 +14,51 @@ export function Web3Provider({ children }: Web3ProviderProps) {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isConnecting, setIsConnecting] = useState(true);
+  const [connectionAttempts, setConnectionAttempts] = useState(0);
   const { toast } = useToast();
 
   const initializeWeb3 = async () => {
     setIsConnecting(true);
     setIsError(false);
     setErrorMessage('');
+    setConnectionAttempts(prev => prev + 1);
 
     try {
-      await setupWeb3Provider();
+      const provider = await setupWeb3Provider();
+      const network = await provider.getNetwork();
+
       setIsInitialized(true);
 
       toast({
         title: "Connected to SOLVY Chain",
-        description: "Successfully connected to the blockchain network",
-        variant: "default"
+        description: `Successfully connected to network ${network.chainId}`,
+        variant: "default",
       });
     } catch (error: any) {
       console.error('Failed to initialize Web3:', error);
       setIsError(true);
       setErrorMessage(error.message);
 
-      toast({
-        title: "Connection Failed",
-        description: error.message || "Failed to connect to SOLVY Chain",
-        variant: "destructive"
-      });
+      // Show different toast messages based on error type
+      if (error.message.includes('MetaMask')) {
+        toast({
+          title: "MetaMask Required",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else if (error.message.includes('rejected')) {
+        toast({
+          title: "Connection Rejected",
+          description: "Please approve the connection request in your wallet",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Connection Failed",
+          description: error.message || "Failed to connect to SOLVY Chain",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsConnecting(false);
     }
@@ -71,9 +90,14 @@ export function Web3Provider({ children }: Web3ProviderProps) {
                     Connecting...
                   </>
                 ) : (
-                  'Retry Connection'
+                  connectionAttempts > 1 ? 'Try Again' : 'Retry Connection'
                 )}
               </Button>
+              {connectionAttempts > 2 && (
+                <p className="mt-4 text-sm text-muted-foreground">
+                  Having trouble? Make sure you have MetaMask installed and are using a supported browser.
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>

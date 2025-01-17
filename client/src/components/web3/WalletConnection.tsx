@@ -2,11 +2,9 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ethers } from 'ethers';
-import { Wallet } from 'lucide-react';
+import { Wallet, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
-
-// Polygon Network ID
-const CHAIN_ID = 137;
+import { SOLVY_CHAIN_CONFIG } from '@/lib/web3/config';
 
 export function WalletConnection() {
   const [isConnecting, setIsConnecting] = useState(false);
@@ -35,27 +33,17 @@ export function WalletConnection() {
 
       // Check if we're on the correct network
       const network = await provider.getNetwork();
-      if (network.chainId !== CHAIN_ID) {
+      if (network.chainId !== parseInt(SOLVY_CHAIN_CONFIG.chainId, 16)) {
         try {
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${CHAIN_ID.toString(16)}` }],
+            params: [{ chainId: SOLVY_CHAIN_CONFIG.chainId }],
           });
         } catch (error: any) {
           if (error.code === 4902) {
             await window.ethereum.request({
               method: 'wallet_addEthereumChain',
-              params: [{
-                chainId: `0x${CHAIN_ID.toString(16)}`,
-                chainName: 'Polygon Mainnet',
-                nativeCurrency: {
-                  name: 'MATIC',
-                  symbol: 'MATIC',
-                  decimals: 18
-                },
-                rpcUrls: ['https://polygon-rpc.com'],
-                blockExplorerUrls: ['https://polygonscan.com/']
-              }]
+              params: [SOLVY_CHAIN_CONFIG]
             });
           }
         }
@@ -68,6 +56,7 @@ export function WalletConnection() {
         description: "Successfully connected to SOLVY chain",
       });
     } catch (error: any) {
+      console.error('Connection error:', error);
       toast({
         title: "Connection Failed",
         description: error.message || "Failed to connect wallet",
@@ -110,8 +99,17 @@ export function WalletConnection() {
             className="w-full"
             disabled={isConnecting}
           >
-            <Wallet className="mr-2 h-4 w-4" />
-            {isConnecting ? "Connecting..." : isConnected ? "Disconnect Wallet" : "Connect Wallet"}
+            {isConnecting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Connecting...
+              </>
+            ) : (
+              <>
+                <Wallet className="mr-2 h-4 w-4" />
+                {isConnected ? "Disconnect Wallet" : "Connect Wallet"}
+              </>
+            )}
           </Button>
         </div>
       </CardContent>
