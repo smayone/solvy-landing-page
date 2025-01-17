@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
+import { resolveDomain } from "./domains";
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,21 @@ app.use(express.urlencoded({ extended: false }));
 // Serve static files from attached_assets
 app.use('/attached_assets', express.static(path.join(process.cwd(), 'attached_assets')));
 
+// Domain resolution middleware
+app.use((req, res, next) => {
+  const hostname = req.hostname;
+  const resolvedDomain = resolveDomain(hostname);
+
+  if (!resolvedDomain) {
+    return res.status(404).send('Domain not found');
+  }
+
+  // Add resolved domain to request for use in routes
+  req.resolvedDomain = resolvedDomain;
+  next();
+});
+
+// Logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -61,3 +77,12 @@ app.use((req, res, next) => {
     log(`Server running on port ${PORT}`);
   });
 })();
+
+// Add type definition for the resolvedDomain property
+declare global {
+  namespace Express {
+    interface Request {
+      resolvedDomain?: string;
+    }
+  }
+}

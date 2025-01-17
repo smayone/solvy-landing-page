@@ -14,7 +14,7 @@ export interface Domain {
 export const solvyDomains: Domain[] = [
   {
     name: "SOLVY Main",
-    domain: "solvy.solvy.chain",
+    domain: "solvy.chain",
     description: "Main platform for SOLVY financial solutions",
     registrationDate: "2025-01-06",
     chainConfig: {
@@ -40,53 +40,35 @@ export const solvyDomains: Domain[] = [
     domain: "decidey.solvy.chain",
     description: "Decision-making and governance platform",
     registrationDate: "2025-01-06"
-  },
-  {
-    name: "EBL",
-    domain: "ebl.solvy.chain",
-    description: "Electronic banking and financial services",
-    registrationDate: "2025-01-06"
-  },
-  {
-    name: "Remittance",
-    domain: "remittance.solvy.chain",
-    description: "Cross-border payment and remittance services",
-    registrationDate: "2025-01-06"
-  },
-  {
-    name: "Management",
-    domain: "man.solvy.chain",
-    description: "Platform management and administration",
-    registrationDate: "2025-01-06"
   }
 ];
 
-export const getDomainConfig = (host: string) => {
-  if (!host) return null;
-
-  const subdomain = solvyDomains.find(
-    config => config.domain === host
-  );
-
-  return subdomain || null;
-};
-
-export const domains = {
+// DNS and Domain Resolution Configuration
+export const domainConfig = {
   dns: {
-    doh: 'https://dns.solvy.chain',  // Updated to SOLVY chain DNS
+    doh: 'https://dns.solvy.chain',  // DNS over HTTPS endpoint
     ipv4: [
-      '34.154.40.173',
-      '34.154.254.177'
+      '127.0.0.1',  // Local development
+      '34.154.40.173',  // Primary DNS
+      '34.154.254.177'  // Secondary DNS
     ]
+  },
+  resolution: {
+    ttl: 300,  // 5 minutes TTL for DNS records
+    defaultRedirect: 'https://solvy.chain'
   }
 };
 
-// Web3 domain resolution helpers
-export const getChainConfig = (domain: string) => {
-  const config = solvyDomains.find(d => d.domain === domain);
-  return config?.chainConfig;
+// Helper function to check if a domain is a SOLVY chain domain
+export const isSolvyDomain = (domain: string): boolean => {
+  return domain.endsWith('.solvy.chain') || domain === 'solvy.chain';
 };
 
-export const isWeb3Domain = (domain: string) => {
-  return domain.endsWith('.chain');
+// Get domain configuration for the current hostname
+export const getCurrentDomainConfig = (hostname: string): Domain | null => {
+  if (!hostname) return null;
+  return solvyDomains.find(config => config.domain === hostname) || null;
 };
+
+// Export DNS configuration
+export const getDNSConfig = () => domainConfig.dns;

@@ -2,14 +2,15 @@ import { ReactNode, useEffect, useState } from 'react';
 import { setupWeb3Provider } from '@/lib/web3/config';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, AlertCircle, ShieldCheck } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface Web3ProviderProps {
   children: ReactNode;
+  required?: boolean;
 }
 
-export function Web3Provider({ children }: Web3ProviderProps) {
+export function Web3Provider({ children, required = false }: Web3ProviderProps) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,6 +39,17 @@ export function Web3Provider({ children }: Web3ProviderProps) {
       console.error('Failed to initialize Web3:', error);
       setIsError(true);
       setErrorMessage(error.message);
+
+      if (!required) {
+        // If Web3 is not required, continue without it
+        setIsInitialized(true);
+        toast({
+          title: "Web3 Not Available",
+          description: "Continuing in read-only mode",
+          variant: "default",
+        });
+        return;
+      }
 
       // Show different toast messages based on error type
       if (error.message.includes('MetaMask')) {
@@ -68,7 +80,12 @@ export function Web3Provider({ children }: Web3ProviderProps) {
     initializeWeb3();
   }, []);
 
-  if (isError) {
+  // If Web3 is not required and there's an error, continue without it
+  if (isError && !required) {
+    return <>{children}</>;
+  }
+
+  if (isError && required) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background/95">
         <Card className="w-full max-w-md mx-4">
@@ -105,7 +122,7 @@ export function Web3Provider({ children }: Web3ProviderProps) {
     );
   }
 
-  if (!isInitialized) {
+  if (!isInitialized && required) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background/95">
         <div className="text-center space-y-4">

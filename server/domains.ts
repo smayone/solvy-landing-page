@@ -17,18 +17,6 @@ export const domains = {
     business: {
       domain: 'business.solvy.chain',
       description: 'Business services and solutions'
-    },
-    ebl: {
-      domain: 'ebl.solvy.chain',
-      description: 'Evergreen Beauty Lounge services'
-    },
-    remittance: {
-      domain: 'remittance.solvy.chain',
-      description: 'Cross-border payment and remittance services'
-    },
-    man: {
-      domain: 'man.solvy.chain',
-      description: 'Mandatory Audit Network'
     }
   },
   dns: {
@@ -40,12 +28,23 @@ export const domains = {
   }
 };
 
-export const getDomainConfig = (host: string) => {
-  if (!host) return null;
-  
+// Domain resolution helper
+export const resolveDomain = (hostname: string) => {
+  // Default to root domain if no hostname
+  if (!hostname) return domains.root;
+
+  // Check if it's a valid SOLVY chain domain
+  if (!hostname.endsWith('.solvy.chain') && hostname !== 'solvy.chain') {
+    return null;
+  }
+
+  // Check if it's a known subdomain
   const subdomain = Object.values(domains.subdomains).find(
-    config => config.domain === host
+    config => config.domain === hostname
   );
-  
-  return subdomain || null;
+
+  return subdomain?.domain || domains.root;
 };
+
+// DNS configuration helper
+export const getDNSConfig = () => domains.dns;
