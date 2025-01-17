@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ethers } from 'ethers';
-import { Wallet, Loader2 } from 'lucide-react';
+import { Wallet, Loader2, ShieldCheck } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { SOLVY_CHAIN_CONFIG } from '@/lib/web3/config';
 
@@ -15,8 +15,8 @@ export function WalletConnection() {
   const connect = async () => {
     if (typeof window.ethereum === 'undefined') {
       toast({
-        title: "Wallet Not Found",
-        description: "Please install MetaMask or another Web3 wallet",
+        title: "Web3 Wallet Required",
+        description: "Please install MetaMask to connect to SOLVY chain",
         variant: "destructive",
       });
       return;
@@ -31,35 +31,39 @@ export function WalletConnection() {
       const signer = provider.getSigner();
       const address = await signer.getAddress();
 
-      // Check if we're on the correct network
-      const network = await provider.getNetwork();
-      if (network.chainId !== parseInt(SOLVY_CHAIN_CONFIG.chainId, 16)) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: SOLVY_CHAIN_CONFIG.chainId }],
-          });
-        } catch (error: any) {
-          if (error.code === 4902) {
+      // Switch to SOLVY chain
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: SOLVY_CHAIN_CONFIG.chainId }],
+        });
+      } catch (switchError: any) {
+        // Chain hasn't been added to MetaMask
+        if (switchError.code === 4902) {
+          try {
             await window.ethereum.request({
               method: 'wallet_addEthereumChain',
               params: [SOLVY_CHAIN_CONFIG]
             });
+          } catch (addError) {
+            throw new Error('Failed to add SOLVY chain. Please try again.');
           }
+        } else {
+          throw switchError;
         }
       }
 
       setAccount(address);
       setIsConnected(true);
       toast({
-        title: "Wallet Connected",
-        description: "Successfully connected to SOLVY chain",
+        title: "Connected to SOLVY Chain",
+        description: "Your wallet is now connected to SOLVY network",
       });
     } catch (error: any) {
       console.error('Connection error:', error);
       toast({
         title: "Connection Failed",
-        description: error.message || "Failed to connect wallet",
+        description: error.message || "Failed to connect to SOLVY chain",
         variant: "destructive",
       });
     } finally {
@@ -71,48 +75,38 @@ export function WalletConnection() {
     setAccount(null);
     setIsConnected(false);
     toast({
-      title: "Wallet Disconnected",
-      description: "Your wallet has been disconnected",
+      title: "Disconnected",
+      description: "Your wallet has been disconnected from SOLVY chain",
     });
   };
 
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="space-y-4">
-          <div className="text-sm">
-            {isConnected ? (
-              <div className="text-green-500">Connected to SOLVY Chain</div>
-            ) : (
-              <div className="text-yellow-500">Not Connected</div>
-            )}
-          </div>
-          {account && (
-            <div className="text-sm break-all">
-              <span className="text-muted-foreground">Account: </span>
-              {account}
-            </div>
-          )}
-          <Button
-            onClick={isConnected ? disconnect : connect}
-            variant={isConnected ? "destructive" : "default"}
-            className="w-full"
-            disabled={isConnecting}
-          >
-            {isConnecting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Connecting...
-              </>
-            ) : (
-              <>
-                <Wallet className="mr-2 h-4 w-4" />
-                {isConnected ? "Disconnect Wallet" : "Connect Wallet"}
-              </>
-            )}
-          </Button>
+    <div className="flex items-center gap-2">
+      {isConnected && (
+        <div className="hidden md:flex items-center gap-2 text-sm text-green-500">
+          <ShieldCheck className="h-4 w-4" />
+          <span>SOLVY Chain</span>
         </div>
-      </CardContent>
-    </Card>
+      )}
+      <Button
+        onClick={isConnected ? disconnect : connect}
+        variant={isConnected ? "secondary" : "default"}
+        size="sm"
+        className="min-w-[140px]"
+        disabled={isConnecting}
+      >
+        {isConnecting ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Connecting...
+          </>
+        ) : (
+          <>
+            <Wallet className="mr-2 h-4 w-4" />
+            {isConnected ? "Disconnect" : "Connect Wallet"}
+          </>
+        )}
+      </Button>
+    </div>
   );
 }
