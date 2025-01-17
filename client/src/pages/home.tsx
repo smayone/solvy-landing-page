@@ -20,10 +20,14 @@ export default function Home() {
                 <img
                   src="/attached_assets/fulllogo.png"
                   alt="SOLVY Logo"
-                  className="h-24 w-auto"
+                  className="h-32 w-auto" // Increased from h-24 to h-32
                 />
-                <Avatar className="h-32 w-32">
-                  <AvatarImage src="/attached_assets/IMG_0615.jpeg" alt="Profile" />
+                <Avatar className="h-32 w-32 border-4 border-background shadow-xl">
+                  <AvatarImage 
+                    src="/attached_assets/IMG_0615.jpeg" 
+                    alt="Profile"
+                    className="object-cover"
+                  />
                   <AvatarFallback>
                     <User className="h-16 w-16" />
                   </AvatarFallback>
