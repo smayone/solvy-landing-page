@@ -24,7 +24,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <main className="flex-1">
+        <main className="flex-1 pt-16">
           <Router />
         </main>
       </div>
