@@ -6,6 +6,8 @@ import { Navbar } from "@/components/navigation/navbar";
 import Home from "@/pages/home";
 import NFTAvatarPage from "@/pages/nft-avatar";
 import MemberHome from "@/pages/member-home";
+import TechCompanies from "@/pages/tech-companies";
+import Analytics from "@/pages/analytics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +16,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/member" component={MemberHome} />
       <Route path="/nft-avatar" component={NFTAvatarPage} />
+      <Route path="/tech-companies" component={TechCompanies} />
+      <Route path="/analytics" component={Analytics} />
       <Route component={NotFound} />
     </Switch>
   );

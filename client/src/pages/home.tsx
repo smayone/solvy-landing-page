@@ -1,4 +1,6 @@
 import { CartoonAvatar } from "@/components/ui/cartoon-avatar";
+import { Services } from "@/components/sections/services";
+import { Communities } from "@/components/sections/communities";
 
 export default function Home() {
   return (
@@ -33,6 +35,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <Services />
+        <Communities />
       </main>
     </div>
   );
