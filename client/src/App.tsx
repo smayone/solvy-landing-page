@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { Switch, Route } from "wouter";
 import { Navbar } from "@/components/navigation/navbar";
+import { Footer } from "@/components/navigation/footer"; // Added import for Footer
 import Home from "@/pages/home";
 import NFTAvatarPage from "@/pages/nft-avatar";
 import MemberHome from "@/pages/member-home";
@@ -31,6 +32,7 @@ export default function App() {
         <main className="flex-1 pt-16">
           <Router />
         </main>
+        <Footer /> {/* Added Footer component */}
       </div>
       <Toaster />
     </QueryClientProvider>
