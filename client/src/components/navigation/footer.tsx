@@ -1,6 +1,5 @@
 import { Link } from "wouter";
-import { SiDiscord, SiGithub } from "react-icons/si";
-import { Twitter } from "lucide-react";
+import { SiGithub, SiFacebook } from "react-icons/si";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,7 +7,7 @@ export function Footer() {
   return (
     <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container py-10">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           <div>
             <Link href="/">
               <img 
@@ -75,23 +74,37 @@ export function Footer() {
           </div>
 
           <div>
+            <h3 className="font-semibold mb-3">Why SOLVY?</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/why-statement" className="text-sm text-muted-foreground hover:text-primary">
+                  Our Mission
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-statement#evolution" className="text-sm text-muted-foreground hover:text-primary">
+                  Economic Evolution
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-statement#solution" className="text-sm text-muted-foreground hover:text-primary">
+                  The Solution
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
             <h3 className="font-semibold mb-3">Connect</h3>
             <div className="flex space-x-4">
               <a 
-                href="https://discord.gg/solvy" 
+                href="https://www.facebook.com/SANathanLLC" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary"
+                title="Follow us on Facebook for educational content"
               >
-                <SiDiscord className="h-5 w-5" />
-              </a>
-              <a 
-                href="https://twitter.com/solvychain" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary"
-              >
-                <Twitter className="h-5 w-5" />
+                <SiFacebook className="h-5 w-5" />
               </a>
               <a 
                 href="https://github.com/solvychain" 
