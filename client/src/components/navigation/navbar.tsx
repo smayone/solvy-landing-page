@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
+import { Home, Users, Image, LineChart, Building2 } from "lucide-react";
 
 export function Navbar() {
   return (
@@ -21,6 +21,30 @@ export function Navbar() {
             <Link href="/" className="flex items-center gap-2">
               <Home className="h-4 w-4" />
               Home
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/member" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Member
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/nft-avatar" className="flex items-center gap-2">
+              <Image className="h-4 w-4" />
+              NFT Avatar
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/tech-companies" className="flex items-center gap-2">
+              <Building2 className="h-4 w-4" />
+              Companies
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/analytics" className="flex items-center gap-2">
+              <LineChart className="h-4 w-4" />
+              Analytics
             </Link>
           </Button>
         </div>
