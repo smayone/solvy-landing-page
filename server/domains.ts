@@ -30,6 +30,11 @@ export const domains = {
 
 // Domain resolution helper
 export const resolveDomain = (hostname: string) => {
+  // In development, allow all hostnames
+  if (process.env.NODE_ENV !== 'production') {
+    return domains.root;
+  }
+
   // Default to root domain if no hostname
   if (!hostname) return domains.root;
 

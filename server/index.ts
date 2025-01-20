@@ -21,12 +21,12 @@ app.use((req, res, next) => {
   const hostname = req.hostname;
   const resolvedDomain = resolveDomain(hostname);
 
-  if (!resolvedDomain) {
+  if (!resolvedDomain && process.env.NODE_ENV === 'production') {
     return res.status(404).send('Domain not found');
   }
 
   // Add resolved domain to request for use in routes
-  req.resolvedDomain = resolvedDomain;
+  req.resolvedDomain = resolvedDomain || domains.root;
   next();
 });
 
