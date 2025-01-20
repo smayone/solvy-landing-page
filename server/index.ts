@@ -3,6 +3,8 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
 import { resolveDomain } from "./domains";
+import { db } from "@db";
+import { sql } from "drizzle-orm";
 
 const app = express();
 app.use(express.json());
@@ -26,6 +28,11 @@ app.use((req, res, next) => {
   // Add resolved domain to request for use in routes
   req.resolvedDomain = resolvedDomain;
   next();
+});
+
+// Health check endpoint
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok' });
 });
 
 // Logging middleware
@@ -59,26 +66,51 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
-  const server = registerRoutes(app);
-
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    log(`Error: ${message}`);
-    res.status(status).json({ message });
-  });
-
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+// Database connection check
+async function checkDatabase() {
+  try {
+    // Simple query to test the connection
+    await db.execute(sql`SELECT 1`);
+    log('Database connection successful');
+    return true;
+  } catch (error: any) {
+    log('Database connection failed:', error.message);
+    return false;
   }
+}
 
-  const PORT = 5000;
-  server.listen(PORT, "0.0.0.0", () => {
-    log(`Server running on port ${PORT}`);
-  });
+(async () => {
+  try {
+    // Check database connection before starting the server
+    const dbConnected = await checkDatabase();
+    if (!dbConnected) {
+      throw new Error('Could not connect to database');
+    }
+
+    const server = registerRoutes(app);
+
+    // Error handling middleware
+    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+      log('Error:', message);
+      res.status(status).json({ message });
+    });
+
+    if (app.get("env") === "development") {
+      await setupVite(app, server);
+    } else {
+      serveStatic(app);
+    }
+
+    const port = parseInt(process.env.PORT || '3000', 10);
+    server.listen(port, "0.0.0.0", () => {
+      log(`Server running on port ${port}`);
+    });
+  } catch (error: any) {
+    log('Failed to start server:', error.message);
+    process.exit(1);
+  }
 })();
 
 // Add type definition for the resolvedDomain property
