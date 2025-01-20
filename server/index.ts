@@ -30,11 +30,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check endpoint
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok' });
-});
-
 // Logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
@@ -103,9 +98,11 @@ async function checkDatabase() {
       serveStatic(app);
     }
 
-    const port = parseInt(process.env.PORT || '3000', 10);
-    server.listen(port, "0.0.0.0", () => {
-      log(`Server running on port ${port}`);
+    // ALWAYS serve the app on port 5000
+    // this serves both the API and the client
+    const PORT = 5000;
+    server.listen(PORT, "0.0.0.0", () => {
+      log(`serving on port ${PORT}`);
     });
   } catch (error: any) {
     log('Failed to start server:', error.message);
