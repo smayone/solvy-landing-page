@@ -1,4 +1,5 @@
-import { Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
+import { Facebook } from "lucide-react";
+import { SiYoutube } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { solvyDomains } from "@/lib/domains";
@@ -39,26 +40,11 @@ export function ShareButtons({ title, description, url }: ShareButtonsProps) {
         case 'facebook':
           window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`, '_blank');
           break;
-        case 'twitter':
-          window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl)}`, '_blank');
+        case 'youtube':
+          window.open(`https://www.youtube.com/watch?v=${encodeURIComponent(currentUrl)}`, '_blank');
           break;
-        case 'linkedin':
-          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`, '_blank');
-          break;
-        case 'copy':
-          await navigator.clipboard.writeText(currentUrl);
-          toast({
-            title: "Link copied!",
-            description: "The link has been copied to your clipboard.",
-          });
-          break;
-        case 'native':
-          if (navigator.share) {
-            await navigator.share(shareData);
-          } else {
-            throw new Error('Native sharing not supported');
-          }
-          break;
+        default:
+          throw new Error('Unsupported platform');
       }
     } catch (error) {
       toast({
@@ -82,36 +68,11 @@ export function ShareButtons({ title, description, url }: ShareButtonsProps) {
       <Button
         variant="outline"
         size="icon"
-        onClick={() => handleShare('twitter')}
-        className="hover:bg-[#1DA1F2] hover:text-white"
+        onClick={() => handleShare('youtube')}
+        className="hover:bg-[#FF0000] hover:text-white"
       >
-        <Twitter className="h-4 w-4" />
+        <SiYoutube className="h-4 w-4" />
       </Button>
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => handleShare('linkedin')}
-        className="hover:bg-[#0A66C2] hover:text-white"
-      >
-        <Linkedin className="h-4 w-4" />
-      </Button>
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => handleShare('copy')}
-        className="hover:bg-primary hover:text-primary-foreground"
-      >
-        <Link2 className="h-4 w-4" />
-      </Button>
-      {typeof navigator !== 'undefined' && 'share' in navigator && (
-        <Button
-          variant="outline"
-          onClick={() => handleShare('native')}
-          className="hover:bg-primary hover:text-primary-foreground"
-        >
-          Share
-        </Button>
-      )}
     </div>
   );
 }
