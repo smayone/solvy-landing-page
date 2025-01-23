@@ -55,6 +55,11 @@ export function ShareButtons({ title, description, url }: ShareButtonsProps) {
     }
   };
 
+  // Only render buttons if we're on the education domain
+  if (!isEducationDomain) {
+    return null;
+  }
+
   return (
     <div className="flex gap-2 items-center">
       <Button
