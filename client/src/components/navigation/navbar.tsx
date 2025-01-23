@@ -1,8 +1,11 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Building2 } from "lucide-react";
+import { Home, Users, Image, LineChart, Building2, GraduationCap } from "lucide-react";
+import { solvyDomains } from "@/lib/domains";
 
 export function Navbar() {
+  const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain;
+
   return (
     <nav className="fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="flex h-16 items-center px-4 container mx-auto">
@@ -46,6 +49,17 @@ export function Navbar() {
               <LineChart className="h-4 w-4" />
               Analytics
             </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <a 
+              href={`https://${educationDomain}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              <GraduationCap className="h-4 w-4" />
+              Education
+            </a>
           </Button>
         </div>
       </div>
