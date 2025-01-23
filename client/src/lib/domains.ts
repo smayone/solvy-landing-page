@@ -1,3 +1,5 @@
+import { web3DomainResolver } from './web3/domain-resolver';
+
 // Domain configuration for solvy.chain ecosystem
 export interface Domain {
   name: string;
@@ -18,9 +20,9 @@ export const solvyDomains: Domain[] = [
     description: "Main platform for SOLVY financial solutions",
     registrationDate: "2025-01-06",
     chainConfig: {
-      rpcUrl: "https://rpc.solvy.chain",
-      chainId: 985,  // SOLVY Chain ID
-      explorerUrl: "https://explorer.solvy.chain"
+      rpcUrl: "https://polygon-rpc.com",
+      chainId: 137,  // Polygon Mainnet
+      explorerUrl: "https://polygonscan.com"
     }
   },
   {
@@ -46,7 +48,7 @@ export const solvyDomains: Domain[] = [
 // DNS and Domain Resolution Configuration
 export const domainConfig = {
   dns: {
-    doh: 'https://dns.solvy.chain',  // DNS over HTTPS endpoint
+    doh: 'https://dns.freename.io',  // Freename DNS over HTTPS endpoint
     ipv4: [
       '127.0.0.1',  // Local development
       '34.154.40.173',  // Primary DNS
@@ -60,13 +62,29 @@ export const domainConfig = {
 };
 
 // Helper function to check if a domain is a SOLVY chain domain
-export const isSolvyDomain = (domain: string): boolean => {
-  return domain.endsWith('.solvy.chain') || domain === 'solvy.chain';
+export const isSolvyDomain = async (domain: string): Promise<boolean> => {
+  if (!domain.endsWith('.solvy.chain') && domain !== 'solvy.chain') {
+    return false;
+  }
+
+  // In development, allow all SOLVY chain domains
+  if (process.env.NODE_ENV !== 'production') {
+    return true;
+  }
+
+  return web3DomainResolver.isValidSolvyDomain(domain);
 };
 
 // Get domain configuration for the current hostname
-export const getCurrentDomainConfig = (hostname: string): Domain | null => {
+export const getCurrentDomainConfig = async (hostname: string): Promise<Domain | null> => {
   if (!hostname) return null;
+
+  // Verify domain resolution through Freename
+  if (process.env.NODE_ENV === 'production') {
+    const isValid = await web3DomainResolver.isValidSolvyDomain(hostname);
+    if (!isValid) return null;
+  }
+
   return solvyDomains.find(config => config.domain === hostname) || null;
 };
 
