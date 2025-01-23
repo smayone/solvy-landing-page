@@ -1,6 +1,7 @@
 import { CartoonAvatar } from "@/components/ui/cartoon-avatar";
 import { Services } from "@/components/sections/services";
 import { Communities } from "@/components/sections/communities";
+import { ShareButtons } from "@/components/ui/share-buttons";
 
 export default function Home() {
   return (
@@ -32,6 +33,13 @@ export default function Home() {
               <p className="mt-4 text-xl text-muted-foreground">
                 Solvy.chain: Solutions Valued You. We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
               </p>
+
+              <div className="mt-8 flex justify-center">
+                <ShareButtons 
+                  title="SOLVY - Solutions Valued You"
+                  description="Breaking chains, building futures. Join us in creating a cooperative, DAO-driven future where trade and commerce truly empower individuals."
+                />
+              </div>
             </div>
           </div>
         </section>
