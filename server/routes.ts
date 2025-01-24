@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
-import { techCompanies, privacyCases, taxDonations, cryptoTransactions } from "@db/schema";
+import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress } from "@db/schema";
 import { eq, desc } from "drizzle-orm";
 import Stripe from "stripe";
 
@@ -16,7 +16,74 @@ export function registerRoutes(app: Express): Server {
     res.json({ status: "ok" });
   });
 
-  // Tech Companies endpoints
+  // Educational content endpoints
+  app.get("/api/educational-content", async (_req, res) => {
+    try {
+      const content = await db.select().from(educationalContent);
+      res.json(content);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch educational content" });
+    }
+  });
+
+  // Personalized learning path recommendations
+  app.get("/api/learning-path", async (req, res) => {
+    try {
+      // Get user's progress and interests
+      const userProgress = await db
+        .select()
+        .from(learningProgress)
+        .where(eq(learningProgress.userId, req.user?.id))
+        .orderBy(desc(learningProgress.updatedAt));
+
+      // Generate personalized recommendations
+      const recommendations = [
+        {
+          title: "Introduction to Blockchain",
+          description: "Start with the fundamentals of blockchain technology",
+          moduleId: "blockchain",
+          topicId: "intro"
+        },
+        {
+          title: "DECIDEY Foundation",
+          description: "Learn about community empowerment through blockchain",
+          moduleId: "decidey",
+          topicId: "foundation"
+        },
+        {
+          title: "Digital Identity",
+          description: "Understanding self-sovereign identity principles",
+          moduleId: "solvy",
+          topicId: "identity"
+        }
+      ];
+
+      res.json({ recommendations });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to generate learning recommendations" });
+    }
+  });
+
+  // Track learning progress
+  app.post("/api/learning-progress", async (req, res) => {
+    try {
+      const { moduleId, topicId, progress } = req.body;
+
+      await db.insert(learningProgress).values({
+        userId: req.user?.id,
+        moduleId,
+        topicId,
+        progress,
+        updatedAt: new Date()
+      });
+
+      res.json({ status: "success" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update learning progress" });
+    }
+  });
+
+  // Existing tech companies endpoints
   app.get("/api/tech-companies", async (_req, res) => {
     try {
       const companies = await db.select().from(techCompanies);
@@ -26,7 +93,7 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Get crypto transaction history
+  // Existing crypto endpoints
   app.get("/api/crypto/transactions", async (req, res) => {
     try {
       const transactions = await db

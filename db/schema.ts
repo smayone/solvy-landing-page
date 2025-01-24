@@ -115,6 +115,31 @@ export const cryptoTransactions = pgTable("crypto_transactions", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const educationalContent = pgTable("educational_content", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  moduleId: text("module_id").notNull(),
+  topicId: text("topic_id").notNull(),
+  content: jsonb("content").notNull(),
+  type: text("type").notNull(), 
+  videoUrl: text("video_url"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  metadata: jsonb("metadata"),
+});
+
+export const learningProgress = pgTable("learning_progress", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  moduleId: text("module_id").notNull(),
+  topicId: text("topic_id").notNull(),
+  progress: integer("progress").notNull(), 
+  completedAt: timestamp("completed_at"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  metadata: jsonb("metadata"),
+});
+
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 export const insertMembershipSchema = createInsertSchema(memberships);
@@ -131,6 +156,10 @@ export const insertTaxDonationSchema = createInsertSchema(taxDonations);
 export const selectTaxDonationSchema = createSelectSchema(taxDonations);
 export const insertCryptoTransactionSchema = createInsertSchema(cryptoTransactions);
 export const selectCryptoTransactionSchema = createSelectSchema(cryptoTransactions);
+export const insertEducationalContentSchema = createInsertSchema(educationalContent);
+export const selectEducationalContentSchema = createSelectSchema(educationalContent);
+export const insertLearningProgressSchema = createInsertSchema(learningProgress);
+export const selectLearningProgressSchema = createSelectSchema(learningProgress);
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
@@ -148,3 +177,7 @@ export type InsertTaxDonation = typeof taxDonations.$inferInsert;
 export type SelectTaxDonation = typeof taxDonations.$inferSelect;
 export type InsertCryptoTransaction = typeof cryptoTransactions.$inferInsert;
 export type SelectCryptoTransaction = typeof cryptoTransactions.$inferSelect;
+export type InsertEducationalContent = typeof educationalContent.$inferInsert;
+export type SelectEducationalContent = typeof educationalContent.$inferSelect;
+export type InsertLearningProgress = typeof learningProgress.$inferInsert;
+export type SelectLearningProgress = typeof learningProgress.$inferSelect;

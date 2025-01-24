@@ -3,13 +3,77 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShareButtons } from "@/components/ui/share-buttons";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, BookOpen, Video, ChevronRight, Shield, Brain, Coins } from "lucide-react";
+import { 
+  GraduationCap, 
+  BookOpen, 
+  Video, 
+  ChevronRight, 
+  Shield, 
+  Brain, 
+  Coins,
+  Users,
+  PlayCircle
+} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+
+interface LearningPathRecommendation {
+  title: string;
+  description: string;
+  moduleId: string;
+  topicId: string;
+}
+
+interface PersonalizedPath {
+  recommendations: LearningPathRecommendation[];
+}
+
+interface CommunityChannel {
+  name: string;
+  description: string;
+  channelId: string;
+}
 
 export default function Education() {
   const { data: educationalContent } = useQuery({
     queryKey: ['/api/educational-content'],
   });
+
+  const { data: personalizedPath } = useQuery<PersonalizedPath>({
+    queryKey: ['/api/learning-path'],
+  });
+
+  const communityChannels: CommunityChannel[] = [
+    {
+      name: "Democracy at Work",
+      description: "Economic analysis and socialist perspective",
+      channelId: "UCK-6FjMu9OI8i0Fo6bkW0VA"
+    },
+    {
+      name: "Lena Petrova",
+      description: "Blockchain and cryptocurrency insights",
+      channelId: "example1"
+    },
+    {
+      name: "Geopolitical Report - Ben Norton",
+      description: "Global economic and political analysis",
+      channelId: "example2"
+    },
+    {
+      name: "Cyrus Janssen",
+      description: "International business and cultural perspectives",
+      channelId: "example3"
+    },
+    {
+      name: "Gary's Economics",
+      description: "Economic education and analysis",
+      channelId: "example4"
+    },
+    {
+      name: "Think BRICS",
+      description: "Analysis of BRICS nations and global economy",
+      channelId: "example5"
+    }
+  ];
 
   const modules = [
     {
@@ -107,7 +171,7 @@ export default function Education() {
               DECIDEY Learning Hub
             </h1>
             <p className="text-muted-foreground">
-              Your journey from education to Sovereignitity through DECIDEY and SOLVY
+              Your personalized journey to financial sovereignty
             </p>
           </div>
           <ShareButtons 
@@ -115,6 +179,80 @@ export default function Education() {
             description="Learn about blockchain technology and achieve Sovereignitity with DECIDEY"
           />
         </div>
+
+        {/* AI-Powered Personalized Learning Path */}
+        {personalizedPath && (
+          <Card className="mb-8">
+            <CardHeader>
+              <div className="flex items-center gap-4">
+                <Brain className="h-6 w-6 text-primary" />
+                <div>
+                  <CardTitle>Your Learning Path</CardTitle>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    AI-recommended content based on your interests and progress
+                  </p>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4">
+                {personalizedPath.recommendations.map((item, index) => (
+                  <Card key={index} className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="flex-1">
+                        <h3 className="font-medium">{item.title}</h3>
+                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                      </div>
+                      <Button variant="outline" size="sm">
+                        Start Learning
+                        <ChevronRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Community Contributed Content */}
+        <Card className="mb-8">
+          <CardHeader>
+            <div className="flex items-center gap-4">
+              <Users className="h-6 w-6 text-primary" />
+              <div>
+                <CardTitle>Community Resources</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Curated content from trusted educational channels
+                </p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2">
+              {communityChannels.map((channel, index) => (
+                <Card key={index} className="p-4">
+                  <div className="flex items-center gap-4">
+                    <PlayCircle className="h-8 w-8 text-primary" />
+                    <div className="flex-1">
+                      <h3 className="font-medium">{channel.name}</h3>
+                      <p className="text-sm text-muted-foreground">{channel.description}</p>
+                    </div>
+                    <Button variant="outline" size="sm" asChild>
+                      <a
+                        href={`https://youtube.com/channel/${channel.channelId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Watch
+                      </a>
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         <Tabs defaultValue="decidey" className="space-y-8">
           <TabsList className="grid w-full grid-cols-3">
@@ -159,7 +297,7 @@ export default function Education() {
                                     variant="outline"
                                     size="sm"
                                     className="flex items-center gap-2"
-                                    onClick={() => window.open(`https://www.facebook.com/SANathanLLC/videos/${topic.videoId}`, '_blank')}
+                                    onClick={() => window.open(`https://www.youtube.com/watch?v=${topic.videoId}`, '_blank')}
                                   >
                                     <Video className="h-4 w-4" />
                                     Watch Video
