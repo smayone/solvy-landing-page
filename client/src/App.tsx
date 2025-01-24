@@ -11,6 +11,7 @@ import TechCompanies from "@/pages/tech-companies";
 import Analytics from "@/pages/analytics";
 import WhyStatement from "@/pages/why-statement";
 import CryptoPage from "@/pages/crypto";
+import Education from "@/pages/education";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/analytics" component={Analytics} />
       <Route path="/why-statement" component={WhyStatement} />
       <Route path="/crypto" component={CryptoPage} />
+      <Route path="/education" component={Education} />
       <Route component={NotFound} />
     </Switch>
   );

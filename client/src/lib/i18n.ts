@@ -33,6 +33,40 @@ const resources = {
         language: 'Language',
         evergreen: 'Evergreen Beauty',
         analytics: 'Analytics'
+      },
+      education: {
+        welcome: {
+          title: 'Welcome to SOLVY Education',
+          subtitle: 'Your Journey into Blockchain Technology Starts Here',
+          start_learning: 'Start Learning'
+        },
+        blockchain_basics: {
+          title: 'Blockchain Fundamentals',
+          chapters: {
+            intro: 'Introduction to Blockchain',
+            decentralization: 'Understanding Decentralization',
+            consensus: 'Consensus Mechanisms',
+            cryptography: 'Cryptography Basics',
+            smart_contracts: 'Smart Contracts 101'
+          },
+          interactive: {
+            demo_blockchain: 'Try Building a Block',
+            validate_transaction: 'Validate a Transaction',
+            create_wallet: 'Create Your First Wallet'
+          }
+        },
+        learning_paths: {
+          beginner: 'Beginner Path',
+          intermediate: 'Intermediate Path',
+          advanced: 'Advanced Path',
+          expert: 'Expert Path'
+        },
+        progress: {
+          completed: 'Completed',
+          in_progress: 'In Progress',
+          not_started: 'Not Started',
+          certificate: 'View Certificate'
+        }
       }
     }
   },
@@ -61,6 +95,40 @@ const resources = {
         language: 'Idioma',
         evergreen: 'Belleza Evergreen',
         analytics: 'Análisis'
+      },
+      education: {
+        welcome: {
+          title: 'Bienvenido a SOLVY Education',
+          subtitle: 'Tu viaje en la tecnología Blockchain comienza aquí',
+          start_learning: 'Empezar a Aprender'
+        },
+        blockchain_basics: {
+          title: 'Fundamentos de Blockchain',
+          chapters: {
+            intro: 'Introducción a Blockchain',
+            decentralization: 'Entendiendo la Descentralización',
+            consensus: 'Mecanismos de Consenso',
+            cryptography: 'Fundamentos de Criptografía',
+            smart_contracts: 'Contratos Inteligentes 101'
+          },
+          interactive: {
+            demo_blockchain: 'Intenta Construir un Bloque',
+            validate_transaction: 'Valida una Transacción',
+            create_wallet: 'Crea Tu Primera Billetera'
+          }
+        },
+        learning_paths: {
+          beginner: 'Ruta Principiante',
+          intermediate: 'Ruta Intermedia',
+          advanced: 'Ruta Avanzada',
+          expert: 'Ruta Experta'
+        },
+        progress: {
+          completed: 'Completado',
+          in_progress: 'En Progreso',
+          not_started: 'No Iniciado',
+          certificate: 'Ver Certificado'
+        }
       }
     }
   },
@@ -80,6 +148,40 @@ const resources = {
         booking_error: 'Không thể đặt lịch hẹn. Vui lòng thử lại.',
         gift_card_success: 'Đã mua thẻ quà tặng thành công!',
         gift_card_error: 'Không thể mua thẻ quà tặng. Vui lòng thử lại.',
+      },
+      education: {
+        welcome: {
+          title: 'Chào mừng đến với SOLVY Education',
+          subtitle: 'Hành trình của bạn vào Công nghệ Blockchain bắt đầu từ đây',
+          start_learning: 'Bắt đầu Học'
+        },
+        blockchain_basics: {
+          title: 'Nền tảng Blockchain',
+          chapters: {
+            intro: 'Giới thiệu về Blockchain',
+            decentralization: 'Hiểu về Phân cấp',
+            consensus: 'Cơ chế Đồng thuận',
+            cryptography: 'Cơ bản về Mật mã học',
+            smart_contracts: 'Hợp đồng Thông minh 101'
+          },
+          interactive: {
+            demo_blockchain: 'Thử Xây dựng Block',
+            validate_transaction: 'Xác thực Giao dịch',
+            create_wallet: 'Tạo Ví đầu tiên'
+          }
+        },
+        learning_paths: {
+          beginner: 'Lộ trình Người mới',
+          intermediate: 'Lộ trình Trung cấp',
+          advanced: 'Lộ trình Nâng cao',
+          expert: 'Lộ trình Chuyên gia'
+        },
+        progress: {
+          completed: 'Đã hoàn thành',
+          in_progress: 'Đang học',
+          not_started: 'Chưa bắt đầu',
+          certificate: 'Xem Chứng chỉ'
+        }
       }
     }
   },
@@ -99,6 +201,40 @@ const resources = {
         booking_error: '预约失败。请重试。',
         gift_card_success: '礼品卡购买成功！',
         gift_card_error: '礼品卡购买失败。请重试。',
+      },
+      education: {
+        welcome: {
+          title: 'SOLVY教育欢迎您',
+          subtitle: '您的区块链技术之旅从这里开始',
+          start_learning: '开始学习'
+        },
+        blockchain_basics: {
+          title: '区块链基础',
+          chapters: {
+            intro: '区块链简介',
+            decentralization: '理解去中心化',
+            consensus: '共识机制',
+            cryptography: '密码学基础',
+            smart_contracts: '智能合约101'
+          },
+          interactive: {
+            demo_blockchain: '尝试构建区块',
+            validate_transaction: '验证交易',
+            create_wallet: '创建首个钱包'
+          }
+        },
+        learning_paths: {
+          beginner: '初学者路径',
+          intermediate: '中级路径',
+          advanced: '高级路径',
+          expert: '专家路径'
+        },
+        progress: {
+          completed: '已完成',
+          in_progress: '进行中',
+          not_started: '未开始',
+          certificate: '查看证书'
+        }
       }
     }
   },
@@ -118,6 +254,40 @@ const resources = {
         booking_error: '예약에 실패했습니다. 다시 시도해주세요.',
         gift_card_success: '기프트 카드 구매가 완료되었습니다!',
         gift_card_error: '기프트 카드 구매에 실패했습니다. 다시 시도해주세요.',
+      },
+      education: {
+        welcome: {
+          title: 'SOLVY 교육에 오신 것을 환영합니다',
+          subtitle: '블록체인 기술 여정이 여기서 시작됩니다',
+          start_learning: '학습 시작'
+        },
+        blockchain_basics: {
+          title: '블록체인 기초',
+          chapters: {
+            intro: '블록체인 소개',
+            decentralization: '탈중앙화의 이해',
+            consensus: '합의 메커니즘',
+            cryptography: '암호학 기초',
+            smart_contracts: '스마트 컨트랙트 101'
+          },
+          interactive: {
+            demo_blockchain: '블록 만들어보기',
+            validate_transaction: '거래 검증하기',
+            create_wallet: '첫 지갑 만들기'
+          }
+        },
+        learning_paths: {
+          beginner: '초보자 과정',
+          intermediate: '중급자 과정',
+          advanced: '고급자 과정',
+          expert: '전문가 과정'
+        },
+        progress: {
+          completed: '완료됨',
+          in_progress: '진행 중',
+          not_started: '시작되지 않음',
+          certificate: '수료증 보기'
+        }
       }
     }
   }
