@@ -120,22 +120,46 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Crypto Onramp endpoint
-  app.post("/api/crypto/create-onramp-session", async (_req, res) => {
+  // Crypto Onramp endpoint with enhanced mobile support
+  app.post("/api/crypto/create-onramp-session", async (req, res) => {
     try {
-      const session = await stripe.crypto.onramp.sessions.create({
+      const { platform = 'web', firstName, lastName, email } = req.body;
+
+      const sessionConfig: Stripe.CryptoOnrampSessionCreateParams = {
         wallet_addresses: {
           polygon: "0x...", // This should be dynamically set based on user's wallet
         },
         transaction_details: {
           supported_destination_networks: ["polygon"],
           supported_destination_currencies: ["usdc"],
-        }
-      });
+        },
+        customer_information: firstName && lastName && email ? {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+        } : undefined
+      };
 
-      res.json({ clientSecret: session.client_secret });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to create crypto onramp session" });
+      // @ts-ignore - Stripe types don't include crypto yet
+      const session = await stripe.crypto.onramp.sessions.create(sessionConfig);
+
+      // Return appropriate response based on platform
+      if (platform === 'ios' || platform === 'android') {
+        res.json({
+          clientSecret: session.client_secret,
+          publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+          merchantIdentifier: "merchant.com.solvy.app", // For Apple Pay
+          stripeAccountId: process.env.STRIPE_ACCOUNT_ID
+        });
+      } else {
+        res.json({ clientSecret: session.client_secret });
+      }
+    } catch (error: any) { // Type annotation added
+      console.error('Crypto onramp session creation failed:', error);
+      res.status(500).json({ 
+        error: "Failed to create crypto onramp session",
+        details: error?.message || "Unknown error occurred"
+      });
     }
   });
 
