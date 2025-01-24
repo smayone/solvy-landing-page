@@ -5,9 +5,13 @@ import { techCompanies, privacyCases, taxDonations, cryptoTransactions } from "@
 import { eq, desc, and, gte, lte } from "drizzle-orm";
 import Stripe from "stripe";
 
-// Initialize stripe with the secret key from environment variables
+// Initialize stripe with the secret key and beta API version
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2024-12-18.acacia",
+  apiVersion: "2024-01-24", // Latest API version
+  appInfo: {
+    name: "SOLVY Crypto Onramp",
+    version: "0.1.0"
+  }
 });
 
 export function registerRoutes(app: Express): Server {
@@ -142,6 +146,7 @@ export function registerRoutes(app: Express): Server {
     try {
       const { platform = 'web', firstName, lastName, email } = req.body;
 
+      // Configure the onramp session
       const sessionConfig = {
         wallet_addresses: {
           polygon: "0x...", // This should be dynamically set based on user's wallet
@@ -157,8 +162,8 @@ export function registerRoutes(app: Express): Server {
         } : undefined
       };
 
-      // Create onramp session using the correct API method
-      const session = await stripe.cryptoOnrampSessions.create(sessionConfig);
+      // Create onramp session using Stripe beta API
+      const session = await stripe.cryptoOnramp.sessions.create(sessionConfig);
 
       // Store initial transaction record
       const [transaction] = await db
