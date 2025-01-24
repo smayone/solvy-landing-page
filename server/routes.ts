@@ -7,7 +7,7 @@ import Stripe from "stripe";
 
 // Initialize stripe with the secret key from environment variables
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2023-10-16",
+  apiVersion: "2024-12-18.acacia",
 });
 
 export function registerRoutes(app: Express): Server {
@@ -63,15 +63,14 @@ export function registerRoutes(app: Express): Server {
   app.get("/api/privacy-cases", async (req, res) => {
     try {
       const { status, companyId } = req.query;
-
-      let query = db.select().from(privacyCases);
+      const query = db.select().from(privacyCases);
 
       if (status) {
-        query = query.where(eq(privacyCases.status, status as string));
+        query.where(eq(privacyCases.status, status as string));
       }
 
       if (companyId) {
-        query = query.where(eq(privacyCases.companyId, parseInt(companyId as string)));
+        query.where(eq(privacyCases.companyId, parseInt(companyId as string)));
       }
 
       const cases = await query.orderBy(desc(privacyCases.filingDate));
@@ -85,18 +84,17 @@ export function registerRoutes(app: Express): Server {
   app.get("/api/tax-donations", async (req, res) => {
     try {
       const { companyId, startDate, endDate } = req.query;
-
-      let query = db.select().from(taxDonations);
+      const query = db.select().from(taxDonations);
 
       if (companyId) {
-        query = query.where(eq(taxDonations.companyId, parseInt(companyId as string)));
+        query.where(eq(taxDonations.companyId, parseInt(companyId as string)));
       }
 
       if (startDate && endDate) {
-        query = query.where(
+        query.where(
           and(
-            gte(taxDonations.donationDate, new Date(startDate as string)),
-            lte(taxDonations.donationDate, new Date(endDate as string))
+            gte(taxDonations.donationDate, startDate as string),
+            lte(taxDonations.donationDate, endDate as string)
           )
         );
       }
@@ -107,7 +105,6 @@ export function registerRoutes(app: Express): Server {
       res.status(500).json({ error: "Failed to fetch tax donations" });
     }
   });
-
 
   // Payment endpoints
   app.post("/api/create-payment-intent", async (req, res) => {
@@ -120,6 +117,25 @@ export function registerRoutes(app: Express): Server {
       res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
       res.status(500).json({ error: "Failed to create payment intent" });
+    }
+  });
+
+  // Crypto Onramp endpoint
+  app.post("/api/crypto/create-onramp-session", async (_req, res) => {
+    try {
+      const session = await stripe.crypto.onramp.sessions.create({
+        wallet_addresses: {
+          polygon: "0x...", // This should be dynamically set based on user's wallet
+        },
+        transaction_details: {
+          supported_destination_networks: ["polygon"],
+          supported_destination_currencies: ["usdc"],
+        }
+      });
+
+      res.json({ clientSecret: session.client_secret });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create crypto onramp session" });
     }
   });
 
