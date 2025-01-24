@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShareButtons } from "@/components/ui/share-buttons";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, BookOpen, Video, ChevronRight, Shield, Brain } from "lucide-react";
+import { GraduationCap, BookOpen, Video, ChevronRight, Shield, Brain, Coins } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Education() {
@@ -13,9 +13,37 @@ export default function Education() {
 
   const modules = [
     {
-      id: 'basics',
+      id: 'decidey',
+      title: 'DECIDEY Foundation',
+      description: 'Decentralized Empowerment Control Identity Data Economy of Yours - NGO Operations',
+      icon: Shield,
+      topics: [
+        {
+          title: 'Understanding DECIDEY',
+          videoId: '6WG7D47tGb0',
+          description: 'Learn about our NGO operations, tech company revenue tax repatriation, and transparent donation management'
+        },
+        {
+          title: 'Community Education Initiative',
+          videoId: 'HNC-BhJO_zQ',
+          description: 'How DECIDEY empowers communities through blockchain education'
+        },
+        {
+          title: 'Tax Repatriation System',
+          videoId: 'wZR4f3cqtr0',
+          description: 'Understanding transparent donation management and community benefits'
+        },
+        {
+          title: 'Path to Sovereignitity',
+          videoId: 'xyz123',
+          description: 'The journey from education to self-sovereign identity through DECIDEY'
+        }
+      ]
+    },
+    {
+      id: 'blockchain',
       title: 'Blockchain Fundamentals',
-      description: 'Master the core concepts of blockchain technology',
+      description: 'Master core blockchain concepts for your journey to Sovereignitity',
       icon: BookOpen,
       topics: [
         {
@@ -35,64 +63,36 @@ export default function Education() {
         },
         {
           title: 'Consensus Mechanisms',
-          videoId: 'wZR4f3cqtr0',
+          videoId: 'abc456',
           description: 'How blockchain networks achieve agreement'
         }
       ]
     },
     {
-      id: 'decidey',
-      title: 'DECIDEY Integration',
-      description: 'Understanding Decentralized Empowerment Control Identity Data Economy',
-      icon: Shield,
+      id: 'solvy',
+      title: 'SOLVY Integration',
+      description: 'Solutions Valued You - Your Vehicle for Financial Sovereignty',
+      icon: Coins,
       topics: [
         {
-          title: 'Introduction to DECIDEY',
-          videoId: 'xyz123',
-          description: 'The foundation of decentralized identity and economic control'
-        },
-        {
-          title: 'Identity Sovereignty',
-          videoId: 'abc456',
-          description: 'Taking control of your digital identity'
-        },
-        {
-          title: 'Economic Empowerment',
-          videoId: 'def789',
-          description: 'Building financial sovereignty through blockchain'
-        },
-        {
-          title: 'Data Control',
-          videoId: 'ghi012',
-          description: 'Managing and protecting your personal data'
-        }
-      ]
-    },
-    {
-      id: 'defi',
-      title: 'DeFi & Financial Sovereignty',
-      description: 'Understanding decentralized finance and financial independence',
-      icon: Brain,
-      topics: [
-        {
-          title: 'Introduction to DeFi',
+          title: 'SOLVY Platform Overview',
           videoId: 'qFBYB4W2tqU',
-          description: 'The basics of decentralized finance'
+          description: 'Understanding SOLVY as your monetization vehicle'
         },
         {
-          title: 'Smart Contracts',
+          title: 'Sovereignitity in Practice',
           videoId: 'ZE2HxTmxfrI',
-          description: 'Understanding automated, trustless agreements'
+          description: 'Applying DECIDEY education through SOLVY platform'
         },
         {
-          title: 'Decentralized Exchanges',
+          title: 'Self-Sovereign Identity',
           videoId: '2tTVJL4bpTU',
-          description: 'Trading without intermediaries'
+          description: 'Managing your digital identity and financial sovereignty'
         },
         {
-          title: 'Yield Farming',
+          title: 'Advanced SOLVY Features',
           videoId: 'ClnnLI1SClA',
-          description: 'Advanced DeFi strategies'
+          description: 'Maximizing your potential with SOLVY tools'
         }
       ]
     }
@@ -107,16 +107,16 @@ export default function Education() {
               DECIDEY Learning Hub
             </h1>
             <p className="text-muted-foreground">
-              Your journey to financial sovereignty through blockchain education
+              Your journey from education to Sovereignitity through DECIDEY and SOLVY
             </p>
           </div>
           <ShareButtons 
             title="SOLVY Blockchain Education"
-            description="Learn about blockchain technology and decentralized finance with DECIDEY"
+            description="Learn about blockchain technology and achieve Sovereignitity with DECIDEY"
           />
         </div>
 
-        <Tabs defaultValue="basics" className="space-y-8">
+        <Tabs defaultValue="decidey" className="space-y-8">
           <TabsList className="grid w-full grid-cols-3">
             {modules.map((module) => (
               <TabsTrigger key={module.id} value={module.id} className="flex items-center gap-2">
