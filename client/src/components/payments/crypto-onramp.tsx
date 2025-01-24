@@ -1,3 +1,9 @@
+// Documentation References:
+// Web Integration: https://docs.stripe.com/crypto/onramp/emeddable-onramp-guide
+// iOS SDK: https://stripe.dev/stripe-ios/documentation/stripe
+// Android SDK: https://stripe.dev/stripe-android/index.html
+// React Native SDK: https://stripe.dev/stripe-react-native/api-reference/index.html
+
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
