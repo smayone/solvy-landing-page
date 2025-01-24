@@ -9,16 +9,18 @@ declare global {
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import path from "path";
 import { resolveDomain, domains } from "./domains";
 import { db } from "@db";
 import { sql } from "drizzle-orm";
+import path from "path";
 
 const app = express();
+
+// Basic middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve static files from attached_assets with proper CORS headers
+// Static files middleware
 app.use('/attached_assets', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
@@ -41,61 +43,41 @@ app.use((req, res, next) => {
   next();
 });
 
-// Logging middleware
+// Request logging
 app.use((req, res, next) => {
   const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
+    log(`${req.method} ${req.path} ${res.statusCode} ${duration}ms`);
   });
-
   next();
 });
 
-// Database connection check
-async function checkDatabase() {
+// Database health check
+async function isDatabaseHealthy(): Promise<boolean> {
   try {
     await db.execute(sql`SELECT 1`);
-    log('Database connection successful');
     return true;
-  } catch (error: any) {
-    log('Database connection failed:', error.message);
+  } catch (err) {
+    log('Database error:', err instanceof Error ? err.message : 'Unknown error');
     return false;
   }
 }
 
-// Start server with proper error handling
-(async () => {
+// Initialize server
+async function initialize() {
   try {
-    // Check database connection before starting the server
-    const dbConnected = await checkDatabase();
-    if (!dbConnected) {
-      throw new Error('Could not connect to database');
+    // Verify database connection
+    const isDbHealthy = await isDatabaseHealthy();
+    if (!isDbHealthy) {
+      throw new Error('Database connection failed');
     }
+    log('Database connection successful');
 
+    // Setup routes
     const server = registerRoutes(app);
 
-    // Error handling middleware
+    // Error handling
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
@@ -103,36 +85,31 @@ async function checkDatabase() {
       res.status(status).json({ message });
     });
 
-    // Setup vite or serve static files
-    if (app.get("env") === "development") {
+    // Setup frontend - Important: we use development mode for Vite HMR
+    if (process.env.NODE_ENV === "development") {
+      log('Setting up Vite development server');
       await setupVite(app, server);
     } else {
-      serveStatic(app);
+      log('Serving static files from dist/public');
+      app.use(express.static(path.resolve(__dirname, '../dist/public')));
+      app.get('*', (_req, res) => {
+        res.sendFile(path.resolve(__dirname, '../dist/public/index.html'));
+      });
     }
 
-    const PORT = 3000;
+    // Start server
+    const PORT = process.env.PORT ? parseInt(process.env.PORT) : 5000;
     const HOST = '0.0.0.0';
 
-    // Attempt to start server with retries
-    let retries = 3;
-    while (retries > 0) {
-      try {
-        server.listen(PORT, HOST, () => {
-          log(`Server started! Access the application at http://localhost:${PORT}`);
-        });
-        break;
-      } catch (error: any) {
-        retries--;
-        if (error.code === 'EADDRINUSE') {
-          log(`Port ${PORT} is in use, retrying...`);
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        } else {
-          throw error;
-        }
-      }
-    }
-  } catch (error: any) {
-    log('Failed to start server:', error.message);
+    server.listen(PORT, HOST, () => {
+      log(`Server running on http://${HOST}:${PORT}`);
+    });
+
+  } catch (err) {
+    log('Initialization error:', err instanceof Error ? err.message : 'Unknown error');
     process.exit(1);
   }
-})();
+}
+
+// Start server
+initialize();
