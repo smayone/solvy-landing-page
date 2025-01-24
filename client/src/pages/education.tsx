@@ -59,6 +59,10 @@ export default function Education() {
     {
       term: "ICSID (International Investment Protection)",
       definition: "A World Bank institution that safeguards international investments, similar to how stock market regulations protect investors. Just as stock exchanges provide a regulated environment for trading shares, ICSID provides a framework for resolving disputes between international investors and host countries. This protection is particularly crucial for investments in natural resources and infrastructure projects, helping maintain market stability and investor confidence in global markets."
+    },
+    {
+      term: "BRICS+",
+      definition: "A powerful economic alliance originally formed by Brazil, Russia, India, China, and South Africa, now expanded to include more nations. Current members as of January 2024 include the original five plus Egypt, Ethiopia, Iran, Saudi Arabia, and the United Arab Emirates. The '+' signifies its expanding nature, with potential future participants including Argentina, Algeria, Indonesia, Mexico, Nigeria, Kazakhstan, Senegal, Thailand, and Turkey. This alliance represents a significant shift in global economic power, focusing on developing alternative financial systems and promoting economic sovereignty."
     }
   ];
 
