@@ -51,21 +51,16 @@ export function Navbar() {
             </Link>
           </Button>
           <Button variant="ghost" asChild>
+            <Link href="/education" className="flex items-center gap-2">
+              <GraduationCap className="h-4 w-4" />
+              Education
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
             <Link href="/crypto" className="flex items-center gap-2">
               <Wallet className="h-4 w-4" />
               Buy Crypto
             </Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <a 
-              href={`https://${educationDomain}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              <GraduationCap className="h-4 w-4" />
-              Education
-            </a>
           </Button>
         </div>
       </div>
