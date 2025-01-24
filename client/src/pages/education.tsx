@@ -62,7 +62,7 @@ export default function Education() {
     },
     {
       term: "BRICS+",
-      definition: "A powerful economic alliance originally formed by Brazil, Russia, India, China, and South Africa, now expanded to include more nations. Current members as of January 2024 include the original five plus Egypt, Ethiopia, Iran, Saudi Arabia, and the United Arab Emirates. The '+' signifies its expanding nature, with potential future participants including Argentina, Algeria, Indonesia, Mexico, Nigeria, Kazakhstan, Senegal, Thailand, and Turkey. This alliance represents a significant shift in global economic power, focusing on developing alternative financial systems and promoting economic sovereignty."
+      definition: "A powerful economic alliance originally formed by Brazil, Russia, India, China, and South Africa, now expanded to include more nations. As of January 2025, full members include the original five plus Egypt, Ethiopia, Iran, Saudi Arabia, United Arab Emirates, and Argentina. Partner countries with observer status include Algeria, Indonesia, Mexico, Nigeria, Kazakhstan, Senegal, Thailand, Turkey, and Vietnam. The alliance represents a significant shift in global economic power, focusing on developing alternative financial systems, promoting economic sovereignty, and establishing new trade settlement mechanisms independent of traditional Western-dominated systems."
     }
   ];
 
