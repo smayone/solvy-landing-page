@@ -21,7 +21,7 @@ export default function Home() {
                 <CartoonAvatar
                   src="attached_assets/focusgirl.png"
                   alt="Girl at Terminal"
-                  className="h-56 w-56 rounded-lg border-4 border-primary/20 shadow-xl bg-background"
+                  className="h-72 w-72 rounded-lg border-4 border-primary/20 shadow-xl bg-background"
                 />
               </div>
             </div>
