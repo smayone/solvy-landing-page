@@ -2,7 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
-import { resolveDomain } from "./domains";
+import { resolveDomain, domains } from "./domains";
 import { db } from "@db";
 import { sql } from "drizzle-orm";
 
@@ -16,17 +16,21 @@ app.use('/attached_assets', (req, res, next) => {
   next();
 }, express.static(path.join(process.cwd(), 'attached_assets')));
 
-// Domain resolution middleware
+// Domain resolution middleware - only enforce in production
 app.use((req, res, next) => {
-  const hostname = req.hostname;
-  const resolvedDomain = resolveDomain(hostname);
+  if (process.env.NODE_ENV === 'production') {
+    const hostname = req.hostname;
+    const resolvedDomain = resolveDomain(hostname);
 
-  if (!resolvedDomain && process.env.NODE_ENV === 'production') {
-    return res.status(404).send('Domain not found');
+    if (!resolvedDomain) {
+      return res.status(404).send('Domain not found');
+    }
+
+    req.resolvedDomain = resolvedDomain;
+  } else {
+    // In development, use root domain
+    req.resolvedDomain = 'root';
   }
-
-  // Add resolved domain to request for use in routes
-  req.resolvedDomain = resolvedDomain || domains.root;
   next();
 });
 
@@ -98,11 +102,10 @@ async function checkDatabase() {
       serveStatic(app);
     }
 
-    // ALWAYS serve the app on port 5000
-    // this serves both the API and the client
-    const PORT = 5000;
+    // Use port 3000 instead of 5000 to avoid conflicts
+    const PORT = 3000;
     server.listen(PORT, "0.0.0.0", () => {
-      log(`serving on port ${PORT}`);
+      log(`Server started! Access the application at http://localhost:${PORT}`);
     });
   } catch (error: any) {
     log('Failed to start server:', error.message);

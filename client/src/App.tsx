@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Switch, Route } from "wouter";
 import { Navbar } from "@/components/navigation/navbar";
 import { Footer } from "@/components/navigation/footer";
+import { CTA } from "@/components/sections/cta";
 import Home from "@/pages/home";
 import NFTAvatarPage from "@/pages/nft-avatar";
 import MemberHome from "@/pages/member-home";
@@ -38,6 +39,7 @@ export default function App() {
         <main className="flex-1 pt-16">
           <Router />
         </main>
+        <CTA />
         <Footer />
       </div>
       <Toaster />

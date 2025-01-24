@@ -29,7 +29,7 @@ export const domains = {
 };
 
 // Domain resolution helper
-export const resolveDomain = (hostname: string) => {
+export const resolveDomain = (hostname: string): string | null => {
   // In development, allow all hostnames
   if (process.env.NODE_ENV !== 'production') {
     return domains.root;
