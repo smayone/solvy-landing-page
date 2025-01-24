@@ -1,0 +1,27 @@
+ICSID (International Centre for Settlement of Investment Disputes): This is an international arbitration institution established in 1966 by the Convention on the Settlement of Investment Disputes between States and Nationals of Other States (the ICSID Convention). 1  It's part of the World Bank Group.   
+ 1. 
+books.google.com
+books.google.com
+
+Role: ICSID provides facilities for the conciliation and arbitration of investment disputes between foreign investors and host states. This means that if a company from one country invests in another country and a dispute arises (e.g., over changes in regulations, expropriation of assets), the investor can bring a case against the host state at ICSID.
+
+Relevance to Natural Resources: A significant number of ICSID cases involve disputes related to natural resources, including:
+
+Mining
+Oil and gas
+Forestry
+Water management
+ISDS (Investor-State Dispute Settlement): This is the broader term for the mechanism that allows foreign investors to sue host states in international arbitration. ICSID is one of the most prominent venues for ISDS cases.
+
+Key Features of ICSID:
+
+Arbitration: ICSID primarily uses arbitration to resolve disputes. This is a process where a neutral tribunal hears both sides of the case and makes a binding decision.
+Consent-based: A state must consent to ICSID jurisdiction, usually through a bilateral investment treaty (BIT) or a provision in an investment contract.
+Enforcement of Awards: ICSID awards are generally enforceable in the courts of member states.
+Why ICSID is Relevant to Natural Resources:
+
+Many foreign investments in developing countries involve the extraction or exploitation of natural resources. These investments are often protected by BITs, which include provisions for ISDS through ICSID. If a host state takes actions that negatively affect a foreign investor's rights under the BIT (e.g., by changing regulations or nationalizing assets), the investor can initiate arbitration at ICSID.
+
+In summary:
+
+ICSID is a crucial institution in the field of international investment law, particularly in the context of natural resources. It provides a forum for resolving disputes between foreign investors and host states through arbitration. ISDS is the general mechanism that allows for such disputes, and ICSID is a prominent venue for these cases.
