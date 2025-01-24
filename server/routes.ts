@@ -2,12 +2,12 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
 import { techCompanies, privacyCases, taxDonations, cryptoTransactions } from "@db/schema";
-import { eq, desc, and, gte, lte } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import Stripe from "stripe";
 
 // Initialize stripe with the secret key from environment variables
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2023-10-16", // Use stable version
+  apiVersion: "2023-10-16",
 });
 
 export function registerRoutes(app: Express): Server {
@@ -48,7 +48,7 @@ export function registerRoutes(app: Express): Server {
     try {
       const { platform = 'web', firstName, lastName, email } = req.body;
 
-      // Configure the onramp session
+      // Configure and create the onramp session
       const session = await stripe.onrampSessions.create({
         wallet_addresses: {
           polygon: "0x...", // This should be dynamically set based on user's wallet
