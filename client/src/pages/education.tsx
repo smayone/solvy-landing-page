@@ -299,6 +299,104 @@ export default function Education() {
           </CardContent>
         </Card>
 
+        {/* BRICS+ Alliance Section */}
+        <Card className="mb-8">
+          <CardHeader>
+            <div className="flex items-center gap-4">
+              <GraduationCap className="h-6 w-6 text-primary" />
+              <div>
+                <CardTitle>BRICS+ Alliance Overview</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Current status and objectives of the expanded BRICS+ alliance
+                </p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-bold text-lg mb-2">Current Full Members (2025)</h3>
+                <div className="grid gap-2 md:grid-cols-2">
+                  <Card className="p-3">
+                    <p className="font-medium">Original Members</p>
+                    <ul className="list-disc list-inside text-muted-foreground">
+                      <li>Brazil</li>
+                      <li>Russia</li>
+                      <li>India</li>
+                      <li>China</li>
+                    </ul>
+                  </Card>
+                  <Card className="p-3">
+                    <p className="font-medium">Expansion Members</p>
+                    <ul className="list-disc list-inside text-muted-foreground">
+                      <li>South Africa (joined 2010)</li>
+                      <li>Egypt (joined 2024)</li>
+                      <li>Ethiopia (joined 2024)</li>
+                      <li>Iran (joined 2024)</li>
+                      <li>Saudi Arabia (joined 2024)</li>
+                      <li>United Arab Emirates (joined 2024)</li>
+                      <li>Argentina (joined 2025)</li>
+                    </ul>
+                  </Card>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-2">Partner Countries with Observer Status</h3>
+                <Card className="p-3">
+                  <ul className="list-disc list-inside text-muted-foreground grid grid-cols-2 gap-2">
+                    <li>Algeria</li>
+                    <li>Indonesia</li>
+                    <li>Mexico</li>
+                    <li>Nigeria</li>
+                    <li>Kazakhstan</li>
+                    <li>Senegal</li>
+                    <li>Thailand</li>
+                    <li>Turkey</li>
+                    <li>Vietnam</li>
+                  </ul>
+                </Card>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-2">Key Objectives</h3>
+                <div className="grid gap-2">
+                  <Card className="p-3">
+                    <p className="font-medium">Economic Cooperation</p>
+                    <p className="text-muted-foreground">
+                      Fostering trade, investment, and development opportunities among member countries
+                    </p>
+                  </Card>
+                  <Card className="p-3">
+                    <p className="font-medium">Political Influence</p>
+                    <p className="text-muted-foreground">
+                      Creating a counterbalance to Western-dominated global institutions and promoting a multipolar world order
+                    </p>
+                  </Card>
+                  <Card className="p-3">
+                    <p className="font-medium">Financial Initiatives</p>
+                    <p className="text-muted-foreground">
+                      Developing mechanisms like the New Development Bank (NDB) and BRICS Contingent Reserve Arrangement (CRA)
+                    </p>
+                  </Card>
+                  <Card className="p-3">
+                    <p className="font-medium">Cultural and Social Exchange</p>
+                    <p className="text-muted-foreground">
+                      Encouraging cultural, educational, and social collaboration between member nations
+                    </p>
+                  </Card>
+                  <Card className="p-3">
+                    <p className="font-medium">Global Governance</p>
+                    <p className="text-muted-foreground">
+                      Addressing international challenges including climate change, sustainable development, and security
+                    </p>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <Card className="mb-8">
           <CardHeader>
             <div className="flex items-center gap-4">
