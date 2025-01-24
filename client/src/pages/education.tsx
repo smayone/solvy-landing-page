@@ -12,7 +12,8 @@ import {
   Brain,
   Coins,
   Users,
-  PlayCircle
+  PlayCircle,
+  BookOpenText
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -42,7 +43,22 @@ export default function Education() {
     queryKey: ['/api/learning-path'],
   });
 
-  const communityChannels: CommunityChannel[] = [
+  const glossaryTerms = [
+    {
+      term: "Sovereignitity",
+      definition: "The state of having complete control and authority over one's financial and digital identity, free from external control or influence. This concept combines sovereignty with the ability to monetize and protect one's personal data and financial assets."
+    },
+    {
+      term: "SOLVY",
+      definition: "Solutions Valued You - A comprehensive Web3 financial platform designed to empower service-based businesses through blockchain technologies, enabling them to achieve financial sovereignty."
+    },
+    {
+      term: "DECIDEY",
+      definition: "Decentralized Empowerment Control Identity Data Economy of Yours - An educational foundation and governance platform that empowers individuals through blockchain education and community-driven decision making."
+    }
+  ];
+
+  const communityChannels = [
     {
       name: "Democracy at Work",
       description: "Economic analysis and socialist perspective",
@@ -97,6 +113,11 @@ export default function Education() {
       name: "Jason Sipple",
       description: "Financial markets and trading education",
       channelId: "https://www.youtube.com/@jasonsipple"
+    },
+    {
+      name: "Crash Course",
+      description: "Educational content covering economics, finance, and more",
+      channelId: "https://www.youtube.com/@crashcourse"
     }
   ];
 
@@ -238,6 +259,33 @@ export default function Education() {
             </CardContent>
           </Card>
         )}
+
+        {/* Glossary Card - New Addition */}
+        <Card className="mb-8">
+          <CardHeader>
+            <div className="flex items-center gap-4">
+              <BookOpenText className="h-6 w-6 text-primary" />
+              <div>
+                <CardTitle>Key Terms Glossary</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Essential terminology for understanding SOLVY ecosystem
+                </p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              {glossaryTerms.map((item, index) => (
+                <Card key={index} className="p-4">
+                  <div className="space-y-2">
+                    <h3 className="font-bold text-lg">{item.term}</h3>
+                    <p className="text-muted-foreground">{item.definition}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         <Card className="mb-8">
           <CardHeader>
