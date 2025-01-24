@@ -8,17 +8,19 @@ export function Footer() {
     <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container py-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <Link href="/">
-              <img 
-                src="attached_assets/fulllogo.png" 
-                alt="SOLVY" 
-                className="h-12 w-auto mb-6 mx-auto lg:mx-0 transition-transform hover:scale-105"
-              />
-            </Link>
-            <p className="text-sm text-muted-foreground text-center lg:text-left max-w-md mx-auto lg:mx-0">
-              Breaking chains, building futures. Empowering individuals through decentralized financial sovereignitity - the ultimate path to economic freedom and self-determination.
-            </p>
+          <div className="lg:col-span-2 px-6">
+            <div className="flex flex-col items-center lg:items-start">
+              <Link href="/">
+                <img 
+                  src="attached_assets/fulllogo.png" 
+                  alt="SOLVY" 
+                  className="h-16 w-auto mb-6 transition-transform hover:scale-105"
+                />
+              </Link>
+              <p className="text-sm text-muted-foreground text-center lg:text-left max-w-md">
+                Breaking chains, building futures. Empowering individuals through decentralized financial sovereignitity - the ultimate path to economic freedom and self-determination.
+              </p>
+            </div>
           </div>
 
           <div className="text-center lg:text-left">

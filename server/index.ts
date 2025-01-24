@@ -1,3 +1,11 @@
+declare global {
+  namespace Express {
+    interface Request {
+      resolvedDomain?: string;
+    }
+  }
+}
+
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
@@ -28,8 +36,7 @@ app.use((req, res, next) => {
 
     req.resolvedDomain = resolvedDomain;
   } else {
-    // In development, use root domain
-    req.resolvedDomain = 'root';
+    req.resolvedDomain = domains.root;
   }
   next();
 });
@@ -68,7 +75,6 @@ app.use((req, res, next) => {
 // Database connection check
 async function checkDatabase() {
   try {
-    // Simple query to test the connection
     await db.execute(sql`SELECT 1`);
     log('Database connection successful');
     return true;
@@ -78,6 +84,7 @@ async function checkDatabase() {
   }
 }
 
+// Start server with proper error handling
 (async () => {
   try {
     // Check database connection before starting the server
@@ -96,28 +103,36 @@ async function checkDatabase() {
       res.status(status).json({ message });
     });
 
+    // Setup vite or serve static files
     if (app.get("env") === "development") {
       await setupVite(app, server);
     } else {
       serveStatic(app);
     }
 
-    // Use port 3000 instead of 5000 to avoid conflicts
     const PORT = 3000;
-    server.listen(PORT, "0.0.0.0", () => {
-      log(`Server started! Access the application at http://localhost:${PORT}`);
-    });
+    const HOST = '0.0.0.0';
+
+    // Attempt to start server with retries
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        server.listen(PORT, HOST, () => {
+          log(`Server started! Access the application at http://localhost:${PORT}`);
+        });
+        break;
+      } catch (error: any) {
+        retries--;
+        if (error.code === 'EADDRINUSE') {
+          log(`Port ${PORT} is in use, retrying...`);
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        } else {
+          throw error;
+        }
+      }
+    }
   } catch (error: any) {
     log('Failed to start server:', error.message);
     process.exit(1);
   }
 })();
-
-// Add type definition for the resolvedDomain property
-declare global {
-  namespace Express {
-    interface Request {
-      resolvedDomain?: string;
-    }
-  }
-}
