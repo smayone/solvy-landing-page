@@ -5,13 +5,9 @@ import { techCompanies, privacyCases, taxDonations, cryptoTransactions } from "@
 import { eq, desc, and, gte, lte } from "drizzle-orm";
 import Stripe from "stripe";
 
-// Initialize stripe with the secret key and beta API version
+// Initialize stripe with the secret key from environment variables
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2024-01-24", // Latest API version
-  appInfo: {
-    name: "SOLVY Crypto Onramp",
-    version: "0.1.0"
-  }
+  apiVersion: "2023-10-16", // Use stable version
 });
 
 export function registerRoutes(app: Express): Server {
@@ -27,100 +23,6 @@ export function registerRoutes(app: Express): Server {
       res.json(companies);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch tech companies" });
-    }
-  });
-
-  app.get("/api/tech-companies/:id", async (req, res) => {
-    try {
-      const [company] = await db
-        .select()
-        .from(techCompanies)
-        .where(eq(techCompanies.id, parseInt(req.params.id)));
-
-      if (!company) {
-        return res.status(404).json({ error: "Company not found" });
-      }
-
-      // Get related privacy cases
-      const cases = await db
-        .select()
-        .from(privacyCases)
-        .where(eq(privacyCases.companyId, company.id));
-
-      // Get related tax donations
-      const donations = await db
-        .select()
-        .from(taxDonations)
-        .where(eq(taxDonations.companyId, company.id));
-
-      res.json({
-        ...company,
-        privacyCases: cases,
-        taxDonations: donations,
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch company details" });
-    }
-  });
-
-  // Privacy Cases endpoints
-  app.get("/api/privacy-cases", async (req, res) => {
-    try {
-      const { status, companyId } = req.query;
-      const query = db.select().from(privacyCases);
-
-      if (status) {
-        query.where(eq(privacyCases.status, status as string));
-      }
-
-      if (companyId) {
-        query.where(eq(privacyCases.companyId, parseInt(companyId as string)));
-      }
-
-      const cases = await query.orderBy(desc(privacyCases.filingDate));
-      res.json(cases);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch privacy cases" });
-    }
-  });
-
-  // Tax Donations endpoints
-  app.get("/api/tax-donations", async (req, res) => {
-    try {
-      const { companyId, startDate, endDate } = req.query;
-      const query = db.select().from(taxDonations);
-
-      if (companyId) {
-        query.where(eq(taxDonations.companyId, parseInt(companyId as string)));
-      }
-
-      if (startDate && endDate) {
-        query.where(
-          and(
-            gte(taxDonations.donationDate, startDate as string),
-            lte(taxDonations.donationDate, endDate as string)
-          )
-        );
-      }
-
-      const donations = await query.orderBy(desc(taxDonations.donationDate));
-      res.json(donations);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch tax donations" });
-    }
-  });
-
-  // Payment endpoints
-  app.post("/api/create-payment-intent", async (req, res) => {
-    try {
-      const { amount } = req.body;
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount,
-        currency: "usd",
-      });
-      res.json({ clientSecret: paymentIntent.client_secret });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to create payment intent" });
     }
   });
 
@@ -147,7 +49,7 @@ export function registerRoutes(app: Express): Server {
       const { platform = 'web', firstName, lastName, email } = req.body;
 
       // Configure the onramp session
-      const sessionConfig = {
+      const session = await stripe.onrampSessions.create({
         wallet_addresses: {
           polygon: "0x...", // This should be dynamically set based on user's wallet
         },
@@ -160,10 +62,7 @@ export function registerRoutes(app: Express): Server {
           last_name: lastName,
           email: email,
         } : undefined
-      };
-
-      // Create onramp session using Stripe beta API
-      const session = await stripe.cryptoOnramp.sessions.create(sessionConfig);
+      });
 
       // Store initial transaction record
       const [transaction] = await db
@@ -204,7 +103,7 @@ export function registerRoutes(app: Express): Server {
     try {
       const event = req.body;
 
-      if (event.type === 'crypto.onramp.session.completed') {
+      if (event.type === 'onramp.session.completed') {
         const session = event.data.object;
 
         await db
@@ -230,7 +129,6 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Create HTTP server
   const httpServer = createServer(app);
   return httpServer;
 }
