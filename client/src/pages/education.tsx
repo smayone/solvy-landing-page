@@ -62,7 +62,7 @@ export default function Education() {
     },
     {
       term: "BRICS+",
-      definition: "A powerful economic alliance originally formed by Brazil, Russia, India, China, and South Africa, now expanded to include more nations. As of January 2025, full members include the original five plus Egypt, Ethiopia, Iran, United Arab Emirates, and Indonesia. Partner countries with observer status include Algeria, Indonesia, Mexico, Nigeria, Kazakhstan, Senegal, Thailand, Turkey, and Vietnam. The alliance represents a significant shift in global economic power, focusing on developing alternative financial systems, promoting economic sovereignty, and establishing new trade settlement mechanisms independent of traditional Western-dominated systems.\n\nKey Objectives:\n- Economic Cooperation: Fostering trade, investment, and development opportunities among members\n- Political Influence: Creating a counterbalance to Western-dominated global institutions\n- Financial Initiatives: Developing mechanisms like the New Development Bank (NDB) and BRICS Contingent Reserve Arrangement\n- Cultural Exchange: Promoting educational and social collaboration between member nations\n- Global Governance: Addressing international challenges including climate change and security\n\nMembership Timeline:\n- Original Members: Brazil, Russia, India, China\n- 2010: South Africa joins\n- 2024: Egypt, Ethiopia, Iran, UAE join\n- 2025: Indonesia becomes full member"
+      definition: "A powerful economic alliance originally formed by Brazil, Russia, India, China, and South Africa, now expanded to include more nations. As of January 2025, full members include the original five plus Egypt, Ethiopia, Iran, United Arab Emirates, and Indonesia. Partner countries with observer status include Algeria, Mexico, Nigeria, Kazakhstan, Senegal, Thailand, Turkey, and Vietnam. The alliance represents a significant shift in global economic power, focusing on developing alternative financial systems, promoting economic sovereignty, and establishing new trade settlement mechanisms independent of traditional Western-dominated systems.\n\nKey Objectives:\n- Economic Cooperation: Fostering trade, investment, and development opportunities among members\n- Political Influence: Creating a counterbalance to Western-dominated global institutions\n- Financial Initiatives: Developing mechanisms like the New Development Bank (NDB) and BRICS Contingent Reserve Arrangement\n- Payment Systems: Establishing independent cross-border payment infrastructure and settlement systems\n- Cultural Exchange: Promoting educational and social collaboration between member nations\n- Global Governance: Addressing international challenges including climate change and security\n\nMembership Timeline:\n- Original Members: Brazil, Russia, India, China\n- 2010: South Africa joins\n- 2024: Egypt, Ethiopia, Iran, UAE join\n- 2025: Indonesia becomes full member"
     },
     {
       term: "Economic Imperialism / Neocolonialism",
@@ -345,7 +345,6 @@ export default function Education() {
                 <Card className="p-3">
                   <ul className="list-disc list-inside text-muted-foreground grid grid-cols-2 gap-2">
                     <li>Algeria</li>
-                    <li>Indonesia</li>
                     <li>Mexico</li>
                     <li>Nigeria</li>
                     <li>Kazakhstan</li>
@@ -376,6 +375,12 @@ export default function Education() {
                     <p className="font-medium">Financial Initiatives</p>
                     <p className="text-muted-foreground">
                       Developing mechanisms like the New Development Bank (NDB) and BRICS Contingent Reserve Arrangement (CRA)
+                    </p>
+                  </Card>
+                  <Card className="p-3">
+                    <p className="font-medium">Payment Systems Development</p>
+                    <p className="text-muted-foreground">
+                      Building independent cross-border payment infrastructure and settlement systems to reduce dependency on Western-controlled financial networks
                     </p>
                   </Card>
                   <Card className="p-3">
