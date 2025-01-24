@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Building2, GraduationCap } from "lucide-react";
+import { Home, Users, Image, LineChart, Building2, GraduationCap, Wallet } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 
 export function Navbar() {
@@ -48,6 +48,12 @@ export function Navbar() {
             <Link href="/analytics" className="flex items-center gap-2">
               <LineChart className="h-4 w-4" />
               Analytics
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/crypto" className="flex items-center gap-2">
+              <Wallet className="h-4 w-4" />
+              Buy Crypto
             </Link>
           </Button>
           <Button variant="ghost" asChild>

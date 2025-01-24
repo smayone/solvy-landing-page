@@ -10,6 +10,7 @@ import MemberHome from "@/pages/member-home";
 import TechCompanies from "@/pages/tech-companies";
 import Analytics from "@/pages/analytics";
 import WhyStatement from "@/pages/why-statement";
+import CryptoPage from "@/pages/crypto";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/tech-companies" component={TechCompanies} />
       <Route path="/analytics" component={Analytics} />
       <Route path="/why-statement" component={WhyStatement} />
+      <Route path="/crypto" component={CryptoPage} />
       <Route component={NotFound} />
     </Switch>
   );
