@@ -15,13 +15,13 @@ export default function Education() {
     {
       id: 'decidey',
       title: 'DECIDEY Foundation',
-      description: 'Decentralized Empowerment Control Identity Data Economy of Yours - NGO Operations',
+      description: 'Decentralized Empowerment Control Identity Data Economy of Yours',
       icon: Shield,
       topics: [
         {
           title: 'Understanding DECIDEY',
           videoId: '6WG7D47tGb0',
-          description: 'Learn about our NGO operations, tech company revenue tax repatriation, and transparent donation management'
+          description: 'Introduction to DECIDEY and its mission for community empowerment'
         },
         {
           title: 'Community Education Initiative',
@@ -29,9 +29,9 @@ export default function Education() {
           description: 'How DECIDEY empowers communities through blockchain education'
         },
         {
-          title: 'Tax Repatriation System',
+          title: 'Digital Identity Fundamentals',
           videoId: 'wZR4f3cqtr0',
-          description: 'Understanding transparent donation management and community benefits'
+          description: 'Understanding the basics of digital identity and self-sovereignty'
         },
         {
           title: 'Path to Sovereignitity',
