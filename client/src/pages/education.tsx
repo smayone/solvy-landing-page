@@ -3,13 +3,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShareButtons } from "@/components/ui/share-buttons";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { 
-  GraduationCap, 
-  BookOpen, 
-  Video, 
-  ChevronRight, 
-  Shield, 
-  Brain, 
+import {
+  GraduationCap,
+  BookOpen,
+  Video,
+  ChevronRight,
+  Shield,
+  Brain,
   Coins,
   Users,
   PlayCircle
@@ -49,29 +49,54 @@ export default function Education() {
       channelId: "UCK-6FjMu9OI8i0Fo6bkW0VA"
     },
     {
-      name: "Lena Petrova",
+      name: "World Affairs In Context",
       description: "Blockchain and cryptocurrency insights",
-      channelId: "example1"
+      channelId: "@lenapetrova"
     },
     {
-      name: "Geopolitical Report - Ben Norton",
+      name: "Geopolitical Economy Report",
       description: "Global economic and political analysis",
-      channelId: "example2"
+      channelId: "@GeopoliticalEconomyReport"
     },
     {
       name: "Cyrus Janssen",
       description: "International business and cultural perspectives",
-      channelId: "example3"
+      channelId: "@CyrusJanssen"
     },
     {
       name: "Gary's Economics",
       description: "Economic education and analysis",
-      channelId: "example4"
+      channelId: "@garyseconomics"
     },
     {
       name: "Think BRICS",
       description: "Analysis of BRICS nations and global economy",
-      channelId: "example5"
+      channelId: "@ThinkBRICS"
+    },
+    {
+      name: "The Money Multiplier",
+      description: "Financial education and wealth building",
+      channelId: "@the.money.multiplier"
+    },
+    {
+      name: "Melanin Money",
+      description: "Financial literacy and wealth building",
+      channelId: "@melaninmoney"
+    },
+    {
+      name: "Earn Your Leisure",
+      description: "Business and financial education",
+      channelId: "@EarnYourLeisure"
+    },
+    {
+      name: "Kitco News",
+      description: "Precious metals and market analysis",
+      channelId: "@kitco"
+    },
+    {
+      name: "Jason Sipple",
+      description: "Financial markets and trading education",
+      channelId: "@jasonsipple"
     }
   ];
 
@@ -174,7 +199,7 @@ export default function Education() {
               Your personalized journey to financial sovereignty
             </p>
           </div>
-          <ShareButtons 
+          <ShareButtons
             title="SOLVY Blockchain Education"
             description="Learn about blockchain technology and achieve Sovereignitity with DECIDEY"
           />
