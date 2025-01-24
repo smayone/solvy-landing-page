@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
-import { techCompanies, privacyCases, taxDonations } from "@db/schema";
+import { techCompanies, privacyCases, taxDonations, cryptoTransactions } from "@db/schema";
 import { eq, desc, and, gte, lte } from "drizzle-orm";
 import Stripe from "stripe";
 
@@ -120,6 +120,23 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // Get crypto transaction history
+  app.get("/api/crypto/transactions", async (req, res) => {
+    try {
+      const transactions = await db
+        .select()
+        .from(cryptoTransactions)
+        .orderBy(desc(cryptoTransactions.createdAt));
+
+      res.json(transactions);
+    } catch (error: any) {
+      res.status(500).json({ 
+        error: "Failed to fetch transaction history",
+        details: error?.message || "Unknown error occurred"
+      });
+    }
+  });
+
   // Crypto Onramp endpoint with enhanced mobile support
   app.post("/api/crypto/create-onramp-session", async (req, res) => {
     try {
@@ -143,6 +160,20 @@ export function registerRoutes(app: Express): Server {
       // @ts-ignore - Stripe types don't include crypto yet
       const session = await stripe.crypto.onramp.sessions.create(sessionConfig);
 
+      // Store initial transaction record
+      const [transaction] = await db
+        .insert(cryptoTransactions)
+        .values({
+          sessionId: session.id,
+          status: "pending",
+          customerEmail: email,
+          customerName: firstName && lastName ? `${firstName} ${lastName}` : undefined,
+          network: "polygon",
+          destinationCurrency: "usdc",
+          metadata: { platform }
+        })
+        .returning();
+
       // Return appropriate response based on platform
       if (platform === 'ios' || platform === 'android') {
         res.json({
@@ -154,10 +185,41 @@ export function registerRoutes(app: Express): Server {
       } else {
         res.json({ clientSecret: session.client_secret });
       }
-    } catch (error: any) { // Type annotation added
+    } catch (error: any) {
       console.error('Crypto onramp session creation failed:', error);
       res.status(500).json({ 
         error: "Failed to create crypto onramp session",
+        details: error?.message || "Unknown error occurred"
+      });
+    }
+  });
+
+  // Update transaction status (webhook endpoint)
+  app.post("/api/crypto/webhook", async (req, res) => {
+    try {
+      const event = req.body;
+
+      if (event.type === 'crypto.onramp.session.completed') {
+        const session = event.data.object;
+
+        await db
+          .update(cryptoTransactions)
+          .set({
+            status: "completed",
+            sourceAmount: session.source_amount,
+            sourceCurrency: session.source_currency,
+            destinationAmount: session.destination_amount,
+            walletAddress: session.wallet_address,
+            updatedAt: new Date()
+          })
+          .where(eq(cryptoTransactions.sessionId, session.id));
+      }
+
+      res.json({ received: true });
+    } catch (error: any) {
+      console.error('Webhook processing failed:', error);
+      res.status(500).json({ 
+        error: "Failed to process webhook",
         details: error?.message || "Unknown error occurred"
       });
     }

@@ -97,6 +97,24 @@ export const taxDonations = pgTable("tax_donations", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const cryptoTransactions = pgTable("crypto_transactions", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  sessionId: text("session_id").notNull(),
+  status: text("status").notNull().default("pending"),
+  sourceAmount: decimal("source_amount", { precision: 15, scale: 2 }),
+  sourceCurrency: text("source_currency"),
+  destinationAmount: decimal("destination_amount", { precision: 15, scale: 8 }),
+  destinationCurrency: text("destination_currency"),
+  network: text("network"),
+  walletAddress: text("wallet_address"),
+  customerEmail: text("customer_email"),
+  customerName: text("customer_name"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 export const insertMembershipSchema = createInsertSchema(memberships);
@@ -111,6 +129,8 @@ export const insertPrivacyCaseSchema = createInsertSchema(privacyCases);
 export const selectPrivacyCaseSchema = createSelectSchema(privacyCases);
 export const insertTaxDonationSchema = createInsertSchema(taxDonations);
 export const selectTaxDonationSchema = createSelectSchema(taxDonations);
+export const insertCryptoTransactionSchema = createInsertSchema(cryptoTransactions);
+export const selectCryptoTransactionSchema = createSelectSchema(cryptoTransactions);
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
@@ -126,3 +146,5 @@ export type InsertPrivacyCase = typeof privacyCases.$inferInsert;
 export type SelectPrivacyCase = typeof privacyCases.$inferSelect;
 export type InsertTaxDonation = typeof taxDonations.$inferInsert;
 export type SelectTaxDonation = typeof taxDonations.$inferSelect;
+export type InsertCryptoTransaction = typeof cryptoTransactions.$inferInsert;
+export type SelectCryptoTransaction = typeof cryptoTransactions.$inferSelect;
