@@ -130,7 +130,7 @@ export function registerRoutes(app: Express): Server {
 
       res.json(transactions);
     } catch (error: any) {
-      res.status(500).json({ 
+      res.status(500).json({
         error: "Failed to fetch transaction history",
         details: error?.message || "Unknown error occurred"
       });
@@ -142,7 +142,7 @@ export function registerRoutes(app: Express): Server {
     try {
       const { platform = 'web', firstName, lastName, email } = req.body;
 
-      const sessionConfig: Stripe.CryptoOnrampSessionCreateParams = {
+      const sessionConfig = {
         wallet_addresses: {
           polygon: "0x...", // This should be dynamically set based on user's wallet
         },
@@ -157,8 +157,8 @@ export function registerRoutes(app: Express): Server {
         } : undefined
       };
 
-      // @ts-ignore - Stripe types don't include crypto yet
-      const session = await stripe.crypto.onramp.sessions.create(sessionConfig);
+      // Create onramp session using the correct API method
+      const session = await stripe.cryptoOnrampSessions.create(sessionConfig);
 
       // Store initial transaction record
       const [transaction] = await db
@@ -187,7 +187,7 @@ export function registerRoutes(app: Express): Server {
       }
     } catch (error: any) {
       console.error('Crypto onramp session creation failed:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: "Failed to create crypto onramp session",
         details: error?.message || "Unknown error occurred"
       });
@@ -218,7 +218,7 @@ export function registerRoutes(app: Express): Server {
       res.json({ received: true });
     } catch (error: any) {
       console.error('Webhook processing failed:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: "Failed to process webhook",
         details: error?.message || "Unknown error occurred"
       });
