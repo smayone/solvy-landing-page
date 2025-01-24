@@ -63,6 +63,10 @@ export default function Education() {
     {
       term: "BRICS+",
       definition: "A powerful economic alliance originally formed by Brazil, Russia, India, China, and South Africa, now expanded to include more nations. As of January 2025, full members include the original five plus Egypt, Ethiopia, Iran, Saudi Arabia, United Arab Emirates, and Argentina. Partner countries with observer status include Algeria, Indonesia, Mexico, Nigeria, Kazakhstan, Senegal, Thailand, Turkey, and Vietnam. The alliance represents a significant shift in global economic power, focusing on developing alternative financial systems, promoting economic sovereignty, and establishing new trade settlement mechanisms independent of traditional Western-dominated systems."
+    },
+    {
+      term: "Economic Imperialism / Neocolonialism",
+      definition: "A modern form of economic control where powerful nations and corporations exploit developing economies through unfair resource extraction, labor practices, and market dominance. Similar to how traditional colonialism operated through direct political control, economic imperialism works through financial mechanisms such as predatory investments, market manipulation, and economic dependencies. This system often results in resource depletion, wage suppression, and economic instability in developing nations, while profits primarily benefit foreign investors and corporations. Understanding this concept is crucial for developing alternative economic systems that promote true financial sovereignty and fair economic development."
     }
   ];
 
@@ -268,15 +272,15 @@ export default function Education() {
           </Card>
         )}
 
-        {/* Glossary Card - New Addition */}
+        {/* Conceptualizations and Key Terms Glossary */}
         <Card className="mb-8">
           <CardHeader>
             <div className="flex items-center gap-4">
               <BookOpenText className="h-6 w-6 text-primary" />
               <div>
-                <CardTitle>Key Terms Glossary</CardTitle>
+                <CardTitle>Conceptualizations and Key Terms Glossary</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Essential terminology for understanding SOLVY ecosystem
+                  Essential concepts and terminology for understanding global financial dynamics
                 </p>
               </div>
             </div>
