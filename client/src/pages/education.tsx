@@ -51,52 +51,52 @@ export default function Education() {
     {
       name: "World Affairs In Context",
       description: "Blockchain and cryptocurrency insights",
-      channelId: "@lenapetrova"
+      channelId: "https://www.youtube.com/@lenapetrova"
     },
     {
       name: "Geopolitical Economy Report",
       description: "Global economic and political analysis",
-      channelId: "@GeopoliticalEconomyReport"
+      channelId: "https://www.youtube.com/@GeopoliticalEconomyReport"
     },
     {
       name: "Cyrus Janssen",
       description: "International business and cultural perspectives",
-      channelId: "@CyrusJanssen"
+      channelId: "https://www.youtube.com/@CyrusJanssen"
     },
     {
       name: "Gary's Economics",
       description: "Economic education and analysis",
-      channelId: "@garyseconomics"
+      channelId: "https://www.youtube.com/@garyseconomics"
     },
     {
       name: "Think BRICS",
       description: "Analysis of BRICS nations and global economy",
-      channelId: "@ThinkBRICS"
+      channelId: "https://www.youtube.com/@ThinkBRICS"
     },
     {
       name: "The Money Multiplier",
       description: "Financial education and wealth building",
-      channelId: "@the.money.multiplier"
+      channelId: "https://www.youtube.com/@the.money.multiplier"
     },
     {
       name: "Melanin Money",
       description: "Financial literacy and wealth building",
-      channelId: "@melaninmoney"
+      channelId: "https://www.youtube.com/@melaninmoney"
     },
     {
       name: "Earn Your Leisure",
       description: "Business and financial education",
-      channelId: "@EarnYourLeisure"
+      channelId: "https://www.youtube.com/@EarnYourLeisure"
     },
     {
       name: "Kitco News",
       description: "Precious metals and market analysis",
-      channelId: "@kitco"
+      channelId: "https://www.youtube.com/@kitco"
     },
     {
       name: "Jason Sipple",
       description: "Financial markets and trading education",
-      channelId: "@jasonsipple"
+      channelId: "https://www.youtube.com/@jasonsipple"
     }
   ];
 
@@ -205,7 +205,6 @@ export default function Education() {
           />
         </div>
 
-        {/* AI-Powered Personalized Learning Path */}
         {personalizedPath && (
           <Card className="mb-8">
             <CardHeader>
@@ -240,7 +239,6 @@ export default function Education() {
           </Card>
         )}
 
-        {/* Community Contributed Content */}
         <Card className="mb-8">
           <CardHeader>
             <div className="flex items-center gap-4">
@@ -265,7 +263,7 @@ export default function Education() {
                     </div>
                     <Button variant="outline" size="sm" asChild>
                       <a
-                        href={`https://youtube.com/channel/${channel.channelId}`}
+                        href={channel.channelId.startsWith('http') ? channel.channelId : `https://youtube.com/channel/${channel.channelId}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
