@@ -37,11 +37,13 @@ export default function App() {
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 flex flex-col pt-16">
-          <div className="flex-1">
+          <div className="flex-1 pb-24">
             <Router />
           </div>
-          <div className="mt-auto">
-            <CTA />
+          <div className="mt-auto flex flex-col items-center">
+            <div className="w-full">
+              <CTA />
+            </div>
             <Footer />
           </div>
         </main>
