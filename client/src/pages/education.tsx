@@ -340,44 +340,43 @@ export default function Education() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">
-            DECIDEY Learning Hub
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Your personalized journey to financial sovereignty
-          </p>
-          <div className="mt-6 flex justify-center">
-            <ShareButtons
-              title="SOLVY Blockchain Education"
-              description="Learn about blockchain technology and achieve Sovereignitity with DECIDEY"
-            />
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-24 bg-primary/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center">
+            <h1 className="text-5xl font-bold tracking-tight mb-6">
+              DECIDEY Learning Hub
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Your personalized journey to financial sovereignty through comprehensive blockchain education
+            </p>
+            <div className="flex justify-center">
+              <ShareButtons
+                title="SOLVY Blockchain Education"
+                description="Learn about blockchain technology and achieve Sovereignitity with DECIDEY"
+              />
+            </div>
           </div>
         </div>
+      </section>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Personalized Learning Path */}
         {personalizedPath && (
-          <Card className="mb-12 max-w-4xl mx-auto">
-            <CardHeader>
-              <div className="flex items-center gap-4 justify-center">
-                <Brain className="h-8 w-8 text-primary" />
-                <div className="text-center">
-                  <CardTitle>Your Learning Path</CardTitle>
-                  <p className="text-muted-foreground mt-2">
-                    AI-recommended content based on your interests and progress
-                  </p>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 max-w-3xl mx-auto">
+          <section className="py-24 border-b">
+            <div className="max-w-4xl mx-auto text-center">
+              <Brain className="h-16 w-16 text-primary mx-auto mb-6" />
+              <h2 className="text-3xl font-bold mb-4">Your Learning Journey</h2>
+              <p className="text-xl text-muted-foreground mb-12">
+                AI-powered recommendations tailored to your interests
+              </p>
+              <div className="grid gap-6">
                 {personalizedPath.recommendations.map((item, index) => (
                   <Card key={index} className="p-6">
-                    <div className="flex items-center gap-4">
-                      <div className="flex-1">
-                        <h3 className="font-medium text-lg">{item.title}</h3>
+                    <div className="flex items-center gap-6">
+                      <div className="flex-1 text-left">
+                        <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                         <p className="text-muted-foreground">{item.description}</p>
                       </div>
                       <Button variant="outline" size="lg">
@@ -388,201 +387,205 @@ export default function Education() {
                   </Card>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
         )}
 
-        {/* Storyboard Modules Section */}
-        <div className="space-y-24 mb-24">
-          {/* Conceptualizations Module */}
-          <section className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <BookOpenText className="h-12 w-12 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl font-bold mb-4">Key Concepts & Terminology</h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Master the essential concepts shaping the future of finance
-              </p>
-            </div>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {glossaryTerms.map((item, index) => {
-                const IconComponent = conceptIcons[item.term as keyof typeof conceptIcons] || BookOpenText;
-                return (
-                  <HoverCard key={index}>
-                    <HoverCardTrigger asChild>
-                      <Card className="p-6 cursor-pointer transition-all hover:shadow-lg">
-                        <div className="flex flex-col items-center text-center gap-4">
-                          <div className="bg-primary/10 p-4 rounded-full">
-                            <IconComponent className="h-8 w-8 text-primary" />
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-xl mb-2">{item.term}</h3>
-                            <p className="text-muted-foreground line-clamp-3">
-                              {item.definition.split('\n')[0]}
-                            </p>
-                          </div>
+        {/* Key Concepts Section */}
+        <section className="py-24 border-b">
+          <div className="text-center mb-16">
+            <BookOpenText className="h-16 w-16 text-primary mx-auto mb-6" />
+            <h2 className="text-3xl font-bold mb-4">Key Concepts & Terminology</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Essential concepts shaping the future of finance
+            </p>
+          </div>
+          <div className="grid gap-8 lg:grid-cols-3">
+            {glossaryTerms.map((item, index) => {
+              const IconComponent = conceptIcons[item.term as keyof typeof conceptIcons] || BookOpenText;
+              return (
+                <HoverCard key={index}>
+                  <HoverCardTrigger asChild>
+                    <Card className="p-8 cursor-pointer transition-all hover:shadow-lg">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="bg-primary/10 p-4 rounded-full mb-6">
+                          <IconComponent className="h-10 w-10 text-primary" />
                         </div>
-                      </Card>
-                    </HoverCardTrigger>
-                    <HoverCardContent className="w-96 p-6">
-                      <div className="space-y-4">
-                        <h4 className="font-bold text-xl">{item.term}</h4>
-                        <p className="text-muted-foreground whitespace-pre-line">
-                          {item.definition}
+                        <h3 className="text-2xl font-bold mb-4">{item.term}</h3>
+                        <p className="text-muted-foreground line-clamp-3">
+                          {item.definition.split('\n')[0]}
                         </p>
                       </div>
-                    </HoverCardContent>
-                  </HoverCard>
-                );
-              })}
-            </div>
-          </section>
+                    </Card>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="w-96 p-6">
+                    <div className="space-y-4">
+                      <h4 className="text-xl font-bold">{item.term}</h4>
+                      <p className="text-muted-foreground whitespace-pre-line">
+                        {item.definition}
+                      </p>
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+              );
+            })}
+          </div>
+        </section>
 
-          {/* Community Resources Module */}
-          <section className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <Users className="h-12 w-12 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl font-bold mb-4">Community Resources</h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Latest educational content from trusted channels
-              </p>
-            </div>
-            <div className="space-y-16">
-              {channelCategories.map((category) => (
-                <div key={category}>
-                  <div className="flex items-center justify-center gap-3 mb-8">
-                    {category === "Economic Analysis" && <Landmark className="h-6 w-6 text-primary" />}
-                    {category === "Global Perspectives" && <Globe className="h-6 w-6 text-primary" />}
-                    {category === "Financial Education" && <BookOpen className="h-6 w-6 text-primary" />}
-                    {category === "Market Analysis" && <Coins className="h-6 w-6 text-primary" />}
-                    <h3 className="text-2xl font-bold">{category}</h3>
-                  </div>
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {communityChannels
-                      .filter(channel => channel.category === category)
-                      .map((channel, index) => (
-                        <HoverCard key={index}>
-                          <HoverCardTrigger asChild>
-                            <Card className="overflow-hidden cursor-pointer transition-all hover:shadow-lg">
-                              {channel.latestVideo && (
-                                <div>
-                                  <AspectRatio ratio={16 / 9}>
-                                    <img
-                                      src={channel.latestVideo.thumbnailUrl}
-                                      alt={`Latest video from ${channel.name}`}
-                                      className="object-cover w-full h-full"
-                                    />
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                                      <PlayCircle className="h-16 w-16 text-white" />
-                                    </div>
-                                  </AspectRatio>
-                                  <div className="p-6 space-y-4">
-                                    <h3 className="font-bold text-lg line-clamp-1">{channel.name}</h3>
-                                    <p className="text-primary line-clamp-2">
-                                      {channel.latestVideo.title}
-                                    </p>
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                      <span>{channel.latestVideo.publishedAt}</span>
-                                      <span>•</span>
-                                      <span>{channel.latestVideo.views} views</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </Card>
-                          </HoverCardTrigger>
-                          <HoverCardContent className="w-80 p-0">
-                            <AspectRatio ratio={16 / 9}>
-                              <img
-                                src={channel.latestVideo?.thumbnailUrl}
-                                alt={`Channel preview for ${channel.name}`}
-                                className="rounded-t-md object-cover w-full h-full"
-                              />
-                            </AspectRatio>
-                            <div className="p-6 space-y-4">
-                              <h4 className="font-bold text-lg">{channel.name}</h4>
-                              <p className="text-muted-foreground">
-                                {channel.description}
-                              </p>
-                              <Button variant="outline" size="lg" className="w-full" asChild>
-                                <a
-                                  href={channel.channelId.startsWith('http') ? channel.channelId : `https://youtube.com/channel/${channel.channelId}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  Visit Channel
-                                </a>
-                              </Button>
-                            </div>
-                          </HoverCardContent>
-                        </HoverCard>
-                      ))}
-                  </div>
+        {/* Community Resources Section */}
+        <section className="py-24 border-b">
+          <div className="text-center mb-16">
+            <Users className="h-16 w-16 text-primary mx-auto mb-6" />
+            <h2 className="text-3xl font-bold mb-4">Community Resources</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Latest educational content from trusted voices
+            </p>
+          </div>
+          <div className="space-y-24">
+            {channelCategories.map((category) => (
+              <div key={category} className="scroll-m-20">
+                <div className="flex items-center justify-center gap-4 mb-12">
+                  {category === "Economic Analysis" && <Landmark className="h-8 w-8 text-primary" />}
+                  {category === "Global Perspectives" && <Globe className="h-8 w-8 text-primary" />}
+                  {category === "Financial Education" && <BookOpen className="h-8 w-8 text-primary" />}
+                  {category === "Market Analysis" && <Coins className="h-8 w-8 text-primary" />}
+                  <h3 className="text-3xl font-bold">{category}</h3>
                 </div>
-              ))}
-            </div>
-          </section>
-        </div>
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  {communityChannels
+                    .filter(channel => channel.category === category)
+                    .map((channel, index) => (
+                      <HoverCard key={index}>
+                        <HoverCardTrigger asChild>
+                          <Card className="overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]">
+                            {channel.latestVideo && (
+                              <>
+                                <AspectRatio ratio={16 / 9}>
+                                  <img
+                                    src={channel.latestVideo.thumbnailUrl}
+                                    alt={`Latest video from ${channel.name}`}
+                                    className="object-cover w-full h-full"
+                                  />
+                                  <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <PlayCircle className="h-16 w-16 text-white" />
+                                  </div>
+                                </AspectRatio>
+                                <CardContent className="p-6">
+                                  <h3 className="text-xl font-bold mb-3 line-clamp-1">
+                                    {channel.name}
+                                  </h3>
+                                  <p className="text-primary text-lg mb-4 line-clamp-2">
+                                    {channel.latestVideo.title}
+                                  </p>
+                                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                    <span>{channel.latestVideo.publishedAt}</span>
+                                    <span>•</span>
+                                    <span>{channel.latestVideo.views} views</span>
+                                  </div>
+                                </CardContent>
+                              </>
+                            )}
+                          </Card>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="w-80 p-0">
+                          <AspectRatio ratio={16 / 9}>
+                            <img
+                              src={channel.latestVideo?.thumbnailUrl}
+                              alt={`Channel preview for ${channel.name}`}
+                              className="rounded-t-md object-cover w-full h-full"
+                            />
+                          </AspectRatio>
+                          <div className="p-6 space-y-4">
+                            <h4 className="text-xl font-bold">{channel.name}</h4>
+                            <p className="text-muted-foreground">
+                              {channel.description}
+                            </p>
+                            <Button variant="outline" size="lg" className="w-full" asChild>
+                              <a
+                                href={channel.channelId.startsWith('http') ? channel.channelId : `https://youtube.com/channel/${channel.channelId}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Visit Channel
+                              </a>
+                            </Button>
+                          </div>
+                        </HoverCardContent>
+                      </HoverCard>
+                    ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Learning Modules Section */}
-        <section className="max-w-6xl mx-auto">
-          <Tabs defaultValue="decidey" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-3">
-              {modules.map((module) => (
-                <TabsTrigger key={module.id} value={module.id} className="flex items-center gap-2">
-                  <module.icon className="h-5 w-5" />
-                  {module.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+        <section className="py-24">
+          <div className="text-center mb-16">
+            <GraduationCap className="h-16 w-16 text-primary mx-auto mb-6" />
+            <h2 className="text-3xl font-bold mb-4">Learning Modules</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Structured learning paths to master blockchain concepts
+            </p>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <Tabs defaultValue="decidey" className="space-y-8">
+              <TabsList className="grid w-full grid-cols-3">
+                {modules.map((module) => (
+                  <TabsTrigger key={module.id} value={module.id} className="flex items-center gap-2">
+                    <module.icon className="h-5 w-5" />
+                    {module.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
 
-            {modules.map((module) => (
-              <TabsContent key={module.id} value={module.id}>
-                <Card>
-                  <CardHeader>
-                    <div className="flex items-center gap-4 justify-center text-center">
-                      <div>
-                        <module.icon className="h-12 w-12 text-primary mx-auto mb-4" />
-                        <CardTitle className="text-2xl">{module.title}</CardTitle>
-                        <p className="text-muted-foreground mt-2 max-w-2xl">
+              {modules.map((module) => (
+                <TabsContent key={module.id} value={module.id}>
+                  <Card>
+                    <CardHeader>
+                      <div className="text-center">
+                        <module.icon className="h-16 w-16 text-primary mx-auto mb-6" />
+                        <CardTitle className="text-2xl mb-4">{module.title}</CardTitle>
+                        <p className="text-muted-foreground max-w-2xl mx-auto">
                           {module.description}
                         </p>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-6 max-w-4xl mx-auto">
-                      {module.topics.map((topic, index) => (
-                        <Card key={index}>
-                          <CardContent className="p-6">
-                            <div className="flex items-center justify-between gap-8">
-                              <div className="flex-1">
-                                <h3 className="text-xl font-bold mb-2">
-                                  {topic.title}
-                                </h3>
-                                <p className="text-muted-foreground mb-4">
-                                  {topic.description}
-                                </p>
-                                <Button
-                                  variant="outline"
-                                  size="lg"
-                                  className="flex items-center gap-2"
-                                  onClick={() => window.open(`https://www.youtube.com/watch?v=${topic.videoId}`, '_blank')}
-                                >
-                                  <Video className="h-5 w-5" />
-                                  Watch Video
-                                </Button>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-6">
+                        {module.topics.map((topic, index) => (
+                          <Card key={index}>
+                            <CardContent className="p-8">
+                              <div className="flex items-center justify-between gap-8">
+                                <div className="flex-1">
+                                  <h3 className="text-2xl font-bold mb-3">
+                                    {topic.title}
+                                  </h3>
+                                  <p className="text-muted-foreground mb-6">
+                                    {topic.description}
+                                  </p>
+                                  <Button
+                                    variant="outline"
+                                    size="lg"
+                                    className="flex items-center gap-2"
+                                    onClick={() => window.open(`https://www.youtube.com/watch?v=${topic.videoId}`, '_blank')}
+                                  >
+                                    <Video className="h-5 w-5" />
+                                    Watch Video
+                                  </Button>
+                                </div>
+                                <Progress value={33} className="w-[160px]" />
                               </div>
-                              <Progress value={33} className="w-[120px]" />
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            ))}
-          </Tabs>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
         </section>
       </div>
     </div>
