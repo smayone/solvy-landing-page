@@ -10,13 +10,13 @@ export function Services() {
       longDescription: "Control Your Identity, Data, and Economy. Our NGO Operations focus on tech company revenue tax repatriation, transparent donation management, and community-focused initiatives.",
       icon: GraduationCap,
       features: [
-        "Comprehensive blockchain and DeFi education",
-        "Interactive learning modules",
-        "Community-driven knowledge sharing",
-        "AI-driven financial education content"
+        "Tax repatriation monitoring",
+        "DOJ privacy case tracking",
+        "Transparent donation management",
+        "Community-focused initiatives"
       ],
       logo: "/attached_assets/SolvyLogo-1024.png",
-      route: "/education"
+      route: "/tax-repatriation"
     },
     {
       title: "SOLVY",
