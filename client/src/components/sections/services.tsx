@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap, LineChart, Shield } from "lucide-react";
+import { Link } from "wouter";
 
 export function Services() {
   const services = [
@@ -14,7 +15,8 @@ export function Services() {
         "Community-driven knowledge sharing",
         "AI-driven financial education content"
       ],
-      logo: "/attached_assets/SolvyLogo-1024.png"
+      logo: "/attached_assets/SolvyLogo-1024.png",
+      route: "/education"
     },
     {
       title: "SOLVY",
@@ -27,7 +29,8 @@ export function Services() {
         "Smart contract automation",
         "Comprehensive financial tools"
       ],
-      logo: "/attached_assets/SolvyLogo-1024.png"
+      logo: "/attached_assets/SolvyLogo-1024.png",
+      route: "/crypto"
     },
     {
       title: "MAN",
@@ -40,7 +43,8 @@ export function Services() {
         "Transparent audit trails",
         "Multi-level access control"
       ],
-      logo: "/attached_assets/SolvyLogo-1024.png"
+      logo: "/attached_assets/SolvyLogo-1024.png",
+      route: "/tech-companies"
     },
   ];
 
@@ -52,30 +56,32 @@ export function Services() {
         </h2>
         <div className="grid gap-8 md:grid-cols-3">
           {services.map((service) => (
-            <Card key={service.title} className="relative overflow-hidden">
-              <CardHeader>
-                <div className="flex items-center gap-4">
-                  <img 
-                    src={service.logo} 
-                    alt={service.title}
-                    className="h-12 w-12"
-                  />
-                  <CardTitle>{service.title}</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="font-medium text-primary mb-2">{service.description}</p>
-                <p className="text-muted-foreground mb-4">{service.longDescription}</p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <service.icon className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+            <Link key={service.title} href={service.route}>
+              <Card className="relative overflow-hidden transition-all hover:scale-[1.02] hover:shadow-lg cursor-pointer">
+                <CardHeader>
+                  <div className="flex items-center gap-4">
+                    <img 
+                      src={service.logo} 
+                      alt={service.title}
+                      className="h-12 w-12"
+                    />
+                    <CardTitle>{service.title}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="font-medium text-primary mb-2">{service.description}</p>
+                  <p className="text-muted-foreground mb-4">{service.longDescription}</p>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <service.icon className="h-4 w-4 text-primary" />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
