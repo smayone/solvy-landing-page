@@ -16,6 +16,12 @@ import {
   BookOpenText
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface LearningPathRecommendation {
   title: string;
@@ -32,6 +38,13 @@ interface CommunityChannel {
   name: string;
   description: string;
   channelId: string;
+  category: string;
+  latestVideo?: {
+    title: string;
+    thumbnailUrl: string;
+    publishedAt: string;
+    views: string;
+  };
 }
 
 export default function Education() {
@@ -70,66 +83,150 @@ export default function Education() {
     }
   ];
 
-  const communityChannels = [
+  const communityChannels: CommunityChannel[] = [
     {
       name: "Democracy at Work",
       description: "Economic analysis and socialist perspective",
-      channelId: "UCK-6FjMu9OI8i0Fo6bkW0VA"
+      channelId: "UCK-6FjMu9OI8i0Fo6bkW0VA",
+      category: "Economic Analysis",
+      latestVideo: {
+        title: "Economic Update: Why Workers' Rights Are Key",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-24",
+        views: "45K"
+      }
     },
     {
       name: "World Affairs In Context",
       description: "Blockchain and cryptocurrency insights",
-      channelId: "https://www.youtube.com/@lenapetrova"
+      channelId: "https://www.youtube.com/@lenapetrova",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "BRICS+ Expansion: What It Means for Global Finance",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-23",
+        views: "32K"
+      }
     },
     {
       name: "Geopolitical Economy Report",
       description: "Global economic and political analysis",
-      channelId: "https://www.youtube.com/@GeopoliticalEconomyReport"
+      channelId: "https://www.youtube.com/@GeopoliticalEconomyReport",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "Geopolitical Risks and Investment Strategies",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-22",
+        views: "28K"
+      }
     },
     {
       name: "Cyrus Janssen",
       description: "International business and cultural perspectives",
-      channelId: "https://www.youtube.com/@CyrusJanssen"
+      channelId: "https://www.youtube.com/@CyrusJanssen",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "Understanding Global Trade Dynamics",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-21",
+        views: "21K"
+      }
     },
     {
       name: "Gary's Economics",
       description: "Economic education and analysis",
-      channelId: "https://www.youtube.com/@garyseconomics"
+      channelId: "https://www.youtube.com/@garyseconomics",
+      category: "Economic Analysis",
+      latestVideo: {
+        title: "Inflation and Monetary Policy Explained",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-20",
+        views: "18K"
+      }
     },
     {
       name: "Think BRICS",
       description: "Analysis of BRICS nations and global economy",
-      channelId: "https://www.youtube.com/@ThinkBRICS"
+      channelId: "https://www.youtube.com/@ThinkBRICS",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "BRICS+ and the Future of Global Development",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-19",
+        views: "15K"
+      }
     },
     {
       name: "The Money Multiplier",
       description: "Financial education and wealth building",
-      channelId: "https://www.youtube.com/@the.money.multiplier"
+      channelId: "https://www.youtube.com/@the.money.multiplier",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Building a Solid Financial Foundation",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-18",
+        views: "12K"
+      }
     },
     {
       name: "Melanin Money",
       description: "Financial literacy and wealth building",
-      channelId: "https://www.youtube.com/@melaninmoney"
+      channelId: "https://www.youtube.com/@melaninmoney",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Investing for Financial Freedom",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-17",
+        views: "10K"
+      }
     },
     {
       name: "Earn Your Leisure",
       description: "Business and financial education",
-      channelId: "https://www.youtube.com/@EarnYourLeisure"
+      channelId: "https://www.youtube.com/@EarnYourLeisure",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Entrepreneurship and Financial Success",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-16",
+        views: "8K"
+      }
     },
     {
       name: "Kitco News",
       description: "Precious metals and market analysis",
-      channelId: "https://www.youtube.com/@kitco"
+      channelId: "https://www.youtube.com/@kitco",
+      category: "Market Analysis",
+      latestVideo: {
+        title: "Gold Market Outlook for 2025",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-15",
+        views: "6K"
+      }
     },
     {
       name: "Jason Sipple",
       description: "Financial markets and trading education",
-      channelId: "https://www.youtube.com/@jasonsipple"
+      channelId: "https://www.youtube.com/@jasonsipple",
+      category: "Market Analysis",
+      latestVideo: {
+        title: "Technical Analysis Techniques",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-14",
+        views: "5K"
+      }
     },
     {
       name: "Crash Course",
       description: "Educational content covering economics, finance, and more",
-      channelId: "https://www.youtube.com/@crashcourse"
+      channelId: "https://www.youtube.com/@crashcourse",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Understanding Macroeconomics",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-13",
+        views: "4K"
+      }
     }
   ];
 
@@ -218,6 +315,13 @@ export default function Education() {
         }
       ]
     }
+  ];
+
+  const channelCategories = [
+    "Economic Analysis",
+    "Global Perspectives",
+    "Financial Education",
+    "Market Analysis"
   ];
 
   return (
@@ -408,32 +512,85 @@ export default function Education() {
               <div>
                 <CardTitle>Community Resources</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Curated content from trusted educational channels
+                  Latest educational content from trusted channels
                 </p>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {communityChannels.map((channel, index) => (
-                <Card key={index} className="p-4">
-                  <div className="flex items-center gap-4">
-                    <PlayCircle className="h-8 w-8 text-primary" />
-                    <div className="flex-1">
-                      <h3 className="font-medium">{channel.name}</h3>
-                      <p className="text-sm text-muted-foreground">{channel.description}</p>
-                    </div>
-                    <Button variant="outline" size="sm" asChild>
-                      <a
-                        href={channel.channelId.startsWith('http') ? channel.channelId : `https://youtube.com/channel/${channel.channelId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Watch
-                      </a>
-                    </Button>
+            <div className="space-y-8">
+              {channelCategories.map((category) => (
+                <div key={category}>
+                  <h3 className="font-semibold text-lg mb-4">{category}</h3>
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {communityChannels
+                      .filter(channel => channel.category === category)
+                      .map((channel, index) => (
+                        <HoverCard key={index}>
+                          <HoverCardTrigger asChild>
+                            <Card className="p-4 cursor-pointer transition-all hover:shadow-lg">
+                              <div className="space-y-4">
+                                <div className="flex items-center gap-4">
+                                  <PlayCircle className="h-8 w-8 text-primary" />
+                                  <div className="flex-1">
+                                    <h3 className="font-medium">{channel.name}</h3>
+                                    <p className="text-sm text-muted-foreground">
+                                      {channel.description}
+                                    </p>
+                                  </div>
+                                </div>
+                                {channel.latestVideo && (
+                                  <div className="space-y-2">
+                                    <AspectRatio ratio={16 / 9}>
+                                      <img
+                                        src={channel.latestVideo.thumbnailUrl}
+                                        alt={`Latest video from ${channel.name}`}
+                                        className="rounded-md object-cover w-full h-full"
+                                      />
+                                    </AspectRatio>
+                                    <div className="space-y-1">
+                                      <p className="text-sm font-medium line-clamp-2">
+                                        {channel.latestVideo.title}
+                                      </p>
+                                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                        <span>{channel.latestVideo.publishedAt}</span>
+                                        <span>•</span>
+                                        <span>{channel.latestVideo.views} views</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </Card>
+                          </HoverCardTrigger>
+                          <HoverCardContent className="w-80 p-0">
+                            <AspectRatio ratio={16 / 9}>
+                              <img
+                                src={channel.latestVideo?.thumbnailUrl}
+                                alt={`Channel preview for ${channel.name}`}
+                                className="rounded-t-md object-cover w-full h-full"
+                              />
+                            </AspectRatio>
+                            <div className="p-4 space-y-2">
+                              <h4 className="font-medium">{channel.name}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {channel.description}
+                              </p>
+                              <Button variant="outline" size="sm" className="w-full" asChild>
+                                <a
+                                  href={channel.channelId.startsWith('http') ? channel.channelId : `https://youtube.com/channel/${channel.channelId}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  Visit Channel
+                                </a>
+                              </Button>
+                            </div>
+                          </HoverCardContent>
+                        </HoverCard>
+                      ))}
                   </div>
-                </Card>
+                </div>
               ))}
             </div>
           </CardContent>

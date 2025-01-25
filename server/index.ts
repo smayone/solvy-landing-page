@@ -93,36 +93,58 @@ async function checkDatabase(retries = 3, delay = 1000): Promise<boolean> {
   return false;
 }
 
-// Start server with proper error handling
-async function startServer(port: number, host: string): Promise<void> {
-  const server = registerRoutes(app);
+// Start server with proper error handling and port retry logic
+async function startServer(initialPort: number, host: string, maxRetries = 3): Promise<void> {
+  let currentPort = initialPort;
+  let retries = maxRetries;
 
-  // Error handling middleware
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    log('Error:', message);
-    res.status(status).json({ message });
-  });
+  while (retries > 0) {
+    try {
+      const server = registerRoutes(app);
 
-  // Setup vite or serve static files
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
-
-  return new Promise((resolve, reject) => {
-    server.listen(port, host)
-      .once('error', (err: Error) => {
-        log(`Failed to start server: ${err.message}`);
-        reject(err);
-      })
-      .once('listening', () => {
-        log(`serving on port ${port}`);
-        resolve();
+      // Error handling middleware
+      app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+        const status = err.status || err.statusCode || 500;
+        const message = err.message || "Internal Server Error";
+        log('Error:', message);
+        res.status(status).json({ message });
       });
-  });
+
+      // Setup vite or serve static files
+      if (app.get("env") === "development") {
+        await setupVite(app, server);
+      } else {
+        serveStatic(app);
+      }
+
+      await new Promise<void>((resolve, reject) => {
+        server.listen(currentPort, host)
+          .once('error', (err: Error & { code?: string }) => {
+            if (err.code === 'EADDRINUSE') {
+              log(`Port ${currentPort} is in use, trying next port...`);
+              currentPort++;
+              retries--;
+              if (retries === 0) {
+                reject(new Error(`Could not find an available port after ${maxRetries} attempts`));
+              } else {
+                server.close();
+                reject(err);
+              }
+            } else {
+              reject(err);
+            }
+          })
+          .once('listening', () => {
+            log(`Server started successfully on port ${currentPort}`);
+            resolve();
+          });
+      });
+      return;
+    } catch (error: any) {
+      if (retries === 1) throw error;
+    }
+  }
+  throw new Error('Failed to start server after multiple attempts');
 }
 
 // Main application startup
