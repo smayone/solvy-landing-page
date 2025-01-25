@@ -5,6 +5,7 @@ import { resolveDomain, domains } from "./domains";
 import { db } from "@db";
 import { sql } from "drizzle-orm";
 import path from "path";
+import net from "net";
 
 declare global {
   namespace Express {
@@ -72,6 +73,33 @@ app.use((req, res, next) => {
   next();
 });
 
+// Check if a port is in use
+async function isPortInUse(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = net.createServer()
+      .once('error', () => {
+        resolve(true);
+      })
+      .once('listening', () => {
+        server.close();
+        resolve(false);
+      })
+      .listen(port, '0.0.0.0');
+  });
+}
+
+// Find next available port
+async function findAvailablePort(startPort: number): Promise<number> {
+  let port = startPort;
+  while (await isPortInUse(port)) {
+    port++;
+    if (port > startPort + 100) {
+      throw new Error('No available ports found');
+    }
+  }
+  return port;
+}
+
 // Database connection check
 async function checkDatabase(): Promise<boolean> {
   try {
@@ -84,6 +112,31 @@ async function checkDatabase(): Promise<boolean> {
   }
 }
 
+// Graceful shutdown handler
+function setupGracefulShutdown(server: any) {
+  let shuttingDown = false;
+
+  function shutdown() {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    log('Received shutdown signal, closing server...');
+
+    server.close(() => {
+      log('Server closed');
+      process.exit(0);
+    });
+
+    // Force close after 10s
+    setTimeout(() => {
+      log('Could not close connections in time, forcefully shutting down');
+      process.exit(1);
+    }, 10000);
+  }
+
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
+}
+
 // Main application startup
 (async () => {
   try {
@@ -93,8 +146,14 @@ async function checkDatabase(): Promise<boolean> {
       throw new Error('Could not connect to database');
     }
 
-    const PORT = 5000;
+    const DEFAULT_PORT = 5000;
     const HOST = '0.0.0.0';
+
+    // Find available port
+    const port = await findAvailablePort(DEFAULT_PORT);
+    if (port !== DEFAULT_PORT) {
+      log(`Port ${DEFAULT_PORT} is in use, using port ${port} instead`);
+    }
 
     const server = registerRoutes(app);
 
@@ -113,8 +172,11 @@ async function checkDatabase(): Promise<boolean> {
       serveStatic(app);
     }
 
-    server.listen(PORT, HOST, () => {
-      log(`Server started on port ${PORT}`);
+    // Set up graceful shutdown
+    setupGracefulShutdown(server);
+
+    server.listen(port, HOST, () => {
+      log(`Server started on port ${port}`);
     });
   } catch (error: any) {
     log('Fatal error:', error.message);
