@@ -8,7 +8,7 @@ import { CTA } from "@/components/sections/cta";
 import Home from "@/pages/home";
 import NFTAvatarPage from "@/pages/nft-avatar";
 import MemberHome from "@/pages/member-home";
-import TechCompanies from "@/pages/tech-companies";
+import EBL from "@/pages/evergreen";
 import Analytics from "@/pages/analytics";
 import WhyStatement from "@/pages/why-statement";
 import CryptoPage from "@/pages/crypto";
@@ -21,7 +21,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/member" component={MemberHome} />
       <Route path="/nft-avatar" component={NFTAvatarPage} />
-      <Route path="/tech-companies" component={TechCompanies} />
+      <Route path="/ebl" component={EBL} />
       <Route path="/analytics" component={Analytics} />
       <Route path="/why-statement" component={WhyStatement} />
       <Route path="/crypto" component={CryptoPage} />

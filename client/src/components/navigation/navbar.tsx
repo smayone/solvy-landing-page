@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Building2, GraduationCap, Wallet } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 
 export function Navbar() {
@@ -12,7 +12,7 @@ export function Navbar() {
         <div className="flex items-center mr-6">
           <Link href="/">
             <img 
-              src="attached_assets/fulllogo.png" 
+              src="/attached_assets/fulllogo.png" 
               alt="SOLVY" 
               className="h-8 w-auto"
             />
@@ -39,9 +39,9 @@ export function Navbar() {
             </Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/tech-companies" className="flex items-center gap-2">
-              <Building2 className="h-4 w-4" />
-              Companies
+            <Link href="/ebl" className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4" />
+              EBL
             </Link>
           </Button>
           <Button variant="ghost" asChild>
