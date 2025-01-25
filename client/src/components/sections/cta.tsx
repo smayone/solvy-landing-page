@@ -18,9 +18,9 @@ export function CTA() {
   };
 
   return (
-    <section className="container py-16">
-      <div className="rounded-lg bg-primary px-8 py-12 text-center text-primary-foreground">
-        <h2 className="text-3xl font-bold tracking-tighter mb-4">
+    <section className="container mx-auto px-4 py-16">
+      <div className="max-w-4xl mx-auto rounded-lg bg-primary px-8 py-12 text-center">
+        <h2 className="text-3xl font-bold tracking-tighter mb-4 text-primary-foreground">
           Join the Path to Sovereignitity
         </h2>
         <p className="text-primary-foreground/80 mb-8 max-w-[600px] mx-auto">
