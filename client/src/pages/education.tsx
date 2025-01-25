@@ -13,7 +13,12 @@ import {
   Coins,
   Users,
   PlayCircle,
-  BookOpenText
+  BookOpenText,
+  Globe,
+  Building2,
+  Landmark,
+  Scale,
+  BadgeHelp
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -324,6 +329,16 @@ export default function Education() {
     "Market Analysis"
   ];
 
+  // Add icons for conceptualization terms
+  const conceptIcons = {
+    "Sovereignitity": Globe,
+    "SOLVY": Building2,
+    "DECIDEY": Shield,
+    "ICSID": Scale,
+    "BRICS+": Landmark,
+    "Economic Imperialism": BadgeHelp
+  };
+
   return (
     <div className="min-h-screen bg-background pt-16">
       <div className="container py-8">
@@ -376,7 +391,7 @@ export default function Education() {
           </Card>
         )}
 
-        {/* Conceptualizations and Key Terms Glossary */}
+        {/* Enhanced Conceptualizations Section */}
         <Card className="mb-8">
           <CardHeader>
             <div className="flex items-center gap-4">
@@ -390,15 +405,37 @@ export default function Education() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4">
-              {glossaryTerms.map((item, index) => (
-                <Card key={index} className="p-4">
-                  <div className="space-y-2">
-                    <h3 className="font-bold text-lg">{item.term}</h3>
-                    <p className="text-muted-foreground">{item.definition}</p>
-                  </div>
-                </Card>
-              ))}
+            <div className="grid gap-6 md:grid-cols-2">
+              {glossaryTerms.map((item, index) => {
+                const IconComponent = conceptIcons[item.term as keyof typeof conceptIcons] || BookOpenText;
+                return (
+                  <HoverCard key={index}>
+                    <HoverCardTrigger asChild>
+                      <Card className="p-4 cursor-pointer transition-all hover:shadow-lg">
+                        <div className="flex items-start gap-4">
+                          <div className="bg-primary/10 p-2 rounded-lg">
+                            <IconComponent className="h-6 w-6 text-primary" />
+                          </div>
+                          <div className="space-y-1">
+                            <h3 className="font-bold text-lg">{item.term}</h3>
+                            <p className="text-muted-foreground line-clamp-2">
+                              {item.definition.split('\n')[0]}
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-96 p-4">
+                      <div className="space-y-2">
+                        <h4 className="font-bold text-lg">{item.term}</h4>
+                        <p className="text-muted-foreground whitespace-pre-line">
+                          {item.definition}
+                        </p>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
@@ -505,6 +542,7 @@ export default function Education() {
           </CardContent>
         </Card>
 
+        {/* Enhanced Community Resources Section */}
         <Card className="mb-8">
           <CardHeader>
             <div className="flex items-center gap-4">
@@ -521,7 +559,13 @@ export default function Education() {
             <div className="space-y-8">
               {channelCategories.map((category) => (
                 <div key={category}>
-                  <h3 className="font-semibold text-lg mb-4">{category}</h3>
+                  <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                    {category === "Economic Analysis" && <Landmark className="h-5 w-5 text-primary" />}
+                    {category === "Global Perspectives" && <Globe className="h-5 w-5 text-primary" />}
+                    {category === "Financial Education" && <BookOpen className="h-5 w-5 text-primary" />}
+                    {category === "Market Analysis" && <Coins className="h-5 w-5 text-primary" />}
+                    {category}
+                  </h3>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {communityChannels
                       .filter(channel => channel.category === category)
@@ -529,38 +573,31 @@ export default function Education() {
                         <HoverCard key={index}>
                           <HoverCardTrigger asChild>
                             <Card className="p-4 cursor-pointer transition-all hover:shadow-lg">
-                              <div className="space-y-4">
-                                <div className="flex items-center gap-4">
-                                  <PlayCircle className="h-8 w-8 text-primary" />
-                                  <div className="flex-1">
-                                    <h3 className="font-medium">{channel.name}</h3>
-                                    <p className="text-sm text-muted-foreground">
-                                      {channel.description}
-                                    </p>
-                                  </div>
-                                </div>
-                                {channel.latestVideo && (
+                              {channel.latestVideo && (
+                                <div className="space-y-4">
+                                  <AspectRatio ratio={16 / 9}>
+                                    <img
+                                      src={channel.latestVideo.thumbnailUrl}
+                                      alt={`Latest video from ${channel.name}`}
+                                      className="rounded-md object-cover w-full h-full"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                      <PlayCircle className="h-12 w-12 text-white" />
+                                    </div>
+                                  </AspectRatio>
                                   <div className="space-y-2">
-                                    <AspectRatio ratio={16 / 9}>
-                                      <img
-                                        src={channel.latestVideo.thumbnailUrl}
-                                        alt={`Latest video from ${channel.name}`}
-                                        className="rounded-md object-cover w-full h-full"
-                                      />
-                                    </AspectRatio>
-                                    <div className="space-y-1">
-                                      <p className="text-sm font-medium line-clamp-2">
-                                        {channel.latestVideo.title}
-                                      </p>
-                                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                        <span>{channel.latestVideo.publishedAt}</span>
-                                        <span>•</span>
-                                        <span>{channel.latestVideo.views} views</span>
-                                      </div>
+                                    <h3 className="font-medium line-clamp-1">{channel.name}</h3>
+                                    <p className="text-sm font-medium line-clamp-2 text-primary">
+                                      {channel.latestVideo.title}
+                                    </p>
+                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                      <span>{channel.latestVideo.publishedAt}</span>
+                                      <span>•</span>
+                                      <span>{channel.latestVideo.views} views</span>
                                     </div>
                                   </div>
-                                )}
-                              </div>
+                                </div>
+                              )}
                             </Card>
                           </HoverCardTrigger>
                           <HoverCardContent className="w-80 p-0">
