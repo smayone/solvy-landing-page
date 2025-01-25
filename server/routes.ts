@@ -11,9 +11,69 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 });
 
 export function registerRoutes(app: Express): Server {
-  // Basic health check endpoint
-  app.get("/api/health", (_req, res) => {
-    res.json({ status: "ok" });
+  // Enhanced health check endpoints
+  app.get("/api/health", async (_req, res) => {
+    const startTime = Date.now();
+    const status = {
+      status: "ok",
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+      environment: process.env.NODE_ENV || 'development'
+    };
+
+    res.json(status);
+  });
+
+  // Detailed system health check
+  app.get("/api/health/detailed", async (_req, res) => {
+    try {
+      const checks = {
+        api: { status: "ok" },
+        database: { status: "unknown" },
+        stripe: { status: "unknown" },
+        timestamp: new Date().toISOString(),
+      };
+
+      // Check database
+      try {
+        await db.select().from(techCompanies).limit(1);
+        checks.database = { status: "ok" };
+      } catch (error: any) {
+        checks.database = { 
+          status: "error",
+          message: error?.message || "Database connection failed"
+        };
+      }
+
+      // Check Stripe
+      try {
+        await stripe.paymentMethods.list({ limit: 1 });
+        checks.stripe = { status: "ok" };
+      } catch (error: any) {
+        checks.stripe = { 
+          status: "error",
+          message: error?.message || "Stripe connection failed"
+        };
+      }
+
+      const overall = Object.values(checks).every(
+        (check) => check.status === "ok" || check === checks.timestamp
+      ) ? "healthy" : "degraded";
+
+      res.json({
+        status: overall,
+        checks,
+        environment: process.env.NODE_ENV || 'development',
+        version: process.env.APP_VERSION || '1.0.0'
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        status: "error",
+        error: error?.message || "Health check failed",
+        timestamp: new Date().toISOString()
+      });
+    }
   });
 
   // Educational content endpoints
