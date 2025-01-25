@@ -5,14 +5,14 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container py-10">
+    <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 w-full">
+      <div className="container mx-auto py-10 px-4">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2 px-6">
+          <div className="lg:col-span-2">
             <div className="flex flex-col items-center lg:items-start">
               <Link href="/">
                 <img 
-                  src="attached_assets/fulllogo.png" 
+                  src="/attached_assets/fulllogo.png" 
                   alt="SOLVY" 
                   className="h-16 w-auto mb-6 transition-transform hover:scale-105"
                 />

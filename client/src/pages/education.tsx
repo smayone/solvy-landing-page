@@ -29,6 +29,23 @@ import {
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useState } from "react";
 
+// First define all constants
+const channelCategories = [
+  "Economic Analysis",
+  "Global Perspectives",
+  "Financial Education",
+  "Market Analysis"
+];
+
+const conceptIcons = {
+  "Sovereignitity": Globe,
+  "SOLVY": Building2,
+  "DECIDEY": Shield,
+  "ICSID": Scale,
+  "BRICS+": Landmark,
+  "Economic Imperialism": BadgeHelp
+};
+
 interface LearningPathRecommendation {
   title: string;
   description: string;
@@ -54,6 +71,7 @@ interface CommunityChannel {
 }
 
 export default function Education() {
+  // Now initialize state using the constants
   const [currentConceptIndex, setCurrentConceptIndex] = useState(0);
   const [currentChannelIndices, setCurrentChannelIndices] = useState<Record<string, number>>(() =>
     channelCategories.reduce((acc, category) => ({ ...acc, [category]: 0 }), {})
@@ -328,21 +346,6 @@ export default function Education() {
     }
   ];
 
-  const channelCategories = [
-    "Economic Analysis",
-    "Global Perspectives",
-    "Financial Education",
-    "Market Analysis"
-  ];
-
-  const conceptIcons = {
-    "Sovereignitity": Globe,
-    "SOLVY": Building2,
-    "DECIDEY": Shield,
-    "ICSID": Scale,
-    "BRICS+": Landmark,
-    "Economic Imperialism": BadgeHelp
-  };
 
   const handlePrevChannel = (category: string) => {
     setCurrentChannelIndices(prev => ({
