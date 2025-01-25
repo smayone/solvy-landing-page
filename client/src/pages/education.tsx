@@ -54,7 +54,10 @@ interface CommunityChannel {
 }
 
 export default function Education() {
-  const [currentConceptIndex, setCurrentConceptIndex] = useState(0); // Added state management here
+  const [currentConceptIndex, setCurrentConceptIndex] = useState(0);
+  const [currentChannelIndices, setCurrentChannelIndices] = useState<Record<string, number>>(() =>
+    channelCategories.reduce((acc, category) => ({ ...acc, [category]: 0 }), {})
+  );
 
   const { data: educationalContent } = useQuery({
     queryKey: ['/api/educational-content'],
@@ -341,6 +344,20 @@ export default function Education() {
     "Economic Imperialism": BadgeHelp
   };
 
+  const handlePrevChannel = (category: string) => {
+    setCurrentChannelIndices(prev => ({
+      ...prev,
+      [category]: Math.max(0, prev[category] - 1)
+    }));
+  };
+
+  const handleNextChannel = (category: string) => {
+    const categoryChannels = communityChannels.filter(c => c.category === category);
+    setCurrentChannelIndices(prev => ({
+      ...prev,
+      [category]: Math.min(categoryChannels.length - 1, prev[category] + 1)
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -478,85 +495,98 @@ export default function Education() {
           <div className="text-center mb-16">
             <Users className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-3xl font-bold mb-4">Community Resources</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               Latest educational content from trusted voices
             </p>
           </div>
-          <div className="space-y-24">
-            {channelCategories.map((category) => (
-              <div key={category} className="scroll-m-20">
-                <div className="flex items-center justify-center gap-4 mb-12">
-                  {category === "Economic Analysis" && <Landmark className="h-8 w-8 text-primary" />}
-                  {category === "Global Perspectives" && <Globe className="h-8 w-8 text-primary" />}
-                  {category === "Financial Education" && <BookOpen className="h-8 w-8 text-primary" />}
-                  {category === "Market Analysis" && <Coins className="h-8 w-8 text-primary" />}
-                  <h3 className="text-3xl font-bold">{category}</h3>
-                </div>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {communityChannels
-                    .filter(channel => channel.category === category)
-                    .map((channel, index) => (
-                      <HoverCard key={index}>
-                        <HoverCardTrigger asChild>
-                          <Card className="overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]">
-                            {channel.latestVideo && (
-                              <>
-                                <AspectRatio ratio={16 / 9}>
-                                  <img
-                                    src={channel.latestVideo.thumbnailUrl}
-                                    alt={`Latest video from ${channel.name}`}
-                                    className="object-cover w-full h-full"
-                                  />
-                                  <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <PlayCircle className="h-16 w-16 text-white" />
-                                  </div>
-                                </AspectRatio>
-                                <CardContent className="p-6">
-                                  <h3 className="text-xl font-bold mb-3 line-clamp-1">
-                                    {channel.name}
-                                  </h3>
-                                  <p className="text-primary text-lg mb-4 line-clamp-2">
-                                    {channel.latestVideo.title}
-                                  </p>
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <span>{channel.latestVideo.publishedAt}</span>
-                                    <span>•</span>
-                                    <span>{channel.latestVideo.views} views</span>
-                                  </div>
-                                </CardContent>
-                              </>
-                            )}
-                          </Card>
-                        </HoverCardTrigger>
-                        <HoverCardContent className="w-80 p-0">
+          <div className="space-y-32">
+            {channelCategories.map((category) => {
+              const categoryChannels = communityChannels.filter(c => c.category === category);
+              const currentIndex = currentChannelIndices[category];
+              const currentChannel = categoryChannels[currentIndex];
+
+              return (
+                <div key={category} className="scroll-m-20">
+                  <div className="flex items-center justify-center gap-4 mb-8">
+                    {category === "Economic Analysis" && <Landmark className="h-8 w-8 text-primary" />}
+                    {category === "Global Perspectives" && <Globe className="h-8 w-8 text-primary" />}
+                    {category === "Financial Education" && <BookOpen className="h-8 w-8 text-primary" />}
+                    {category === "Market Analysis" && <Coins className="h-8 w-8 text-primary" />}
+                    <h3 className="text-3xl font-bold">{category}</h3>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex justify-center gap-4 mb-8">
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={() => handlePrevChannel(category)}
+                        disabled={currentIndex === 0}
+                      >
+                        Previous
+                      </Button>
+                      <span className="flex items-center text-lg font-medium">
+                        {currentIndex + 1} of {categoryChannels.length}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={() => handleNextChannel(category)}
+                        disabled={currentIndex === categoryChannels.length - 1}
+                      >
+                        Next
+                      </Button>
+                    </div>
+                    <div className="w-full max-w-3xl mx-auto">
+                      {currentChannel && currentChannel.latestVideo && (
+                        <Card className="overflow-hidden transition-transform hover:scale-[1.02]">
                           <AspectRatio ratio={16 / 9}>
                             <img
-                              src={channel.latestVideo?.thumbnailUrl}
-                              alt={`Channel preview for ${channel.name}`}
-                              className="rounded-t-md object-cover w-full h-full"
+                              src={currentChannel.latestVideo.thumbnailUrl}
+                              alt={`Latest video from ${currentChannel.name}`}
+                              className="object-cover w-full h-full"
                             />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <PlayCircle className="h-24 w-24 text-white" />
+                            </div>
                           </AspectRatio>
-                          <div className="p-6 space-y-4">
-                            <h4 className="text-xl font-bold">{channel.name}</h4>
-                            <p className="text-muted-foreground">
-                              {channel.description}
-                            </p>
-                            <Button variant="outline" size="lg" className="w-full" asChild>
-                              <a
-                                href={channel.channelId.startsWith('http') ? channel.channelId : `https://youtube.com/channel/${channel.channelId}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                          <CardContent className="p-8">
+                            <div className="space-y-6">
+                              <div>
+                                <h3 className="text-2xl font-bold mb-2">{currentChannel.name}</h3>
+                                <p className="text-muted-foreground">{currentChannel.description}</p>
+                              </div>
+                              <div className="space-y-4">
+                                <h4 className="text-xl font-semibold text-primary">Latest Content</h4>
+                                <p className="text-lg">{currentChannel.latestVideo.title}</p>
+                                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                  <span>{currentChannel.latestVideo.publishedAt}</span>
+                                  <span>•</span>
+                                  <span>{currentChannel.latestVideo.views} views</span>
+                                </div>
+                              </div>
+                              <Button
+                                variant="outline"
+                                size="lg"
+                                className="w-full"
+                                asChild
                               >
-                                Visit Channel
-                              </a>
-                            </Button>
-                          </div>
-                        </HoverCardContent>
-                      </HoverCard>
-                    ))}
+                                <a
+                                  href={currentChannel.channelId.startsWith('http') ? currentChannel.channelId : `https://youtube.com/channel/${currentChannel.channelId}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  Visit Channel
+                                </a>
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
