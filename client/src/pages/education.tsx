@@ -27,6 +27,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { useState } from "react";
 
 interface LearningPathRecommendation {
   title: string;
@@ -53,6 +54,8 @@ interface CommunityChannel {
 }
 
 export default function Education() {
+  const [currentConceptIndex, setCurrentConceptIndex] = useState(0); // Added state management here
+
   const { data: educationalContent } = useQuery({
     queryKey: ['/api/educational-content'],
   });
@@ -338,6 +341,7 @@ export default function Education() {
     "Economic Imperialism": BadgeHelp
   };
 
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -396,37 +400,74 @@ export default function Education() {
           <div className="text-center mb-16">
             <BookOpenText className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-3xl font-bold mb-4">Key Concepts & Terminology</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
               Essential concepts shaping the future of finance
             </p>
+            <div className="flex justify-center gap-4">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => {
+                  if (currentConceptIndex > 0) {
+                    setCurrentConceptIndex(prev => prev - 1);
+                  }
+                }}
+                disabled={currentConceptIndex === 0}
+              >
+                Previous
+              </Button>
+              <span className="flex items-center text-lg font-medium">
+                {currentConceptIndex + 1} of {glossaryTerms.length}
+              </span>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => {
+                  if (currentConceptIndex < glossaryTerms.length - 1) {
+                    setCurrentConceptIndex(prev => prev + 1);
+                  }
+                }}
+                disabled={currentConceptIndex === glossaryTerms.length - 1}
+              >
+                Next
+              </Button>
+            </div>
           </div>
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="max-w-2xl mx-auto">
             {glossaryTerms.map((item, index) => {
               const IconComponent = conceptIcons[item.term as keyof typeof conceptIcons] || BookOpenText;
               return (
-                <HoverCard key={index}>
-                  <HoverCardTrigger asChild>
-                    <Card className="p-8 cursor-pointer transition-all hover:shadow-lg">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="bg-primary/10 p-4 rounded-full mb-6">
-                          <IconComponent className="h-10 w-10 text-primary" />
-                        </div>
-                        <h3 className="text-2xl font-bold mb-4">{item.term}</h3>
-                        <p className="text-muted-foreground line-clamp-3">
-                          {item.definition.split('\n')[0]}
-                        </p>
+                <div
+                  key={index}
+                  className={`transition-opacity duration-300 ${
+                    index === currentConceptIndex ? 'block opacity-100' : 'hidden opacity-0'
+                  }`}
+                >
+                  <Card className="p-8">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="bg-primary/10 p-6 rounded-full mb-8">
+                        <IconComponent className="h-12 w-12 text-primary" />
                       </div>
-                    </Card>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-96 p-6">
-                    <div className="space-y-4">
-                      <h4 className="text-xl font-bold">{item.term}</h4>
-                      <p className="text-muted-foreground whitespace-pre-line">
-                        {item.definition}
+                      <h3 className="text-3xl font-bold mb-6">{item.term}</h3>
+                      <p className="text-lg text-muted-foreground">
+                        {item.definition.split('\n')[0]}
                       </p>
+                      {item.definition.split('\n').length > 1 && (
+                        <div className="mt-6 space-y-4">
+                          {item.definition
+                            .split('\n')
+                            .slice(1)
+                            .filter(line => line.trim())
+                            .map((line, i) => (
+                              <p key={i} className="text-muted-foreground">
+                                {line}
+                              </p>
+                            ))}
+                        </div>
+                      )}
                     </div>
-                  </HoverCardContent>
-                </HoverCard>
+                  </Card>
+                </div>
               );
             })}
           </div>
