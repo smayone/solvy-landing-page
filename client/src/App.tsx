@@ -34,15 +34,19 @@ function Router() {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-1 pt-16">
-          <Router />
+        <main className="flex-1 flex flex-col pt-16">
+          <div className="flex-1">
+            <Router />
+          </div>
+          <div className="mt-auto">
+            <CTA />
+            <Footer />
+          </div>
         </main>
-        <CTA />
-        <Footer />
+        <Toaster />
       </div>
-      <Toaster />
     </QueryClientProvider>
   );
 }

@@ -5,27 +5,25 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 w-full">
-      <div className="container mx-auto py-10 px-4">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <div className="flex flex-col items-center lg:items-start">
-              <Link href="/">
-                <img 
-                  src="/attached_assets/fulllogo.png" 
-                  alt="SOLVY" 
-                  className="h-16 w-auto mb-6 transition-transform hover:scale-105"
-                />
-              </Link>
-              <p className="text-sm text-muted-foreground text-center lg:text-left max-w-md">
-                Breaking chains, building futures. Empowering individuals through decentralized financial sovereignitity - the ultimate path to economic freedom and self-determination.
-              </p>
-            </div>
+    <footer className="w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
+          <div className="lg:col-span-2 flex flex-col items-center lg:items-start">
+            <Link href="/">
+              <img 
+                src="/attached_assets/fulllogo.png" 
+                alt="SOLVY" 
+                className="h-16 w-auto mb-6 transition-transform hover:scale-105"
+              />
+            </Link>
+            <p className="text-sm text-muted-foreground text-center lg:text-left max-w-md">
+              Breaking chains, building futures. Empowering individuals through decentralized financial sovereignitity - the ultimate path to economic freedom and self-determination.
+            </p>
           </div>
 
           <div className="text-center lg:text-left">
-            <h3 className="font-semibold mb-3">Services</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-4">Services</h3>
+            <ul className="space-y-3">
               <li>
                 <Link href="/member" className="text-sm text-muted-foreground hover:text-primary">
                   Member Services
@@ -45,8 +43,8 @@ export function Footer() {
           </div>
 
           <div className="text-center lg:text-left">
-            <h3 className="font-semibold mb-3">Resources</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-4">Resources</h3>
+            <ul className="space-y-3">
               <li>
                 <Link href="/analytics" className="text-sm text-muted-foreground hover:text-primary">
                   Analytics
@@ -76,8 +74,8 @@ export function Footer() {
           </div>
 
           <div className="text-center lg:text-left">
-            <h3 className="font-semibold mb-3">Sovereignitity</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-4">Sovereignitity</h3>
+            <ul className="space-y-3">
               <li>
                 <Link href="/why-statement" className="text-sm text-muted-foreground hover:text-primary">
                   Our Mission
@@ -97,7 +95,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t pt-8 text-center">
+        <div className="mt-16 pt-8 border-t text-center">
           <div className="flex justify-center space-x-6 mb-6">
             <a 
               href="https://www.facebook.com/SANathanLLC" 
