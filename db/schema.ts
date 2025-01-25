@@ -7,7 +7,8 @@ import {
   integer,
   jsonb,
   decimal,
-  date 
+  date,
+  foreignKey
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
@@ -140,6 +141,34 @@ export const learningProgress = pgTable("learning_progress", {
   metadata: jsonb("metadata"),
 });
 
+export const taxRepatriations = pgTable("tax_repatriations", {
+  id: serial("id").primaryKey(),
+  companyId: integer("company_id").references(() => techCompanies.id),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(),
+  status: text("status").notNull().default("pending"),
+  filingDate: date("filing_date").notNull(),
+  processingDate: date("processing_date"),
+  privacyCaseId: integer("privacy_case_id").references(() => privacyCases.id),
+  destinationCountry: text("destination_country").notNull(),
+  purposeDescription: text("purpose_description"),
+  verificationStatus: text("verification_status").notNull().default("pending"),
+  verificationDetails: jsonb("verification_details"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const companyAccess = pgTable("company_access", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  companyId: integer("company_id").references(() => techCompanies.id),
+  role: text("role").notNull(),
+  accessLevel: text("access_level").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 export const insertMembershipSchema = createInsertSchema(memberships);
@@ -160,6 +189,10 @@ export const insertEducationalContentSchema = createInsertSchema(educationalCont
 export const selectEducationalContentSchema = createSelectSchema(educationalContent);
 export const insertLearningProgressSchema = createInsertSchema(learningProgress);
 export const selectLearningProgressSchema = createSelectSchema(learningProgress);
+export const insertTaxRepatriationSchema = createInsertSchema(taxRepatriations);
+export const selectTaxRepatriationSchema = createSelectSchema(taxRepatriations);
+export const insertCompanyAccessSchema = createInsertSchema(companyAccess);
+export const selectCompanyAccessSchema = createSelectSchema(companyAccess);
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
@@ -181,3 +214,7 @@ export type InsertEducationalContent = typeof educationalContent.$inferInsert;
 export type SelectEducationalContent = typeof educationalContent.$inferSelect;
 export type InsertLearningProgress = typeof learningProgress.$inferInsert;
 export type SelectLearningProgress = typeof learningProgress.$inferSelect;
+export type InsertTaxRepatriation = typeof taxRepatriations.$inferInsert;
+export type SelectTaxRepatriation = typeof taxRepatriations.$inferSelect;
+export type InsertCompanyAccess = typeof companyAccess.$inferInsert;
+export type SelectCompanyAccess = typeof companyAccess.$inferSelect;

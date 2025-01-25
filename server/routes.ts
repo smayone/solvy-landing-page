@@ -1,8 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
-import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress } from "@db/schema";
-import { eq, desc } from "drizzle-orm";
+import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress, taxRepatriations, companyAccess } from "@db/schema";
+import { eq, desc, and } from "drizzle-orm";
 import Stripe from "stripe";
 
 // Initialize stripe with the secret key from environment variables
@@ -58,7 +58,7 @@ export function registerRoutes(app: Express): Server {
       }
 
       const overall = Object.values(checks).every(
-        (check) => check.status === "ok" || check === checks.timestamp
+        (check: any) => check.status === "ok" || check === checks.timestamp
       ) ? "healthy" : "degraded";
 
       res.json({
@@ -73,6 +73,86 @@ export function registerRoutes(app: Express): Server {
         error: error?.message || "Health check failed",
         timestamp: new Date().toISOString()
       });
+    }
+  });
+
+  // Check access permissions for tax repatriation
+  app.get("/api/access/tax-repatriation", async (req, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.json({ hasAccess: false });
+      }
+
+      const access = await db
+        .select()
+        .from(companyAccess)
+        .where(and(
+          eq(companyAccess.userId, req.user.id),
+          eq(companyAccess.isActive, true)
+        ))
+        .limit(1);
+
+      const hasAccess = access.length > 0;
+      const role = hasAccess ? access[0].role : null;
+
+      res.json({ hasAccess, role });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to check access permissions" });
+    }
+  });
+
+  // Get tax repatriation data
+  app.get("/api/tax-repatriation", async (req, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      // Get user's access level
+      const access = await db
+        .select()
+        .from(companyAccess)
+        .where(and(
+          eq(companyAccess.userId, req.user.id),
+          eq(companyAccess.isActive, true)
+        ));
+
+      if (!access.length) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      // Fetch repatriation cases
+      const cases = await db
+        .select({
+          id: taxRepatriations.id,
+          amount: taxRepatriations.amount,
+          status: taxRepatriations.status,
+          filingDate: taxRepatriations.filingDate,
+          companyName: techCompanies.name,
+          privacyCaseNumber: privacyCases.caseNumber,
+          destinationCountry: taxRepatriations.destinationCountry
+        })
+        .from(taxRepatriations)
+        .innerJoin(techCompanies, eq(taxRepatriations.companyId, techCompanies.id))
+        .innerJoin(privacyCases, eq(taxRepatriations.privacyCaseId, privacyCases.id))
+        .orderBy(desc(taxRepatriations.filingDate));
+
+      // Calculate summary statistics
+      const summary = {
+        totalAmount: cases.reduce((sum, c) => sum + Number(c.amount), 0),
+        activeCases: cases.filter(c => c.status === "pending").length,
+        completedCases: cases.filter(c => c.status === "completed").length
+      };
+
+      // Generate timeline data
+      const timeline = cases.map(c => ({
+        date: c.filingDate,
+        amount: c.amount
+      }));
+
+      res.json({ cases, summary, timeline });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch repatriation data" });
     }
   });
 
