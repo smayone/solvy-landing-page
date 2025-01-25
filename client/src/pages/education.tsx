@@ -329,7 +329,6 @@ export default function Education() {
     "Market Analysis"
   ];
 
-  // Add icons for conceptualization terms
   const conceptIcons = {
     "Sovereignitity": Globe,
     "SOLVY": Building2,
@@ -340,48 +339,50 @@ export default function Education() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-16">
-      <div className="container py-8">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight mb-2">
-              DECIDEY Learning Hub
-            </h1>
-            <p className="text-muted-foreground">
-              Your personalized journey to financial sovereignty
-            </p>
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">
+            DECIDEY Learning Hub
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Your personalized journey to financial sovereignty
+          </p>
+          <div className="mt-6 flex justify-center">
+            <ShareButtons
+              title="SOLVY Blockchain Education"
+              description="Learn about blockchain technology and achieve Sovereignitity with DECIDEY"
+            />
           </div>
-          <ShareButtons
-            title="SOLVY Blockchain Education"
-            description="Learn about blockchain technology and achieve Sovereignitity with DECIDEY"
-          />
         </div>
 
+        {/* Personalized Learning Path */}
         {personalizedPath && (
-          <Card className="mb-8">
+          <Card className="mb-12 max-w-4xl mx-auto">
             <CardHeader>
-              <div className="flex items-center gap-4">
-                <Brain className="h-6 w-6 text-primary" />
-                <div>
+              <div className="flex items-center gap-4 justify-center">
+                <Brain className="h-8 w-8 text-primary" />
+                <div className="text-center">
                   <CardTitle>Your Learning Path</CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-2">
                     AI-recommended content based on your interests and progress
                   </p>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4">
+              <div className="grid gap-4 max-w-3xl mx-auto">
                 {personalizedPath.recommendations.map((item, index) => (
-                  <Card key={index} className="p-4">
+                  <Card key={index} className="p-6">
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
-                        <h3 className="font-medium">{item.title}</h3>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                        <h3 className="font-medium text-lg">{item.title}</h3>
+                        <p className="text-muted-foreground">{item.description}</p>
                       </div>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="lg">
                         Start Learning
-                        <ChevronRight className="ml-2 h-4 w-4" />
+                        <ChevronRight className="ml-2 h-5 w-5" />
                       </Button>
                     </div>
                   </Card>
@@ -391,43 +392,40 @@ export default function Education() {
           </Card>
         )}
 
-        {/* Enhanced Conceptualizations Section */}
-        <Card className="mb-8">
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              <BookOpenText className="h-6 w-6 text-primary" />
-              <div>
-                <CardTitle>Conceptualizations and Key Terms Glossary</CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Essential concepts and terminology for understanding global financial dynamics
-                </p>
-              </div>
+        {/* Storyboard Modules Section */}
+        <div className="space-y-24 mb-24">
+          {/* Conceptualizations Module */}
+          <section className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <BookOpenText className="h-12 w-12 mx-auto text-primary mb-4" />
+              <h2 className="text-3xl font-bold mb-4">Key Concepts & Terminology</h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Master the essential concepts shaping the future of finance
+              </p>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {glossaryTerms.map((item, index) => {
                 const IconComponent = conceptIcons[item.term as keyof typeof conceptIcons] || BookOpenText;
                 return (
                   <HoverCard key={index}>
                     <HoverCardTrigger asChild>
-                      <Card className="p-4 cursor-pointer transition-all hover:shadow-lg">
-                        <div className="flex items-start gap-4">
-                          <div className="bg-primary/10 p-2 rounded-lg">
-                            <IconComponent className="h-6 w-6 text-primary" />
+                      <Card className="p-6 cursor-pointer transition-all hover:shadow-lg">
+                        <div className="flex flex-col items-center text-center gap-4">
+                          <div className="bg-primary/10 p-4 rounded-full">
+                            <IconComponent className="h-8 w-8 text-primary" />
                           </div>
-                          <div className="space-y-1">
-                            <h3 className="font-bold text-lg">{item.term}</h3>
-                            <p className="text-muted-foreground line-clamp-2">
+                          <div>
+                            <h3 className="font-bold text-xl mb-2">{item.term}</h3>
+                            <p className="text-muted-foreground line-clamp-3">
                               {item.definition.split('\n')[0]}
                             </p>
                           </div>
                         </div>
                       </Card>
                     </HoverCardTrigger>
-                    <HoverCardContent className="w-96 p-4">
-                      <div className="space-y-2">
-                        <h4 className="font-bold text-lg">{item.term}</h4>
+                    <HoverCardContent className="w-96 p-6">
+                      <div className="space-y-4">
+                        <h4 className="font-bold text-xl">{item.term}</h4>
                         <p className="text-muted-foreground whitespace-pre-line">
                           {item.definition}
                         </p>
@@ -437,160 +435,52 @@ export default function Education() {
                 );
               })}
             </div>
-          </CardContent>
-        </Card>
+          </section>
 
-        {/* BRICS+ Alliance Section */}
-        <Card className="mb-8">
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              <GraduationCap className="h-6 w-6 text-primary" />
-              <div>
-                <CardTitle>BRICS+ Alliance Overview</CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Current status and objectives of the expanded BRICS+ alliance
-                </p>
-              </div>
+          {/* Community Resources Module */}
+          <section className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <Users className="h-12 w-12 mx-auto text-primary mb-4" />
+              <h2 className="text-3xl font-bold mb-4">Community Resources</h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Latest educational content from trusted channels
+              </p>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-bold text-lg mb-2">Current Full Members (2025)</h3>
-                <div className="grid gap-2 md:grid-cols-2">
-                  <Card className="p-3">
-                    <p className="font-medium">Original Members</p>
-                    <ul className="list-disc list-inside text-muted-foreground">
-                      <li>Brazil</li>
-                      <li>Russia</li>
-                      <li>India</li>
-                      <li>China</li>
-                    </ul>
-                  </Card>
-                  <Card className="p-3">
-                    <p className="font-medium">Expansion Members</p>
-                    <ul className="list-disc list-inside text-muted-foreground">
-                      <li>South Africa (joined 2010)</li>
-                      <li>Egypt (joined 2024)</li>
-                      <li>Ethiopia (joined 2024)</li>
-                      <li>Iran (joined 2024)</li>
-                      <li>United Arab Emirates (joined 2024)</li>
-                      <li>Indonesia (joined 2025)</li>
-                    </ul>
-                  </Card>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-lg mb-2">Partner Countries with Observer Status</h3>
-                <Card className="p-3">
-                  <ul className="list-disc list-inside text-muted-foreground grid grid-cols-2 gap-2">
-                    <li>Algeria</li>
-                    <li>Mexico</li>
-                    <li>Nigeria</li>
-                    <li>Kazakhstan</li>
-                    <li>Senegal</li>
-                    <li>Thailand</li>
-                    <li>Turkey</li>
-                    <li>Vietnam</li>
-                  </ul>
-                </Card>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-lg mb-2">Key Objectives</h3>
-                <div className="grid gap-2">
-                  <Card className="p-3">
-                    <p className="font-medium">Economic Cooperation</p>
-                    <p className="text-muted-foreground">
-                      Fostering trade, investment, and development opportunities among member countries
-                    </p>
-                  </Card>
-                  <Card className="p-3">
-                    <p className="font-medium">Political Influence</p>
-                    <p className="text-muted-foreground">
-                      Creating a counterbalance to Western-dominated global institutions and promoting a multipolar world order
-                    </p>
-                  </Card>
-                  <Card className="p-3">
-                    <p className="font-medium">Financial Initiatives</p>
-                    <p className="text-muted-foreground">
-                      Developing mechanisms like the New Development Bank (NDB) and BRICS Contingent Reserve Arrangement (CRA)
-                    </p>
-                  </Card>
-                  <Card className="p-3">
-                    <p className="font-medium">Payment Systems Development</p>
-                    <p className="text-muted-foreground">
-                      Building independent cross-border payment infrastructure and settlement systems to reduce dependency on Western-controlled financial networks
-                    </p>
-                  </Card>
-                  <Card className="p-3">
-                    <p className="font-medium">Cultural and Social Exchange</p>
-                    <p className="text-muted-foreground">
-                      Encouraging cultural, educational, and social collaboration between member nations
-                    </p>
-                  </Card>
-                  <Card className="p-3">
-                    <p className="font-medium">Global Governance</p>
-                    <p className="text-muted-foreground">
-                      Addressing international challenges including climate change, sustainable development, and security
-                    </p>
-                  </Card>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Enhanced Community Resources Section */}
-        <Card className="mb-8">
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              <Users className="h-6 w-6 text-primary" />
-              <div>
-                <CardTitle>Community Resources</CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Latest educational content from trusted channels
-                </p>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-8">
+            <div className="space-y-16">
               {channelCategories.map((category) => (
                 <div key={category}>
-                  <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-                    {category === "Economic Analysis" && <Landmark className="h-5 w-5 text-primary" />}
-                    {category === "Global Perspectives" && <Globe className="h-5 w-5 text-primary" />}
-                    {category === "Financial Education" && <BookOpen className="h-5 w-5 text-primary" />}
-                    {category === "Market Analysis" && <Coins className="h-5 w-5 text-primary" />}
-                    {category}
-                  </h3>
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="flex items-center justify-center gap-3 mb-8">
+                    {category === "Economic Analysis" && <Landmark className="h-6 w-6 text-primary" />}
+                    {category === "Global Perspectives" && <Globe className="h-6 w-6 text-primary" />}
+                    {category === "Financial Education" && <BookOpen className="h-6 w-6 text-primary" />}
+                    {category === "Market Analysis" && <Coins className="h-6 w-6 text-primary" />}
+                    <h3 className="text-2xl font-bold">{category}</h3>
+                  </div>
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {communityChannels
                       .filter(channel => channel.category === category)
                       .map((channel, index) => (
                         <HoverCard key={index}>
                           <HoverCardTrigger asChild>
-                            <Card className="p-4 cursor-pointer transition-all hover:shadow-lg">
+                            <Card className="overflow-hidden cursor-pointer transition-all hover:shadow-lg">
                               {channel.latestVideo && (
-                                <div className="space-y-4">
+                                <div>
                                   <AspectRatio ratio={16 / 9}>
                                     <img
                                       src={channel.latestVideo.thumbnailUrl}
                                       alt={`Latest video from ${channel.name}`}
-                                      className="rounded-md object-cover w-full h-full"
+                                      className="object-cover w-full h-full"
                                     />
                                     <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                                      <PlayCircle className="h-12 w-12 text-white" />
+                                      <PlayCircle className="h-16 w-16 text-white" />
                                     </div>
                                   </AspectRatio>
-                                  <div className="space-y-2">
-                                    <h3 className="font-medium line-clamp-1">{channel.name}</h3>
-                                    <p className="text-sm font-medium line-clamp-2 text-primary">
+                                  <div className="p-6 space-y-4">
+                                    <h3 className="font-bold text-lg line-clamp-1">{channel.name}</h3>
+                                    <p className="text-primary line-clamp-2">
                                       {channel.latestVideo.title}
                                     </p>
-                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                       <span>{channel.latestVideo.publishedAt}</span>
                                       <span>•</span>
                                       <span>{channel.latestVideo.views} views</span>
@@ -608,12 +498,12 @@ export default function Education() {
                                 className="rounded-t-md object-cover w-full h-full"
                               />
                             </AspectRatio>
-                            <div className="p-4 space-y-2">
-                              <h4 className="font-medium">{channel.name}</h4>
-                              <p className="text-sm text-muted-foreground">
+                            <div className="p-6 space-y-4">
+                              <h4 className="font-bold text-lg">{channel.name}</h4>
+                              <p className="text-muted-foreground">
                                 {channel.description}
                               </p>
-                              <Button variant="outline" size="sm" className="w-full" asChild>
+                              <Button variant="outline" size="lg" className="w-full" asChild>
                                 <a
                                   href={channel.channelId.startsWith('http') ? channel.channelId : `https://youtube.com/channel/${channel.channelId}`}
                                   target="_blank"
@@ -630,60 +520,59 @@ export default function Education() {
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </section>
+        </div>
 
-        <Tabs defaultValue="decidey" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-3">
+        {/* Learning Modules Section */}
+        <section className="max-w-6xl mx-auto">
+          <Tabs defaultValue="decidey" className="space-y-8">
+            <TabsList className="grid w-full grid-cols-3">
+              {modules.map((module) => (
+                <TabsTrigger key={module.id} value={module.id} className="flex items-center gap-2">
+                  <module.icon className="h-5 w-5" />
+                  {module.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
             {modules.map((module) => (
-              <TabsTrigger key={module.id} value={module.id} className="flex items-center gap-2">
-                <module.icon className="h-4 w-4" />
-                {module.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {modules.map((module) => (
-            <TabsContent key={module.id} value={module.id}>
-              <div className="grid gap-6">
+              <TabsContent key={module.id} value={module.id}>
                 <Card>
                   <CardHeader>
-                    <div className="flex items-center gap-4">
-                      <module.icon className="h-8 w-8 text-primary" />
+                    <div className="flex items-center gap-4 justify-center text-center">
                       <div>
-                        <CardTitle>{module.title}</CardTitle>
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <module.icon className="h-12 w-12 text-primary mx-auto mb-4" />
+                        <CardTitle className="text-2xl">{module.title}</CardTitle>
+                        <p className="text-muted-foreground mt-2 max-w-2xl">
                           {module.description}
                         </p>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid gap-4">
+                    <div className="grid gap-6 max-w-4xl mx-auto">
                       {module.topics.map((topic, index) => (
                         <Card key={index}>
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between">
+                          <CardContent className="p-6">
+                            <div className="flex items-center justify-between gap-8">
                               <div className="flex-1">
-                                <h3 className="text-lg font-medium mb-1">
+                                <h3 className="text-xl font-bold mb-2">
                                   {topic.title}
                                 </h3>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-muted-foreground mb-4">
                                   {topic.description}
                                 </p>
-                                <div className="mt-4">
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="flex items-center gap-2"
-                                    onClick={() => window.open(`https://www.youtube.com/watch?v=${topic.videoId}`, '_blank')}
-                                  >
-                                    <Video className="h-4 w-4" />
-                                    Watch Video
-                                  </Button>
-                                </div>
+                                <Button
+                                  variant="outline"
+                                  size="lg"
+                                  className="flex items-center gap-2"
+                                  onClick={() => window.open(`https://www.youtube.com/watch?v=${topic.videoId}`, '_blank')}
+                                >
+                                  <Video className="h-5 w-5" />
+                                  Watch Video
+                                </Button>
                               </div>
-                              <Progress value={33} className="w-[100px]" />
+                              <Progress value={33} className="w-[120px]" />
                             </div>
                           </CardContent>
                         </Card>
@@ -691,10 +580,10 @@ export default function Education() {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </section>
       </div>
     </div>
   );
