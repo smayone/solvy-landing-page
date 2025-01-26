@@ -9,6 +9,8 @@ import {
 
 const languages = [
   { code: "en", name: "English" },
+  { code: "fr", name: "Français" },
+  { code: "fr-HT", name: "Français (Haïti)" },
   { code: "es-MX", name: "Español (México)" },
   { code: "es-PR", name: "Español (Puerto Rico)" },
   { code: "es-DO", name: "Español (República Dominicana)" },
