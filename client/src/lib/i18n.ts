@@ -123,8 +123,8 @@ const resources = {
         member: 'Member',
         nft_avatar: 'NFT Avatar',
         ebl: 'EBL',
-        buy_crypto: 'Buy Crypto'
-
+        buy_crypto: 'Buy Crypto',
+        reign: 'Reign'
       },
       education: {
         dao: {
@@ -224,7 +224,8 @@ const resources = {
         connect_wallet: 'Conectar Billetera',
         language: 'Idioma',
         evergreen: 'Belleza Evergreen',
-        analytics: 'Análisis'
+        analytics: 'Análisis',
+        reign: 'Reign'
       },
       education: {
         welcome: {
@@ -425,7 +426,8 @@ const resources = {
         connect_wallet: 'Kết nối ví',
         language: 'Ngôn ngữ',
         evergreen: 'Evergreen Beauty',
-        analytics: 'Phân tích'
+        analytics: 'Phân tích',
+        reign: 'Reign'
       },
       hero: {
         creator: 'Được tạo bởi SA Nathan LLC'
@@ -541,7 +543,8 @@ const resources = {
         connect_wallet: '连接钱包',
         language: '语言',
         evergreen: '常青美容',
-        analytics: '分析'
+        analytics: '分析',
+        reign: 'Reign'
       },
       hero: {
         creator: '由 SA Nathan LLC 创建'
@@ -657,7 +660,8 @@ const resources = {
         connect_wallet: '지갑 연결',
         language: '언어',
         evergreen: '에버그린 뷰티',
-        analytics: '분석'
+        analytics: '분석',
+        reign: 'Reign'
       },
       hero: {
         creator: 'SA Nathan LLC에서 제작'
@@ -680,6 +684,9 @@ const resources = {
         booking_error: 'Error al reservar cita. Por favor, inténtelo de nuevo.',
         gift_card_success: '¡Tarjeta de regalo comprada con éxito!',
         gift_card_error: 'Error al comprar la tarjeta de regalo. Por favor, inténtelo de nuevo.',
+      },
+      nav: {
+        reign: 'Reign'
       }
     }
   },
@@ -699,6 +706,9 @@ const resources = {
         booking_error: 'Error al reservar cita. Por favor, inténtelo de nuevo.',
         gift_card_success: '¡Tarjeta de regalo comprada con éxito!',
         gift_card_error: 'Error al comprar la tarjeta de regalo. Por favor, inténtelo de nuevo.',
+      },
+      nav: {
+        reign: 'Reign'
       }
     }
   },
@@ -718,6 +728,9 @@ const resources = {
         booking_error: 'Error al reservar cita. Por favor, inténtelo de nuevo.',
         gift_card_success: '¡Tarjeta de regalo comprada con éxito!',
         gift_card_error: 'Error al comprar la tarjeta de regalo. Por favor, inténtelo de nuevo.',
+      },
+      nav: {
+        reign: 'Reign'
       }
     }
   },
@@ -737,6 +750,9 @@ const resources = {
         booking_error: 'Failed to book appointment. Please try again.',
         gift_card_success: 'Gift card purchased successfully!',
         gift_card_error: 'Failed to purchase gift card. Please try again.',
+      },
+      nav: {
+        reign: 'Reign'
       }
     }
   },
@@ -756,6 +772,9 @@ const resources = {
         booking_error: 'Failed to book appointment. Please try again.',
         gift_card_success: 'Gift card purchased successfully!',
         gift_card_error: 'Failed to purchase gift card. Please try again.',
+      },
+      nav: {
+        reign: 'Reign'
       }
     }
   },
@@ -775,6 +794,9 @@ const resources = {
         booking_error: 'Failed to book appointment. Please try again.',
         gift_card_success: 'Gift card purchased successfully!',
         gift_card_error: 'Failed to purchase gift card. Please try again.',
+      },
+      nav: {
+        reign: 'Reign'
       }
     }
   },
@@ -787,7 +809,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'Analytique',
         education: 'Éducation',
-        buy_crypto: 'Acheter Crypto'
+        buy_crypto: 'Acheter Crypto',
+        reign: 'Reign'
       }
     }
   },
@@ -800,7 +823,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'Analitik',
         education: 'Edikasyon',
-        buy_crypto: 'Achte Kriptomone'
+        buy_crypto: 'Achte Kriptomone',
+        reign: 'Reign'
       }
     }
   },
@@ -813,7 +837,8 @@ const resources = {
         ebl: 'EBL',
         analytics: '分析',
         education: '教育',
-        buy_crypto: '购买加密货币'
+        buy_crypto: '购买加密货币',
+        reign: 'Reign'
       }
     }
   },
@@ -826,7 +851,8 @@ const resources = {
         ebl: 'EBL',
         analytics: '분석',
         education: '교육',
-        buy_crypto: '암호화폐 구매'
+        buy_crypto: '암호화폐 구매',
+        reign: 'Reign'
       }
     }
   },
@@ -839,7 +865,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'Phân tích',
         education: 'Giáo dục',
-        buy_crypto: 'Mua tiền điện tử'
+        buy_crypto: 'Mua tiền điện tử',
+        reign: 'Reign'
       }
     }
   },
@@ -852,7 +879,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'Pagsusuri',
         education: 'Edukasyon',
-        buy_crypto: 'Bumili ng Crypto'
+        buy_crypto: 'Bumili ng Crypto',
+        reign: 'Reign'
       }
     }
   },
@@ -865,7 +893,8 @@ const resources = {
         ebl: 'EBL',
         analytics: '分析',
         education: '教育',
-        buy_crypto: '暗号通貨を購入'
+        buy_crypto: '暗号通貨を購入',
+        reign: 'Reign'
       }
     }
   },
@@ -878,7 +907,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'การวิเคราะห์',
         education: 'การศึกษา',
-        buy_crypto: 'ซื้อ Crypto'
+        buy_crypto: 'ซื้อ Crypto',
+        reign: 'Reign'
       }
     }
   },
@@ -891,7 +921,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'Análisis',
         education: 'Educación',
-        buy_crypto: 'Comprar Cripto'
+        buy_crypto: 'Comprar Cripto',
+        reign: 'Reign'
       }
     }
   },
@@ -904,7 +935,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'Análisis',
         education: 'Educación',
-        buy_crypto: 'Comprar Cripto'
+        buy_crypto: 'Comprar Cripto',
+        reign: 'Reign'
       }
     }
   },
@@ -917,7 +949,8 @@ const resources = {
         ebl: 'EBL',
         analytics: 'Análisis',
         education: 'Educación',
-        buy_crypto: 'Comprar Cripto'
+        buy_crypto: 'Comprar Cripto',
+        reign: 'Reign'
       }
     }
   }

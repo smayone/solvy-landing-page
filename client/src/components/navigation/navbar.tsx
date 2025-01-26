@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -58,6 +58,12 @@ export function Navbar() {
             <Link href="/education" className="flex items-center gap-2">
               <GraduationCap className="h-4 w-4" />
               Education
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/reign" className="flex items-center gap-2">
+              <Heart className="h-4 w-4" />
+              {t('nav.reign')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>
