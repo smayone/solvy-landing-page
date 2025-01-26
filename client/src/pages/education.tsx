@@ -143,6 +143,10 @@ const glossaryTerms = [
   {
     term: "Modified Endowment Contract (MEC)",
     definition: "A life insurance policy that has been funded with more money than allowed by the IRS 7-Pay Test, causing it to lose many of its tax advantages and banking benefits. The 7-Pay Test determines the maximum amount that can be paid into a policy during its first seven years to maintain its tax-advantaged status.\n\nKey Points:\n- Set by the Technical and Miscellaneous Revenue Act of 1988\n- Limits premium payments over first seven years\n- Exceeding limits triggers MEC status\n- MECs lose tax advantages for policy loans\n- Critical consideration in IBC policy design\n\nImportant: Proper engineering of banking policies specifically aims to maximize cash value while staying within these 7-Pay Test limits to avoid MEC status."
+  },
+  {
+    term: "Self-Sovereign Identity (SSI)",
+    definition: "A digital identity model that gives individuals complete control over their personal information, allowing them to manage and share their credentials without relying on centralized authorities. Also known as Decentralized Identity (DID) or User-Controlled Identity.\n\nKey Components:\n- Decentralized Identifiers (DIDs): Globally unique identifiers anchored on blockchain\n- Verifiable Credentials (VCs): Cryptographically secure digital versions of physical credentials\n- Digital Identity Wallet: Personal storage and management of identity credentials\n- Zero-Knowledge Proofs: Ability to prove claims without revealing unnecessary information\n\nIndustry Terms:\n- DID (Decentralized Identity): Technical term for blockchain-based identity systems\n- W3C DID: Standard specification for decentralized identifiers\n- VC (Verifiable Credentials): Standard for cryptographically verifiable claims\n- KERI (Key Event Receipt Infrastructure): Protocol for managing cryptographic keys\n- DIDComm: Protocol for secure communication between DIDs\n\nUse Cases in SOLVY:\n- KYC/AML Compliance\n- Cross-border Identity Verification\n- Professional Credentials\n- Access Control"
   }
 ];
 
