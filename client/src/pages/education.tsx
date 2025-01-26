@@ -102,8 +102,282 @@ const glossaryTerms = [
     {
       term: "Economic Imperialism / Neocolonialism",
       definition: "A modern form of economic control where powerful nations and corporations exploit developing economies through unfair resource extraction, labor practices, and market dominance. Similar to how traditional colonialism operated through direct political control, economic imperialism works through financial mechanisms such as predatory investments, market manipulation, and economic dependencies. This system often results in resource depletion, wage suppression, and economic instability in developing nations, while profits primarily benefit foreign investors and corporations. Understanding this concept is crucial for developing alternative economic systems that promote true financial sovereignty and fair economic development."
+    },
+    {
+    term: "Infinite Banking Concept (IBC)",
+    definition: "A financial strategy developed by Nelson Nash that utilizes dividend-paying whole life insurance as a personal banking system. It allows individuals to become their own bankers by borrowing against their policy's cash value for investments and expenses, while maintaining control over their money and earning compound interest. The concept emphasizes building long-term wealth through disciplined premium payments and strategic policy loans.\n\nKey Components:\n- Dividend-paying whole life insurance\n- Policy loans for personal financing\n- Tax-advantaged growth\n- Uninterrupted compound interest\n- Legacy building"
+  },
+  {
+    term: "Banking Policy",
+    definition: "A specifically designed dividend-paying whole life insurance policy structured to maximize cash value growth and banking capabilities within the Infinite Banking Concept framework. Unlike traditional life insurance policies, banking policies are optimized with paid-up additions and minimal base premium to accelerate cash value accumulation while maintaining the death benefit.\n\nKey Features:\n- High cash value to premium ratio\n- Dividend participation\n- Flexible premium payment structure\n- Quick access to capital through policy loans"
+  },
+  {
+    term: "Policy Loan",
+    definition: "A unique feature of whole life insurance that allows policyholders to borrow against their policy's cash value. Unlike traditional loans, policy loans don't undergo credit checks because you're essentially borrowing against your own money. The insurance company uses your policy's cash value as collateral.\n\nAdvantages:\n- No qualification requirements\n- Flexible repayment terms\n- Lower interest rates than conventional loans\n- Loan doesn't affect policy's cash value growth\n- Death benefit remains intact minus outstanding loan balance"
+  },
+  {
+    term: "Mutual Insurance Company",
+    definition: "An insurance company owned by its policyholders rather than external shareholders. In mutual companies, excess profits (dividends) are distributed back to policyholders, aligning with the Infinite Banking Concept's principle of becoming your own banker.\n\nCharacteristics:\n- Policyholder ownership\n- Long-term focus\n- Conservative investment approach\n- Annual dividend payments\n- Emphasis on financial strength"
+  },
+  {
+    term: "Cash Value",
+    definition: "The savings component of a whole life insurance policy that grows tax-deferred through premium payments, guaranteed interest, and dividends. In the context of Infinite Banking, cash value serves as your personal banking system's capital base.\n\nGrowth Factors:\n- Premium payments\n- Guaranteed interest rate\n- Non-guaranteed dividends\n- Tax-deferred accumulation\n- Compound growth over time"
+  },
+  {
+    term: "Be Your Own Banker (BYOB)",
+    definition: "A financial philosophy and practice derived from the Infinite Banking Concept that emphasizes taking control of your financial life by creating and managing your own banking system. Instead of relying on traditional banks for financing, individuals use specially designed whole life insurance policies to build and access capital.\n\nPrinciples:\n- Financial independence from traditional banking\n- Control over lending terms\n- Wealth building through consistent capitalization\n- Legacy creation\n- Systematic debt reduction"
+  }
+];
+
+const sortedGlossaryTerms = [...glossaryTerms].sort((a, b) =>
+  a.term.localeCompare(b.term)
+);
+
+const groupedTerms = sortedGlossaryTerms.reduce((acc, term) => {
+  const firstLetter = term.term.charAt(0).toUpperCase();
+  if (!acc[firstLetter]) {
+    acc[firstLetter] = [];
+  }
+  acc[firstLetter].push(term);
+  return acc;
+}, {} as Record<string, typeof glossaryTerms>);
+
+const availableLetters = Object.keys(groupedTerms).sort();
+
+const communityChannels: CommunityChannel[] = [
+    {
+      name: "Democracy at Work",
+      description: "Economic analysis and socialist perspective",
+      channelId: "UCK-6FjMu9OI8i0Fo6bkW0VA",
+      category: "Economic Analysis",
+      latestVideo: {
+        title: "Economic Update: Why Workers' Rights Are Key",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-24",
+        views: "45K"
+      }
+    },
+    {
+      name: "World Affairs In Context",
+      description: "Blockchain and cryptocurrency insights",
+      channelId: "https://www.youtube.com/@lenapetrova",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "BRICS+ Expansion: What It Means for Global Finance",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-23",
+        views: "32K"
+      }
+    },
+    {
+      name: "Geopolitical Economy Report",
+      description: "Global economic and political analysis",
+      channelId: "https://www.youtube.com/@GeopoliticalEconomyReport",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "Geopolitical Risks and Investment Strategies",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-22",
+        views: "28K"
+      }
+    },
+    {
+      name: "Cyrus Janssen",
+      description: "International business and cultural perspectives",
+      channelId: "https://www.youtube.com/@CyrusJanssen",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "Understanding Global Trade Dynamics",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-21",
+        views: "21K"
+      }
+    },
+    {
+      name: "Gary's Economics",
+      description: "Economic education and analysis",
+      channelId: "https://www.youtube.com/@garyseconomics",
+      category: "Economic Analysis",
+      latestVideo: {
+        title: "Inflation and Monetary Policy Explained",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-20",
+        views: "18K"
+      }
+    },
+    {
+      name: "Think BRICS",
+      description: "Analysis of BRICS nations and global economy",
+      channelId: "https://www.youtube.com/@ThinkBRICS",
+      category: "Global Perspectives",
+      latestVideo: {
+        title: "BRICS+ and the Future of Global Development",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-19",
+        views: "15K"
+      }
+    },
+    {
+      name: "The Money Multiplier",
+      description: "Financial education and wealth building",
+      channelId: "https://www.youtube.com/@the.money.multiplier",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Building a Solid Financial Foundation",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-18",
+        views: "12K"
+      }
+    },
+    {
+      name: "Melanin Money",
+      description: "Financial literacy and wealth building",
+      channelId: "https://www.youtube.com/@melaninmoney",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Investing for Financial Freedom",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-17",
+        views: "10K"
+      }
+    },
+    {
+      name: "Earn Your Leisure",
+      description: "Business and financial education",
+      channelId: "https://www.youtube.com/@EarnYourLeisure",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Entrepreneurship and Financial Success",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-16",
+        views: "8K"
+      }
+    },
+    {
+      name: "Kitco News",
+      description: "Precious metals and market analysis",
+      channelId: "https://www.youtube.com/@kitco",
+      category: "Market Analysis",
+      latestVideo: {
+        title: "Gold Market Outlook for 2025",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-15",
+        views: "6K"
+      }
+    },
+    {
+      name: "Jason Sipple",
+      description: "Financial markets and trading education",
+      channelId: "https://www.youtube.com/@jasonsipple",
+      category: "Market Analysis",
+      latestVideo: {
+        title: "Technical Analysis Techniques",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-14",
+        views: "5K"
+      }
+    },
+    {
+      name: "Crash Course",
+      description: "Educational content covering economics, finance, and more",
+      channelId: "https://www.youtube.com/@crashcourse",
+      category: "Financial Education",
+      latestVideo: {
+        title: "Understanding Macroeconomics",
+        thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+        publishedAt: "2025-01-13",
+        views: "4K"
+      }
     }
   ];
+
+const modules = [
+    {
+      id: 'decidey',
+      title: 'DECIDEY Foundation',
+      description: 'Decentralized Empowerment Control Identity Data Economy of Yours',
+      icon: Shield,
+      topics: [
+        {
+          title: 'Understanding DECIDEY',
+          videoId: '6WG7D47tGb0',
+          description: 'Introduction to DECIDEY and its mission for community empowerment'
+        },
+        {
+          title: 'Community Education Initiative',
+          videoId: 'HNC-BhJO_zQ',
+          description: 'How DECIDEY empowers communities through blockchain education'
+        },
+        {
+          title: 'Digital Identity Fundamentals',
+          videoId: 'wZR4f3cqtr0',
+          description: 'Understanding the basics of digital identity and self-sovereignty'
+        },
+        {
+          title: 'Path to Sovereignitity',
+          videoId: 'xyz123',
+          description: 'The journey from education to self-sovereign identity through DECIDEY'
+        }
+      ]
+    },
+    {
+      id: 'blockchain',
+      title: 'Blockchain Fundamentals',
+      description: 'Master core blockchain concepts for your journey to Sovereignitity',
+      icon: BookOpen,
+      topics: [
+        {
+          title: 'What is Blockchain?',
+          videoId: '6WG7D47tGb0',
+          description: 'Introduction to blockchain technology and its fundamental principles'
+        },
+        {
+          title: 'Decentralization Explained',
+          videoId: 'HNC-BhJO_zQ',
+          description: 'Understanding the power of decentralized systems'
+        },
+        {
+          title: 'Cryptography Basics',
+          videoId: 'wZR4f3cqtr0',
+          description: 'Essential cryptographic concepts in blockchain'
+        },
+        {
+          title: 'Consensus Mechanisms',
+          videoId: 'abc456',
+          description: 'How blockchain networks achieve agreement'
+        }
+      ]
+    },
+    {
+      id: 'solvy',
+      title: 'SOLVY Integration',
+      description: 'Solutions Valued You - Your Vehicle for Financial Sovereignty',
+      icon: Coins,
+      topics: [
+        {
+          title: 'SOLVY Platform Overview',
+          videoId: 'qFBYB4W2tqU',
+          description: 'Understanding SOLVY as your monetization vehicle'
+        },
+        {
+          title: 'Sovereignitity in Practice',
+          videoId: 'ZE2HxTmxfrI',
+          description: 'Applying DECIDEY education through SOLVY platform'
+        },
+        {
+          title: 'Self-Sovereign Identity',
+          videoId: '2tTVJL4bpTU',
+          description: 'Managing your digital identity and financial sovereignty'
+        },
+        {
+          title: 'Advanced SOLVY Features',
+          videoId: 'ClnnLI1SClA',
+          description: 'Maximizing your potential with SOLVY tools'
+        }
+      ]
+    }
+  ];
+
 
 const sortedGlossaryTerms = [...glossaryTerms].sort((a, b) =>
   a.term.localeCompare(b.term)
