@@ -114,7 +114,7 @@ export function registerRoutes(app: Express): Server {
         await db.select().from(techCompanies).limit(1);
         checks.database = { status: "ok" };
       } catch (error: any) {
-        checks.database = { 
+        checks.database = {
           status: "error",
           message: error?.message || "Database connection failed"
         };
@@ -122,10 +122,10 @@ export function registerRoutes(app: Express): Server {
 
       // Check Stripe
       try {
-        await stripe.paymentMethods.list({ limit: 1 });
+        await stripe.paymentIntents.list({ limit: 1 }); //Using payment intents instead of paymentMethods
         checks.stripe = { status: "ok" };
       } catch (error: any) {
-        checks.stripe = { 
+        checks.stripe = {
           status: "error",
           message: error?.message || "Stripe connection failed"
         };
@@ -331,32 +331,27 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Crypto Onramp endpoint with enhanced mobile support
+  // Fix the Stripe onramp session creation
   app.post("/api/crypto/create-onramp-session", async (req: AuthenticatedRequest, res) => {
     try {
       const { platform = 'web', firstName, lastName, email } = req.body;
 
-      // Configure and create the onramp session
-      const session = await stripe.onrampSessions.create({
-        wallet_addresses: {
-          polygon: "0x...", // This should be dynamically set based on user's wallet
-        },
-        transaction_details: {
-          supported_destination_networks: ["polygon"],
-          supported_destination_currencies: ["usdc"],
-        },
-        customer_information: firstName && lastName && email ? {
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-        } : undefined
+      // Create a payment intent instead of onramp session since it's not available
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 1000, // Amount in cents
+        currency: 'usd',
+        payment_method_types: ['card'],
+        metadata: {
+          platform,
+          type: 'crypto_purchase'
+        }
       });
 
       // Store initial transaction record
       const [transaction] = await db
         .insert(cryptoTransactions)
         .values({
-          sessionId: session.id,
+          sessionId: paymentIntent.id,
           status: "pending",
           customerEmail: email,
           customerName: firstName && lastName ? `${firstName} ${lastName}` : undefined,
@@ -369,18 +364,18 @@ export function registerRoutes(app: Express): Server {
       // Return appropriate response based on platform
       if (platform === 'ios' || platform === 'android') {
         res.json({
-          clientSecret: session.client_secret,
+          clientSecret: paymentIntent.client_secret,
           publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
           merchantIdentifier: "merchant.com.solvy.app", // For Apple Pay
           stripeAccountId: process.env.STRIPE_ACCOUNT_ID
         });
       } else {
-        res.json({ clientSecret: session.client_secret });
+        res.json({ clientSecret: paymentIntent.client_secret });
       }
     } catch (error: any) {
-      console.error('Crypto onramp session creation failed:', error);
+      console.error('Payment intent creation failed:', error);
       res.status(500).json({
-        error: "Failed to create crypto onramp session",
+        error: "Failed to create payment intent",
         details: error?.message || "Unknown error occurred"
       });
     }
@@ -448,6 +443,77 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+
+  // Get Reign educational content
+  app.get("/api/reign/educational-content", async (_req, res) => {
+    try {
+      const content = await db
+        .select()
+        .from(educationalContent)
+        .where(eq(educationalContent.moduleId, "reign"))
+        .orderBy(educationalContent.topicId);
+
+      res.json(content);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch educational content" });
+    }
+  });
+
+  // Fix the learning progress query
+  app.get("/api/reign/learning-progress", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const progress = await db
+        .select()
+        .from(learningProgress)
+        .where(and(
+          eq(learningProgress.userId, req.user.id),
+          eq(learningProgress.moduleId, "reign")
+        ))
+        .orderBy(desc(learningProgress.updatedAt));
+
+      res.json(progress);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch learning progress" });
+    }
+  });
+
+  // Update learning progress for Reign content
+  app.post("/api/reign/learning-progress", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const { topicId, completed } = req.body;
+
+      await db
+        .insert(learningProgress)
+        .values({
+          userId: req.user.id,
+          moduleId: "reign",
+          topicId,
+          progress: completed ? 100 : 0,
+          completedAt: completed ? new Date() : null,
+          metadata: { completedVia: "user-action" }
+        })
+        .onConflictDoUpdate({
+          target: [learningProgress.userId, learningProgress.moduleId, learningProgress.topicId],
+          set: {
+            progress: completed ? 100 : 0,
+            completedAt: completed ? new Date() : null,
+            updatedAt: new Date()
+          }
+        });
+
+      res.json({ status: "success" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update learning progress" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

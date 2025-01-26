@@ -50,12 +50,14 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
+    // Handle uncaught exceptions
     process.on('uncaughtException', (err) => {
-      log('Uncaught Exception:', err);
+      log(`Uncaught Exception: ${err.message}`);
     });
 
-    process.on('unhandledRejection', (reason, promise) => {
-      log('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Handle unhandled promise rejections
+    process.on('unhandledRejection', (reason) => {
+      log(`Unhandled Rejection: ${reason}`);
     });
 
     const server = registerRoutes(app);
@@ -74,24 +76,30 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    // Try alternative ports if 5000 is busy
-    const tryPort = (port: number): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        server.once('error', (err: any) => {
-          if (err.code === 'EADDRINUSE') {
-            log(`Port ${port} is busy, trying ${port + 1}...`);
-            server.close();
-            tryPort(port + 1).then(resolve).catch(reject);
-          } else {
-            reject(err);
-          }
+    // Try ports sequentially starting from 5000
+    const tryPort = async (port: number, maxRetries = 5): Promise<void> => {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          server.listen(port, "0.0.0.0")
+            .once('error', (err: NodeJS.ErrnoException) => {
+              if (err.code === 'EADDRINUSE' && port < 5000 + maxRetries) {
+                log(`Port ${port} is in use, trying ${port + 1}...`);
+                tryPort(port + 1, maxRetries).then(resolve).catch(reject);
+              } else {
+                reject(err);
+              }
+            })
+            .once('listening', () => {
+              log(`Server started on port ${port}`);
+              resolve();
+            });
         });
-
-        server.listen(port, "0.0.0.0", () => {
-          log(`Server started on port ${port}`);
-          resolve();
-        });
-      });
+      } catch (err: any) {
+        if (port >= 5000 + maxRetries) {
+          throw new Error(`Failed to find available port after ${maxRetries} retries`);
+        }
+        throw err;
+      }
     };
 
     await tryPort(5000);
