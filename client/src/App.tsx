@@ -15,6 +15,8 @@ import CryptoPage from "@/pages/crypto";
 import Education from "@/pages/education";
 import MonitoringDashboard from "@/pages/monitoring-dashboard";
 import NotFound from "@/pages/not-found";
+import { useTheme } from "@/hooks/use-theme";
+import "./lib/i18n"; // Initialize i18next
 
 function Router() {
   return (
@@ -34,6 +36,8 @@ function Router() {
 }
 
 export default function App() {
+  useTheme(); // This hook will handle theme class on document
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen flex flex-col">
