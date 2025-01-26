@@ -58,7 +58,7 @@ async function checkDatabase(): Promise<boolean> {
   }
 }
 
-// Graceful shutdown handler
+// Graceful shutdown handler with proper cleanup
 function setupGracefulShutdown(server: any) {
   let shuttingDown = false;
 
@@ -68,26 +68,20 @@ function setupGracefulShutdown(server: any) {
     log('Received shutdown signal, closing server...');
 
     // Close the server first
-    await new Promise<void>((resolve) => {
-      server.close(() => {
-        log('Server closed');
-        resolve();
-      });
+    server.close(() => {
+      log('Server closed');
+      process.exit(0);
     });
 
-    process.exit(0);
-  }
-
-  process.on('SIGTERM', shutdown);
-  process.on('SIGINT', shutdown);
-
-  // Force shutdown after timeout
-  process.on('SIGTERM', () => {
+    // Force exit after timeout
     setTimeout(() => {
       log('Could not close connections in time, forcefully shutting down');
       process.exit(1);
     }, 10000);
-  });
+  }
+
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
 }
 
 // Main application startup
@@ -98,10 +92,6 @@ function setupGracefulShutdown(server: any) {
     if (!dbConnected) {
       throw new Error('Could not connect to database');
     }
-
-    const portStr = process.env.PORT || '5000';
-    const port = parseInt(portStr, 10);
-    const host = '0.0.0.0';
 
     const server = registerRoutes(app);
 
@@ -123,8 +113,18 @@ function setupGracefulShutdown(server: any) {
     // Set up graceful shutdown
     setupGracefulShutdown(server);
 
-    server.listen(port, host, () => {
+    // Start server with proper error handling
+    const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
+    server.listen(port, '0.0.0.0', () => {
       log(`Server started on port ${port}`);
+    }).on('error', (error: any) => {
+      if (error.code === 'EADDRINUSE') {
+        log(`Port ${port} is already in use. Please try again in a few moments...`);
+        process.exit(1);
+      } else {
+        log('Server failed to start:', error.message);
+        process.exit(1);
+      }
     });
   } catch (error: any) {
     log('Fatal error:', error.message);

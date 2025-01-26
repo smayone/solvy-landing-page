@@ -5,42 +5,106 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   en: {
     translation: {
+      conceptualizations: {
+        title: 'Conceptualizations & Terminology',
+        subtitle: 'Understanding Our Ecosystem Components',
+        decidey: {
+          title: 'DECIDEY (dee-see-day)',
+          description: 'Understanding Tech Revenue Tax Repatriation and Transparency',
+          terms: {
+            tax_repatriation: {
+              title: 'Tax Repatriation',
+              description: 'Process of returning corporate profits held overseas back to their country of origin for proper taxation and economic benefit'
+            },
+            transparency_monitoring: {
+              title: 'Transparency Monitoring',
+              description: 'Continuous tracking and reporting of corporate financial flows and tax obligations'
+            },
+            donation_management: {
+              title: 'Donation Management',
+              description: 'Transparent tracking and allocation of corporate donations and community investments'
+            },
+            privacy_compliance: {
+              title: 'Privacy Compliance',
+              description: 'Monitoring and reporting of corporate compliance with data privacy regulations and user rights'
+            }
+          }
+        },
+        solvy: {
+          title: 'SOLVY',
+          description: 'Cross-border Payment Solutions and Financial Tools',
+          terms: {
+            cross_border_payments: {
+              title: 'Cross-border Payments',
+              description: 'Secure and efficient international money transfer systems using blockchain technology'
+            },
+            remittance_system: {
+              title: 'Decentralized Remittance',
+              description: 'Peer-to-peer money transfer system reducing costs and intermediaries'
+            },
+            smart_contracts: {
+              title: 'Smart Contracts',
+              description: 'Self-executing contracts with predefined rules for automated financial transactions'
+            },
+            financial_tools: {
+              title: 'Financial Tools',
+              description: 'Comprehensive suite of instruments for managing international payments and settlements'
+            }
+          }
+        },
+        man: {
+          title: 'MAN (Mandatory Audit Network)',
+          description: 'Comprehensive Audit and Compliance Tracking System',
+          terms: {
+            transaction_monitoring: {
+              title: 'Real-time Monitoring',
+              description: 'Continuous tracking of financial transactions for compliance and transparency'
+            },
+            compliance_checks: {
+              title: 'Automated Compliance',
+              description: 'Systematic verification of transactions against regulatory requirements'
+            },
+            audit_trails: {
+              title: 'Audit Trails',
+              description: 'Immutable records of all financial activities and compliance checks'
+            },
+            access_control: {
+              title: 'Access Control',
+              description: 'Hierarchical system controlling data access and modification rights'
+            }
+          }
+        },
+        dao: {
+          title: 'Understanding DAOs',
+          description: 'Core Concepts of Decentralized Autonomous Organizations',
+          terms: {
+            definition: {
+              title: 'What is a DAO?',
+              description: 'A blockchain-based organization governed by smart contracts and community decisions, eliminating the need for traditional hierarchical management'
+            },
+            governance: {
+              title: 'Governance',
+              description: 'The system of rules and processes by which members collectively make decisions and manage resources'
+            },
+            token_economics: {
+              title: 'Token Economics',
+              description: 'The economic model that governs how tokens are distributed and used within the DAO ecosystem'
+            },
+            voting_rights: {
+              title: 'Voting Rights',
+              description: 'How members participate in decision-making through token-weighted or other voting mechanisms'
+            },
+            treasury: {
+              title: 'Treasury Management',
+              description: 'How the DAO collectively manages and allocates its shared resources and funds'
+            }
+          }
+        }
+      },
       hero: {
         title: 'SOLVY: Gain Financial Sovereignty',
         vulture_economy: 'Companies are profiting billions from your data, which they hold captive in their databases-and they\'re counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?',
         solutions_valued: 'Solvy.chain: Solutions Valued You. We\'re breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.',
-      },
-      dao: {
-        title: 'Decentralized Autonomous Organization',
-        description: 'A blockchain-based organization governed by transparent rules and community decisions',
-        features: {
-          governance: 'Community-driven governance',
-          transparency: 'Transparent decision making',
-          voting: 'Token-based voting rights',
-          proposals: 'Community proposals',
-          treasury: 'Shared treasury management'
-        },
-        participation: {
-          join: 'Join the DAO',
-          propose: 'Make a Proposal',
-          vote: 'Vote on Proposals',
-          stake: 'Stake Tokens'
-        }
-      },
-      evergreen: {
-        title: 'Evergreen Beauty Lounge',
-        subtitle: 'Experience luxury beauty services with the convenience of SOLVY payments.',
-        book_now: 'Book Now with SOLVY',
-        services: 'Services',
-        gift_cards: 'Gift Cards',
-        gift_card_bonus: 'Get ${bonus} bonus value!',
-        total_value: 'Total Value',
-        purchase_with_solvy: 'Purchase with SOLVY',
-        book_appointment: 'Book Appointment',
-        booking_success: 'Appointment booked!',
-        booking_error: 'Failed to book appointment. Please try again.',
-        gift_card_success: 'Gift card purchased successfully!',
-        gift_card_error: 'Failed to purchase gift card. Please try again.',
       },
       nav: {
         decidey: 'DECIDEY',
@@ -52,6 +116,29 @@ const resources = {
         analytics: 'Analytics'
       },
       education: {
+        dao: {
+          title: 'Understanding DAOs',
+          subtitle: 'Decentralized Autonomous Organizations Explained',
+          description: 'Learn about the future of organizational governance through blockchain technology',
+          concepts: {
+            what_is_dao: {
+              title: 'What is a DAO?',
+              description: 'A Decentralized Autonomous Organization (DAO) is a blockchain-based structure where rules are encoded as transparent computer programs, reducing the need for central management.'
+            },
+            how_it_works: {
+              title: 'How DAOs Work',
+              description: 'DAOs operate through smart contracts that define rules and execute decisions automatically. Members can propose and vote on decisions that affect the organization.'
+            },
+            benefits: {
+              title: 'Benefits of DAOs',
+              description: 'DAOs offer transparency, reduced bureaucracy, and democratic decision-making. They enable global collaboration and automated execution of community decisions.'
+            },
+            use_cases: {
+              title: 'DAO Use Cases',
+              description: 'DAOs can be used for investment groups, charitable giving, project funding, and community-owned businesses, among other applications.'
+            }
+          }
+        },
         welcome: {
           title: 'Welcome to SOLVY Education',
           subtitle: 'Your Journey into Blockchain Technology Starts Here',
@@ -85,61 +172,25 @@ const resources = {
           certificate: 'View Certificate'
         }
       },
-      concepts: {
-        dao: {
-          title: 'DAO Concepts & Terminology',
-          description: 'Essential concepts for understanding Decentralized Autonomous Organizations',
-          terms: {
-            governance: {
-              title: 'Governance',
-              description: 'The system of rules, practices, and processes by which a DAO is directed and controlled'
-            },
-            token_economics: {
-              title: 'Token Economics',
-              description: 'The economic system governing the creation, distribution, and management of tokens within a DAO'
-            },
-            voting_mechanisms: {
-              title: 'Voting Mechanisms',
-              description: 'Systems used to make collective decisions, including quadratic voting and token-weighted voting'
-            },
-            smart_contracts: {
-              title: 'Smart Contracts',
-              description: 'Self-executing contracts with terms directly written into code that automate DAO operations'
-            },
-            treasury: {
-              title: 'Treasury Management',
-              description: 'The handling and allocation of DAO funds and resources through community governance'
-            }
-          },
-          advanced_concepts: {
-            delegation: 'Vote delegation and representative democracy in DAOs',
-            ragequit: 'The ability to exit a DAO with your fair share of assets',
-            timelock: 'Delayed execution of approved proposals for security',
-            multisig: 'Multi-signature wallet requirements for enhanced security'
-          }
-        }
+      evergreen: {
+        title: 'Evergreen Beauty Lounge',
+        subtitle: 'Experience luxury beauty services with the convenience of SOLVY payments.',
+        book_now: 'Book Now with SOLVY',
+        services: 'Services',
+        gift_cards: 'Gift Cards',
+        gift_card_bonus: 'Get ${bonus} bonus value!',
+        total_value: 'Total Value',
+        purchase_with_solvy: 'Purchase with SOLVY',
+        book_appointment: 'Book Appointment',
+        booking_success: 'Appointment booked!',
+        booking_error: 'Failed to book appointment. Please try again.',
+        gift_card_success: 'Gift card purchased successfully!',
+        gift_card_error: 'Failed to purchase gift card. Please try again.',
       }
     }
   },
   es: {
     translation: {
-      dao: {
-        title: 'Organización Autónoma Descentralizada',
-        description: 'Una organización basada en blockchain gobernada por reglas transparentes y decisiones comunitarias',
-        features: {
-          governance: 'Gobernanza impulsada por la comunidad',
-          transparency: 'Toma de decisiones transparente',
-          voting: 'Derechos de voto basados en tokens',
-          proposals: 'Propuestas comunitarias',
-          treasury: 'Gestión compartida del tesoro'
-        },
-        participation: {
-          join: 'Unirse al DAO',
-          propose: 'Hacer una Propuesta',
-          vote: 'Votar Propuestas',
-          stake: 'Hacer Staking de Tokens'
-        }
-      },
       evergreen: {
         title: 'Salón de Belleza Evergreen',
         subtitle: 'Experimente servicios de belleza de lujo con la conveniencia de los pagos SOLVY.',
@@ -196,6 +247,29 @@ const resources = {
           in_progress: 'En Progreso',
           not_started: 'No Iniciado',
           certificate: 'Ver Certificado'
+        },
+        dao: {
+          title: 'Conceptos y Terminología de DAO',
+          subtitle: 'Aprende sobre las Organizaciones Autónomas Descentralizadas',
+          description: 'Descubre el futuro de la gobernanza organizacional a través de la tecnología blockchain',
+          concepts: {
+            what_is_dao: {
+              title: '¿Qué es un DAO?',
+              description: 'Una Organización Autónoma Descentralizada (DAO) es una estructura basada en blockchain donde las reglas están codificadas como programas informáticos transparentes, reduciendo la necesidad de gestión centralizada.'
+            },
+            how_it_works: {
+              title: 'Cómo funcionan los DAOs',
+              description: 'Los DAOs operan a través de contratos inteligentes que definen reglas y ejecutan decisiones automáticamente. Los miembros pueden proponer y votar sobre las decisiones que afectan a la organización.'
+            },
+            benefits: {
+              title: 'Beneficios de los DAOs',
+              description: 'Los DAOs ofrecen transparencia, burocracia reducida y toma de decisiones democrática. Permiten la colaboración global y la ejecución automatizada de decisiones comunitarias.'
+            },
+            use_cases: {
+              title: 'Casos de uso de los DAOs',
+              description: 'Los DAOs se pueden utilizar para grupos de inversión, donaciones benéficas, financiación de proyectos y empresas de propiedad comunitaria, entre otras aplicaciones.'
+            }
+          }
         }
       },
       concepts: {
@@ -230,23 +304,6 @@ const resources = {
   },
   vi: {
     translation: {
-      dao: {
-        title: 'Tổ Chức Tự Trị Phi Tập Trung',
-        description: 'Tổ chức dựa trên blockchain được quản lý bởi quy tắc minh bạch và quyết định cộng đồng',
-        features: {
-          governance: 'Quản trị dựa vào cộng đồng',
-          transparency: 'Ra quyết định minh bạch',
-          voting: 'Quyền bỏ phiếu dựa trên token',
-          proposals: 'Đề xuất cộng đồng',
-          treasury: 'Quản lý kho bạc chung'
-        },
-        participation: {
-          join: 'Tham Gia DAO',
-          propose: 'Tạo Đề Xuất',
-          vote: 'Bỏ Phiếu Đề Xuất',
-          stake: 'Stake Token'
-        }
-      },
       evergreen: {
         title: 'Phòng Làm Đẹp Evergreen',
         subtitle: 'Trải nghiệm dịch vụ làm đẹp cao cấp với thanh toán tiện lợi qua SOLVY.',
@@ -294,6 +351,29 @@ const resources = {
           in_progress: 'Đang học',
           not_started: 'Chưa bắt đầu',
           certificate: 'Xem Chứng chỉ'
+        },
+        dao: {
+          title: 'Khái Niệm và Thuật Ngữ DAO',
+          subtitle: 'Tìm hiểu về các Tổ chức Tự trị Phi tập trung',
+          description: 'Khám phá tương lai của quản trị tổ chức thông qua công nghệ chuỗi khối',
+          concepts: {
+            what_is_dao: {
+              title: 'DAO là gì?',
+              description: 'Tổ chức tự trị phi tập trung (DAO) là một cấu trúc dựa trên chuỗi khối, trong đó các quy tắc được mã hóa dưới dạng các chương trình máy tính minh bạch, làm giảm nhu cầu quản lý tập trung.'
+            },
+            how_it_works: {
+              title: 'DAO hoạt động như thế nào?',
+              description: 'DAO hoạt động thông qua các hợp đồng thông minh xác định các quy tắc và tự động thực thi các quyết định. Các thành viên có thể đề xuất và bỏ phiếu về các quyết định ảnh hưởng đến tổ chức.'
+            },
+            benefits: {
+              title: 'Lợi ích của DAO',
+              description: 'DAO mang lại tính minh bạch, giảm bớt quan liêu và ra quyết định dân chủ. Chúng cho phép hợp tác toàn cầu và tự động thực thi các quyết định của cộng đồng.'
+            },
+            use_cases: {
+              title: 'Trường hợp sử dụng của DAO',
+              description: 'DAO có thể được sử dụng cho các nhóm đầu tư, quyên góp từ thiện, tài trợ dự án và các doanh nghiệp thuộc sở hữu cộng đồng, trong số các ứng dụng khác.'
+            }
+          }
         }
       },
       concepts: {
@@ -323,28 +403,20 @@ const resources = {
             }
           }
         }
+      },
+      nav: {
+        decidey: 'DECIDEY',
+        solvy: 'SOLVY',
+        man: 'MAN',
+        connect_wallet: 'Kết nối ví',
+        language: 'Ngôn ngữ',
+        evergreen: 'Evergreen Beauty',
+        analytics: 'Phân tích'
       }
     }
   },
   zh: {
     translation: {
-      dao: {
-        title: '去中心化自治组织',
-        description: '基于区块链的组织，由透明规则和社区决策管理',
-        features: {
-          governance: '社区驱动治理',
-          transparency: '透明决策过程',
-          voting: '代币投票权',
-          proposals: '社区提案',
-          treasury: '共同财库管理'
-        },
-        participation: {
-          join: '加入DAO',
-          propose: '提交提案',
-          vote: '投票表决',
-          stake: '质押代币'
-        }
-      },
       evergreen: {
         title: '常青美容院',
         subtitle: '体验豪华美容服务，享受SOLVY支付的便利。',
@@ -392,6 +464,29 @@ const resources = {
           in_progress: '进行中',
           not_started: '未开始',
           certificate: '查看证书'
+        },
+        dao: {
+          title: '去中心化自治组织概念和术语',
+          subtitle: '学习去中心化自治组织',
+          description: '通过区块链技术探索组织治理的未来',
+          concepts: {
+            what_is_dao: {
+              title: '什么是DAO？',
+              description: '去中心化自治组织 (DAO) 是一种基于区块链的结构，其规则被编码为透明的计算机程序，从而减少了对中心化管理的需求。'
+            },
+            how_it_works: {
+              title: 'DAO 如何运作？',
+              description: 'DAO 通过定义规则并自动执行决策的智能合约运行。成员可以提出并投票决定影响组织的决策。'
+            },
+            benefits: {
+              title: 'DAO 的好处',
+              description: 'DAO 提供透明度、减少官僚主义和民主决策。它们能够实现全球协作和社区决策的自动化执行。'
+            },
+            use_cases: {
+              title: 'DAO 的用例',
+              description: 'DAO 可用于投资集团、慈善捐赠、项目资金和社区所有制企业等应用。'
+            }
+          }
         }
       },
       concepts: {
@@ -421,28 +516,20 @@ const resources = {
             }
           }
         }
+      },
+      nav: {
+        decidey: 'DECIDEY',
+        solvy: 'SOLVY',
+        man: 'MAN',
+        connect_wallet: '连接钱包',
+        language: '语言',
+        evergreen: '常青美容',
+        analytics: '分析'
       }
     }
   },
   ko: {
     translation: {
-      dao: {
-        title: '탈중앙화 자율 조직',
-        description: '투명한 규칙과 커뮤니티 결정으로 운영되는 블록체인 기반 조직',
-        features: {
-          governance: '커뮤니티 주도 거버넌스',
-          transparency: '투명한 의사결정',
-          voting: '토큰 기반 투표권',
-          proposals: '커뮤니티 제안',
-          treasury: '공동 자금 관리'
-        },
-        participation: {
-          join: 'DAO 참여하기',
-          propose: '제안하기',
-          vote: '투표하기',
-          stake: '토큰 스테이킹'
-        }
-      },
       evergreen: {
         title: '에버그린 뷰티 라운지',
         subtitle: 'SOLVY 결제의 편리함과 함께 럭셔리 뷰티 서비스를 경험하세요.',
@@ -490,6 +577,29 @@ const resources = {
           in_progress: '진행 중',
           not_started: '시작되지 않음',
           certificate: '수료증 보기'
+        },
+        dao: {
+          title: '탈중앙화 자율 조직 개념 및 용어',
+          subtitle: '탈중앙화 자율 조직에 대해 알아보세요',
+          description: '블록체인 기술을 통한 조직 거버넌스의 미래를 배워보세요.',
+          concepts: {
+            what_is_dao: {
+              title: 'DAO란 무엇입니까?',
+              description: '탈중앙화 자율 조직(DAO)은 규칙이 투명한 컴퓨터 프로그램으로 코딩되어 중앙 관리의 필요성을 줄이는 블록체인 기반 구조입니다.'
+            },
+            how_it_works: {
+              title: 'DAO는 어떻게 작동합니까?',
+              description: 'DAO는 규칙을 정의하고 결정을 자동으로 실행하는 스마트 계약을 통해 작동합니다. 구성원은 조직에 영향을 미치는 결정에 대해 제안하고 투표할 수 있습니다.'
+            },
+            benefits: {
+              title: 'DAO의 이점',
+              description: 'DAO는 투명성, 관료주의 감소 및 민주적 의사결정을 제공합니다. 전 세계적인 협업과 커뮤니티 결정의 자동화된 실행을 가능하게 합니다.'
+            },
+            use_cases: {
+              title: 'DAO의 사용 사례',
+              description: 'DAO는 투자 그룹, 자선 기부, 프로젝트 자금 조달 및 커뮤니티 소유 기업 등 다양한 용도로 사용할 수 있습니다.'
+            }
+          }
         }
       },
       concepts: {
@@ -519,6 +629,15 @@ const resources = {
             }
           }
         }
+      },
+      nav: {
+        decidey: 'DECIDEY',
+        solvy: 'SOLVY',
+        man: 'MAN',
+        connect_wallet: '지갑 연결',
+        language: '언어',
+        evergreen: '에버그린 뷰티',
+        analytics: '분석'
       }
     }
   }

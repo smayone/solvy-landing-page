@@ -13,7 +13,6 @@ import Analytics from "@/pages/analytics";
 import WhyStatement from "@/pages/why-statement";
 import CryptoPage from "@/pages/crypto";
 import Education from "@/pages/education";
-import DAOPage from "@/pages/dao";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -27,7 +26,6 @@ function Router() {
       <Route path="/why-statement" component={WhyStatement} />
       <Route path="/crypto" component={CryptoPage} />
       <Route path="/education" component={Education} />
-      <Route path="/dao" component={DAOPage} />
       <Route component={NotFound} />
     </Switch>
   );
