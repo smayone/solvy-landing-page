@@ -100,8 +100,16 @@ const resources = {
       },
       hero: {
         title: 'SOLVY: Gain Financial Sovereignty',
+        creator: 'Created by SA Nathan LLC',
         vulture_economy: 'Companies are profiting billions from your data, which they hold captive in their databases-and they\'re counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?',
-        solutions_valued: 'Solvy.chain: Solutions Valued You. We\'re breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.',
+        solutions_valued: 'Solvy.chain: Solutions Valued You. A comprehensive Web3 financial ecosystem by SA Nathan LLC, breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.',
+      },
+      about: {
+        creator: {
+          title: 'SA Nathan LLC',
+          role: 'Creator & Product Owner',
+          description: 'SA Nathan LLC is the visionary creator and product owner behind the SOLVY ecosystem, including our Web3 financial platform, iOS and Android applications, and comprehensive blockchain education resources.'
+        }
       },
       nav: {
         decidey: 'DECIDEY',
@@ -296,6 +304,9 @@ const resources = {
             }
           }
         }
+      },
+      hero: {
+        creator: 'Creado por SA Nathan LLC'
       }
     }
   },
@@ -409,6 +420,9 @@ const resources = {
         language: 'Ngôn ngữ',
         evergreen: 'Evergreen Beauty',
         analytics: 'Phân tích'
+      },
+      hero: {
+        creator: 'Được tạo bởi SA Nathan LLC'
       }
     }
   },
@@ -522,6 +536,9 @@ const resources = {
         language: '语言',
         evergreen: '常青美容',
         analytics: '分析'
+      },
+      hero: {
+        creator: '由 SA Nathan LLC 创建'
       }
     }
   },
@@ -635,6 +652,9 @@ const resources = {
         language: '언어',
         evergreen: '에버그린 뷰티',
         analytics: '분석'
+      },
+      hero: {
+        creator: 'SA Nathan LLC에서 제작'
       }
     }
   }

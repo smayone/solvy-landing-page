@@ -115,6 +115,17 @@ async function shutdownServer(server: any, force = false) {
   }, 1000);
 }
 
+// Handle port in use error
+function handlePortError(port: number, server: any, error: any) {
+  if (error.code === 'EADDRINUSE') {
+    log(`Port ${port} is already in use. Please check for other running processes.`);
+    shutdownServer(server, true);
+  } else {
+    log('Server error:', error.message);
+    throw error;
+  }
+}
+
 // Main application startup
 (async () => {
   try {
@@ -153,41 +164,14 @@ async function shutdownServer(server: any, force = false) {
       shutdownServer(server, true);
     });
 
-    // Start server with port retry logic
-    const maxRetries = 3;
-    const retryDelay = 1000;
-    const basePort = process.env.PORT ? parseInt(process.env.PORT, 10) : 5001; // Changed default port to 5001
+    // Start server on port 5000 with error handling
+    const PORT = 5000;
+    server.listen(PORT, '0.0.0.0')
+      .on('error', (error) => handlePortError(PORT, server, error))
+      .on('listening', () => {
+        log(`Server started successfully on port ${PORT}`);
+      });
 
-    for (let attempt = 0; attempt < maxRetries; attempt++) {
-      const port = basePort + attempt;
-      try {
-        await new Promise((resolve, reject) => {
-          server.listen(port, '0.0.0.0')
-            .once('listening', () => {
-              log(`Server started successfully on port ${port}`);
-              resolve(true);
-            })
-            .once('error', (error: any) => {
-              if (error.code === 'EADDRINUSE') {
-                log(`Port ${port} is in use, trying next port...`);
-                server.close();
-                if (attempt === maxRetries - 1) {
-                  reject(new Error(`No available ports found in range ${basePort}-${basePort + maxRetries - 1}`));
-                } else {
-                  setTimeout(resolve, retryDelay);
-                }
-              } else {
-                reject(error);
-              }
-            });
-        });
-        break;
-      } catch (error: any) {
-        if (attempt === maxRetries - 1) {
-          throw error;
-        }
-      }
-    }
   } catch (error: any) {
     log('Fatal startup error:', error.message);
     process.exit(1);

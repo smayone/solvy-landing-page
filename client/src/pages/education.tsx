@@ -415,11 +415,11 @@ export default function Education() {
           </section>
         )}
 
-        {/* Key Concepts Section */}
+        {/* Conceptualizations & Terminology Section */}
         <section className="py-24 border-b">
           <div className="text-center mb-16">
             <BookOpenText className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-3xl font-bold mb-4">Key Concepts & Terminology</h2>
+            <h2 className="text-3xl font-bold mb-4">Conceptualizations & Terminology</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
               Essential concepts shaping the future of finance
             </p>

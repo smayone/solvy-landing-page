@@ -36,6 +36,9 @@ export function Hero() {
       <div className="mx-auto max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="max-w-2xl">
+            <div className="mb-4">
+              <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
+            </div>
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl mb-6">
               SOLVY
             </h1>
@@ -44,7 +47,7 @@ export function Hero() {
               Companies are profiting billions from your data, which they hold captive in their databases—and they're counting on you not realizing its worth. In a "vulture economy," businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
             </p>
             <p className="text-muted-foreground mb-8">
-              <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
+              <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> A comprehensive Web3 financial ecosystem by SA Nathan LLC, breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
             </p>
 
             <div className="h-24 mb-8">
@@ -76,6 +79,11 @@ export function Hero() {
           </div>
 
           <div className="relative mt-8 lg:mt-0">
+            <div className="absolute -top-4 right-4 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+              <p className="text-sm font-medium">
+                Product Owner: SA Nathan LLC
+              </p>
+            </div>
             <img 
               src="/attached_assets/IMG_0615.jpeg" 
               alt="Financial Sovereignitity" 
