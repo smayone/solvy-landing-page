@@ -3,7 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db } from "@db";
 import { sql } from "drizzle-orm";
-import path from "path";
+import { createServer as createNetServer } from "net";
 
 const app = express();
 app.use(express.json());
@@ -18,7 +18,7 @@ app.get('/health', (req, res) => {
 app.use('/attached_assets', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
-}, express.static(path.join(process.cwd(), 'attached_assets')));
+}, express.static('attached_assets'));
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path.startsWith("/api") || path === '/health') {
+    if (path.startsWith("/api")) {
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
@@ -51,40 +51,30 @@ app.use((req, res, next) => {
   next();
 });
 
-// Function to try starting server on different ports
-async function startServer(server: any, initialPort: number, maxRetries: number = 5) {
-  // Use a higher port range (8000-8005) that's less likely to conflict
-  const portRange = Array.from({ length: maxRetries + 1 }, (_, i) => initialPort + i);
+// Function to check if a port is in use
+async function isPortInUse(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = createNetServer()
+      .once('error', () => resolve(true))
+      .once('listening', () => {
+        server.close();
+        resolve(false);
+      })
+      .listen(port, '0.0.0.0');
+  });
+}
 
-  for (const currentPort of portRange) {
-    try {
-      await new Promise((resolve, reject) => {
-        log(`Attempting to start server on port ${currentPort}...`);
-
-        server.listen(currentPort, '0.0.0.0')
-          .once('listening', () => {
-            log(`✓ Server started successfully on port ${currentPort}`);
-            resolve(true);
-          })
-          .once('error', (err: any) => {
-            if (err.code === 'EADDRINUSE') {
-              log(`✗ Port ${currentPort} is in use, trying next port...`);
-              server.close();
-              resolve(false);
-            } else {
-              reject(err);
-            }
-          });
-      });
-      return true;
-    } catch (error: any) {
-      log(`Error starting server on port ${currentPort}: ${error.message}`);
-      if (currentPort === portRange[portRange.length - 1]) {
-        throw error;
-      }
+// Function to find an available port starting from a higher range
+async function findAvailablePort(startPort: number, maxRetries: number = 10): Promise<number> {
+  const basePort = startPort + 3000; // Start from a higher range (8000+)
+  for (let port = basePort; port < basePort + maxRetries; port++) {
+    const inUse = await isPortInUse(port);
+    if (!inUse) {
+      return port;
     }
+    log(`Port ${port} is in use, trying next port...`);
   }
-  return false;
+  throw new Error(`Could not find an available port after ${maxRetries} attempts`);
 }
 
 (async () => {
@@ -94,23 +84,37 @@ async function startServer(server: any, initialPort: number, maxRetries: number 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
-      log('Error:', message);
+
+      log(`Error: ${message}`);
       res.status(status).json({ message });
       throw err;
     });
 
+    // importantly only setup vite in development and after
+    // setting up all the other routes so the catch-all route
+    // doesn't interfere with the other routes
     if (app.get("env") === "development") {
       await setupVite(app, server);
     } else {
       serveStatic(app);
     }
 
-    // Try to start on port 8000, with fallback ports if needed
-    const success = await startServer(server, 8000);
-    if (!success) {
-      log('Failed to start server after multiple attempts');
-      process.exit(1);
-    }
+    const PORT = await findAvailablePort(5000);
+    server.listen(PORT, "0.0.0.0", () => {
+      log(`serving on port ${PORT}`);
+    });
+
+    // Handle graceful shutdown
+    const shutdown = async () => {
+      log('Shutting down gracefully...');
+      server.close(() => {
+        log('Server closed');
+        process.exit(0);
+      });
+    };
+
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
 
   } catch (error: any) {
     log('Fatal startup error:', error.message);

@@ -18,16 +18,9 @@ import {
   Building2,
   Landmark,
   Scale,
-  BadgeHelp
+  BadgeHelp,
+  Hash
 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { useState } from "react";
 
 // First define all constants
 const channelCategories = [
@@ -71,22 +64,17 @@ interface CommunityChannel {
   };
 }
 
-export default function Education() {
-  // Now initialize state using the constants
-  const [currentConceptIndex, setCurrentConceptIndex] = useState(0);
-  const [currentChannelIndices, setCurrentChannelIndices] = useState<Record<string, number>>(() =>
-    channelCategories.reduce((acc, category) => ({ ...acc, [category]: 0 }), {})
-  );
+import { useQuery } from "@tanstack/react-query";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { useState } from "react";
 
-  const { data: educationalContent } = useQuery({
-    queryKey: ['/api/educational-content'],
-  });
-
-  const { data: personalizedPath } = useQuery<PersonalizedPath>({
-    queryKey: ['/api/learning-path'],
-  });
-
-  const glossaryTerms = [
+// Sort and group terms by first letter
+const glossaryTerms = [
     {
       term: "Sovereignitity",
       definition: "The state of having complete control and authority over one's financial and digital identity, free from external control or influence. This concept combines sovereignty with the ability to monetize and protect one's personal data and financial assets."
@@ -117,7 +105,22 @@ export default function Education() {
     }
   ];
 
-  const communityChannels: CommunityChannel[] = [
+const sortedGlossaryTerms = [...glossaryTerms].sort((a, b) =>
+  a.term.localeCompare(b.term)
+);
+
+const groupedTerms = sortedGlossaryTerms.reduce((acc, term) => {
+  const firstLetter = term.term.charAt(0).toUpperCase();
+  if (!acc[firstLetter]) {
+    acc[firstLetter] = [];
+  }
+  acc[firstLetter].push(term);
+  return acc;
+}, {} as Record<string, typeof glossaryTerms>);
+
+const availableLetters = Object.keys(groupedTerms).sort();
+
+const communityChannels: CommunityChannel[] = [
     {
       name: "Democracy at Work",
       description: "Economic analysis and socialist perspective",
@@ -264,7 +267,7 @@ export default function Education() {
     }
   ];
 
-  const modules = [
+const modules = [
     {
       id: 'decidey',
       title: 'DECIDEY Foundation',
@@ -352,6 +355,22 @@ export default function Education() {
   ];
 
 
+export default function Education() {
+  const [currentLetter, setCurrentLetter] = useState(availableLetters[0]);
+  const [currentConceptIndex, setCurrentConceptIndex] = useState(0);
+  const [currentChannelIndices, setCurrentChannelIndices] = useState<Record<string, number>>(() =>
+    channelCategories.reduce((acc, category) => ({ ...acc, [category]: 0 }), {})
+  );
+
+  const { data: educationalContent } = useQuery({
+    queryKey: ['/api/educational-content'],
+  });
+
+  const { data: personalizedPath } = useQuery<PersonalizedPath>({
+    queryKey: ['/api/learning-path'],
+  });
+
+
   const handlePrevChannel = (category: string) => {
     setCurrentChannelIndices(prev => ({
       ...prev,
@@ -365,6 +384,14 @@ export default function Education() {
       ...prev,
       [category]: Math.min(categoryChannels.length - 1, prev[category] + 1)
     }));
+  };
+
+  const scrollToLetter = (letter: string) => {
+    setCurrentLetter(letter);
+    const element = document.getElementById(`section-${letter}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -428,73 +455,61 @@ export default function Education() {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
               Essential concepts shaping the future of finance
             </p>
-            <div className="flex justify-center gap-4">
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => {
-                  if (currentConceptIndex > 0) {
-                    setCurrentConceptIndex(prev => prev - 1);
-                  }
-                }}
-                disabled={currentConceptIndex === 0}
-              >
-                Previous
-              </Button>
-              <span className="flex items-center text-lg font-medium">
-                {currentConceptIndex + 1} of {glossaryTerms.length}
-              </span>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => {
-                  if (currentConceptIndex < glossaryTerms.length - 1) {
-                    setCurrentConceptIndex(prev => prev + 1);
-                  }
-                }}
-                disabled={currentConceptIndex === glossaryTerms.length - 1}
-              >
-                Next
-              </Button>
+
+            {/* Alphabetical Navigation */}
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {availableLetters.map((letter) => (
+                <Button
+                  key={letter}
+                  variant={currentLetter === letter ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => scrollToLetter(letter)}
+                  className="w-10 h-10 rounded-full"
+                >
+                  {letter}
+                </Button>
+              ))}
             </div>
           </div>
-          <div className="max-w-2xl mx-auto">
-            {glossaryTerms.map((item, index) => {
-              const IconComponent = conceptIcons[item.term as keyof typeof conceptIcons] || BookOpenText;
-              return (
-                <div
-                  key={index}
-                  className={`transition-opacity duration-300 ${
-                    index === currentConceptIndex ? 'block opacity-100' : 'hidden opacity-0'
-                  }`}
-                >
-                  <Card className="p-8">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="bg-primary/10 p-6 rounded-full mb-8">
-                        <IconComponent className="h-12 w-12 text-primary" />
-                      </div>
-                      <h3 className="text-3xl font-bold mb-6">{item.term}</h3>
-                      <p className="text-lg text-muted-foreground">
-                        {item.definition.split('\n')[0]}
-                      </p>
-                      {item.definition.split('\n').length > 1 && (
-                        <div className="mt-6 space-y-4">
-                          {item.definition
-                            .split('\n')
-                            .slice(1)
-                            .filter(line => line.trim())
-                            .map((line, i) => (
-                              <p key={i} className="text-muted-foreground">
-                                {line}
+
+          <div className="max-w-4xl mx-auto space-y-12">
+            {availableLetters.map((letter) => (
+              <div key={letter} id={`section-${letter}`} className="scroll-mt-24">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="bg-primary/10 p-4 rounded-full">
+                    <Hash className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-2xl font-bold">{letter}</h3>
+                </div>
+                <div className="grid gap-6">
+                  {groupedTerms[letter].map((item, index) => {
+                    const IconComponent = conceptIcons[item.term as keyof typeof conceptIcons] || BookOpenText;
+                    return (
+                      <Card key={index} className="p-8">
+                        <div className="flex flex-col items-start">
+                          <div className="flex items-center gap-4 mb-6">
+                            <div className="bg-primary/10 p-4 rounded-full">
+                              <IconComponent className="h-6 w-6 text-primary" />
+                            </div>
+                            <h4 className="text-2xl font-bold">{item.term}</h4>
+                          </div>
+                          <div className="space-y-4">
+                            {item.definition.split('\n\n').map((paragraph, pIndex) => (
+                              <p
+                                key={pIndex}
+                                className={pIndex === 0 ? "text-lg" : "text-muted-foreground"}
+                              >
+                                {paragraph}
                               </p>
                             ))}
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  </Card>
+                      </Card>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </section>
 

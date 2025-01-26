@@ -57,7 +57,6 @@ interface AuthenticatedRequest extends Request {
 export function registerRoutes(app: Express): Server {
   // Basic health check endpoint
   app.get("/api/health", async (_req, res) => {
-    const startTime = Date.now();
     const status = {
       status: "ok" as const,
       timestamp: new Date().toISOString(),
@@ -67,6 +66,29 @@ export function registerRoutes(app: Express): Server {
     };
 
     res.json(status);
+  });
+
+  // Add monitoring access check endpoint
+  app.get("/api/access/monitoring", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.json({ hasAccess: false });
+      }
+
+      const access = await db
+        .select()
+        .from(companyAccess)
+        .where(and(
+          eq(companyAccess.userId, req.user.id),
+          eq(companyAccess.isActive, true)
+        ))
+        .limit(1);
+
+      const hasAccess = access.length > 0 && access[0].role === 'owner';
+      res.json({ hasAccess, role: access[0]?.role });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to check access permissions" });
+    }
   });
 
   // Detailed system health check with owner-only access
@@ -80,20 +102,20 @@ export function registerRoutes(app: Express): Server {
         });
       }
 
-      const checks = {
-        api: { status: "ok" as const },
-        database: { status: "unknown" as const },
-        stripe: { status: "unknown" as const },
-        timestamp: new Date().toISOString(),
+      const checks: SystemHealth['checks'] = {
+        api: { status: "ok" },
+        database: { status: "unknown" },
+        stripe: { status: "unknown" },
+        timestamp: new Date().toISOString()
       };
 
       // Check database
       try {
         await db.select().from(techCompanies).limit(1);
-        checks.database = { status: "ok" as const };
+        checks.database = { status: "ok" };
       } catch (error: any) {
         checks.database = { 
-          status: "error" as const,
+          status: "error",
           message: error?.message || "Database connection failed"
         };
       }
@@ -101,10 +123,10 @@ export function registerRoutes(app: Express): Server {
       // Check Stripe
       try {
         await stripe.paymentMethods.list({ limit: 1 });
-        checks.stripe = { status: "ok" as const };
+        checks.stripe = { status: "ok" };
       } catch (error: any) {
         checks.stripe = { 
-          status: "error" as const,
+          status: "error",
           message: error?.message || "Stripe connection failed"
         };
       }
@@ -114,7 +136,7 @@ export function registerRoutes(app: Express): Server {
       ) ? "healthy" : "degraded";
 
       const systemHealth: SystemHealth = {
-        status: overall,
+        status: overall as SystemHealth['status'],
         checks,
         metrics: {
           memory: process.memoryUsage(),
@@ -131,37 +153,6 @@ export function registerRoutes(app: Express): Server {
         status: "error",
         error: error?.message || "Health check failed",
         timestamp: new Date().toISOString()
-      });
-    }
-  });
-
-  // System metrics endpoint (owner-only)
-  app.get("/api/health/metrics", async (req: AuthenticatedRequest, res) => {
-    try {
-      if (req.user?.role !== 'owner') {
-        return res.status(403).json({
-          status: "error",
-          message: "Owner access required for system metrics"
-        });
-      }
-
-      const metrics: DetailedSystemMetrics = {
-        cpu: {
-          usage: process.cpuUsage().user / 1000000, // Convert to milliseconds
-          load: os.loadavg(),
-        },
-        memory: process.memoryUsage(),
-        disk: {
-          total: os.totalmem(),
-          free: os.freemem(),
-        }
-      };
-
-      res.json(metrics);
-    } catch (error: any) {
-      res.status(500).json({
-        status: "error",
-        message: error?.message || "Failed to gather system metrics"
       });
     }
   });
@@ -425,6 +416,38 @@ export function registerRoutes(app: Express): Server {
       });
     }
   });
+
+  // System metrics endpoint (owner-only)
+  app.get("/api/health/metrics", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({
+          status: "error",
+          message: "Owner access required for system metrics"
+        });
+      }
+
+      const metrics: DetailedSystemMetrics = {
+        cpu: {
+          usage: process.cpuUsage().user / 1000000, // Convert to milliseconds
+          load: os.loadavg(),
+        },
+        memory: process.memoryUsage(),
+        disk: {
+          total: os.totalmem(),
+          free: os.freemem(),
+        }
+      };
+
+      res.json(metrics);
+    } catch (error: any) {
+      res.status(500).json({
+        status: "error",
+        message: error?.message || "Failed to gather system metrics"
+      });
+    }
+  });
+
 
   const httpServer = createServer(app);
   return httpServer;
