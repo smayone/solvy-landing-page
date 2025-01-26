@@ -18,7 +18,7 @@ export function Navbar() {
             <img 
               src="/attached_assets/fulllogo.png" 
               alt="SOLVY" 
-              className="h-8 w-auto"
+              className="h-8 w-auto transition-transform hover:scale-105"
             />
           </Link>
         </div>
