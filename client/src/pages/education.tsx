@@ -19,7 +19,8 @@ import {
   Landmark,
   Scale,
   BadgeHelp,
-  Hash
+  Hash,
+  Database
 } from "lucide-react";
 
 // First define all constants
@@ -39,7 +40,11 @@ const conceptIcons = {
   "BRICS+": Landmark,
   "Economic Imperialism": BadgeHelp,
   "Infinite Banking": Coins,
-  "BYOB": Landmark
+  "BYOB": Landmark,
+  "Smart Contract": Hash,
+  "Web3": Globe,
+  "DeFi": Coins,
+  "Blockchain": Database
 };
 
 interface LearningPathRecommendation {
@@ -67,6 +72,22 @@ interface CommunityChannel {
 }
 
 const glossaryTerms = [
+  {
+    term: "Blockchain",
+    definition: "A decentralized, immutable digital ledger that records transactions across a network of computers. Each block contains a list of transactions and is cryptographically linked to the previous block, creating a chain of information that cannot be altered without changing all subsequent blocks.\n\nKey Features:\n- Decentralization: No single entity controls the network\n- Immutability: Once recorded, data cannot be changed\n- Transparency: All transactions are publicly verifiable\n- Security: Cryptographic techniques protect data integrity"
+  },
+  {
+    term: "Smart Contract",
+    definition: "Self-executing contracts with the terms of the agreement directly written into code. These programs automatically execute actions when predetermined conditions are met, enabling trustless automation of complex transactions.\n\nKey Aspects:\n- Autonomous Execution: No intermediaries needed\n- Transparency: Code is visible on the blockchain\n- Immutable: Cannot be changed once deployed\n- Deterministic: Same input always produces same output\n\nUse Cases in SOLVY:\n- Automated payments\n- Token distribution\n- Governance mechanisms\n- Cross-border transactions"
+  },
+  {
+    term: "Web3",
+    definition: "The next evolution of the internet, built on blockchain technology, that emphasizes decentralization, user ownership of data, and peer-to-peer interactions. Web3 aims to reduce reliance on centralized platforms and give users more control over their digital assets and identity.\n\nKey Components:\n- Decentralized Networks: No central points of control\n- Digital Ownership: True ownership of virtual assets\n- Self-Sovereign Identity: Users control their personal data\n- Token Economics: New models for value exchange"
+  },
+  {
+    term: "DeFi (Decentralized Finance)",
+    definition: "A financial system built on blockchain technology that removes traditional financial intermediaries. DeFi enables peer-to-peer financial services including lending, borrowing, trading, and insurance through smart contracts.\n\nKey Features:\n- Permissionless: Anyone can access services\n- Transparent: All transactions are verifiable\n- Interoperable: Different protocols can work together\n- Programmable: Automated financial operations\n\nCommon DeFi Services:\n- Decentralized Exchanges (DEX)\n- Lending Platforms\n- Yield Farming\n- Liquidity Pools"
+  },
   {
     term: "Sovereignitity",
     definition: "The state of having complete control and authority over one's financial and digital identity, free from external control or influence. This concept combines sovereignty with the ability to monetize and protect one's personal data and financial assets."
