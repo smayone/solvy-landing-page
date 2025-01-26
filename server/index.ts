@@ -17,7 +17,6 @@ app.use('/attached_assets', (req, res, next) => {
   next();
 }, express.static('attached_assets'));
 
-// Logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -49,75 +48,41 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  try {
-    // Handle uncaught exceptions
-    process.on('uncaughtException', (err) => {
-      log(`Uncaught Exception: ${err.message}`);
-    });
+  const server = registerRoutes(app);
 
-    // Handle unhandled promise rejections
-    process.on('unhandledRejection', (reason) => {
-      log(`Unhandled Rejection: ${reason}`);
-    });
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
 
-    const server = registerRoutes(app);
+    res.status(status).json({ message });
+    throw err;
+  });
 
-    // Error handling middleware
-    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-      const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
-      log(`Error: ${message}`);
-      res.status(status).json({ message });
-    });
-
-    if (app.get("env") === "development") {
-      await setupVite(app, server);
-    } else {
-      serveStatic(app);
-    }
-
-    // Try ports sequentially starting from 5000
-    const tryPort = async (port: number, maxRetries = 5): Promise<void> => {
-      try {
-        await new Promise<void>((resolve, reject) => {
-          server.listen(port, "0.0.0.0")
-            .once('error', (err: NodeJS.ErrnoException) => {
-              if (err.code === 'EADDRINUSE' && port < 5000 + maxRetries) {
-                log(`Port ${port} is in use, trying ${port + 1}...`);
-                tryPort(port + 1, maxRetries).then(resolve).catch(reject);
-              } else {
-                reject(err);
-              }
-            })
-            .once('listening', () => {
-              log(`Server started on port ${port}`);
-              resolve();
-            });
-        });
-      } catch (err: any) {
-        if (port >= 5000 + maxRetries) {
-          throw new Error(`Failed to find available port after ${maxRetries} retries`);
-        }
-        throw err;
-      }
-    };
-
-    await tryPort(5000);
-
-    // Handle graceful shutdown
-    const shutdown = async () => {
-      log('Shutting down gracefully...');
-      server.close(() => {
-        log('Server closed');
-        process.exit(0);
-      });
-    };
-
-    process.on('SIGTERM', shutdown);
-    process.on('SIGINT', shutdown);
-
-  } catch (error: any) {
-    log('Fatal startup error:', error.message);
-    process.exit(1);
+  // importantly only setup vite in development and after
+  // setting up all the other routes so the catch-all route
+  // doesn't interfere with the other routes
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
   }
+
+  // ALWAYS serve the app on port 5000
+  const PORT = 5000;
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`serving on port ${PORT}`);
+  });
+
+  // Handle graceful shutdown
+  const shutdown = async () => {
+    log('Shutting down gracefully...');
+    server.close(() => {
+      log('Server closed');
+      process.exit(0);
+    });
+  };
+
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
+
 })();

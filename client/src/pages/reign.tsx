@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -7,62 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { Heart, Play, BookOpen, CheckCircle } from "lucide-react";
+import { Heart, ShoppingCart, Play, Info, Shield, Star, Sparkles, Award, User } from "lucide-react";
 
-interface EducationalContent {
-  id: string;
-  title: string;
-  description: string;
-  moduleId: string;
-  topicId: string;
-  content: {
-    videoUrl?: string;
-    text?: string;
-    resources?: string[];
-  };
-  type: "video" | "article" | "interactive";
-}
-
-interface LearningProgress {
-  moduleId: string;
-  topicId: string;
-  progress: number;
-  completedAt?: string;
-}
-
-export default function ReignEducation() {
+export default function ReignProducts() {
   const { t } = useTranslation();
-  const [selectedModule, setSelectedModule] = useState<string | null>(null);
-
-  // Fetch educational content
-  const { data: content = [] } = useQuery<EducationalContent[]>({
-    queryKey: ['/api/reign/educational-content'],
-  });
-
-  // Fetch user's learning progress
-  const { data: progress = [] } = useQuery<LearningProgress[]>({
-    queryKey: ['/api/reign/learning-progress'],
-  });
-
-  // Group content by modules
-  const modules = content.reduce((acc: Record<string, EducationalContent[]>, item) => {
-    if (!acc[item.moduleId]) {
-      acc[item.moduleId] = [];
-    }
-    acc[item.moduleId].push(item);
-    return acc;
-  }, {});
-
-  // Calculate progress for each module
-  const moduleProgress = Object.keys(modules).reduce((acc: Record<string, number>, moduleId) => {
-    const moduleItems = modules[moduleId].length;
-    const completedItems = progress.filter(p => p.moduleId === moduleId && p.completedAt).length;
-    acc[moduleId] = (completedItems / moduleItems) * 100;
-    return acc;
-  }, {});
+  const [showVideo, setShowVideo] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -70,102 +20,158 @@ export default function ReignEducation() {
       <section className="bg-primary/5 py-20">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <Heart className="h-12 w-12 text-primary mx-auto mb-6" />
-            <h1 className="text-4xl font-bold mb-4">Reign Education Hub</h1>
+            <Heart className="h-12 w-12 text-pink-500 mx-auto mb-6" />
+            <h1 className="text-4xl font-bold mb-4">YOUR JEWEL SANITARY NAPKINS LLC</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Empowering through knowledge: Explore our comprehensive educational resources 
-              on sustainability, women's health, and social impact.
+              Revolutionary sanitary napkins powered by patented graphene technology.
+              Experience unmatched comfort and protection.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Learning Modules */}
-      <section className="py-16 container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(modules).map(([moduleId, items]) => (
-            <Card key={moduleId} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>{items[0]?.title}</CardTitle>
-                <CardDescription>
-                  {items.length} lessons • {Math.round(moduleProgress[moduleId] || 0)}% complete
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Progress value={moduleProgress[moduleId] || 0} className="mb-4" />
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Play className="h-4 w-4" />
-                    <span>{items.filter(i => i.type === 'video').length} videos</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <BookOpen className="h-4 w-4" />
-                    <span>{items.filter(i => i.type === 'article').length} articles</span>
-                  </div>
-                  {moduleProgress[moduleId] === 100 && (
-                    <div className="flex items-center gap-2 text-sm text-green-600">
-                      <CheckCircle className="h-4 w-4" />
-                      <span>Completed</span>
-                    </div>
-                  )}
-                </div>
-                <Button 
-                  className="w-full mt-4"
-                  variant={selectedModule === moduleId ? "secondary" : "default"}
-                  onClick={() => setSelectedModule(moduleId)}
-                >
-                  {selectedModule === moduleId ? "Currently Viewing" : "Start Learning"}
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Selected Module Content */}
-      {selectedModule && (
-        <section className="py-16 bg-primary/5">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-bold mb-8">Course Content</h2>
-            <div className="grid gap-4">
-              {modules[selectedModule]?.map((item) => (
-                <Card key={item.id} className="overflow-hidden">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      {item.type === 'video' && <Play className="h-5 w-5" />}
-                      {item.type === 'article' && <BookOpen className="h-5 w-5" />}
-                      {item.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4">{item.description}</p>
-                    {item.content.videoUrl && (
-                      <div className="aspect-video mb-4">
-                        <iframe
-                          src={item.content.videoUrl}
-                          className="w-full h-full rounded-lg"
-                          allowFullScreen
-                        />
-                      </div>
-                    )}
-                    {item.content.text && (
-                      <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: item.content.text }} />
-                    )}
-                    {progress.find(p => p.topicId === item.topicId)?.completedAt ? (
-                      <Button variant="secondary" className="mt-4" disabled>
-                        <CheckCircle className="h-4 w-4 mr-2" />
-                        Completed
-                      </Button>
-                    ) : (
-                      <Button className="mt-4">Mark as Complete</Button>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="mt-6 flex flex-col items-center gap-2">
+              <div className="flex items-center gap-2">
+                <Award className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium">Proudly Veteran & African American Owned</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <User className="h-5 w-5 text-primary" />
+                <span className="text-sm">Your Representative: Evergreen Beauty Lounge (ID: 301272)</span>
+              </div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
+
+      {/* Patent & Technology Section */}
+      <section className="py-16 container mx-auto px-4">
+        <div className="text-center mb-12">
+          <Shield className="h-10 w-10 mx-auto mb-4 text-primary" />
+          <h2 className="text-3xl font-bold mb-4">Patented Graphene Technology</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Our revolutionary sanitary napkins are powered by patented graphene technology,
+            providing superior absorption, antibacterial properties, and unmatched comfort.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+          <Card>
+            <CardHeader>
+              <Sparkles className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>Graphene Enhanced</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Our secret ingredient - graphene - provides superior absorption and antimicrobial properties
+                while maintaining breathability
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <Shield className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>Patented Protection</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Protected by international patents, our unique graphene integration
+                technology sets new standards in feminine care
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <Star className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>Cutting-Edge Science</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Developed through years of research, our technology combines comfort
+                with advanced materials science
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Product Video Section */}
+      <section className="py-16 bg-primary/5">
+        <div className="container mx-auto px-4">
+          <Card className="overflow-hidden">
+            <CardHeader>
+              <CardTitle>See Our Innovation in Action</CardTitle>
+              <CardDescription>
+                Watch how our patented graphene technology revolutionizes feminine care
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/o5qMsif06C4"
+                  className="w-full h-full rounded-lg"
+                  allowFullScreen
+                  title="YOUR JEWEL SANITARY NAPKINS LLC Product Demo"
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Product Features */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Our Products?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Superior Technology</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Patented graphene technology provides unmatched absorption and protection
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Eco-Conscious Design</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Innovative materials reduce environmental impact while maximizing performance
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Health-Focused</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Antibacterial properties and breathable design promote better hygiene
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-16 bg-primary/5">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-8">Experience the Future of Feminine Care</h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="gap-2">
+              <ShoppingCart className="h-5 w-5" />
+              Shop Now
+            </Button>
+            <Button size="lg" variant="outline" className="gap-2">
+              <Info className="h-5 w-5" />
+              Learn More About Our Technology
+            </Button>
+          </div>
+          <p className="mt-6 text-sm text-muted-foreground">
+            Contact your representative: Evergreen Beauty Lounge (ID: 301272) for more information
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
