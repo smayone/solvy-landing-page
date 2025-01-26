@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export function Navbar() {
   const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain;
@@ -62,6 +64,11 @@ export function Navbar() {
               Buy Crypto
             </Link>
           </Button>
+        </div>
+
+        <div className="flex items-center space-x-4">
+          <LanguageSwitcher />
+          <ThemeToggle />
         </div>
       </div>
     </nav>

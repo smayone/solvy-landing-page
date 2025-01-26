@@ -657,6 +657,120 @@ const resources = {
         creator: 'SA Nathan LLC에서 제작'
       }
     }
+  },
+  "es-MX": {
+    translation: {
+      evergreen: {
+        title: 'Salón de Belleza Evergreen',
+        subtitle: 'Experimente servicios de belleza de lujo con la conveniencia de los pagos SOLVY.',
+        book_now: 'Reserve Ahora con SOLVY',
+        services: 'Servicios',
+        gift_cards: 'Tarjetas de Regalo',
+        gift_card_bonus: '¡Obtenga ${bonus} de valor adicional!',
+        total_value: 'Valor Total',
+        purchase_with_solvy: 'Comprar con SOLVY',
+        book_appointment: 'Reservar Cita',
+        booking_success: '¡Cita reservada!',
+        booking_error: 'Error al reservar cita. Por favor, inténtelo de nuevo.',
+        gift_card_success: '¡Tarjeta de regalo comprada con éxito!',
+        gift_card_error: 'Error al comprar la tarjeta de regalo. Por favor, inténtelo de nuevo.',
+      }
+    }
+  },
+  "es-PR": {
+    translation: {
+      evergreen: {
+        title: 'Salón de Belleza Evergreen',
+        subtitle: 'Experimente servicios de belleza de lujo con la conveniencia de los pagos SOLVY.',
+        book_now: 'Reserve Ahora con SOLVY',
+        services: 'Servicios',
+        gift_cards: 'Tarjetas de Regalo',
+        gift_card_bonus: '¡Obtenga ${bonus} de valor adicional!',
+        total_value: 'Valor Total',
+        purchase_with_solvy: 'Comprar con SOLVY',
+        book_appointment: 'Reservar Cita',
+        booking_success: '¡Cita reservada!',
+        booking_error: 'Error al reservar cita. Por favor, inténtelo de nuevo.',
+        gift_card_success: '¡Tarjeta de regalo comprada con éxito!',
+        gift_card_error: 'Error al comprar la tarjeta de regalo. Por favor, inténtelo de nuevo.',
+      }
+    }
+  },
+  "es-DO": {
+    translation: {
+      evergreen: {
+        title: 'Salón de Belleza Evergreen',
+        subtitle: 'Experimente servicios de belleza de lujo con la conveniencia de los pagos SOLVY.',
+        book_now: 'Reserve Ahora con SOLVY',
+        services: 'Servicios',
+        gift_cards: 'Tarjetas de Regalo',
+        gift_card_bonus: '¡Obtenga ${bonus} de valor adicional!',
+        total_value: 'Valor Total',
+        purchase_with_solvy: 'Comprar con SOLVY',
+        book_appointment: 'Reservar Cita',
+        booking_success: '¡Cita reservada!',
+        booking_error: 'Error al reservar cita. Por favor, inténtelo de nuevo.',
+        gift_card_success: '¡Tarjeta de regalo comprada con éxito!',
+        gift_card_error: 'Error al comprar la tarjeta de regalo. Por favor, inténtelo de nuevo.',
+      }
+    }
+  },
+  tl: {
+    translation: {
+      evergreen: {
+        title: 'Evergreen Beauty Lounge',
+        subtitle: 'Maranasan ang mga serbisyong pagpapaganda na may kaginhawaan ng SOLVY payments.',
+        book_now: 'Mag-book Gamit ang SOLVY',
+        services: 'Mga Serbisyo',
+        gift_cards: 'Gift Cards',
+        gift_card_bonus: 'Get ${bonus} bonus value!',
+        total_value: 'Total Value',
+        purchase_with_solvy: 'Purchase with SOLVY',
+        book_appointment: 'Book Appointment',
+        booking_success: 'Appointment booked!',
+        booking_error: 'Failed to book appointment. Please try again.',
+        gift_card_success: 'Gift card purchased successfully!',
+        gift_card_error: 'Failed to purchase gift card. Please try again.',
+      }
+    }
+  },
+  ja: {
+    translation: {
+      evergreen: {
+        title: 'エバーグリーン・ビューティーラウンジ',
+        subtitle: 'SOLVYペイメントの利便性で高級美容サービスを体験',
+        book_now: 'SOLVYで予約',
+        services: 'サービス',
+        gift_cards: 'ギフトカード',
+        gift_card_bonus: 'Get ${bonus} bonus value!',
+        total_value: 'Total Value',
+        purchase_with_solvy: 'Purchase with SOLVY',
+        book_appointment: 'Book Appointment',
+        booking_success: 'Appointment booked!',
+        booking_error: 'Failed to book appointment. Please try again.',
+        gift_card_success: 'Gift card purchased successfully!',
+        gift_card_error: 'Failed to purchase gift card. Please try again.',
+      }
+    }
+  },
+  th: {
+    translation: {
+      evergreen: {
+        title: 'เอเวอร์กรีน บิวตี้ เลานจ์',
+        subtitle: 'สัมผัสประสบการณ์บริการความงามระดับหรูพร้อมความสะดวกในการชำระเงินด้วย SOLVY',
+        book_now: 'จองตอนนี้ด้วย SOLVY',
+        services: 'บริการ',
+        gift_cards: 'บัตรของขวัญ',
+        gift_card_bonus: 'Get ${bonus} bonus value!',
+        total_value: 'Total Value',
+        purchase_with_solvy: 'Purchase with SOLVY',
+        book_appointment: 'Book Appointment',
+        booking_success: 'Appointment booked!',
+        booking_error: 'Failed to book appointment. Please try again.',
+        gift_card_success: 'Gift card purchased successfully!',
+        gift_card_error: 'Failed to purchase gift card. Please try again.',
+      }
+    }
   }
 };
 

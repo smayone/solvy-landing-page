@@ -9,10 +9,15 @@ import {
 
 const languages = [
   { code: "en", name: "English" },
-  { code: "es", name: "Español" },
-  { code: "vi", name: "Tiếng Việt" },
-  { code: "zh", name: "中文" },
+  { code: "es-MX", name: "Español (México)" },
+  { code: "es-PR", name: "Español (Puerto Rico)" },
+  { code: "es-DO", name: "Español (República Dominicana)" },
+  { code: "tl", name: "Filipino" },
   { code: "ko", name: "한국어" },
+  { code: "zh", name: "中文" },
+  { code: "ja", name: "日本語" },
+  { code: "th", name: "ไทย" },
+  { code: "vi", name: "Tiếng Việt" },
 ];
 
 export function LanguageSwitcher() {
@@ -26,7 +31,7 @@ export function LanguageSwitcher() {
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select Language" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-h-[400px]">
         {languages.map((lang) => (
           <SelectItem key={lang.code} value={lang.code}>
             {lang.name}
