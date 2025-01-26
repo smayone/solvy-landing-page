@@ -76,27 +76,24 @@ const resources = {
         },
         dao: {
           title: 'Understanding DAOs',
-          description: 'Core Concepts of Decentralized Autonomous Organizations',
+          subtitle: 'Core Concepts of Decentralized Autonomous Organizations',
+          description: 'Educational overview of blockchain-based organizational structures',
           terms: {
             definition: {
               title: 'What is a DAO?',
-              description: 'A blockchain-based organization governed by smart contracts and community decisions, eliminating the need for traditional hierarchical management'
+              description: 'A Decentralized Autonomous Organization (DAO) is a blockchain-based structure where rules and decisions are governed by the community through transparent processes'
             },
             governance: {
-              title: 'Governance',
-              description: 'The system of rules and processes by which members collectively make decisions and manage resources'
+              title: 'Governance Models',
+              description: 'Different approaches to community-driven decision making and resource management in DAOs'
             },
             token_economics: {
               title: 'Token Economics',
-              description: 'The economic model that governs how tokens are distributed and used within the DAO ecosystem'
+              description: 'How tokens are used to align incentives and enable participation in DAOs'
             },
-            voting_rights: {
-              title: 'Voting Rights',
-              description: 'How members participate in decision-making through token-weighted or other voting mechanisms'
-            },
-            treasury: {
-              title: 'Treasury Management',
-              description: 'How the DAO collectively manages and allocates its shared resources and funds'
+            member_rights: {
+              title: 'Member Rights',
+              description: 'Understanding the roles, responsibilities and privileges of DAO participants'
             }
           }
         }

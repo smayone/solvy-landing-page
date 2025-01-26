@@ -46,42 +46,73 @@ app.use((req, res, next) => {
   next();
 });
 
-// Database connection check
-async function checkDatabase(): Promise<boolean> {
-  try {
-    await db.execute(sql`SELECT 1`);
-    log('Database connection successful');
-    return true;
-  } catch (error: any) {
-    log('Database connection failed:', error.message);
-    return false;
-  }
+// Database connection check with timeout
+async function checkDatabase(timeout = 5000): Promise<boolean> {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      log('Database connection timeout');
+      resolve(false);
+    }, timeout);
+
+    db.execute(sql`SELECT 1`)
+      .then(() => {
+        clearTimeout(timer);
+        log('Database connection successful');
+        resolve(true);
+      })
+      .catch((error: any) => {
+        clearTimeout(timer);
+        log('Database connection failed:', error.message);
+        resolve(false);
+      });
+  });
 }
 
-// Graceful shutdown handler with proper cleanup
-function setupGracefulShutdown(server: any) {
-  let shuttingDown = false;
+// Server state tracking
+let isShuttingDown = false;
+const activeConnections = new Map<string, any>();
 
-  async function shutdown() {
-    if (shuttingDown) return;
-    shuttingDown = true;
-    log('Received shutdown signal, closing server...');
+// Track connections for cleanup
+function trackConnection(connection: any) {
+  const id = Math.random().toString(36).substring(7);
+  activeConnections.set(id, connection);
+  connection.on('close', () => {
+    activeConnections.delete(id);
+  });
+}
 
-    // Close the server first
-    server.close(() => {
-      log('Server closed');
-      process.exit(0);
-    });
+// Graceful shutdown handler
+async function shutdownServer(server: any, force = false) {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
 
-    // Force exit after timeout
-    setTimeout(() => {
-      log('Could not close connections in time, forcefully shutting down');
-      process.exit(1);
-    }, 10000);
+  log('Initiating server shutdown...');
+
+  // Stop accepting new connections
+  server.close(() => {
+    log('Server stopped accepting new connections');
+  });
+
+  if (force) {
+    log('Force shutdown initiated');
+    process.exit(1);
   }
 
-  process.on('SIGTERM', shutdown);
-  process.on('SIGINT', shutdown);
+  // Close existing connections
+  activeConnections.forEach((connection) => {
+    try {
+      connection.end();
+    } catch (error) {
+      log('Error closing connection:', error?.toString() || 'Unknown error');
+    }
+  });
+  activeConnections.clear();
+
+  // Final cleanup
+  setTimeout(() => {
+    log('Clean shutdown completed');
+    process.exit(0);
+  }, 1000);
 }
 
 // Main application startup
@@ -95,12 +126,16 @@ function setupGracefulShutdown(server: any) {
 
     const server = registerRoutes(app);
 
+    // Track connections for cleanup
+    server.on('connection', trackConnection);
+
     // Error handling middleware
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
       log('Error:', message);
       res.status(status).json({ message });
+      throw err;
     });
 
     // Setup vite or serve static files
@@ -110,24 +145,51 @@ function setupGracefulShutdown(server: any) {
       serveStatic(app);
     }
 
-    // Set up graceful shutdown
-    setupGracefulShutdown(server);
-
-    // Start server with proper error handling
-    const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
-    server.listen(port, '0.0.0.0', () => {
-      log(`Server started on port ${port}`);
-    }).on('error', (error: any) => {
-      if (error.code === 'EADDRINUSE') {
-        log(`Port ${port} is already in use. Please try again in a few moments...`);
-        process.exit(1);
-      } else {
-        log('Server failed to start:', error.message);
-        process.exit(1);
-      }
+    // Signal handlers
+    process.on('SIGTERM', () => shutdownServer(server));
+    process.on('SIGINT', () => shutdownServer(server));
+    process.on('uncaughtException', (error) => {
+      log('Uncaught Exception:', error.message);
+      shutdownServer(server, true);
     });
+
+    // Start server with port retry logic
+    const maxRetries = 3;
+    const retryDelay = 1000;
+    const basePort = process.env.PORT ? parseInt(process.env.PORT, 10) : 5001; // Changed default port to 5001
+
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      const port = basePort + attempt;
+      try {
+        await new Promise((resolve, reject) => {
+          server.listen(port, '0.0.0.0')
+            .once('listening', () => {
+              log(`Server started successfully on port ${port}`);
+              resolve(true);
+            })
+            .once('error', (error: any) => {
+              if (error.code === 'EADDRINUSE') {
+                log(`Port ${port} is in use, trying next port...`);
+                server.close();
+                if (attempt === maxRetries - 1) {
+                  reject(new Error(`No available ports found in range ${basePort}-${basePort + maxRetries - 1}`));
+                } else {
+                  setTimeout(resolve, retryDelay);
+                }
+              } else {
+                reject(error);
+              }
+            });
+        });
+        break;
+      } catch (error: any) {
+        if (attempt === maxRetries - 1) {
+          throw error;
+        }
+      }
+    }
   } catch (error: any) {
-    log('Fatal error:', error.message);
+    log('Fatal startup error:', error.message);
     process.exit(1);
   }
 })();
