@@ -57,7 +57,7 @@ export function Navbar() {
           <Button variant="ghost" asChild>
             <Link href="/education" className="flex items-center gap-2">
               <GraduationCap className="h-4 w-4" />
-              {t('nav.education')}
+              Education
             </Link>
           </Button>
           <Button variant="ghost" asChild>
