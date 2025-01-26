@@ -82,7 +82,7 @@ const glossaryTerms = [
   },
   {
     term: "Web3",
-    definition: "The next evolution of the internet, built on blockchain technology, that emphasizes decentralization, user ownership of data, and peer-to-peer interactions. Web3 aims to reduce reliance on centralized platforms and give users more control over their digital assets and identity.\n\nKey Components:\n- Decentralized Networks: No central points of control\n- Digital Ownership: True ownership of virtual assets\n- Self-Sovereign Identity: Users control their personal data\n- Token Economics: New models for value exchange"
+    definition: "The next evolution of the internet, built on blockchain technology, that emphasizes decentralization, user ownership of data, and peer-to-peer interactions. Following Web1 (the read-only internet of static pages, 1990-2004) and Web2 (the social internet of user-generated content but controlled by large platforms, 2004-2020), Web3 aims to reduce reliance on centralized platforms and give users more control over their digital assets and identity.\n\nKey Components:\n- Decentralized Networks: No central points of control\n- Digital Ownership: True ownership of virtual assets\n- Self-Sovereign Identity: Users control their personal data\n- Token Economics: New models for value exchange\n\nHistorical Context:\n- Web1: Static, read-only pages with limited interaction\n- Web2: Social media, user content, but platform-controlled\n- Web3: User-owned, decentralized, and trustless"
   },
   {
     term: "DeFi (Decentralized Finance)",
@@ -665,7 +665,7 @@ export default function Education() {
                               </div>
                               <div className="space-y-4">
                                 <h4 className="text-xl font-semibold text-primary">Latest Content</h4>
-                                <p className="text-lg">{currentChannel.latestVideo.title}</p>
+                                <p className="lg">{currentChannel.latestVideo.title}</p>
                                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                   <span>{currentChannel.latestVideo.publishedAt}</span>
                                   <span>•</span>
