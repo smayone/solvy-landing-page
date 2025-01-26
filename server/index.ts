@@ -52,19 +52,23 @@ app.use((req, res, next) => {
 });
 
 // Function to try starting server on different ports
-async function startServer(server: any, initialPort: number, maxRetries: number = 3) {
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    const currentPort = initialPort + attempt;
+async function startServer(server: any, initialPort: number, maxRetries: number = 5) {
+  // Use a higher port range (8000-8005) that's less likely to conflict
+  const portRange = Array.from({ length: maxRetries + 1 }, (_, i) => initialPort + i);
+
+  for (const currentPort of portRange) {
     try {
       await new Promise((resolve, reject) => {
+        log(`Attempting to start server on port ${currentPort}...`);
+
         server.listen(currentPort, '0.0.0.0')
           .once('listening', () => {
-            log(`Server started successfully on port ${currentPort}`);
+            log(`✓ Server started successfully on port ${currentPort}`);
             resolve(true);
           })
           .once('error', (err: any) => {
             if (err.code === 'EADDRINUSE') {
-              log(`Port ${currentPort} is in use, trying next port...`);
+              log(`✗ Port ${currentPort} is in use, trying next port...`);
               server.close();
               resolve(false);
             } else {
@@ -74,8 +78,8 @@ async function startServer(server: any, initialPort: number, maxRetries: number 
       });
       return true;
     } catch (error: any) {
-      log(`Error starting server on port ${currentPort}:`, error.message);
-      if (attempt === maxRetries) {
+      log(`Error starting server on port ${currentPort}: ${error.message}`);
+      if (currentPort === portRange[portRange.length - 1]) {
         throw error;
       }
     }
@@ -101,8 +105,8 @@ async function startServer(server: any, initialPort: number, maxRetries: number 
       serveStatic(app);
     }
 
-    // Try to start on port 5000, with fallback ports if needed
-    const success = await startServer(server, 5000);
+    // Try to start on port 8000, with fallback ports if needed
+    const success = await startServer(server, 8000);
     if (!success) {
       log('Failed to start server after multiple attempts');
       process.exit(1);

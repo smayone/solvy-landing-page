@@ -13,6 +13,7 @@ import Analytics from "@/pages/analytics";
 import WhyStatement from "@/pages/why-statement";
 import CryptoPage from "@/pages/crypto";
 import Education from "@/pages/education";
+import MonitoringDashboard from "@/pages/monitoring-dashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/why-statement" component={WhyStatement} />
       <Route path="/crypto" component={CryptoPage} />
       <Route path="/education" component={Education} />
+      <Route path="/monitoring-dashboard" component={MonitoringDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -41,6 +41,7 @@ const conceptIcons = {
   "Sovereignitity": Globe,
   "SOLVY": Building2,
   "DECIDEY": Shield,
+  "DAO": Users,
   "ICSID": Scale,
   "BRICS+": Landmark,
   "Economic Imperialism": BadgeHelp
@@ -97,6 +98,10 @@ export default function Education() {
     {
       term: "DECIDEY",
       definition: "Decentralized Empowerment Control Identity Data Economy of Yours - An educational foundation and governance platform that empowers individuals through blockchain education and community-driven decision making."
+    },
+    {
+      term: "DAO",
+      definition: "Decentralized Autonomous Organization (DAO) represents the future of organizational structure, combining blockchain technology with democratic governance. Unlike traditional hierarchical organizations, DAOs operate through smart contracts and community consensus, where rules and decisions are transparently encoded on the blockchain.\n\nKey Aspects:\n- Governance: Members participate directly in decision-making through voting mechanisms\n- Transparency: All transactions and decisions are recorded on the blockchain\n- Automation: Smart contracts execute decisions automatically\n- Token Economics: Utility tokens often represent voting power and ownership\n\nIn the SOLVY ecosystem, DAOs enable:\n- Community-driven development priorities\n- Transparent fund allocation\n- Collective decision-making on platform features\n- Fair distribution of rewards and responsibilities"
     },
     {
       term: "ICSID (International Investment Protection)",

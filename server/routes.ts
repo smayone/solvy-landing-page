@@ -1,21 +1,65 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
 import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress, taxRepatriations, companyAccess } from "@db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import Stripe from "stripe";
+import * as os from 'os';
 
 // Initialize stripe with the secret key from environment variables
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2023-10-16",
 });
 
+// Type definitions for health check responses
+interface HealthStatus {
+  status: "ok" | "error" | "unknown";
+  message?: string;
+}
+
+interface SystemHealth {
+  status: "healthy" | "degraded" | "error";
+  checks: {
+    api: HealthStatus;
+    database: HealthStatus;
+    stripe: HealthStatus;
+    timestamp: string;
+  };
+  metrics?: {
+    memory: NodeJS.MemoryUsage;
+    uptime: number;
+    lastRestart?: string;
+  };
+  environment: string;
+  version: string;
+}
+
+interface DetailedSystemMetrics {
+  cpu: {
+    usage: number;
+    load: number[];
+  };
+  memory: NodeJS.MemoryUsage;
+  disk: {
+    total: number;
+    free: number;
+  };
+}
+
+// Extend Request type to include user property
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: number;
+    role?: string;
+  };
+}
+
 export function registerRoutes(app: Express): Server {
-  // Enhanced health check endpoints
+  // Basic health check endpoint
   app.get("/api/health", async (_req, res) => {
     const startTime = Date.now();
     const status = {
-      status: "ok",
+      status: "ok" as const,
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       memory: process.memoryUsage(),
@@ -25,23 +69,31 @@ export function registerRoutes(app: Express): Server {
     res.json(status);
   });
 
-  // Detailed system health check
-  app.get("/api/health/detailed", async (_req, res) => {
+  // Detailed system health check with owner-only access
+  app.get("/api/health/detailed", async (req: AuthenticatedRequest, res) => {
     try {
+      // Check if user has owner access
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({
+          status: "error" as const,
+          message: "Owner access required for detailed health check"
+        });
+      }
+
       const checks = {
-        api: { status: "ok" },
-        database: { status: "unknown" },
-        stripe: { status: "unknown" },
+        api: { status: "ok" as const },
+        database: { status: "unknown" as const },
+        stripe: { status: "unknown" as const },
         timestamp: new Date().toISOString(),
       };
 
       // Check database
       try {
         await db.select().from(techCompanies).limit(1);
-        checks.database = { status: "ok" };
+        checks.database = { status: "ok" as const };
       } catch (error: any) {
         checks.database = { 
-          status: "error",
+          status: "error" as const,
           message: error?.message || "Database connection failed"
         };
       }
@@ -49,10 +101,10 @@ export function registerRoutes(app: Express): Server {
       // Check Stripe
       try {
         await stripe.paymentMethods.list({ limit: 1 });
-        checks.stripe = { status: "ok" };
+        checks.stripe = { status: "ok" as const };
       } catch (error: any) {
         checks.stripe = { 
-          status: "error",
+          status: "error" as const,
           message: error?.message || "Stripe connection failed"
         };
       }
@@ -61,12 +113,19 @@ export function registerRoutes(app: Express): Server {
         (check: any) => check.status === "ok" || check === checks.timestamp
       ) ? "healthy" : "degraded";
 
-      res.json({
+      const systemHealth: SystemHealth = {
         status: overall,
         checks,
+        metrics: {
+          memory: process.memoryUsage(),
+          uptime: process.uptime(),
+          lastRestart: process.env.LAST_RESTART || new Date().toISOString(),
+        },
         environment: process.env.NODE_ENV || 'development',
         version: process.env.APP_VERSION || '1.0.0'
-      });
+      };
+
+      res.json(systemHealth);
     } catch (error: any) {
       res.status(500).json({
         status: "error",
@@ -76,8 +135,39 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // System metrics endpoint (owner-only)
+  app.get("/api/health/metrics", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({
+          status: "error",
+          message: "Owner access required for system metrics"
+        });
+      }
+
+      const metrics: DetailedSystemMetrics = {
+        cpu: {
+          usage: process.cpuUsage().user / 1000000, // Convert to milliseconds
+          load: os.loadavg(),
+        },
+        memory: process.memoryUsage(),
+        disk: {
+          total: os.totalmem(),
+          free: os.freemem(),
+        }
+      };
+
+      res.json(metrics);
+    } catch (error: any) {
+      res.status(500).json({
+        status: "error",
+        message: error?.message || "Failed to gather system metrics"
+      });
+    }
+  });
+
   // Check access permissions for tax repatriation
-  app.get("/api/access/tax-repatriation", async (req, res) => {
+  app.get("/api/access/tax-repatriation", async (req: AuthenticatedRequest, res) => {
     try {
       if (!req.user?.id) {
         return res.json({ hasAccess: false });
@@ -102,7 +192,7 @@ export function registerRoutes(app: Express): Server {
   });
 
   // Get tax repatriation data
-  app.get("/api/tax-repatriation", async (req, res) => {
+  app.get("/api/tax-repatriation", async (req: AuthenticatedRequest, res) => {
     try {
       if (!req.user?.id) {
         return res.status(401).json({ error: "Unauthorized" });
@@ -167,7 +257,7 @@ export function registerRoutes(app: Express): Server {
   });
 
   // Personalized learning path recommendations
-  app.get("/api/learning-path", async (req, res) => {
+  app.get("/api/learning-path", async (req: AuthenticatedRequest, res) => {
     try {
       // Get user's progress and interests
       const userProgress = await db
@@ -205,7 +295,7 @@ export function registerRoutes(app: Express): Server {
   });
 
   // Track learning progress
-  app.post("/api/learning-progress", async (req, res) => {
+  app.post("/api/learning-progress", async (req: AuthenticatedRequest, res) => {
     try {
       const { moduleId, topicId, progress } = req.body;
 
@@ -234,7 +324,7 @@ export function registerRoutes(app: Express): Server {
   });
 
   // Existing crypto endpoints
-  app.get("/api/crypto/transactions", async (req, res) => {
+  app.get("/api/crypto/transactions", async (req: AuthenticatedRequest, res) => {
     try {
       const transactions = await db
         .select()
@@ -251,7 +341,7 @@ export function registerRoutes(app: Express): Server {
   });
 
   // Crypto Onramp endpoint with enhanced mobile support
-  app.post("/api/crypto/create-onramp-session", async (req, res) => {
+  app.post("/api/crypto/create-onramp-session", async (req: AuthenticatedRequest, res) => {
     try {
       const { platform = 'web', firstName, lastName, email } = req.body;
 
@@ -306,7 +396,7 @@ export function registerRoutes(app: Express): Server {
   });
 
   // Update transaction status (webhook endpoint)
-  app.post("/api/crypto/webhook", async (req, res) => {
+  app.post("/api/crypto/webhook", async (req: Request, res) => {
     try {
       const event = req.body;
 
