@@ -42,6 +42,12 @@ export const solvyDomains: Domain[] = [
     domain: "decidey.solvy.chain",
     description: "Decision-making and governance platform",
     registrationDate: "2025-01-06"
+  },
+  {
+    name: "EBL Reign",
+    domain: "reign.solvy.chain",
+    description: "Sustainable well-being products and services focused on women's health",
+    registrationDate: "2025-01-26"
   }
 ];
 

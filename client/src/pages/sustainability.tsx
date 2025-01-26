@@ -1,7 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Leaf, Recycle, Heart } from "lucide-react";
+import { ShareButtons } from "@/components/ui/share-buttons";
+import { 
+  GraduationCap, 
+  Leaf, 
+  Recycle, 
+  Heart, 
+  Globe,
+  UserCheck,
+  Factory,
+  Droplets
+} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 interface SustainabilityMetric {
@@ -10,6 +20,7 @@ interface SustainabilityMetric {
   value: number;
   target: number;
   unit: string;
+  category: "environmental" | "social" | "production";
 }
 
 const defaultMetrics: SustainabilityMetric[] = [
@@ -18,21 +29,56 @@ const defaultMetrics: SustainabilityMetric[] = [
     name: "Carbon Offset",
     value: 2500,
     target: 5000,
-    unit: "kg CO2"
+    unit: "kg CO2",
+    category: "environmental"
   },
   {
     id: "recycled_materials",
     name: "Recycled Materials Used",
     value: 75,
     target: 100,
-    unit: "%"
+    unit: "%",
+    category: "environmental"
   },
   {
     id: "water_saved",
     name: "Water Saved",
     value: 15000,
     target: 20000,
-    unit: "liters"
+    unit: "liters",
+    category: "environmental"
+  },
+  {
+    id: "organic_materials",
+    name: "Organic Materials",
+    value: 95,
+    target: 100,
+    unit: "%",
+    category: "production"
+  },
+  {
+    id: "sustainable_packaging",
+    name: "Sustainable Packaging",
+    value: 80,
+    target: 100,
+    unit: "%",
+    category: "production"
+  },
+  {
+    id: "community_impact",
+    name: "People Supported",
+    value: 5000,
+    target: 10000,
+    unit: "individuals",
+    category: "social"
+  },
+  {
+    id: "education_programs",
+    name: "Education Programs",
+    value: 24,
+    target: 50,
+    unit: "workshops",
+    category: "social"
   }
 ];
 
@@ -41,6 +87,12 @@ export default function Sustainability() {
     queryKey: ['/api/sustainability/metrics'],
   });
 
+  const categorizedMetrics = {
+    environmental: metrics.filter(m => m.category === "environmental"),
+    production: metrics.filter(m => m.category === "production"),
+    social: metrics.filter(m => m.category === "social")
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -48,79 +100,164 @@ export default function Sustainability() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <h1 className="text-5xl font-bold tracking-tight mb-6">
-              Sustainability Tracking
+              Blockchain-Verified Sustainability
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Transparent blockchain-verified tracking of our environmental and social impact
+              Transparent tracking of our environmental and social impact through immutable blockchain records
             </p>
+            <ShareButtons
+              title="SOLVY Sustainability Metrics"
+              description="Track our verified sustainability and social impact metrics"
+            />
           </div>
         </div>
       </section>
 
       {/* Metrics Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {metrics.map((metric) => (
-            <Card key={metric.id} className="bg-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  {metric.id === "carbon_offset" && <Leaf className="h-5 w-5" />}
-                  {metric.id === "recycled_materials" && <Recycle className="h-5 w-5" />}
-                  {metric.id === "water_saved" && <Heart className="h-5 w-5" />}
-                  {metric.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <Progress value={(metric.value / metric.target) * 100} />
-                  <p className="text-sm text-muted-foreground">
-                    {metric.value} / {metric.target} {metric.unit}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Environmental Impact */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <Leaf className="h-8 w-8 text-primary" />
+            <h2 className="text-2xl font-bold">Environmental Impact</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {categorizedMetrics.environmental.map((metric) => (
+              <Card key={metric.id} className="bg-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    {metric.id === "carbon_offset" && <Leaf className="h-5 w-5" />}
+                    {metric.id === "recycled_materials" && <Recycle className="h-5 w-5" />}
+                    {metric.id === "water_saved" && <Droplets className="h-5 w-5" />}
+                    {metric.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Progress value={(metric.value / metric.target) * 100} />
+                    <p className="text-sm text-muted-foreground">
+                      {metric.value.toLocaleString()} / {metric.target.toLocaleString()} {metric.unit}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-12 text-center">
-          <Button variant="outline" size="lg">
+        {/* Production Standards */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <Factory className="h-8 w-8 text-primary" />
+            <h2 className="text-2xl font-bold">Production Standards</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {categorizedMetrics.production.map((metric) => (
+              <Card key={metric.id} className="bg-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Factory className="h-5 w-5" />
+                    {metric.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Progress value={(metric.value / metric.target) * 100} />
+                    <p className="text-sm text-muted-foreground">
+                      {metric.value.toLocaleString()} / {metric.target.toLocaleString()} {metric.unit}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Social Impact */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <UserCheck className="h-8 w-8 text-primary" />
+            <h2 className="text-2xl font-bold">Social Impact</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {categorizedMetrics.social.map((metric) => (
+              <Card key={metric.id} className="bg-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    {metric.id === "community_impact" && <Heart className="h-5 w-5" />}
+                    {metric.id === "education_programs" && <GraduationCap className="h-5 w-5" />}
+                    {metric.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Progress value={(metric.value / metric.target) * 100} />
+                    <p className="text-sm text-muted-foreground">
+                      {metric.value.toLocaleString()} / {metric.target.toLocaleString()} {metric.unit}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Blockchain Verification */}
+        <div className="mt-12 text-center space-y-4">
+          <Button variant="outline" size="lg" className="gap-2">
+            <Globe className="h-5 w-5" />
             View Blockchain Verification
           </Button>
+          <p className="text-sm text-muted-foreground">
+            All metrics are verified and stored on the blockchain for complete transparency
+          </p>
         </div>
       </div>
 
-      {/* Impact Section */}
+      {/* Impact Details */}
       <section className="bg-primary/5 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Our Commitment to Sustainability</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card>
               <CardHeader>
-                <CardTitle>Environmental Impact</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Leaf className="h-5 w-5" />
+                  Environmental Impact
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Our products are made with sustainably sourced materials and eco-friendly production processes.
+                  Our products use sustainably sourced materials and eco-friendly production processes, 
+                  with a focus on organic ingredients and minimal environmental impact.
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Social Responsibility</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Heart className="h-5 w-5" />
+                  Social Responsibility
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  We're committed to addressing period poverty and promoting menstrual health education.
+                  We're actively addressing period poverty through community initiatives and 
+                  partnerships with local organizations to provide access to essential products.
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Transparency</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-5 w-5" />
+                  Transparency
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  All our sustainability metrics are verified and tracked on the blockchain for complete transparency.
+                  All our sustainability metrics are verified and tracked on the blockchain, 
+                  ensuring complete transparency and accountability in our operations.
                 </p>
               </CardContent>
             </Card>
