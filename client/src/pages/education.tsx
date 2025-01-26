@@ -97,11 +97,11 @@ const glossaryTerms = [
   },
   {
     term: "Infinite Banking Concept (IBC)",
-    definition: "A financial strategy developed by Nelson Nash that utilizes dividend-paying whole life insurance as a personal banking system. It allows individuals to become their own bankers by borrowing against their policy's cash value for investments and expenses, while maintaining control over their money and earning compound interest. The concept emphasizes building long-term wealth through disciplined premium payments and strategic policy loans.\n\nKey Components:\n- Dividend-paying whole life insurance\n- Policy loans for personal financing\n- Tax-advantaged growth\n- Uninterrupted compound interest\n- Legacy building"
+    definition: "A financial strategy developed by Nelson Nash that utilizes specially engineered dividend-paying whole life insurance as a personal banking system. It allows individuals to become their own bankers by borrowing against their policy's cash value for investments and expenses, while maintaining control over their money and earning compound interest.\n\nKey Components:\n- Specially engineered dividend-paying whole life insurance (not typical agent-sold policies)\n- Policy loans for personal financing\n- Tax-advantaged growth following IRS 7-year rule (Modified Endowment Contract guidelines)\n- Uninterrupted compound interest\n- Legacy building\n\nImportant Note: These policies are specifically designed for banking purposes and differ significantly from traditional whole life insurance policies typically sold by agents. The engineering focuses on maximizing cash value growth while maintaining compliance with IRS guidelines."
   },
   {
     term: "Banking Policy",
-    definition: "A specifically designed dividend-paying whole life insurance policy structured to maximize cash value growth and banking capabilities within the Infinite Banking Concept framework. Unlike traditional life insurance policies, banking policies are optimized with paid-up additions and minimal base premium to accelerate cash value accumulation while maintaining the death benefit.\n\nKey Features:\n- High cash value to premium ratio\n- Dividend participation\n- Flexible premium payment structure\n- Quick access to capital through policy loans"
+    definition: "A specifically engineered dividend-paying whole life insurance policy structured to maximize cash value growth and banking capabilities within the Infinite Banking Concept framework. Unlike traditional life insurance policies sold by typical agents, these banking policies are specially designed with precise specifications to optimize cash value accumulation while staying within IRS guidelines.\n\nKey Features:\n- High cash value to premium ratio through specific engineering\n- Carefully structured to comply with IRS 7-year rule (MEC guidelines)\n- Dividend participation\n- Flexible premium payment structure\n- Quick access to capital through policy loans\n\nNote: These policies require specific design expertise and differ substantially from standard whole life insurance. Common misconceptions often arise from comparing them to traditional policies."
   },
   {
     term: "Policy Loan",
@@ -371,7 +371,7 @@ const modules = [
       }
     ]
   },
-    {
+  {
     id: 'infinite-banking',
     title: 'Infinite Banking Concept',
     description: 'Master the art of becoming your own banker',
