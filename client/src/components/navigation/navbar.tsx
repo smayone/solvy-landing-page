@@ -4,8 +4,10 @@ import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet } from "
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { useTranslation } from "react-i18next";
 
 export function Navbar() {
+  const { t } = useTranslation();
   const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain;
 
   return (
@@ -25,43 +27,43 @@ export function Navbar() {
           <Button variant="ghost" asChild>
             <Link href="/" className="flex items-center gap-2">
               <Home className="h-4 w-4" />
-              Home
+              {t('nav.home')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link href="/member" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
-              Member
+              {t('nav.member')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link href="/nft-avatar" className="flex items-center gap-2">
               <Image className="h-4 w-4" />
-              NFT Avatar
+              {t('nav.nft_avatar')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link href="/ebl" className="flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
-              EBL
+              {t('nav.ebl')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link href="/analytics" className="flex items-center gap-2">
               <LineChart className="h-4 w-4" />
-              Analytics
+              {t('nav.analytics')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link href="/education" className="flex items-center gap-2">
               <GraduationCap className="h-4 w-4" />
-              Education
+              {t('nav.education')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link href="/crypto" className="flex items-center gap-2">
               <Wallet className="h-4 w-4" />
-              Buy Crypto
+              {t('nav.buy_crypto')}
             </Link>
           </Button>
         </div>

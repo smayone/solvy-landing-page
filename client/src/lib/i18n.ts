@@ -118,7 +118,13 @@ const resources = {
         connect_wallet: 'Connect Wallet',
         language: 'Language',
         evergreen: 'Evergreen Beauty',
-        analytics: 'Analytics'
+        analytics: 'Analytics',
+        home: 'Home',
+        member: 'Member',
+        nft_avatar: 'NFT Avatar',
+        ebl: 'EBL',
+        buy_crypto: 'Buy Crypto'
+
       },
       education: {
         dao: {
@@ -769,6 +775,149 @@ const resources = {
         booking_error: 'Failed to book appointment. Please try again.',
         gift_card_success: 'Gift card purchased successfully!',
         gift_card_error: 'Failed to purchase gift card. Please try again.',
+      }
+    }
+  },
+  fr: {
+    translation: {
+      nav: {
+        home: 'Accueil',
+        member: 'Membre',
+        nft_avatar: 'Avatar NFT',
+        ebl: 'EBL',
+        analytics: 'Analytique',
+        education: 'Éducation',
+        buy_crypto: 'Acheter Crypto'
+      }
+    }
+  },
+  'fr-HT': {
+    translation: {
+      nav: {
+        home: 'Akèy',
+        member: 'Manm',
+        nft_avatar: 'Avatar NFT',
+        ebl: 'EBL',
+        analytics: 'Analitik',
+        education: 'Edikasyon',
+        buy_crypto: 'Achte Kriptomone'
+      }
+    }
+  },
+  zh: {
+    translation: {
+      nav: {
+        home: '主页',
+        member: '会员',
+        nft_avatar: 'NFT 头像',
+        ebl: 'EBL',
+        analytics: '分析',
+        education: '教育',
+        buy_crypto: '购买加密货币'
+      }
+    }
+  },
+  ko: {
+    translation: {
+      nav: {
+        home: '홈',
+        member: '회원',
+        nft_avatar: 'NFT 아바타',
+        ebl: 'EBL',
+        analytics: '분석',
+        education: '교육',
+        buy_crypto: '암호화폐 구매'
+      }
+    }
+  },
+  vi: {
+    translation: {
+      nav: {
+        home: 'Trang chủ',
+        member: 'Thành viên',
+        nft_avatar: 'Avatar NFT',
+        ebl: 'EBL',
+        analytics: 'Phân tích',
+        education: 'Giáo dục',
+        buy_crypto: 'Mua tiền điện tử'
+      }
+    }
+  },
+  tl: {
+    translation: {
+      nav: {
+        home: 'Tahanan',
+        member: 'Miyembro',
+        nft_avatar: 'NFT Avatar',
+        ebl: 'EBL',
+        analytics: 'Pagsusuri',
+        education: 'Edukasyon',
+        buy_crypto: 'Bumili ng Crypto'
+      }
+    }
+  },
+  ja: {
+    translation: {
+      nav: {
+        home: 'ホーム',
+        member: 'メンバー',
+        nft_avatar: 'NFTアバター',
+        ebl: 'EBL',
+        analytics: '分析',
+        education: '教育',
+        buy_crypto: '暗号通貨を購入'
+      }
+    }
+  },
+  th: {
+    translation: {
+      nav: {
+        home: 'หน้าหลัก',
+        member: 'สมาชิก',
+        nft_avatar: 'NFT Avatar',
+        ebl: 'EBL',
+        analytics: 'การวิเคราะห์',
+        education: 'การศึกษา',
+        buy_crypto: 'ซื้อ Crypto'
+      }
+    }
+  },
+  "es-MX": {
+    translation: {
+      nav: {
+        home: 'Inicio',
+        member: 'Miembro',
+        nft_avatar: 'Avatar NFT',
+        ebl: 'EBL',
+        analytics: 'Análisis',
+        education: 'Educación',
+        buy_crypto: 'Comprar Cripto'
+      }
+    }
+  },
+  "es-PR": {
+    translation: {
+      nav: {
+        home: 'Inicio',
+        member: 'Miembro',
+        nft_avatar: 'Avatar NFT',
+        ebl: 'EBL',
+        analytics: 'Análisis',
+        education: 'Educación',
+        buy_crypto: 'Comprar Cripto'
+      }
+    }
+  },
+  "es-DO": {
+    translation: {
+      nav: {
+        home: 'Inicio',
+        member: 'Miembro',
+        nft_avatar: 'Avatar NFT',
+        ebl: 'EBL',
+        analytics: 'Análisis',
+        education: 'Educación',
+        buy_crypto: 'Comprar Cripto'
       }
     }
   }
