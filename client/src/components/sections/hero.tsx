@@ -40,36 +40,38 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative py-20">
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="max-w-2xl">
-            <div className="mb-4">
+    <section className="min-h-screen bg-background flex items-center">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Text Content */}
+          <div className="space-y-8">
+            <div>
               <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
             </div>
-            <div className="mb-8">
+
+            <div>
               <img
                 src="/attached_assets/solvy-logo-full.png"
                 alt="SOLVY"
-                className="h-40 w-auto object-contain"
+                className="h-48 w-auto object-contain"
               />
             </div>
 
-            <div className="space-y-4 mb-8 text-muted-foreground">
-              <p>
+            <div className="space-y-6 text-lg text-muted-foreground">
+              <p className="leading-relaxed">
                 We're a modern financial platform that uses secure blockchain technology to help service-businesses manage payments and customer identities more efficiently. Think of it as a smarter, faster, and safer way to handle your business transactions and build trust with your customers.
               </p>
-              <p>
-                Companies are profiting billions from your data, which they hold captive in their databases-and they're counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
+              <p className="leading-relaxed">
+                Companies are profiting billions from your data, which they hold captive in their databases-and they're counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth.
               </p>
-              <p>
+              <p className="leading-relaxed">
                 <Link href="/nft-avatar" className="font-semibold hover:text-primary transition-colors">
                   Solvy.chain
                 </Link>: Solutions Valued You. We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
               </p>
             </div>
 
-            <div className="h-24 mb-8">
+            <div className="h-32">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentIndex}
@@ -81,10 +83,10 @@ export function Hero() {
                 >
                   {storyboardItems[currentIndex].icon}
                   <div>
-                    <h3 className="text-xl font-semibold text-primary mb-2">
+                    <h3 className="text-2xl font-semibold text-primary mb-2">
                       {storyboardItems[currentIndex].title}
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-lg text-muted-foreground">
                       {storyboardItems[currentIndex].description}
                     </p>
                   </div>
@@ -92,33 +94,23 @@ export function Hero() {
               </AnimatePresence>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex flex-wrap gap-4">
-                <Button size="lg" variant="outline" asChild>
-                  <Link href={educationDomain ?? "#"}>Learn More</Link>
-                </Button>
-                <Button size="lg" asChild>
-                  <Link href="/nft-avatar">Become a Member</Link>
-                </Button>
-              </div>
+            <div className="flex flex-wrap gap-6">
+              <Button size="lg" variant="outline" asChild className="text-lg px-8">
+                <Link href={educationDomain ?? "#"}>Learn More</Link>
+              </Button>
+              <Button size="lg" asChild className="text-lg px-8">
+                <Link href="/nft-avatar">Become a Member</Link>
+              </Button>
             </div>
           </div>
 
-          <div className="flex gap-8 items-center">
-            {/* Original Image */}
-            <div className="w-full">
-              <img
-                src="/attached_assets/IMG_0615.jpeg"
-                alt="SOLVY Innovation"
-                className="w-full h-auto rounded-xl shadow-xl object-cover"
-              />
-            </div>
-            {/* Cartoonized Image */}
-            <div className="w-full">
+          {/* Image Grid */}
+          <div className="relative">
+            <div className="aspect-[4/3] relative overflow-hidden rounded-2xl shadow-2xl">
               <img
                 src="/hero-cartoon.png"
                 alt="SOLVY Innovation"
-                className="w-full h-auto rounded-xl shadow-xl object-cover transform hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-out"
               />
             </div>
           </div>
