@@ -43,7 +43,7 @@ export function Hero() {
               <img
                 src="/attached_assets/fulllogo.png"
                 alt="SOLVY Logo"
-                className="h-40 w-auto object-contain"
+                className="h-56 w-auto object-contain" 
               />
             </div>
 
