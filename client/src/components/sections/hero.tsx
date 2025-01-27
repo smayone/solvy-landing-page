@@ -63,16 +63,9 @@ export function Hero() {
                 Companies are profiting billions from your data, which they hold captive in their databases-and they're counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
               </p>
               <p>
-                <Link href={educationDomain} className="font-semibold hover:text-primary transition-colors">
-                  DECIDEY
-                </Link>{" "}
                 <Link href="/nft-avatar" className="font-semibold hover:text-primary transition-colors">
                   Solvy.chain
-                </Link>: Solutions Valued You.{" "}
-                <Link href="/analytics" className="font-semibold hover:text-primary transition-colors">
-                  MAN
-                </Link>{" "}
-                We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
+                </Link>: Solutions Valued You. We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
               </p>
             </div>
 
