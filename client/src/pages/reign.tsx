@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { Heart, ShoppingCart, Play, Info, Shield, Star, Sparkles, Award, User } from "lucide-react";
+import { Link } from "wouter";
 
 export default function ReignProducts() {
   const { t } = useTranslation();
@@ -163,6 +164,14 @@ export default function ReignProducts() {
             <Button size="lg" className="gap-2">
               <ShoppingCart className="h-5 w-5" />
               Shop Now
+            </Button>
+            <Button size="lg" variant="outline" className="gap-2" asChild>
+              <Link href="/reign/dao">
+                <div className="flex items-center">
+                  <Heart className="h-5 w-5 mr-2" />
+                  Join Our Community DAO
+                </div>
+              </Link>
             </Button>
             <Button size="lg" variant="outline" className="gap-2">
               <Info className="h-5 w-5" />

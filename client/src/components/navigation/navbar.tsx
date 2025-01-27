@@ -61,7 +61,7 @@ export function Navbar() {
             </Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/reign/dao" className="flex items-center gap-2">
+            <Link href="/reign" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
               {t('nav.reign')}
             </Link>
