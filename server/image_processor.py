@@ -47,16 +47,17 @@ def cartoonize_image(image_path, output_path):
 
 def process_hero_image():
     # Setup paths
-    input_path = "attached_assets/IMG_0615.jpeg"
-    public_dir = "client/public"
+    input_path = "./attached_assets/IMG_0615.jpeg"
+    public_dir = "./client/public"
     output_path = os.path.join(public_dir, "hero-cartoon.png")
 
     # Create public directory if it doesn't exist
     if not os.path.exists(public_dir):
         os.makedirs(public_dir)
 
-    # Copy original image to public directory
-    copyfile(input_path, os.path.join(public_dir, "IMG_0615.jpeg"))
-
     # Process and save cartoon version
     return cartoonize_image(input_path, output_path)
+
+# Process the image when this file is run
+if __name__ == "__main__":
+    process_hero_image()

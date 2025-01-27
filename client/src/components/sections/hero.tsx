@@ -104,12 +104,23 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative lg:h-[500px] flex items-center justify-center">
-            <img
-              src="/hero-cartoon.png"
-              alt="SOLVY Innovation"
-              className="w-full h-full object-cover rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
-            />
+          <div className="flex gap-4 items-center">
+            {/* Original Image */}
+            <div className="w-1/2">
+              <img
+                src="/attached_assets/IMG_0615.jpeg"
+                alt="Original"
+                className="w-full rounded-lg shadow-lg"
+              />
+            </div>
+            {/* Cartoonized Image */}
+            <div className="w-1/2">
+              <img
+                src="/hero-cartoon.png"
+                alt="Cartoonized"
+                className="w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
           </div>
         </div>
       </div>
