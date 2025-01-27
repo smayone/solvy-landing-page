@@ -34,7 +34,7 @@ export function Hero() {
   return (
     <section className="relative py-20">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="max-w-2xl">
             <div className="mb-4">
               <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
@@ -43,7 +43,7 @@ export function Hero() {
               <img
                 src="/attached_assets/fulllogo.png"
                 alt="SOLVY Logo"
-                className="h-32 w-auto object-contain"
+                className="h-40 w-auto object-contain"
               />
             </div>
 
@@ -54,7 +54,7 @@ export function Hero() {
               Companies are profiting billions from your data, which they hold captive in their databases—and they're counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
             </p>
             <p className="text-muted-foreground mb-4">
-              <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> A comprehensive Web3 financial ecosystem by SA Nathan LLC, breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
+              <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
             </p>
 
             <div className="h-24 mb-8">
@@ -85,11 +85,11 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center lg:h-full">
+          <div className="relative lg:h-[500px] flex items-center justify-center">
             <img 
               src="/attached_assets/focusgirl.png"
               alt="Girl at Terminal"
-              className="w-full h-auto rounded-lg shadow-xl object-cover"
+              className="w-full h-full rounded-lg shadow-xl object-cover"
             />
           </div>
         </div>

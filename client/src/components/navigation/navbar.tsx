@@ -18,7 +18,7 @@ export function Navbar() {
             <img 
               src="/attached_assets/fulllogo.png" 
               alt="SOLVY" 
-              className="h-8 w-auto object-contain hover:opacity-90 transition-opacity cursor-pointer"
+              className="h-10 w-auto object-contain hover:opacity-90 transition-opacity cursor-pointer"
             />
           </Link>
         </div>
