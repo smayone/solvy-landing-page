@@ -44,9 +44,12 @@ export function Hero() {
             </h1>
 
             <p className="text-muted-foreground mb-4">
+              We're a modern financial platform that uses secure blockchain technology to help service-businesses manage payments and customer identities more efficiently. Think of it as a smarter, faster, and safer way to handle your business transactions and build trust with your customers. 
+            </p>
+            <p className="text-muted-foreground mb-4">
               Companies are profiting billions from your data, which they hold captive in their databases—and they're counting on you not realizing its worth. In a "vulture economy," businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
             </p>
-            <p className="text-muted-foreground mb-8">
+            <p className="text-muted-foreground mb-4">
               <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> A comprehensive Web3 financial ecosystem by SA Nathan LLC, breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
             </p>
 
