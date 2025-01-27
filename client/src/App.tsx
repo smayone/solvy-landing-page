@@ -45,10 +45,10 @@ export default function App() {
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 flex flex-col pt-16">
-          <div className="flex-1 pb-24">
+          <div className="flex-1 pb-24 mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
             <Router />
           </div>
-          <div className="mt-auto flex flex-col items-center">
+          <div className="mt-auto flex flex-col items-center w-full">
             <div className="w-full">
               <CTA />
             </div>
