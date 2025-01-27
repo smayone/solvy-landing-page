@@ -46,9 +46,9 @@ export function Hero() {
             </div>
             <div className="mb-8">
               <img
-                src="/attached_assets/fulllogo.png"
-                alt="SOLVY Logo"
-                className="h-56 w-auto object-contain" 
+                src="/attached_assets/solvy-logo-full.png"
+                alt="SOLVY"
+                className="h-40 w-auto object-contain"
               />
             </div>
 
@@ -97,7 +97,7 @@ export function Hero() {
           </div>
 
           <div className="relative lg:h-[500px] flex items-center justify-center">
-            <img 
+            <img
               src="/attached_assets/focusgirl.png"
               alt="Girl at Terminal"
               className="w-full h-full rounded-lg shadow-xl object-cover"
