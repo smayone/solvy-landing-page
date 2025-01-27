@@ -35,6 +35,9 @@ export default function ManDashboard() {
     queryKey: ['/api/man/accounts/overview'],
   });
 
+  // Check if user has owner access based on analytics response
+  const isOwner = !analytics?.error;
+
   return (
     <div className="min-h-screen bg-background">
       <section className="py-12 bg-primary/5">
@@ -134,7 +137,7 @@ export default function ManDashboard() {
                     <div>
                       <CardTitle className="text-xl">{business.name}</CardTitle>
                       <p className="text-sm text-muted-foreground">
-                        {business.type.charAt(0).toUpperCase() + business.type.slice(1)} | 
+                        {business.type.charAt(0).toUpperCase() + business.type.slice(1)} |
                         Started: {format(new Date(business.metadata.start_date), 'MMMM yyyy')}
                       </p>
                     </div>
@@ -179,6 +182,7 @@ export default function ManDashboard() {
         </div>
       </section>
 
+      {/* Tax Actions and Recent Calculations Section */}
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -186,19 +190,27 @@ export default function ManDashboard() {
               <CardHeader>
                 <CardTitle>Tax Calculation Actions</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <Button className="w-full" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Generate Tax Report
-                </Button>
-                <Button className="w-full" variant="outline">
-                  <ChartBar className="mr-2 h-4 w-4" />
-                  Calculate Multi-Jurisdiction Tax
-                </Button>
-                <Button className="w-full" variant="outline">
-                  <Activity className="mr-2 h-4 w-4" />
-                  View Taxually Audit Logs
-                </Button>
+              <CardContent>
+                {isOwner ? (
+                  <div className="space-y-4">
+                    <Button className="w-full" variant="outline">
+                      <FileText className="mr-2 h-4 w-4" />
+                      Generate Tax Report
+                    </Button>
+                    <Button className="w-full" variant="outline">
+                      <ChartBar className="mr-2 h-4 w-4" />
+                      Calculate Multi-Jurisdiction Tax
+                    </Button>
+                    <Button className="w-full" variant="outline">
+                      <Activity className="mr-2 h-4 w-4" />
+                      View Taxually Audit Logs
+                    </Button>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Owner access required to perform tax calculations.
+                  </p>
+                )}
               </CardContent>
             </Card>
 
@@ -207,10 +219,16 @@ export default function ManDashboard() {
                 <CardTitle>Recent Tax Calculations</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {/* Placeholder for recent activity */}
-                  <p className="text-sm text-muted-foreground">Loading tax calculations...</p>
-                </div>
+                {isOwner ? (
+                  <div className="space-y-4">
+                    {/* Placeholder for recent activity */}
+                    <p className="text-sm text-muted-foreground">Loading tax calculations...</p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Owner access required to view recent tax calculations.
+                  </p>
+                )}
               </CardContent>
             </Card>
           </div>
