@@ -156,6 +156,26 @@ export default function ReignProducts() {
         </div>
       </section>
 
+      {/* Ecosystem Section */}
+      <section className="py-16 container mx-auto px-4">
+        <div className="text-center mb-12">
+          <img
+            src="/SolvyLogo-1024.png"
+            alt="SOLVY Ecosystem"
+            className="h-16 w-auto mx-auto mb-6"
+          />
+          <h2 className="text-3xl font-bold mb-4">SOLVY Ecosystem</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Our revolutionary ecosystem integrates blockchain technology with real-world financial solutions,
+            providing unmatched security and efficiency.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+          {/* This part remains unchanged */}
+        </div>
+      </section>
+
+
       {/* Call to Action */}
       <section className="py-16 bg-primary/5">
         <div className="container mx-auto px-4 text-center">
