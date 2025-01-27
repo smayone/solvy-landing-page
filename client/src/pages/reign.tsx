@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { Heart, ShoppingCart, Play, Info, Shield, Star, Sparkles, Award, User, Wallet } from "lucide-react";
+import { Heart, ShoppingCart, Play, Info, Shield, Star, Sparkles, Award, User } from "lucide-react";
 
 export default function ReignProducts() {
   const { t } = useTranslation();
@@ -22,16 +22,6 @@ export default function ReignProducts() {
           <div className="text-center max-w-4xl mx-auto">
             <Heart className="h-12 w-12 text-pink-500 mx-auto mb-6" />
             <h1 className="text-4xl font-bold mb-4">YOUR JEWEL SANITARY NAPKINS LLC</h1>
-
-            {/* New Financial Platform Statement */}
-            <div className="bg-white/50 backdrop-blur-sm p-6 rounded-lg shadow-sm mb-8">
-              <Wallet className="h-8 w-8 text-primary mx-auto mb-4" />
-              <p className="text-lg text-foreground/90 leading-relaxed">
-                We're a modern financial platform that uses secure blockchain technology to help service-businesses 
-                manage payments and customer identities more efficiently. Think of it as a smarter, faster, and 
-                safer way to handle your business transactions and build trust with your customers.
-              </p>
-            </div>
 
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               Revolutionary sanitary napkins powered by patented graphene technology.

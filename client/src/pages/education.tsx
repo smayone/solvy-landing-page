@@ -20,7 +20,8 @@ import {
   Scale,
   BadgeHelp,
   Hash,
-  Database
+  Database,
+  Heart
 } from "lucide-react";
 
 // First define all constants
@@ -72,6 +73,14 @@ interface CommunityChannel {
 }
 
 const glossaryTerms = [
+  {
+    term: "Period Poverty DAO",
+    definition: "A decentralized autonomous organization dedicated to addressing period poverty through community-driven initiatives, blockchain transparency, and collective governance. This DAO combines social impact with blockchain technology to ensure efficient resource distribution and community engagement.\n\nKey Components:\n- Community Governance: Members participate in decision-making\n- Transparent Distribution: Blockchain-verified aid delivery\n- Impact Tracking: Real-time metrics and accountability\n- Resource Allocation: Community-driven funding priorities"
+  },
+  {
+    term: "Social Impact DAO",
+    definition: "A type of decentralized autonomous organization specifically focused on creating positive social change through blockchain technology and community governance. These DAOs leverage collective decision-making to address social issues and ensure transparent resource allocation.\n\nKey Features:\n- Impact Metrics: Blockchain-verified social impact tracking\n- Community Voting: Democratic decision-making on initiatives\n- Resource Distribution: Transparent allocation of funds\n- Stakeholder Engagement: Direct participation in governance"
+  },
   {
     term: "Blockchain",
     definition: "A decentralized, immutable digital ledger that records transactions across a network of computers. Each block contains a list of transactions and is cryptographically linked to the previous block, creating a chain of information that cannot be altered without changing all subsequent blocks.\n\nKey Features:\n- Decentralization: No single entity controls the network\n- Immutability: Once recorded, data cannot be changed\n- Transparency: All transactions are publicly verifiable\n- Security: Cryptographic techniques protect data integrity"
@@ -316,6 +325,34 @@ const communityChannels: CommunityChannel[] = [
 
 // Learning modules
 const modules = [
+  {
+    id: 'period-poverty-dao',
+    title: 'Period Poverty DAO',
+    description: 'Community-driven initiatives for addressing period poverty through blockchain',
+    icon: Heart,
+    topics: [
+      {
+        title: 'Understanding Period Poverty',
+        videoId: 'pp101',
+        description: 'Introduction to period poverty and its global impact'
+      },
+      {
+        title: 'DAO Governance Models',
+        videoId: 'pp102',
+        description: 'How DAOs can drive community-led social impact'
+      },
+      {
+        title: 'Blockchain Transparency',
+        videoId: 'pp103',
+        description: 'Using blockchain to ensure accountability in social initiatives'
+      },
+      {
+        title: 'Community Engagement',
+        videoId: 'pp104',
+        description: 'Building and growing the Period Poverty DAO community'
+      }
+    ]
+  },
   {
     id: 'decidey',
     title: 'DECIDEY Foundation',

@@ -2,15 +2,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ui/share-buttons";
-import { 
-  GraduationCap, 
-  Leaf, 
-  Recycle, 
-  Heart, 
+import {
+  GraduationCap,
+  Leaf,
+  Recycle,
+  Heart,
   Globe,
   UserCheck,
   Factory,
-  Droplets
+  Droplets,
+  Users,
+  Building2
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -82,6 +84,13 @@ const defaultMetrics: SustainabilityMetric[] = [
   }
 ];
 
+const periodPovertyMetrics = {
+  peopleHelped: 2500,
+  productsDistributed: 25000,
+  communitiesServed: 15,
+  monthlyGrowthRate: 12
+};
+
 export default function Sustainability() {
   const { data: metrics = defaultMetrics } = useQuery<SustainabilityMetric[]>({
     queryKey: ['/api/sustainability/metrics'],
@@ -109,6 +118,103 @@ export default function Sustainability() {
               title="SOLVY Sustainability Metrics"
               description="Track our verified sustainability and social impact metrics"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* New Period Poverty DAO Section */}
+      <section className="py-16 bg-primary/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <Users className="h-16 w-16 text-primary mx-auto mb-6" />
+            <h2 className="text-3xl font-bold mb-4">Period Poverty DAO Initiative</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              A community-driven approach to addressing period poverty through blockchain transparency and collective action
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Heart className="h-5 w-5" />
+                  People Helped
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold mb-2">
+                  {periodPovertyMetrics.peopleHelped.toLocaleString()}
+                </div>
+                <Progress value={75} className="mb-2" />
+                <p className="text-sm text-muted-foreground">
+                  Direct impact through our DAO initiatives
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Building2 className="h-5 w-5" />
+                  Products Distributed
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold mb-2">
+                  {periodPovertyMetrics.productsDistributed.toLocaleString()}
+                </div>
+                <Progress value={80} className="mb-2" />
+                <p className="text-sm text-muted-foreground">
+                  Sustainable products provided
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-5 w-5" />
+                  Communities Served
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold mb-2">
+                  {periodPovertyMetrics.communitiesServed}
+                </div>
+                <Progress value={60} className="mb-2" />
+                <p className="text-sm text-muted-foreground">
+                  Global community reach
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <UserCheck className="h-5 w-5" />
+                  Monthly Growth
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold mb-2">
+                  {periodPovertyMetrics.monthlyGrowthRate}%
+                </div>
+                <Progress value={85} className="mb-2" />
+                <p className="text-sm text-muted-foreground">
+                  Continuous impact expansion
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button size="lg" className="gap-2">
+              <Users className="h-5 w-5" />
+              Join Our DAO Initiative
+            </Button>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Participate in governance and help shape the future of period poverty initiatives
+            </p>
           </div>
         </div>
       </section>
@@ -228,7 +334,7 @@ export default function Sustainability() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Our products use sustainably sourced materials and eco-friendly production processes, 
+                  Our products use sustainably sourced materials and eco-friendly production processes,
                   with a focus on organic ingredients and minimal environmental impact.
                 </p>
               </CardContent>
@@ -242,7 +348,7 @@ export default function Sustainability() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  We're actively addressing period poverty through community initiatives and 
+                  We're actively addressing period poverty through community initiatives and
                   partnerships with local organizations to provide access to essential products.
                 </p>
               </CardContent>
@@ -256,7 +362,7 @@ export default function Sustainability() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  All our sustainability metrics are verified and tracked on the blockchain, 
+                  All our sustainability metrics are verified and tracked on the blockchain,
                   ensuring complete transparency and accountability in our operations.
                 </p>
               </CardContent>
