@@ -49,12 +49,12 @@ export function Hero() {
               <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
             </div>
 
-            {/* Updated logo section */}
-            <div className="flex justify-start">
+            {/* Company Full Logo */}
+            <div className="my-12 flex justify-start">
               <img
                 src="/attached_assets/fulllogo.png"
                 alt="SOLVY - Solution Valued You"
-                className="w-full max-w-[500px] h-auto object-contain"
+                className="w-full max-w-[400px] h-auto object-contain"
               />
             </div>
 
