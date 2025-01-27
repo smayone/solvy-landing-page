@@ -95,7 +95,7 @@ export function Hero() {
             <div className="space-y-6">
               <div className="flex flex-wrap gap-4">
                 <Button size="lg" variant="outline" asChild>
-                  <Link href={educationDomain}>Learn More</Link>
+                  <Link href={educationDomain ?? "#"}>Learn More</Link>
                 </Button>
                 <Button size="lg" asChild>
                   <Link href="/nft-avatar">Become a Member</Link>
