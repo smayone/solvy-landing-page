@@ -68,11 +68,11 @@ export function Hero() {
                 </Link>{" "}
                 <Link href="/nft-avatar" className="font-semibold hover:text-primary transition-colors">
                   Solvy.chain
-                </Link>: Solutions Valued You. The{" "}
+                </Link>: Solutions Valued You.{" "}
                 <Link href="/analytics" className="font-semibold hover:text-primary transition-colors">
                   MAN
                 </Link>{" "}
-                initiative. We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
+                We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
               </p>
             </div>
 
