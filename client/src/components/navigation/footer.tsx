@@ -11,7 +11,7 @@ export function Footer() {
           <div className="lg:col-span-2 flex flex-col items-center lg:items-start">
             <Link href="/">
               <img 
-                src="/attached_assets/fulllogo.png" 
+                src="/fulllogo.png" 
                 alt="SOLVY" 
                 className="h-16 w-auto mb-6 transition-transform hover:scale-105"
               />

@@ -16,9 +16,9 @@ export function Navbar() {
         <div className="flex-shrink-0 mr-8">
           <Link href="/">
             <img 
-              src="/attached_assets/solvy-logo.png" 
+              src="/SolvyLogo-1024.png" 
               alt="SOLVY" 
-              className="h-8 w-auto object-contain hover:opacity-90 transition-opacity cursor-pointer"
+              className="h-10 w-auto object-contain hover:opacity-90 transition-opacity cursor-pointer"
             />
           </Link>
         </div>
