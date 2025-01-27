@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Shield, Users, Coins, Book } from "lucide-react";
+import { Link } from "wouter";
+import { solvyDomains } from "@/lib/domains";
 
 const storyboardItems = [
   {
@@ -28,6 +30,7 @@ const storyboardItems = [
 
 export function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain || "/education";
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -89,8 +92,11 @@ export function Hero() {
 
             <div className="space-y-6">
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" variant="outline">
-                  Learn More
+                <Button size="lg" variant="outline" asChild>
+                  <Link href={educationDomain}>Learn More</Link>
+                </Button>
+                <Button size="lg" asChild>
+                  <Link href="/member">Become a Member</Link>
                 </Button>
               </div>
             </div>
