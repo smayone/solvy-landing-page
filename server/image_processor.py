@@ -14,54 +14,35 @@ def cartoonize_image(image_path, output_path):
 
     # Resize image while maintaining aspect ratio
     height, width = img.shape[:2]
-    max_dimension = 1500  # Increased for higher resolution
+    max_dimension = 1500
     scale = max_dimension / max(height, width)
     new_width = int(width * scale)
     new_height = int(height * scale)
     img = cv2.resize(img, (new_width, new_height))
 
-    # Add evergreen tint to the background
-    # Create a green mask
-    green_tint = np.full(img.shape, [34, 139, 34], dtype=np.uint8)  # Forest Green RGB
-    # Blend the original image with the green tint
-    img = cv2.addWeighted(img, 0.8, green_tint, 0.2, 0)
+    # Apply bilateral filter for smooth transitions while preserving edges
+    smooth = cv2.bilateralFilter(img, d=7, sigmaColor=100, sigmaSpace=100)
 
-    # Create artistic effect
-    # 1. Color quantization with green emphasis
-    Z = img.reshape((-1, 3))
-    Z = np.float32(Z)
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-    K = 8  # Number of colors
-    _, label, center = cv2.kmeans(Z, K, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-    # Adjust the centers to favor green hues
-    center = np.uint8(center)
-    center[:, 1] = np.clip(center[:, 1] + 20, 0, 255)  # Increase green channel
-    res = center[label.flatten()]
-    quantized = res.reshape((img.shape))
-
-    # 2. Apply stronger bilateral filter for painterly effect
-    color = cv2.bilateralFilter(quantized, d=25, sigmaColor=500, sigmaSpace=500)
-
-    # 3. Edge enhancement
+    # Edge enhancement
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    gray = cv2.medianBlur(gray, 13)
+    gray = cv2.medianBlur(gray, 7)
     edges = cv2.adaptiveThreshold(
         gray, 255,
         cv2.ADAPTIVE_THRESH_MEAN_C,
         cv2.THRESH_BINARY,
-        blockSize=5,
-        C=3
+        blockSize=9,
+        C=2
     )
 
-    # 4. Create geometric distortion effect
+    # Create geometric distortion effect
     rows, cols = edges.shape
-    wave_length = 20
-    amplitude = 5
+    wave_length = 30
+    amplitude = 3
     for i in range(rows):
-        color[i,:] = np.roll(color[i,:], int(amplitude * np.sin(i/wave_length)))
+        smooth[i,:] = np.roll(smooth[i,:], int(amplitude * np.sin(i/wave_length)))
 
     # Combine color image with edges
-    cartoon = cv2.bitwise_and(color, color, mask=edges)
+    cartoon = cv2.bitwise_and(smooth, smooth, mask=edges)
 
     # Convert back to BGR for saving
     cartoon = cv2.cvtColor(cartoon, cv2.COLOR_RGB2BGR)
