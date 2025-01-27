@@ -1,30 +1,35 @@
-// Documentation References:
-// Web Integration: https://docs.stripe.com/crypto/onramp/emeddable-onramp-guide
-// iOS SDK: https://stripe.dev/stripe-ios/documentation/stripe
-// Android SDK: https://stripe.dev/stripe-android/index.html
-// React Native SDK: https://stripe.dev/stripe-react-native/api-reference/index.html
-
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Smartphone, Monitor } from "lucide-react";
+import { Smartphone, Monitor, Loader2 } from "lucide-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Stripe from 'stripe';
 
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     stripe: any;
   }
 }
 
+const formSchema = z.object({
+  firstName: z.string().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address")
+});
+
+type FormData = z.infer<typeof formSchema>;
+
 interface OnrampSessionRequest {
   platform: 'web' | 'ios' | 'android';
-  firstName?: string;
-  lastName?: string;
-  email?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 async function createOnrampSession(data: OnrampSessionRequest) {
@@ -46,25 +51,35 @@ async function createOnrampSession(data: OnrampSessionRequest) {
 
 export function CryptoOnramp() {
   const { toast } = useToast();
-  const [customerInfo, setCustomerInfo] = useState({
-    firstName: '',
-    lastName: '',
-    email: ''
+  const [isStripeLoaded, setIsStripeLoaded] = useState(false);
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: ''
+    }
   });
 
   const { mutate: createSession, isPending } = useMutation({
     mutationFn: createOnrampSession,
     onSuccess: async (data) => {
       try {
+        if (!window.stripe) {
+          throw new Error("Stripe.js hasn't loaded yet");
+        }
+
         const onramp = await window.stripe.createCryptoOnrampSession({
           clientSecret: data.clientSecret,
           appearance: {
-            theme: "dark",
+            theme: document.documentElement.classList.contains('dark') ? "dark" : "light",
             variables: {
               colorPrimary: "hsl(var(--primary))",
               colorBackground: "hsl(var(--background))",
               colorText: "hsl(var(--foreground))",
               borderRadius: "0.5rem",
+              fontFamily: "inherit"
             },
           },
         });
@@ -95,10 +110,13 @@ export function CryptoOnramp() {
   });
 
   useEffect(() => {
-    // Load Stripe.js
     const script = document.createElement("script");
     script.src = "https://js.stripe.com/v3/crypto-elements-bundle";
     script.async = true;
+    script.onload = () => {
+      window.stripe = Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+      setIsStripeLoaded(true);
+    };
     document.body.appendChild(script);
 
     return () => {
@@ -106,61 +124,80 @@ export function CryptoOnramp() {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = (data: FormData) => {
     createSession({
       platform: 'web',
-      ...customerInfo
+      ...data
     });
   };
 
   return (
-    <Card>
+    <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>Buy Crypto</CardTitle>
+        <CardDescription>
+          Purchase cryptocurrency using your preferred payment method
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="firstName">First Name</Label>
               <Input
                 id="firstName"
-                value={customerInfo.firstName}
-                onChange={(e) => setCustomerInfo(prev => ({...prev, firstName: e.target.value}))}
-                required
+                {...form.register("firstName")}
+                aria-invalid={!!form.formState.errors.firstName}
               />
+              {form.formState.errors.firstName && (
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.firstName.message}
+                </p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="lastName">Last Name</Label>
               <Input
                 id="lastName"
-                value={customerInfo.lastName}
-                onChange={(e) => setCustomerInfo(prev => ({...prev, lastName: e.target.value}))}
-                required
+                {...form.register("lastName")}
+                aria-invalid={!!form.formState.errors.lastName}
               />
+              {form.formState.errors.lastName && (
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.lastName.message}
+                </p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                value={customerInfo.email}
-                onChange={(e) => setCustomerInfo(prev => ({...prev, email: e.target.value}))}
-                required
+                {...form.register("email")}
+                aria-invalid={!!form.formState.errors.email}
               />
+              {form.formState.errors.email && (
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.email.message}
+                </p>
+              )}
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <Button
-              type="submit"
-              disabled={isPending}
-              className="flex-1"
-            >
-              {isPending ? "Loading..." : "Start Crypto Purchase"}
-            </Button>
-          </div>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={!isStripeLoaded || isPending}
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              "Start Crypto Purchase"
+            )}
+          </Button>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground mt-4">
             <Monitor className="h-4 w-4" />
@@ -169,7 +206,7 @@ export function CryptoOnramp() {
             <span>Mobile Apps Coming Soon</span>
           </div>
 
-          <div id="crypto-onramp-root" className="min-h-[600px] mt-4"></div>
+          <div id="crypto-onramp-root" className="min-h-[600px] mt-4 bg-card rounded-lg"></div>
         </form>
       </CardContent>
     </Card>
