@@ -106,9 +106,9 @@ export function Hero() {
 
           <div className="relative lg:h-[500px] flex items-center justify-center">
             <img
-              src="/attached_assets/focusgirl.png"
-              alt="Girl at Terminal"
-              className="w-full h-full rounded-lg shadow-xl object-cover"
+              src="/hero-cartoon.png"
+              alt="SOLVY Innovation"
+              className="w-full h-full object-cover rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
             />
           </div>
         </div>
