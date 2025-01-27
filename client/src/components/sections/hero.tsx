@@ -30,6 +30,7 @@ const storyboardItems = [
 
 export function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -62,7 +63,7 @@ export function Hero() {
                 Companies are profiting billions from your data, which they hold captive in their databases-and they're counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
               </p>
               <p>
-                <Link href="/education" className="font-semibold hover:text-primary transition-colors">
+                <Link href={educationDomain} className="font-semibold hover:text-primary transition-colors">
                   DECIDEY
                 </Link>{" "}
                 <Link href="/nft-avatar" className="font-semibold hover:text-primary transition-colors">
@@ -97,7 +98,7 @@ export function Hero() {
             <div className="space-y-6">
               <div className="flex flex-wrap gap-4">
                 <Button size="lg" variant="outline" asChild>
-                  <Link href="/education">Learn More</Link>
+                  <Link href={educationDomain}>Learn More</Link>
                 </Button>
                 <Button size="lg" asChild>
                   <Link href="/nft-avatar">Become a Member</Link>
