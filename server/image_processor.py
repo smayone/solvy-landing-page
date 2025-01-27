@@ -12,27 +12,28 @@ def cartoonize_image(image_path, output_path):
     # Convert to RGB (OpenCV uses BGR)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    # Resize image to a reasonable size while maintaining aspect ratio
+    # Resize image to a larger size while maintaining aspect ratio
     height, width = img.shape[:2]
-    max_dimension = 800
+    max_dimension = 1200  # Increased from 800
     scale = max_dimension / max(height, width)
     new_width = int(width * scale)
     new_height = int(height * scale)
     img = cv2.resize(img, (new_width, new_height))
 
-    # Apply bilateral filter
-    color = cv2.bilateralFilter(img, 9, 300, 300)
+    # Apply stronger bilateral filter for more pronounced smoothing
+    color = cv2.bilateralFilter(img, d=15, sigmaColor=400, sigmaSpace=400)
 
     # Convert to grayscale and apply median blur
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    gray = cv2.medianBlur(gray, 7)
+    gray = cv2.medianBlur(gray, 11)  # Increased blur size
 
-    # Create edge mask
+    # Create edge mask with more pronounced edges
     edges = cv2.adaptiveThreshold(
         gray, 255,
         cv2.ADAPTIVE_THRESH_MEAN_C,
         cv2.THRESH_BINARY,
-        9, 9
+        blockSize=7,  # Decreased for more detail
+        C=7  # Decreased for stronger edges
     )
 
     # Combine color image with edges
@@ -41,8 +42,8 @@ def cartoonize_image(image_path, output_path):
     # Convert back to BGR for saving
     cartoon = cv2.cvtColor(cartoon, cv2.COLOR_RGB2BGR)
 
-    # Save the image
-    cv2.imwrite(output_path, cartoon)
+    # Save the image with high quality
+    cv2.imwrite(output_path, cartoon, [cv2.IMWRITE_PNG_COMPRESSION, 0])
     return True
 
 def process_hero_image():

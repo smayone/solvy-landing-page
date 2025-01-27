@@ -104,21 +104,21 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-8 items-center">
             {/* Original Image */}
-            <div className="w-1/2">
+            <div className="w-full">
               <img
                 src="/attached_assets/IMG_0615.jpeg"
-                alt="Original"
-                className="w-full rounded-lg shadow-lg"
+                alt="SOLVY Innovation"
+                className="w-full h-auto rounded-xl shadow-xl object-cover"
               />
             </div>
             {/* Cartoonized Image */}
-            <div className="w-1/2">
+            <div className="w-full">
               <img
                 src="/hero-cartoon.png"
-                alt="Cartoonized"
-                className="w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
+                alt="SOLVY Innovation"
+                className="w-full h-auto rounded-xl shadow-xl object-cover transform hover:scale-105 transition-transform duration-300"
               />
             </div>
           </div>
