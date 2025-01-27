@@ -5,14 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Smartphone, Monitor, Loader2 } from "lucide-react";
+import { Smartphone, Monitor, Loader2, AlertCircle } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Stripe from 'stripe';
 
 declare global {
   interface Window {
+    Stripe: any;
     stripe: any;
   }
 }
@@ -52,6 +52,7 @@ async function createOnrampSession(data: OnrampSessionRequest) {
 export function CryptoOnramp() {
   const { toast } = useToast();
   const [isStripeLoaded, setIsStripeLoaded] = useState(false);
+  const [loadingError, setLoadingError] = useState<string | null>(null);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -110,18 +111,38 @@ export function CryptoOnramp() {
   });
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://js.stripe.com/v3/crypto-elements-bundle";
-    script.async = true;
-    script.onload = () => {
-      window.stripe = Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-      setIsStripeLoaded(true);
-    };
-    document.body.appendChild(script);
+    const loadStripe = async () => {
+      try {
+        setLoadingError(null);
+        const script = document.createElement("script");
+        script.src = "https://js.stripe.com/v3/crypto-elements-bundle";
+        script.async = true;
 
-    return () => {
-      document.body.removeChild(script);
+        const handleLoad = () => {
+          try {
+            window.stripe = new window.Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+            setIsStripeLoaded(true);
+            script.removeEventListener('load', handleLoad);
+          } catch (err: any) {
+            setLoadingError(err.message || 'Failed to initialize Stripe');
+            console.error('Stripe initialization error:', err);
+          }
+        };
+
+        script.addEventListener('load', handleLoad);
+        document.body.appendChild(script);
+
+        return () => {
+          document.body.removeChild(script);
+          script.removeEventListener('load', handleLoad);
+        };
+      } catch (err: any) {
+        setLoadingError(err.message || 'Failed to load Stripe script');
+        console.error('Script loading error:', err);
+      }
     };
+
+    loadStripe();
   }, []);
 
   const onSubmit = (data: FormData) => {
@@ -140,6 +161,13 @@ export function CryptoOnramp() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {loadingError && (
+          <div className="mb-4 p-4 border border-destructive/50 rounded-lg bg-destructive/10 text-destructive flex items-center gap-2">
+            <AlertCircle className="h-4 w-4" />
+            <p className="text-sm">{loadingError}</p>
+          </div>
+        )}
+
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid gap-4">
             <div className="grid gap-2">
@@ -193,6 +221,11 @@ export function CryptoOnramp() {
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Processing...
+              </>
+            ) : !isStripeLoaded ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Loading Stripe...
               </>
             ) : (
               "Start Crypto Purchase"
