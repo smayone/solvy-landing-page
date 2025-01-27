@@ -1,7 +1,7 @@
 import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
-import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress, taxRepatriations, companyAccess } from "@db/schema";
+import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress, taxRepatriations, companyAccess, manTaxCalculations, manAuditLogs, manFinancialReports, manAnalytics } from "@db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import Stripe from "stripe";
 import * as os from 'os';
@@ -443,6 +443,174 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+
+  // Tax calculation endpoint with automatic tax enabled
+  app.post("/api/man/tax/calculate", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      const { amount, jurisdiction, postal_code, state } = req.body;
+
+      // Create a tax calculation using Stripe's automatic tax feature
+      const calculation = await stripe.tax.calculations.create({
+        currency: 'usd',
+        line_items: [{
+          amount: Math.round(amount * 100), // Convert to cents
+          reference: 'default', // Required field
+        }],
+        customer_details: {
+          address: {
+            country: jurisdiction,
+            postal_code: postal_code,
+            state: state,
+          },
+          tax_ids: [], // Optional tax IDs for the customer
+        },
+        expand: ['line_items.data.tax_breakdown'],
+      });
+
+      // Store the calculation in our database
+      const [taxCalc] = await db
+        .insert(manTaxCalculations)
+        .values({
+          transactionId: calculation.id,
+          userId: req.user.id,
+          amount: amount,
+          taxableAmount: calculation.tax_breakdown[0]?.taxable_amount || 0,
+          taxRate: calculation.tax_breakdown[0]?.tax_rate_details?.percentage || 0,
+          taxAmount: calculation.tax_breakdown[0]?.tax_amount || 0,
+          jurisdiction: jurisdiction,
+          taxType: 'automatic',
+          stripeCalculationId: calculation.id,
+          metadata: { calculation_details: calculation }
+        })
+        .returning();
+
+      res.json({ calculation, stored: taxCalc });
+    } catch (error: any) {
+      console.error('Tax calculation error:', error);
+      res.status(500).json({
+        error: "Tax calculation failed",
+        details: error?.message
+      });
+    }
+  });
+
+  // Create financial report
+  app.post("/api/man/reports/generate", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      const { reportType, startDate, endDate } = req.body;
+
+      // Generate report based on type
+      let reportData;
+      if (reportType === 'tax') {
+        // Fetch tax calculations for the period
+        const calculations = await db
+          .select()
+          .from(manTaxCalculations)
+          .where(and(
+            // Add date range conditions here.  Example:
+            //gte(manTaxCalculations.createdAt, new Date(startDate)),
+            //lte(manTaxCalculations.createdAt, new Date(endDate))
+          ));
+
+        reportData = {
+          calculations,
+          summary: {
+            totalTax: calculations.reduce((sum, calc) => sum + Number(calc.taxAmount), 0),
+            averageRate: calculations.length > 0 ? calculations.reduce((sum, calc) => sum + Number(calc.taxRate), 0) / calculations.length : 0,
+          }
+        };
+      } else {
+          reportData = {}; // Handle other report types if needed
+      }
+
+      const [report] = await db
+        .insert(manFinancialReports)
+        .values({
+          reportType,
+          reportPeriod: `${startDate} to ${endDate}`,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
+          status: 'completed',
+          reportData,
+          generatedBy: req.user.id,
+        })
+        .returning();
+
+      res.json(report);
+    } catch (error: any) {
+      res.status(500).json({
+        error: "Report generation failed",
+        details: error?.message
+      });
+    }
+  });
+
+  // Log audit event
+  app.post("/api/man/audit/log", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      const { entityType, entityId, action, details } = req.body;
+
+      const [log] = await db
+        .insert(manAuditLogs)
+        .values({
+          entityType,
+          entityId,
+          action,
+          userId: req.user.id,
+          details,
+          ipAddress: req.ip,
+          userAgent: req.get('user-agent'),
+          metadata: { source: 'api' }
+        })
+        .returning();
+
+      res.json(log);
+    } catch (error: any) {
+      res.status(500).json({
+        error: "Failed to create audit log",
+        details: error?.message
+      });
+    }
+  });
+
+  // Get analytics data
+  app.get("/api/man/analytics", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      const { category, timeframe } = req.query;
+
+      const analytics = await db
+        .select()
+        .from(manAnalytics)
+        .where(and(
+          category ? eq(manAnalytics.category, category as string) : undefined,
+          timeframe ? eq(manAnalytics.timeframe, timeframe as string) : undefined
+        ))
+        .orderBy(desc(manAnalytics.timestamp));
+
+      res.json(analytics);
+    } catch (error: any) {
+      res.status(500).json({
+        error: "Failed to fetch analytics data",
+        details: error?.message
+      });
+    }
+  });
 
   // Get Reign educational content
   app.get("/api/reign/educational-content", async (_req, res) => {

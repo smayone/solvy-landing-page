@@ -169,6 +169,65 @@ export const companyAccess = pgTable("company_access", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const manAuditLogs = pgTable("man_audit_logs", {
+  id: serial("id").primaryKey(),
+  entityType: text("entity_type").notNull(), 
+  entityId: text("entity_id").notNull(),
+  action: text("action").notNull(),
+  userId: integer("user_id").references(() => users.id),
+  details: jsonb("details"),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  timestamp: timestamp("timestamp").defaultNow(),
+  metadata: jsonb("metadata"),
+});
+
+export const manTaxCalculations = pgTable("man_tax_calculations", {
+  id: serial("id").primaryKey(),
+  transactionId: text("transaction_id").notNull(),
+  userId: integer("user_id").references(() => users.id),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(),
+  taxableAmount: decimal("taxable_amount", { precision: 15, scale: 2 }).notNull(),
+  taxRate: decimal("tax_rate", { precision: 5, scale: 2 }).notNull(),
+  taxAmount: decimal("tax_amount", { precision: 15, scale: 2 }).notNull(),
+  jurisdiction: text("jurisdiction").notNull(),
+  taxType: text("tax_type").notNull(), 
+  status: text("status").notNull().default("pending"),
+  calculatedAt: timestamp("calculated_at").defaultNow(),
+  validUntil: timestamp("valid_until"),
+  stripeCalculationId: text("stripe_calculation_id"),
+  metadata: jsonb("metadata"),
+});
+
+export const manFinancialReports = pgTable("man_financial_reports", {
+  id: serial("id").primaryKey(),
+  reportType: text("report_type").notNull(), 
+  reportPeriod: text("report_period").notNull(),
+  startDate: date("start_date").notNull(),
+  endDate: date("end_date").notNull(),
+  status: text("status").notNull().default("pending"),
+  totalTransactions: integer("total_transactions"),
+  totalAmount: decimal("total_amount", { precision: 15, scale: 2 }),
+  taxableAmount: decimal("taxable_amount", { precision: 15, scale: 2 }),
+  totalTax: decimal("total_tax", { precision: 15, scale: 2 }),
+  reportData: jsonb("report_data"),
+  generatedBy: integer("generated_by").references(() => users.id),
+  generatedAt: timestamp("generated_at").defaultNow(),
+  metadata: jsonb("metadata"),
+});
+
+export const manAnalytics = pgTable("man_analytics", {
+  id: serial("id").primaryKey(),
+  metricName: text("metric_name").notNull(),
+  metricValue: decimal("metric_value", { precision: 15, scale: 2 }),
+  dimension: text("dimension"), 
+  timeframe: text("timeframe").notNull(),
+  category: text("category").notNull(), 
+  source: text("source").notNull(),
+  timestamp: timestamp("timestamp").defaultNow(),
+  metadata: jsonb("metadata"),
+});
+
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 export const insertMembershipSchema = createInsertSchema(memberships);
@@ -193,6 +252,14 @@ export const insertTaxRepatriationSchema = createInsertSchema(taxRepatriations);
 export const selectTaxRepatriationSchema = createSelectSchema(taxRepatriations);
 export const insertCompanyAccessSchema = createInsertSchema(companyAccess);
 export const selectCompanyAccessSchema = createSelectSchema(companyAccess);
+export const insertManAuditLogSchema = createInsertSchema(manAuditLogs);
+export const selectManAuditLogSchema = createSelectSchema(manAuditLogs);
+export const insertManTaxCalculationSchema = createInsertSchema(manTaxCalculations);
+export const selectManTaxCalculationSchema = createSelectSchema(manTaxCalculations);
+export const insertManFinancialReportSchema = createInsertSchema(manFinancialReports);
+export const selectManFinancialReportSchema = createSelectSchema(manFinancialReports);
+export const insertManAnalyticsSchema = createInsertSchema(manAnalytics);
+export const selectManAnalyticsSchema = createSelectSchema(manAnalytics);
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
@@ -218,3 +285,11 @@ export type InsertTaxRepatriation = typeof taxRepatriations.$inferInsert;
 export type SelectTaxRepatriation = typeof taxRepatriations.$inferSelect;
 export type InsertCompanyAccess = typeof companyAccess.$inferInsert;
 export type SelectCompanyAccess = typeof companyAccess.$inferSelect;
+export type InsertManAuditLog = typeof manAuditLogs.$inferInsert;
+export type SelectManAuditLog = typeof manAuditLogs.$inferSelect;
+export type InsertManTaxCalculation = typeof manTaxCalculations.$inferInsert;
+export type SelectManTaxCalculation = typeof manTaxCalculations.$inferSelect;
+export type InsertManFinancialReport = typeof manFinancialReports.$inferInsert;
+export type SelectManFinancialReport = typeof manFinancialReports.$inferSelect;
+export type InsertManAnalytics = typeof manAnalytics.$inferInsert;
+export type SelectManAnalytics = typeof manAnalytics.$inferSelect;
