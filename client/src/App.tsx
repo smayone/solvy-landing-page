@@ -1,7 +1,7 @@
+import { Switch, Route } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
-import { Switch, Route } from "wouter";
 import { Navbar } from "@/components/navigation/navbar";
 import { Footer } from "@/components/navigation/footer";
 import { CTA } from "@/components/sections/cta";
@@ -14,12 +14,13 @@ import WhyStatement from "@/pages/why-statement";
 import CryptoPage from "@/pages/crypto";
 import Education from "@/pages/education";
 import MonitoringDashboard from "@/pages/monitoring-dashboard";
+import NGOTransparencyPage from "@/pages/ngo-transparency";
 import NotFound from "@/pages/not-found";
 import Reign from "@/pages/reign";
 import DAOPage from "@/pages/dao";
-import ManDashboard from "@/pages/man"; // Add import for MAN Dashboard
+import ManDashboard from "@/pages/man";
 import { useTheme } from "@/hooks/use-theme";
-import "./lib/i18n"; // Initialize i18next
+import "./lib/i18n";
 
 function Router() {
   return (
@@ -35,14 +36,15 @@ function Router() {
       <Route path="/monitoring-dashboard" component={MonitoringDashboard} />
       <Route path="/reign" component={Reign} />
       <Route path="/reign/dao" component={DAOPage} />
-      <Route path="/man" component={ManDashboard} /> {/* Add MAN route */}
+      <Route path="/man" component={ManDashboard} />
+      <Route path="/ngo-transparency" component={NGOTransparencyPage} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
 export default function App() {
-  useTheme(); // This hook will handle theme class on document
+  useTheme();
 
   return (
     <QueryClientProvider client={queryClient}>
