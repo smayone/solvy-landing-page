@@ -11,7 +11,7 @@ export function Footer() {
           <div className="lg:col-span-2 flex flex-col items-center lg:items-start">
             <Link href="/">
               <img 
-                src="/fulllogo.png" 
+                src="/SolvyLogo-1024.png" 
                 alt="SOLVY" 
                 className="h-16 w-auto mb-6 transition-transform hover:scale-105"
               />
@@ -115,6 +115,14 @@ export function Footer() {
               <SiGithub className="h-6 w-6" />
             </a>
           </div>
+          <p className="text-sm text-muted-foreground mb-4">
+            Created by SA Nathan
+          </p>
+          <img 
+            src="/fulllogo.png" 
+            alt="SOLVY Full Logo" 
+            className="h-24 w-auto mx-auto mb-4"
+          />
           <p className="text-sm text-muted-foreground">
             © {currentYear} SOLVY. All rights reserved.
           </p>
