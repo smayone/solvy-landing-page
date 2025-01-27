@@ -21,7 +21,10 @@ import {
   BadgeHelp,
   Hash,
   Database,
-  Heart
+  Heart,
+  CircleDollarSign,
+  BookCheck,
+  Briefcase
 } from "lucide-react";
 
 // First define all constants
@@ -385,7 +388,7 @@ const modules = [
     id: 'blockchain',
     title: 'Blockchain Fundamentals',
     description: 'Master core blockchain concepts for your journey to Sovereignitity',
-    icon: BookOpen,
+    icon: Database,
     topics: [
       {
         title: 'What is Blockchain?',
@@ -413,7 +416,7 @@ const modules = [
     id: 'solvy',
     title: 'SOLVY Integration',
     description: 'Solutions Valued You - Your Vehicle for Financial Sovereignty',
-    icon: Coins,
+    icon: Building2,
     topics: [
       {
         title: 'SOLVY Platform Overview',
@@ -441,7 +444,7 @@ const modules = [
     id: 'infinite-banking',
     title: 'Infinite Banking Concept',
     description: 'Master the art of becoming your own banker',
-    icon: Coins,
+    icon: CircleDollarSign,
     topics: [
       {
         title: 'IBC Fundamentals',
@@ -656,7 +659,7 @@ export default function Education() {
                     {category === "Economic Analysis" && <Landmark className="h-8 w-8 text-primary" />}
                     {category === "Global Perspectives" && <Globe className="h-8 w-8 text-primary" />}
                     {category === "Financial Education" && <BookOpen className="h-8 w-8 text-primary" />}
-                    {category === "Market Analysis" && <Coins className="h-8 w-8 text-primary" />}
+                    {category === "Market Analysis" &&<Coins className="h-8 w-8 text-primary" />}
                     <h3 className="text-3xl font-bold">{category}</h3>
                   </div>
                   <div className="flex flex-col items-center">
