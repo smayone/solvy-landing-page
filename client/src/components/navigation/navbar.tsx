@@ -13,12 +13,12 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="flex h-16 items-center px-4 container mx-auto">
-        <div className="flex-shrink-0 mr-4">
+        <div className="flex-shrink-0 mr-8">
           <Link href="/">
             <img 
               src="/attached_assets/fulllogo.png" 
               alt="SOLVY" 
-              className="h-8 w-auto object-contain"
+              className="h-8 w-auto object-contain hover:opacity-90 transition-opacity"
             />
           </Link>
         </div>
