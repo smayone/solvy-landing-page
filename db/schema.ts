@@ -228,6 +228,82 @@ export const manAnalytics = pgTable("man_analytics", {
   metadata: jsonb("metadata"),
 });
 
+export const accountTypes = pgTable("account_types", {
+  id: serial("id").primaryKey(),
+  code: text("code").unique().notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+});
+
+export const chartOfAccounts = pgTable("chart_of_accounts", {
+  id: serial("id").primaryKey(),
+  accountNumber: text("account_number").unique().notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  accountTypeId: integer("account_type_id").references(() => accountTypes.id),
+  isActive: boolean("is_active").default(true),
+  parentAccountId: integer("parent_account_id").references(() => chartOfAccounts.id),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const businessUnits = pgTable("business_units", {
+  id: serial("id").primaryKey(),
+  code: text("code").unique().notNull(),
+  name: text("name").notNull(),
+  type: text("type").notNull(), // 'retail', 'ngo', 'product', 'service'
+  registrationNumber: text("registration_number"),
+  taxId: text("tax_id"),
+  isActive: boolean("is_active").default(true),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const accountingTransactions = pgTable("accounting_transactions", {
+  id: serial("id").primaryKey(),
+  transactionDate: timestamp("transaction_date").notNull(),
+  postingDate: timestamp("posting_date").notNull(),
+  businessUnitId: integer("business_unit_id").references(() => businessUnits.id),
+  type: text("type").notNull(), // 'sale', 'purchase', 'transfer', 'adjustment'
+  status: text("status").notNull().default("pending"),
+  reference: text("reference"),
+  description: text("description"),
+  metadata: jsonb("metadata"),
+  createdBy: integer("created_by").references(() => users.id),
+  approvedBy: integer("approved_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const accountingEntries = pgTable("accounting_entries", {
+  id: serial("id").primaryKey(),
+  transactionId: integer("transaction_id").references(() => accountingTransactions.id),
+  accountId: integer("account_id").references(() => chartOfAccounts.id),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(),
+  isDebit: boolean("is_debit").notNull(),
+  description: text("description"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const taxFilings = pgTable("tax_filings", {
+  id: serial("id").primaryKey(),
+  businessUnitId: integer("business_unit_id").references(() => businessUnits.id),
+  period: text("period").notNull(), // e.g., '2024-Q1'
+  type: text("type").notNull(), // 'income', 'sales', 'payroll'
+  status: text("status").notNull().default("draft"),
+  filingDate: timestamp("filing_date"),
+  dueDate: timestamp("due_date").notNull(),
+  taxableAmount: decimal("taxable_amount", { precision: 15, scale: 2 }),
+  taxAmount: decimal("tax_amount", { precision: 15, scale: 2 }),
+  jurisdiction: text("jurisdiction").notNull(),
+  taxuallyReference: text("taxually_reference"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 export const insertMembershipSchema = createInsertSchema(memberships);
@@ -261,6 +337,19 @@ export const selectManFinancialReportSchema = createSelectSchema(manFinancialRep
 export const insertManAnalyticsSchema = createInsertSchema(manAnalytics);
 export const selectManAnalyticsSchema = createSelectSchema(manAnalytics);
 
+export const insertAccountTypeSchema = createInsertSchema(accountTypes);
+export const selectAccountTypeSchema = createSelectSchema(accountTypes);
+export const insertChartOfAccountSchema = createInsertSchema(chartOfAccounts);
+export const selectChartOfAccountSchema = createSelectSchema(chartOfAccounts);
+export const insertBusinessUnitSchema = createInsertSchema(businessUnits);
+export const selectBusinessUnitSchema = createSelectSchema(businessUnits);
+export const insertAccountingTransactionSchema = createInsertSchema(accountingTransactions);
+export const selectAccountingTransactionSchema = createSelectSchema(accountingTransactions);
+export const insertAccountingEntrySchema = createInsertSchema(accountingEntries);
+export const selectAccountingEntrySchema = createSelectSchema(accountingEntries);
+export const insertTaxFilingSchema = createInsertSchema(taxFilings);
+export const selectTaxFilingSchema = createSelectSchema(taxFilings);
+
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
 export type InsertMembership = typeof memberships.$inferInsert;
@@ -293,3 +382,16 @@ export type InsertManFinancialReport = typeof manFinancialReports.$inferInsert;
 export type SelectManFinancialReport = typeof manFinancialReports.$inferSelect;
 export type InsertManAnalytics = typeof manAnalytics.$inferInsert;
 export type SelectManAnalytics = typeof manAnalytics.$inferSelect;
+
+export type InsertAccountType = typeof accountTypes.$inferInsert;
+export type SelectAccountType = typeof accountTypes.$inferSelect;
+export type InsertChartOfAccount = typeof chartOfAccounts.$inferInsert;
+export type SelectChartOfAccount = typeof chartOfAccounts.$inferSelect;
+export type InsertBusinessUnit = typeof businessUnits.$inferInsert;
+export type SelectBusinessUnit = typeof businessUnits.$inferSelect;
+export type InsertAccountingTransaction = typeof accountingTransactions.$inferInsert;
+export type SelectAccountingTransaction = typeof accountingTransactions.$inferSelect;
+export type InsertAccountingEntry = typeof accountingEntries.$inferInsert;
+export type SelectAccountingEntry = typeof accountingEntries.$inferSelect;
+export type InsertTaxFiling = typeof taxFilings.$inferInsert;
+export type SelectTaxFiling = typeof taxFilings.$inferSelect;
