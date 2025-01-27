@@ -65,7 +65,9 @@ export function Hero() {
                 <Link href="/education" className="font-semibold hover:text-primary transition-colors">
                   DECIDEY
                 </Link>{" "}
-                <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
+                <Link href="/nft-avatar" className="font-semibold hover:text-primary transition-colors">
+                  Solvy.chain
+                </Link>: Solutions Valued You. We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
               </p>
             </div>
 
