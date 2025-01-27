@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { Heart, ShoppingCart, Play, Info, Shield, Star, Sparkles, Award, User } from "lucide-react";
+import { Heart, ShoppingCart, Play, Info, Shield, Star, Sparkles, Award, User, Building2 } from "lucide-react";
 import { Link } from "wouter";
 
 export default function ReignProducts() {
@@ -171,7 +171,39 @@ export default function ReignProducts() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-          {/* This part remains unchanged */}
+          <Card>
+            <CardHeader>
+              <Shield className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>DECIDEY Foundation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Drawing the line through foundational education, empowering informed decisions about our economic future
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <Building2 className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>SOLVY Platform</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Providing the mechanism and vehicle for markets to exercise true financial autonomy
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <Heart className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>Community Support</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Fostering a supportive network of empowered individuals committed to financial sovereignty
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
