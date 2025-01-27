@@ -1,7 +1,7 @@
 import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
-import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress, taxRepatriations, companyAccess, manTaxCalculations, manAuditLogs, manFinancialReports, manAnalytics } from "@db/schema";
+import { techCompanies, privacyCases, taxDonations, cryptoTransactions, educationalContent, learningProgress, taxRepatriations, companyAccess, manTaxCalculations, manAuditLogs, manFinancialReports, manAnalytics, businessUnits, chartOfAccounts, accountTypes } from "@db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import Stripe from "stripe";
 import * as os from 'os';
@@ -528,7 +528,7 @@ export function registerRoutes(app: Express): Server {
           }
         };
       } else {
-          reportData = {}; // Handle other report types if needed
+        reportData = {}; // Handle other report types if needed
       }
 
       const [report] = await db
@@ -680,6 +680,69 @@ export function registerRoutes(app: Express): Server {
       res.json({ status: "success" });
     } catch (error) {
       res.status(500).json({ error: "Failed to update learning progress" });
+    }
+  });
+
+  // Owner-only chart of accounts endpoint
+  app.get("/api/man/accounts/overview", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      // Get complete business structure with accounts
+      const overview = await db.transaction(async (tx) => {
+        // Get business units
+        const businesses = await tx
+          .select()
+          .from(businessUnits)
+          .where(eq(businessUnits.isActive, true));
+
+        // Get chart of accounts with metadata
+        const accounts = await tx
+          .select({
+            accountNumber: chartOfAccounts.accountNumber,
+            name: chartOfAccounts.name,
+            description: chartOfAccounts.description,
+            accountType: accountTypes.code,
+            isActive: chartOfAccounts.isActive,
+            metadata: chartOfAccounts.metadata,
+          })
+          .from(chartOfAccounts)
+          .innerJoin(accountTypes, eq(chartOfAccounts.accountTypeId, accountTypes.id))
+          .where(eq(chartOfAccounts.isActive, true));
+
+        // Organize data by business unit
+        const businessStructure = businesses.map(business => ({
+          code: business.code,
+          name: business.name,
+          type: business.type,
+          metadata: business.metadata,
+          accounts: accounts.filter(account =>
+            account.metadata?.business_unit === business.code
+          ).map(account => ({
+            number: account.accountNumber,
+            name: account.name,
+            type: account.accountType,
+            taxTreatment: account.metadata?.tax_treatment || 'standard',
+            category: account.metadata?.category,
+            effectiveDate: account.metadata?.effective_date
+          }))
+        }));
+
+        return {
+          timestamp: new Date().toISOString(),
+          businesses: businessStructure
+        };
+      });
+
+      res.json(overview);
+    } catch (error: any) {
+      console.error('Error fetching chart of accounts:', error);
+      res.status(500).json({
+        error: "Failed to fetch chart of accounts overview",
+        details: error?.message
+      });
     }
   });
 
