@@ -16,7 +16,7 @@ export function Services() {
         "Community-focused initiatives"
       ],
       logo: "/attached_assets/SolvyLogo-1024.png",
-      route: "/tax-repatriation"
+      route: "/education"
     },
     {
       title: "SOLVY",
@@ -44,7 +44,7 @@ export function Services() {
         "Multi-level access control"
       ],
       logo: "/attached_assets/SolvyLogo-1024.png",
-      route: "/tech-companies"
+      route: "/analytics"
     },
   ];
 
