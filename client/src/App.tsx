@@ -16,6 +16,7 @@ import Education from "@/pages/education";
 import MonitoringDashboard from "@/pages/monitoring-dashboard";
 import NotFound from "@/pages/not-found";
 import Reign from "@/pages/reign";
+import DAOPage from "@/pages/dao";
 import { useTheme } from "@/hooks/use-theme";
 import "./lib/i18n"; // Initialize i18next
 
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/education" component={Education} />
       <Route path="/monitoring-dashboard" component={MonitoringDashboard} />
       <Route path="/reign" component={Reign} />
+      <Route path="/reign/dao" component={DAOPage} />
       <Route component={NotFound} />
     </Switch>
   );
