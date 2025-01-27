@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, LineChart, Shield } from "lucide-react";
+import { GraduationCap, LineChart, Shield, ChartBar } from "lucide-react";
 import { Link } from "wouter";
 
 export function Services() {
@@ -35,16 +35,16 @@ export function Services() {
     {
       title: "MAN",
       description: "Mandatory Audit Network",
-      longDescription: "Comprehensive tracking and monitoring system ensuring transparency and accountability across all platform activities.",
-      icon: Shield,
+      longDescription: "Comprehensive tracking and monitoring system ensuring transparency and accountability across all platform activities, integrated with Stripe's automated tax services.",
+      icon: ChartBar,
       features: [
         "Real-time transaction monitoring",
-        "Automated compliance checks",
-        "Transparent audit trails",
-        "Multi-level access control"
+        "Automated tax calculations & compliance",
+        "Transparent audit trails with blockchain",
+        "Financial reporting & analytics"
       ],
       logo: "/attached_assets/SolvyLogo-1024.png",
-      route: "/analytics"
+      route: "/man"
     },
   ];
 

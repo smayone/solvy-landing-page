@@ -17,6 +17,7 @@ import MonitoringDashboard from "@/pages/monitoring-dashboard";
 import NotFound from "@/pages/not-found";
 import Reign from "@/pages/reign";
 import DAOPage from "@/pages/dao";
+import ManDashboard from "@/pages/man"; // Add import for MAN Dashboard
 import { useTheme } from "@/hooks/use-theme";
 import "./lib/i18n"; // Initialize i18next
 
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/monitoring-dashboard" component={MonitoringDashboard} />
       <Route path="/reign" component={Reign} />
       <Route path="/reign/dao" component={DAOPage} />
+      <Route path="/man" component={ManDashboard} /> {/* Add MAN route */}
       <Route component={NotFound} />
     </Switch>
   );
