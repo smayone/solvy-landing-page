@@ -35,11 +35,11 @@ export function Services() {
     {
       title: "MAN",
       description: "Mandatory Audit Network",
-      longDescription: "Comprehensive tracking and monitoring system ensuring transparency and accountability across all platform activities, integrated with Stripe's automated tax services.",
+      longDescription: "Comprehensive tracking and monitoring system with Stripe-Taxually integration for automated tax calculations and compliance across jurisdictions.",
       icon: ChartBar,
       features: [
         "Real-time transaction monitoring",
-        "Automated tax calculations & compliance",
+        "Automated multi-jurisdiction tax calculations via Taxually",
         "Transparent audit trails with blockchain",
         "Financial reporting & analytics"
       ],

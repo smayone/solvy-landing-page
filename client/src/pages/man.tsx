@@ -16,7 +16,7 @@ export default function ManDashboard() {
             <div>
               <h1 className="text-4xl font-bold mb-2">Mandatory Audit Network</h1>
               <p className="text-muted-foreground">
-                Comprehensive tracking and monitoring system for SOLVY ecosystem
+                Comprehensive tracking and monitoring system powered by Stripe-Taxually integration
               </p>
             </div>
           </div>
@@ -32,7 +32,7 @@ export default function ManDashboard() {
               <CardContent>
                 <div className="text-2xl font-bold">89</div>
                 <p className="text-xs text-muted-foreground">
-                  +2% from last month
+                  Via Taxually Integration
                 </p>
               </CardContent>
             </Card>
@@ -90,32 +90,32 @@ export default function ManDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle>Tax Calculation Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full" variant="outline">
                   <FileText className="mr-2 h-4 w-4" />
-                  Generate New Report
+                  Generate Tax Report
                 </Button>
                 <Button className="w-full" variant="outline">
                   <ChartBar className="mr-2 h-4 w-4" />
-                  Calculate Tax
+                  Calculate Multi-Jurisdiction Tax
                 </Button>
                 <Button className="w-full" variant="outline">
                   <Activity className="mr-2 h-4 w-4" />
-                  View Audit Logs
+                  View Taxually Audit Logs
                 </Button>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
+                <CardTitle>Recent Tax Calculations</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {/* Placeholder for recent activity */}
-                  <p className="text-sm text-muted-foreground">Loading activity...</p>
+                  <p className="text-sm text-muted-foreground">Loading tax calculations...</p>
                 </div>
               </CardContent>
             </Card>
