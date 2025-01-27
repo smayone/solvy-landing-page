@@ -33,7 +33,7 @@ export function Hero() {
 
   return (
     <section className="relative py-20">
-      <div className="mx-auto max-w-7xl">
+      <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div className="max-w-2xl">
             <div className="mb-4">
@@ -43,7 +43,7 @@ export function Hero() {
               <img
                 src="/attached_assets/fulllogo.png"
                 alt="SOLVY Logo"
-                className="h-24 w-auto"
+                className="h-32 w-auto object-contain"
               />
             </div>
 
@@ -85,11 +85,11 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative mt-8 lg:mt-0">
+          <div className="relative flex items-center justify-center lg:h-full">
             <img 
               src="/attached_assets/focusgirl.png"
               alt="Girl at Terminal"
-              className="w-full h-auto rounded-lg shadow-xl"
+              className="w-full h-auto rounded-lg shadow-xl object-cover"
             />
           </div>
         </div>
