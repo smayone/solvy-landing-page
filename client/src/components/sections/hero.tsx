@@ -44,19 +44,16 @@ export function Hero() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
-          <div className="space-y-8">
+          <div>
             <div>
               <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
             </div>
 
-            {/* Company Full Logo */}
-            <div className="my-12 flex justify-start">
-              <img
-                src="/attached_assets/fulllogo.png"
-                alt="SOLVY - Solution Valued You"
-                className="w-full max-w-[400px] h-auto object-contain"
-              />
-            </div>
+            <img
+              src="/attached_assets/fulllogo.png"
+              alt="SOLVY - Solution Valued You"
+              className="w-full max-w-[400px] h-auto object-contain my-8"
+            />
 
             <div className="space-y-6 text-lg text-muted-foreground">
               <p className="leading-relaxed">
@@ -72,7 +69,7 @@ export function Hero() {
               </p>
             </div>
 
-            <div className="h-32">
+            <div className="h-32 mt-8">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentIndex}
@@ -95,7 +92,7 @@ export function Hero() {
               </AnimatePresence>
             </div>
 
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-6 mt-8">
               <Button size="lg" variant="outline" asChild className="text-lg px-8">
                 <Link href={educationDomain ?? "#"}>Learn More</Link>
               </Button>
