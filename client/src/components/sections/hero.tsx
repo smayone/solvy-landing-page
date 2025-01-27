@@ -1,24 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Shield, Users, Coins, Book } from "lucide-react";
 
 const storyboardItems = [
   {
-    title: "Achieve Sovereignitity",
+    title: "Achieve Sovereignty",
     description: "Where Self-Sovereign Identity Creates Income Potential",
+    icon: <Shield className="h-6 w-6" />
   },
   {
-    title: "Financial sovereignitity",
-    description: "Take control of your identity, data, and financial destiny.",
+    title: "Community First",
+    description: "Join a network of shared prosperity and growth",
+    icon: <Users className="h-6 w-6" />
   },
   {
-    title: "Data protection",
-    description: "Secure your digital footprint with blockchain technology.",
+    title: "Financial Freedom",
+    description: "Take control of your financial destiny",
+    icon: <Coins className="h-6 w-6" />
   },
   {
-    title: "Community empowerment",
-    description: "Join a network of shared prosperity and growth.",
-  },
+    title: "Learn & Grow",
+    description: "Access comprehensive educational resources",
+    icon: <Book className="h-6 w-6" />
+  }
 ];
 
 export function Hero() {
@@ -47,16 +52,6 @@ export function Hero() {
               />
             </div>
 
-            <p className="text-muted-foreground mb-4">
-              We're a modern financial platform that uses secure blockchain technology to help service-businesses manage payments and customer identities more efficiently. Think of it as a smarter, faster, and safer way to handle your business transactions and build trust with your customers. 
-            </p>
-            <p className="text-muted-foreground mb-4">
-              Companies are profiting billions from your data, which they hold captive in their databases—and they're counting on you not realizing its worth. In a vulture economy, businesses circle around individual needs, profiting from vulnerabilities rather than fostering growth. But what if your finances were as resilient as a disaster recovery solution, and your data was protected like a vault?
-            </p>
-            <p className="text-muted-foreground mb-4">
-              <span className="font-semibold">Solvy.chain: Solutions Valued You.</span> We're breaking those chains, building a cooperative, DAO-driven future where trade and commerce are mutually beneficial and truly empower individuals.
-            </p>
-
             <div className="h-24 mb-8">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -65,13 +60,17 @@ export function Hero() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -50, opacity: 0 }}
                   transition={{ duration: 0.5 }}
+                  className="flex items-center gap-4"
                 >
-                  <h3 className="text-xl font-semibold text-primary mb-2">
-                    {storyboardItems[currentIndex].title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {storyboardItems[currentIndex].description}
-                  </p>
+                  {storyboardItems[currentIndex].icon}
+                  <div>
+                    <h3 className="text-xl font-semibold text-primary mb-2">
+                      {storyboardItems[currentIndex].title}
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {storyboardItems[currentIndex].description}
+                    </p>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
