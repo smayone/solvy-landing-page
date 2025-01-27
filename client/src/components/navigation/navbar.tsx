@@ -1,12 +1,16 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBarIcon } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { useTranslation } from "react-i18next";
 
-export function Navbar() {
+interface NavbarProps {
+  userRole?: string;
+}
+
+export function Navbar({ userRole }: NavbarProps) {
   const { t } = useTranslation();
   const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain;
 
@@ -72,6 +76,15 @@ export function Navbar() {
               {t('nav.buy_crypto')}
             </Link>
           </Button>
+          {/* Owner-only MAN section */}
+          {userRole === 'owner' && (
+            <Button variant="ghost" asChild>
+              <Link href="/man" className="flex items-center gap-2">
+                <ChartBarIcon className="h-4 w-4" />
+                {t('nav.man')}
+              </Link>
+            </Button>
+          )}
         </div>
 
         <div className="flex items-center space-x-4">
