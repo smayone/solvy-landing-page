@@ -1,3 +1,4 @@
+import { Hero } from "@/components/sections/hero";
 import { CartoonAvatar } from "@/components/ui/cartoon-avatar";
 import { Services } from "@/components/sections/services";
 import { Communities } from "@/components/sections/communities";
@@ -7,6 +8,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <main>
+        <Hero />
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto">
