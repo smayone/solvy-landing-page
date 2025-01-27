@@ -20,14 +20,22 @@ def cartoonize_image(image_path, output_path):
     new_height = int(height * scale)
     img = cv2.resize(img, (new_width, new_height))
 
+    # Add evergreen tint to the background
+    # Create a green mask
+    green_tint = np.full(img.shape, [34, 139, 34], dtype=np.uint8)  # Forest Green RGB
+    # Blend the original image with the green tint
+    img = cv2.addWeighted(img, 0.8, green_tint, 0.2, 0)
+
     # Create artistic effect
-    # 1. Color quantization for bold areas
+    # 1. Color quantization with green emphasis
     Z = img.reshape((-1, 3))
     Z = np.float32(Z)
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
     K = 8  # Number of colors
     _, label, center = cv2.kmeans(Z, K, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+    # Adjust the centers to favor green hues
     center = np.uint8(center)
+    center[:, 1] = np.clip(center[:, 1] + 20, 0, 255)  # Increase green channel
     res = center[label.flatten()]
     quantized = res.reshape((img.shape))
 
