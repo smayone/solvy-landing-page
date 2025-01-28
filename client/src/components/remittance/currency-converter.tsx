@@ -111,7 +111,7 @@ export function CurrencyConverter() {
       "USD-PKR": 279.50,
       "USD-EUR": 0.92,
       "USD-BDT": 109.75,
-      "USD-DEM":0.5,
+      "USD-DEM": 0.5,
 
 
       // Global Markets
@@ -262,6 +262,7 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span className="font-medium">{currency.code}</span>
                       <span className="text-xs text-muted-foreground">
+                        {currency.name}
                         {currency.volume && ` - $${currency.volume}B`}
                         {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                       </span>
@@ -284,6 +285,7 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span className="font-medium">{currency.code}</span>
                       <span className="text-xs text-muted-foreground">
+                        {currency.name}
                         {currency.volume && ` - $${currency.volume}B`}
                         {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                       </span>
@@ -307,6 +309,7 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span className="font-medium">{currency.code}</span>
                       <span className="text-xs text-muted-foreground">
+                        {currency.name}
                         {currency.volume && ` - $${currency.volume}B`}
                         {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                       </span>
