@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, LineChart, Shield, ChartBar } from "lucide-react";
 import { Link } from "wouter";
 
 export function Services() {
@@ -8,7 +7,6 @@ export function Services() {
       title: "DECIDEY (dee-see-day)",
       description: "Decentralized Empowerment Control Identity Data Economy of Yours",
       longDescription: "Control Your Identity, Data, and Economy. Our NGO Operations focus on tech company revenue tax repatriation, transparent donation management, and community-focused initiatives.",
-      icon: GraduationCap,
       features: [
         "Tax repatriation monitoring",
         "DOJ privacy case tracking",
@@ -22,7 +20,6 @@ export function Services() {
       title: "SOLVY",
       description: "Revolutionary Vehicle Mechanism Platform",
       longDescription: "A platform enabling secure, transparent, and efficient financial transactions across borders.",
-      icon: LineChart,
       features: [
         "Cross-border payment solutions",
         "Decentralized remittance system",
@@ -36,7 +33,6 @@ export function Services() {
       title: "MAN",
       description: "Mandatory Audit Network",
       longDescription: "Comprehensive tracking and monitoring system with Stripe-Taxually integration for automated tax calculations and compliance across jurisdictions.",
-      icon: ChartBar,
       features: [
         "Real-time transaction monitoring",
         "Automated multi-jurisdiction tax calculations via Taxually",
@@ -74,7 +70,11 @@ export function Services() {
                   <ul className="space-y-2">
                     {service.features.map((feature, index) => (
                       <li key={index} className="flex items-center gap-2">
-                        <service.icon className="h-4 w-4 text-primary" />
+                        <img 
+                          src={service.logo}
+                          alt="Feature Icon" 
+                          className="h-4 w-4"
+                        />
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}
