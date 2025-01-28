@@ -104,10 +104,10 @@ export function Hero() {
 
           {/* Image Grid */}
           <div className="relative">
-            <div className="aspect-[4/3] relative overflow-hidden rounded-2xl shadow-2xl">
+            <div className="aspect-[3/4] relative overflow-hidden rounded-2xl shadow-2xl">
               <img
                 src="/nathan-pic.jpg"
-                alt="SOLVY Innovation"
+                alt="SA Nathan"
                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-out"
               />
             </div>
