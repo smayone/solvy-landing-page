@@ -1,14 +1,37 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { useTranslation } from "react-i18next";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 interface NavbarProps {
   userRole?: string;
 }
+
+const ListItem = ({ children, className, ...props }: React.ComponentProps<"a">) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${className}`}
+          {...props}
+        >
+          {children}
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+};
 
 export function Navbar({ userRole }: NavbarProps) {
   const { t } = useTranslation();
@@ -58,12 +81,55 @@ export function Navbar({ userRole }: NavbarProps) {
               {t('nav.analytics')}
             </Link>
           </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/education" className="flex items-center gap-2">
-              <GraduationCap className="h-4 w-4" />
-              Education
-            </Link>
-          </Button>
+
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    Education
+                  </div>
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] lg:grid-cols-[.75fr_1fr]">
+                    <li className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                          <BookOpen className="h-6 w-6" />
+                          <div className="mb-2 mt-4 text-lg font-medium">
+                            Education Hub
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Comprehensive learning resources for financial literacy and blockchain technology
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <ListItem href="/education/courses">
+                      <div className="flex items-center gap-2">
+                        <School className="h-4 w-4" />
+                        <div className="text-sm font-medium">Courses</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Structured learning paths for blockchain and finance
+                      </p>
+                    </ListItem>
+                    <ListItem href="/education/tutorials">
+                      <div className="flex items-center gap-2">
+                        <Lightbulb className="h-4 w-4" />
+                        <div className="text-sm font-medium">Tutorials</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Step-by-step guides for using SOLVY platform
+                      </p>
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
           <Button variant="ghost" asChild>
             <Link href="/reign" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />

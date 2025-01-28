@@ -12,6 +12,42 @@ export default function WhyStatement() {
 
   const chapters: Chapter[] = [
     {
+      id: "surveillance",
+      title: "Market Surveillance",
+      content: (
+        <div className="space-y-6">
+          <h3 className="text-xl font-semibold text-foreground">The Inequality of Captive Market Surveillance</h3>
+          <p className="text-muted-foreground">
+            In today's digital age, we find ourselves trapped in a system of captive market surveillance - where our data 
+            is constantly collected, analyzed, and used by corporations without our explicit consent or fair compensation.
+          </p>
+          <div className="grid gap-4">
+            <div className="bg-destructive/10 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Unequal Benefits</h4>
+              <p className="text-sm">
+                Corporations profit immensely from our data, while we see little to no direct benefit. Our personal 
+                information becomes a commodity, traded and exploited without our meaningful participation in its value.
+              </p>
+            </div>
+            <div className="bg-destructive/10 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Privacy Violations</h4>
+              <p className="text-sm">
+                Data breaches and misuse of personal information are rampant, leading to privacy violations and potential harm.
+                Our digital footprints are vulnerable to exploitation and unauthorized access.
+              </p>
+            </div>
+            <div className="bg-destructive/10 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Manipulation & Control</h4>
+              <p className="text-sm">
+                Our data is used to manipulate our choices, target us with ads, and even influence our political views,
+                creating echo chambers that limit exposure to diverse perspectives.
+              </p>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
       id: "origins",
       title: "Origins & Foundation",
       content: (
@@ -95,7 +131,7 @@ export default function WhyStatement() {
                 <li>Market manipulation and instability</li>
               </ul>
             </div>
-
+          
             <div className="bg-primary/10 p-6 rounded-lg border border-primary/20">
               <h4 className="text-lg font-semibold mb-3">Path 2: Economic Evolution</h4>
               <p className="mb-4">
@@ -118,24 +154,31 @@ export default function WhyStatement() {
       title: "Our Solution",
       content: (
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-foreground">The SOLVY Ecosystem</h3>
+          <h3 className="text-xl font-semibold text-foreground">Breaking Free with Self-Sovereign Identity</h3>
+          <p className="text-muted-foreground">
+            SOLVY offers a way to escape the "captive market surveillance" system and reclaim control over our data 
+            and digital identities through Self-Sovereign Identity (SSI).
+          </p>
           <div className="grid gap-4">
             <div className="bg-primary/10 p-4 rounded-lg">
               <h4 className="font-semibold mb-2">DECIDEY NGO</h4>
               <p className="text-sm">
-                Drawing the line through foundational education, empowering informed decisions about our economic future.
+                Drawing the line through foundational education, empowering informed decisions about our economic future
+                and providing the knowledge needed to understand and utilize SSI effectively.
               </p>
             </div>
             <div className="bg-primary/10 p-4 rounded-lg">
               <h4 className="font-semibold mb-2">SOLVY Platform</h4>
               <p className="text-sm">
-                Providing the mechanism and vehicle for markets to exercise true financial autonomy.
+                The practical implementation of SSI, giving you complete control over your digital identity. You decide 
+                what information to share, with whom, and for what purpose.
               </p>
             </div>
             <div className="bg-primary/10 p-4 rounded-lg">
               <h4 className="font-semibold mb-2">MAN (Mandatory Audit Network)</h4>
               <p className="text-sm">
-                Ensuring accountability through comprehensive auditing and reporting of all activities.
+                Ensuring accountability through comprehensive auditing and reporting of all activities, while maintaining
+                your privacy and data sovereignty.
               </p>
             </div>
           </div>
@@ -155,7 +198,7 @@ export default function WhyStatement() {
   return (
     <div className="container mx-auto px-6 py-12">
       <h1 className="text-3xl font-bold mb-8">Why SOLVY?</h1>
-      
+
       <div className="flex overflow-x-auto mb-8 pb-2 gap-2">
         {chapters.map((chapter, index) => (
           <button
