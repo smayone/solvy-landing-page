@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CheckCircle2 } from "lucide-react";
 import { Link } from "wouter";
 
 export function Services() {
@@ -70,11 +71,7 @@ export function Services() {
                   <ul className="space-y-2">
                     {service.features.map((feature, index) => (
                       <li key={index} className="flex items-center gap-2">
-                        <img 
-                          src={service.logo}
-                          alt="Feature Icon" 
-                          className="h-4 w-4 object-contain"
-                        />
+                        <CheckCircle2 className="h-4 w-4 text-primary" />
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}
