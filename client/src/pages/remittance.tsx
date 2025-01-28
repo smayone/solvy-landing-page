@@ -76,7 +76,9 @@ export default function RemittancePage() {
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               We believe in a future where everyone is a Sovereignititee, free to control their own data and identity. 
               We are building a community of Sovereignititees who are leading the way in the data ownership revolution. 
-              Our goal is to help more people achieve Sovereignitity through education and access to the SOLVY platform.
+              Our goal is to help more people become Sovereignititees through education and access to the SOLVY platform. 
+              The SOLVY platform empowers individuals to become Sovereignititees, taking control of their digital lives. 
+              Join our community of Sovereignititees who have achieved Sovereignitity and are shaping the future of digital identity.
             </p>
           </div>
 
