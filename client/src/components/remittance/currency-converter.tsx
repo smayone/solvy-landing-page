@@ -32,79 +32,34 @@ export const SUPPORTED_CURRENCIES: Currency[] = [
   { code: "IRR", name: "Iranian Rial", symbol: "﷼", flag: "🇮🇷", group: "BRICS-Full" },
   { code: "AED", name: "UAE Dirham", symbol: "د.إ", flag: "🇦🇪", group: "BRICS-Full" },
 
-  // Major Global Markets
-  { code: "EUR", name: "Euro", symbol: "€", flag: "🇪🇺", group: "Global-Major" },
-  { code: "GBP", name: "British Pound", symbol: "£", flag: "🇬🇧", group: "Global-Major" },
-  { code: "JPY", name: "Japanese Yen", symbol: "¥", flag: "🇯🇵", group: "Global-Major" },
-  { code: "CHF", name: "Swiss Franc", symbol: "Fr", flag: "🇨🇭", group: "Global-Major" },
+  // BRICS Partner Countries
+  { code: "BYN", name: "Belarusian Ruble", symbol: "Br", flag: "🇧🇾", group: "BRICS-Partner" },
+  { code: "BOB", name: "Bolivian Boliviano", symbol: "Bs.", flag: "🇧🇴", group: "BRICS-Partner" },
+  { code: "KZT", name: "Kazakhstani Tenge", symbol: "₸", flag: "🇰🇿", group: "BRICS-Partner" },
+  { code: "CUP", name: "Cuban Peso", symbol: "₱", flag: "🇨🇺", group: "BRICS-Partner" },
+  { code: "MYR", name: "Malaysian Ringgit", symbol: "RM", flag: "🇲🇾", group: "BRICS-Partner" },
+  { code: "THB", name: "Thai Baht", symbol: "฿", flag: "🇹🇭", group: "BRICS-Partner" },
+  { code: "UGX", name: "Ugandan Shilling", symbol: "USh", flag: "🇺🇬", group: "BRICS-Partner" },
+  { code: "UZS", name: "Uzbekistani Som", symbol: "soʻm", flag: "🇺🇿", group: "BRICS-Partner" },
+  { code: "NGN", name: "Nigerian Naira", symbol: "₦", flag: "🇳🇬", group: "BRICS-Partner", gdpRatio: 4.3, volume: 20 },
 
-  // Asia Pacific
-  { code: "IDR", name: "Indonesian Rupiah", symbol: "Rp", flag: "🇮🇩", group: "Asia" },
-  { code: "MYR", name: "Malaysian Ringgit", symbol: "RM", flag: "🇲🇾", group: "Asia" },
-  { code: "PHP", name: "Philippine Peso", symbol: "₱", flag: "🇵🇭", group: "Asia", gdpRatio: 9.4, volume: 38 },
-  { code: "SGD", name: "Singapore Dollar", symbol: "$", flag: "🇸🇬", group: "Asia" },
-  { code: "THB", name: "Thai Baht", symbol: "฿", flag: "🇹🇭", group: "Asia" },
-  { code: "VND", name: "Vietnamese Dong", symbol: "₫", flag: "🇻🇳", group: "Asia" },
-  { code: "KRW", name: "South Korean Won", symbol: "₩", flag: "🇰🇷", group: "Asia" },
-  { code: "PKR", name: "Pakistani Rupee", symbol: "₨", flag: "🇵🇰", group: "Asia", gdpRatio: 8.1, volume: 30 },
-  { code: "BDT", name: "Bangladeshi Taka", symbol: "৳", flag: "🇧🇩", group: "Asia", gdpRatio: 4.7, volume: 21 },
-  { code: "NPR", name: "Nepalese Rupee", symbol: "₨", flag: "🇳🇵", group: "Asia" },
-  { code: "LKR", name: "Sri Lankan Rupee", symbol: "₨", flag: "🇱🇰", group: "Asia" },
-  { code: "MMK", name: "Myanmar Kyat", symbol: "Ks", flag: "🇲🇲", group: "Asia" },
-  { code: "KHR", name: "Cambodian Riel", symbol: "៛", flag: "🇰🇭", group: "Asia" },
-  { code: "LAK", name: "Lao Kip", symbol: "₭", flag: "🇱🇦", group: "Asia" },
+  // High Volume Remittance Markets
+  { code: "MXN", name: "Mexican Peso", symbol: "$", flag: "🇲🇽", group: "Markets", gdpRatio: 4.2, volume: 61 },
+  { code: "PHP", name: "Philippine Peso", symbol: "₱", flag: "🇵🇭", group: "Markets", gdpRatio: 9.4, volume: 38 },
+  { code: "PKR", name: "Pakistani Rupee", symbol: "₨", flag: "🇵🇰", group: "Markets", gdpRatio: 8.1, volume: 30 },
+  { code: "EUR", name: "Euro", symbol: "€", flag: "🇪🇺", group: "Markets", gdpRatio: 1.2, volume: 28 },
+  { code: "BDT", name: "Bangladeshi Taka", symbol: "৳", flag: "🇧🇩", group: "Markets", gdpRatio: 4.7, volume: 21 },
+  { code: "DEM", name: "Euro", symbol: "€", flag: "🇩🇪", group: "Markets", gdpRatio: 0.5, volume: 19 },
 
-  // Americas
-  { code: "MXN", name: "Mexican Peso", symbol: "$", flag: "🇲🇽", group: "Americas", gdpRatio: 4.2, volume: 61 },
-  { code: "CAD", name: "Canadian Dollar", symbol: "$", flag: "🇨🇦", group: "Americas" },
-  { code: "ARS", name: "Argentine Peso", symbol: "$", flag: "🇦🇷", group: "Americas" },
-  { code: "COP", name: "Colombian Peso", symbol: "$", flag: "🇨🇴", group: "Americas" },
-  { code: "CLP", name: "Chilean Peso", symbol: "$", flag: "🇨🇱", group: "Americas" },
-  { code: "PEN", name: "Peruvian Sol", symbol: "S/", flag: "🇵🇪", group: "Americas" },
-  { code: "UYU", name: "Uruguayan Peso", symbol: "$", flag: "🇺🇾", group: "Americas" },
-  { code: "BOB", name: "Bolivian Boliviano", symbol: "Bs.", flag: "🇧🇴", group: "Americas" },
-  { code: "VES", name: "Venezuelan Bolívar", symbol: "Bs.", flag: "🇻🇪", group: "Americas" },
-  { code: "GTQ", name: "Guatemalan Quetzal", symbol: "Q", flag: "🇬🇹", group: "Americas" },
-  { code: "DOP", name: "Dominican Peso", symbol: "RD$", flag: "🇩🇴", group: "Americas" },
-  { code: "CRC", name: "Costa Rican Colón", symbol: "₡", flag: "🇨🇷", group: "Americas" },
-  { code: "HNL", name: "Honduran Lempira", symbol: "L", flag: "🇭🇳", group: "Americas" },
-  { code: "NIO", name: "Nicaraguan Córdoba", symbol: "C$", flag: "🇳🇮", group: "Americas" },
-  { code: "PAB", name: "Panamanian Balboa", symbol: "B/.", flag: "🇵🇦", group: "Americas" },
-
-  // Europe
-  { code: "NOK", name: "Norwegian Krone", symbol: "kr", flag: "🇳🇴", group: "Europe" },
-  { code: "SEK", name: "Swedish Krona", symbol: "kr", flag: "🇸🇪", group: "Europe" },
-  { code: "DKK", name: "Danish Krone", symbol: "kr", flag: "🇩🇰", group: "Europe" },
-  { code: "PLN", name: "Polish Złoty", symbol: "zł", flag: "🇵🇱", group: "Europe" },
-  { code: "CZK", name: "Czech Koruna", symbol: "Kč", flag: "🇨🇿", group: "Europe" },
-  { code: "HUF", name: "Hungarian Forint", symbol: "Ft", flag: "🇭🇺", group: "Europe" },
-  { code: "RON", name: "Romanian Leu", symbol: "lei", flag: "🇷🇴", group: "Europe" },
-  { code: "BGN", name: "Bulgarian Lev", symbol: "лв", flag: "🇧🇬", group: "Europe" },
-  { code: "HRK", name: "Croatian Kuna", symbol: "kn", flag: "🇭🇷", group: "Europe" },
-  { code: "ISK", name: "Icelandic Króna", symbol: "kr", flag: "🇮🇸", group: "Europe" },
-
-  // Middle East & Africa
-  { code: "SAR", name: "Saudi Riyal", symbol: "﷼", flag: "🇸🇦", group: "MEA" },
-  { code: "QAR", name: "Qatari Riyal", symbol: "﷼", flag: "🇶🇦", group: "MEA" },
-  { code: "KWD", name: "Kuwaiti Dinar", symbol: "د.ك", flag: "🇰🇼", group: "MEA" },
-  { code: "BHD", name: "Bahraini Dinar", symbol: ".د.ب", flag: "🇧🇭", group: "MEA" },
-  { code: "OMR", name: "Omani Rial", symbol: "﷼", flag: "🇴🇲", group: "MEA" },
-  { code: "JOD", name: "Jordanian Dinar", symbol: "د.ا", flag: "🇯🇴", group: "MEA" },
-  { code: "NGN", name: "Nigerian Naira", symbol: "₦", flag: "🇳🇬", group: "MEA" },
-  { code: "KES", name: "Kenyan Shilling", symbol: "KSh", flag: "🇰🇪", group: "MEA" },
-  { code: "GHS", name: "Ghanaian Cedi", symbol: "₵", flag: "🇬🇭", group: "MEA" },
-  { code: "UGX", name: "Ugandan Shilling", symbol: "USh", flag: "🇺🇬", group: "MEA" },
-  { code: "TZS", name: "Tanzanian Shilling", symbol: "TSh", flag: "🇹🇿", group: "MEA" },
-  { code: "RWF", name: "Rwandan Franc", symbol: "FRw", flag: "🇷🇼", group: "MEA" },
-
-  // Oceania
-  { code: "AUD", name: "Australian Dollar", symbol: "$", flag: "🇦🇺", group: "Oceania" },
-  { code: "NZD", name: "New Zealand Dollar", symbol: "$", flag: "🇳🇿", group: "Oceania" },
-  { code: "FJD", name: "Fijian Dollar", symbol: "$", flag: "🇫🇯", group: "Oceania" },
-  { code: "SBD", name: "Solomon Islands Dollar", symbol: "$", flag: "🇸🇧", group: "Oceania" },
-  { code: "VUV", name: "Vanuatu Vatu", symbol: "Vt", flag: "🇻🇺", group: "Oceania" },
-  { code: "TOP", name: "Tongan Paʻanga", symbol: "T$", flag: "🇹🇴", group: "Oceania" },
-  { code: "WST", name: "Samoan Tālā", symbol: "T", flag: "🇼🇸", group: "Oceania" }
+  // Global Markets (for form dropdown only)
+  { code: "GBP", name: "British Pound", symbol: "£", flag: "🇬🇧", group: "Global" },
+  { code: "JPY", name: "Japanese Yen", symbol: "¥", flag: "🇯🇵", group: "Global" },
+  { code: "AUD", name: "Australian Dollar", symbol: "$", flag: "🇦🇺", group: "Global" },
+  { code: "CAD", name: "Canadian Dollar", symbol: "$", flag: "🇨🇦", group: "Global" },
+  { code: "CHF", name: "Swiss Franc", symbol: "Fr", flag: "🇨🇭", group: "Global" },
+  { code: "HKD", name: "Hong Kong Dollar", symbol: "$", flag: "🇭🇰", group: "Global" },
+  { code: "NZD", name: "New Zealand Dollar", symbol: "$", flag: "🇳🇿", group: "Global" },
+  { code: "SGD", name: "Singapore Dollar", symbol: "$", flag: "🇸🇬", group: "Global" }
 ];
 
 export function CurrencyConverter() {
@@ -134,19 +89,21 @@ export function CurrencyConverter() {
       "USD-BRL": 4.95,
       "USD-RUB": 89.50,
       "USD-ZAR": 19.05,
-
-      // BRICS+ Current
       "USD-EGP": 30.90,
       "USD-ETB": 56.50,
       "USD-AED": 3.67,
 
-      // BRICS+ Future
-      "USD-IDR": 15750,
+      // BRICS+Partner
+      "USD-BYN": 2.6,
+      "USD-BOB": 6.86,
       "USD-KZT": 450.25,
-      "USD-NGN": 1200.50,
-      "USD-TRY": 30.45,
-      "USD-VND": 24485,
+      "USD-CUP": 24,
+      "USD-MYR": 4.6,
       "USD-THB": 35.25,
+      "USD-UGX": 3700,
+      "USD-UZS": 10800,
+      "USD-NGN": 780,
+
 
       // High Volume Markets
       "USD-MXN": 17.15,
@@ -154,12 +111,9 @@ export function CurrencyConverter() {
       "USD-PKR": 279.50,
       "USD-EUR": 0.92,
       "USD-BDT": 109.75,
+      "USD-DEM":0.5,
 
-      // High GDP% Markets
-      "USD-TOP": 2.38,
-      "USD-LBP": 15000,
-      "USD-WST": 2.71,
-      "USD-TJS": 10.98,
+
       // Global Markets
       "USD-GBP": 0.78,
       "USD-JPY": 145.00,
@@ -169,9 +123,6 @@ export function CurrencyConverter() {
       "USD-HKD": 7.80,
       "USD-NZD": 1.65,
       "USD-SGD": 1.38,
-      "USD-KRW": 1350.00,
-      "USD-SAR": 3.75
-
     };
 
     const key = `${fromCurrency}-${toCurrency}`;
@@ -228,20 +179,13 @@ export function CurrencyConverter() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="USD">
-                    <span className="flex items-center gap-2">
-                      <span>🇺🇸</span>
-                      <span className="font-medium">USD</span>
-                      <span className="text-muted-foreground">United States of America</span>
-                    </span>
-                  </SelectItem>
-                  {SUPPORTED_CURRENCIES.filter(c => c.code !== "USD").map((currency) => (
+                  {SUPPORTED_CURRENCIES.map((currency) => (
                     <SelectItem key={currency.code} value={currency.code}>
                       <span className="flex items-center gap-2">
                         <span>{currency.flag}</span>
                         <span className="font-medium">{currency.code}</span>
                         <span className="text-muted-foreground">
-                          {currency.name.split('(')[1]?.replace(')', '')}
+                          {currency.name}
                           {currency.volume && ` - $${currency.volume}B`}
                           {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                         </span>
@@ -267,7 +211,7 @@ export function CurrencyConverter() {
                         <span>{currency.flag}</span>
                         <span className="font-medium">{currency.code}</span>
                         <span className="text-muted-foreground">
-                          {currency.name.split('(')[1]?.replace(')', '')}
+                          {currency.name}
                           {currency.volume && ` - $${currency.volume}B`}
                           {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                         </span>
@@ -318,7 +262,6 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span className="font-medium">{currency.code}</span>
                       <span className="text-xs text-muted-foreground">
-                        {currency.name.split('(')[1]?.replace(')', '')}
                         {currency.volume && ` - $${currency.volume}B`}
                         {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                       </span>
@@ -341,7 +284,6 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span className="font-medium">{currency.code}</span>
                       <span className="text-xs text-muted-foreground">
-                        {currency.name.split('(')[1]?.replace(')', '')}
                         {currency.volume && ` - $${currency.volume}B`}
                         {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                       </span>
@@ -357,7 +299,7 @@ export function CurrencyConverter() {
             <div className="text-xs text-muted-foreground mb-2">By Volume & GDP Impact</div>
             <div className="space-y-2">
               {SUPPORTED_CURRENCIES
-                .filter(c => c.group === "Markets" || c.group === "Global" || c.group === "Global-Major" || c.group === "Asia" || c.group === "Americas" || c.group === "Europe" || c.group === "MEA" || c.group === "Oceania")
+                .filter(c => c.group === "Markets")
                 .sort((a, b) => (b.volume || 0) - (a.volume || 0))
                 .map((currency) => (
                   <div key={currency.code} className="flex justify-between items-center p-2 bg-muted/50 rounded-lg">
@@ -365,7 +307,6 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span className="font-medium">{currency.code}</span>
                       <span className="text-xs text-muted-foreground">
-                        {currency.name.split('(')[1]?.replace(')', '')}
                         {currency.volume && ` - $${currency.volume}B`}
                         {currency.gdpRatio && ` (${currency.gdpRatio}% GDP)`}
                       </span>
