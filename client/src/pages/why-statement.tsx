@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "wouter"; 
 
 interface Chapter {
   id: string;
@@ -12,20 +13,79 @@ export default function WhyStatement() {
 
   const chapters: Chapter[] = [
     {
+      id: "origins",
+      title: "Origins & Foundation",
+      content: (
+        <div className="space-y-6">
+          <h3 className="text-xl font-semibold text-foreground">Early Foundations</h3>
+          <p className="text-muted-foreground">
+            The United States, a nation built on the promise of freedom and opportunity, has a complex economic history
+            intertwined with the migration and experiences of diverse ethnic groups. From its inception, the nation's
+            economy has been shaped by forces of both progress and exploitation.
+          </p>
+          <div className="bg-primary/10 p-4 rounded-lg">
+            <p className="text-sm">
+              The arrival of European settlers marked the beginning of a system built on the displacement of indigenous
+              populations and the enslavement of Africans, concentrating wealth and power in the hands of a privileged few.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "industrial-era",
+      title: "Industrial Revolution",
+      content: (
+        <div className="space-y-6">
+          <h3 className="text-xl font-semibold text-foreground">The Rise of Industry</h3>
+          <p className="text-muted-foreground">
+            The 19th and early 20th centuries saw waves of immigration from Europe and Asia, fueling industrial growth
+            while also exacerbating social and economic disparities. The rise of industrial capitalism brought both
+            opportunities and challenges.
+          </p>
+          <div className="bg-primary/10 p-4 rounded-lg">
+            <p className="text-sm">
+              Workers faced harsh conditions and limited rights, leading to the birth of labor movements
+              and the fight for workers' rights.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "modern-era",
+      title: "Modern Economy",
+      content: (
+        <div className="space-y-6">
+          <h3 className="text-xl font-semibold text-foreground">Globalization & Technology</h3>
+          <p className="text-muted-foreground">
+            The late 20th and early 21st centuries saw the rise of globalization and neoliberal economic policies,
+            leading to increased trade and technological advancements, but also growing inequality.
+          </p>
+          <div className="bg-destructive/10 p-4 rounded-lg">
+            <p className="text-sm">
+              The concentration of wealth among the top 1% and the rise of surveillance capitalism
+              have created unprecedented challenges for economic freedom.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
       id: "surveillance",
       title: "Market Surveillance",
       content: (
         <div className="space-y-6">
           <h3 className="text-xl font-semibold text-foreground">The Inequality of Captive Market Surveillance</h3>
           <p className="text-muted-foreground">
-            In today's digital age, we find ourselves trapped in a system of captive market surveillance - where our data 
+            In today's digital age, we find ourselves trapped in a system of captive market surveillance - where our data
             is constantly collected, analyzed, and used by corporations without our explicit consent or fair compensation.
           </p>
           <div className="grid gap-4">
             <div className="bg-destructive/10 p-4 rounded-lg">
               <h4 className="font-semibold mb-2">Unequal Benefits</h4>
               <p className="text-sm">
-                Corporations profit immensely from our data, while we see little to no direct benefit. Our personal 
+                Corporations profit immensely from our data, while we see little to no direct benefit. Our personal
                 information becomes a commodity, traded and exploited without our meaningful participation in its value.
               </p>
             </div>
@@ -43,65 +103,11 @@ export default function WhyStatement() {
                 creating echo chambers that limit exposure to diverse perspectives.
               </p>
             </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "origins",
-      title: "Origins & Foundation",
-      content: (
-        <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-foreground">Early Foundations</h3>
-          <p className="text-muted-foreground">
-            The United States, a nation built on the promise of freedom and opportunity, has a complex economic history 
-            intertwined with the migration and experiences of diverse ethnic groups. From its inception, the nation's 
-            economy has been shaped by forces of both progress and exploitation.
-          </p>
-          <div className="bg-primary/10 p-4 rounded-lg">
-            <p className="text-sm">
-              The arrival of European settlers marked the beginning of a system built on the displacement of indigenous 
-              populations and the enslavement of Africans, concentrating wealth and power in the hands of a privileged few.
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "industrial-era",
-      title: "Industrial Revolution",
-      content: (
-        <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-foreground">The Rise of Industry</h3>
-          <p className="text-muted-foreground">
-            The 19th and early 20th centuries saw waves of immigration from Europe and Asia, fueling industrial growth 
-            while also exacerbating social and economic disparities. The rise of industrial capitalism brought both 
-            opportunities and challenges.
-          </p>
-          <div className="bg-primary/10 p-4 rounded-lg">
-            <p className="text-sm">
-              Workers faced harsh conditions and limited rights, leading to the birth of labor movements 
-              and the fight for workers' rights.
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "modern-era",
-      title: "Modern Economy",
-      content: (
-        <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-foreground">Globalization & Technology</h3>
-          <p className="text-muted-foreground">
-            The late 20th and early 21st centuries saw the rise of globalization and neoliberal economic policies, 
-            leading to increased trade and technological advancements, but also growing inequality.
-          </p>
-          <div className="bg-destructive/10 p-4 rounded-lg">
-            <p className="text-sm">
-              The concentration of wealth among the top 1% and the rise of surveillance capitalism 
-              have created unprecedented challenges for economic freedom.
-            </p>
+            <div className="mt-4">
+              <Link href="/education/courses/data-privacy" className="text-primary hover:underline text-sm">
+                Learn more about data privacy and sovereignty in our educational courses →
+              </Link>
+            </div>
           </div>
         </div>
       ),
@@ -113,10 +119,10 @@ export default function WhyStatement() {
         <div className="space-y-8">
           <h3 className="text-xl font-semibold text-foreground">The Critical Choice</h3>
           <p className="text-muted-foreground">
-            As we stand at this pivotal moment, two distinct paths lie before us, each with profound implications 
+            As we stand at this pivotal moment, two distinct paths lie before us, each with profound implications
             for our economic future.
           </p>
-          
+
           <div className="grid gap-6">
             <div className="bg-destructive/10 p-6 rounded-lg border border-destructive/20">
               <h4 className="text-lg font-semibold mb-3">Path 1: Maintaining the Status Quo</h4>
@@ -131,7 +137,7 @@ export default function WhyStatement() {
                 <li>Market manipulation and instability</li>
               </ul>
             </div>
-          
+
             <div className="bg-primary/10 p-6 rounded-lg border border-primary/20">
               <h4 className="text-lg font-semibold mb-3">Path 2: Economic Evolution</h4>
               <p className="mb-4">
@@ -156,7 +162,7 @@ export default function WhyStatement() {
         <div className="space-y-6">
           <h3 className="text-xl font-semibold text-foreground">Breaking Free with Self-Sovereign Identity</h3>
           <p className="text-muted-foreground">
-            SOLVY offers a way to escape the "captive market surveillance" system and reclaim control over our data 
+            SOLVY offers a way to escape the "captive market surveillance" system and reclaim control over our data
             and digital identities through Self-Sovereign Identity (SSI).
           </p>
           <div className="grid gap-4">
@@ -170,7 +176,7 @@ export default function WhyStatement() {
             <div className="bg-primary/10 p-4 rounded-lg">
               <h4 className="font-semibold mb-2">SOLVY Platform</h4>
               <p className="text-sm">
-                The practical implementation of SSI, giving you complete control over your digital identity. You decide 
+                The practical implementation of SSI, giving you complete control over your digital identity. You decide
                 what information to share, with whom, and for what purpose.
               </p>
             </div>
@@ -180,6 +186,11 @@ export default function WhyStatement() {
                 Ensuring accountability through comprehensive auditing and reporting of all activities, while maintaining
                 your privacy and data sovereignty.
               </p>
+            </div>
+            <div className="mt-4">
+              <Link href="/education/tutorials/ssi" className="text-primary hover:underline text-sm">
+                Learn how to use Self-Sovereign Identity in our tutorials →
+              </Link>
             </div>
           </div>
         </div>
