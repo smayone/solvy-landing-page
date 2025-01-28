@@ -33,30 +33,29 @@ export const SUPPORTED_CURRENCIES: Currency[] = [
   { code: "IRR", name: "Iranian Rial (Islamic Republic of Iran)", symbol: "﷼", flag: "🇮🇷", group: "BRICS-Full" },
   { code: "AED", name: "UAE Dirham (United Arab Emirates)", symbol: "د.إ", flag: "🇦🇪", group: "BRICS-Full" },
 
-  // BRICS Partner Countries
-  { code: "BYN", name: "Belarusian Ruble (Republic of Belarus)", symbol: "Br", flag: "🇧🇾", group: "BRICS-Partner" },
-  { code: "BOB", name: "Bolivian Boliviano (Plurinational State of Bolivia)", symbol: "Bs.", flag: "🇧🇴", group: "BRICS-Partner" },
-  { code: "KZT", name: "Kazakhstani Tenge (Republic of Kazakhstan)", symbol: "₸", flag: "🇰🇿", group: "BRICS-Partner" },
-  { code: "CUP", name: "Cuban Peso (Republic of Cuba)", symbol: "₱", flag: "🇨🇺", group: "BRICS-Partner" },
-  { code: "MYR", name: "Malaysian Ringgit (Malaysia)", symbol: "RM", flag: "🇲🇾", group: "BRICS-Partner" },
-  { code: "THB", name: "Thai Baht (Kingdom of Thailand)", symbol: "฿", flag: "🇹🇭", group: "BRICS-Partner" },
-  { code: "UGX", name: "Ugandan Shilling (Republic of Uganda)", symbol: "USh", flag: "🇺🇬", group: "BRICS-Partner" },
-  { code: "UZS", name: "Uzbekistani Som (Republic of Uzbekistan)", symbol: "soʻm", flag: "🇺🇿", group: "BRICS-Partner" },
-  { code: "NGN", name: "Nigerian Naira (Federal Republic of Nigeria)", symbol: "₦", flag: "🇳🇬", group: "BRICS-Partner", gdpRatio: 4.3, volume: 20 },
+  // Global Markets - Added more currencies for global coverage
+  { code: "EUR", name: "Euro (European Union)", symbol: "€", flag: "🇪🇺", group: "Global" },
+  { code: "GBP", name: "British Pound (United Kingdom)", symbol: "£", flag: "🇬🇧", group: "Global" },
+  { code: "JPY", name: "Japanese Yen (Japan)", symbol: "¥", flag: "🇯🇵", group: "Global" },
+  { code: "AUD", name: "Australian Dollar (Australia)", symbol: "$", flag: "🇦🇺", group: "Global" },
+  { code: "CAD", name: "Canadian Dollar (Canada)", symbol: "$", flag: "🇨🇦", group: "Global" },
+  { code: "CHF", name: "Swiss Franc (Switzerland)", symbol: "Fr", flag: "🇨🇭", group: "Global" },
+  { code: "HKD", name: "Hong Kong Dollar (Hong Kong)", symbol: "$", flag: "🇭🇰", group: "Global" },
+  { code: "NZD", name: "New Zealand Dollar (New Zealand)", symbol: "$", flag: "🇳🇿", group: "Global" },
+  { code: "SGD", name: "Singapore Dollar (Singapore)", symbol: "$", flag: "🇸🇬", group: "Global" },
 
-  // High Volume Remittance Markets
-  { code: "MXN", name: "Mexican Peso (United Mexican States)", symbol: "$", flag: "🇲🇽", group: "Markets", gdpRatio: 4.2, volume: 61 },
-  { code: "PHP", name: "Philippine Peso (Republic of the Philippines)", symbol: "₱", flag: "🇵🇭", group: "Markets", gdpRatio: 9.4, volume: 38 },
-  { code: "PKR", name: "Pakistani Rupee (Islamic Republic of Pakistan)", symbol: "₨", flag: "🇵🇰", group: "Markets", gdpRatio: 8.1, volume: 30 },
-  { code: "EUR", name: "Euro (French Republic)", symbol: "€", flag: "🇫🇷", group: "Markets", gdpRatio: 1.2, volume: 28 },
-  { code: "BDT", name: "Bangladeshi Taka (People's Republic of Bangladesh)", symbol: "৳", flag: "🇧🇩", group: "Markets", gdpRatio: 4.7, volume: 21 },
-  { code: "DEM", name: "Euro (Federal Republic of Germany)", symbol: "€", flag: "🇩🇪", group: "Markets", gdpRatio: 0.5, volume: 19 },
+  // High Volume Markets
+  { code: "MXN", name: "Mexican Peso (Mexico)", symbol: "$", flag: "🇲🇽", group: "Markets", gdpRatio: 4.2, volume: 61 },
+  { code: "PHP", name: "Philippine Peso (Philippines)", symbol: "₱", flag: "🇵🇭", group: "Markets", gdpRatio: 9.4, volume: 38 },
+  { code: "PKR", name: "Pakistani Rupee (Pakistan)", symbol: "₨", flag: "🇵🇰", group: "Markets", gdpRatio: 8.1, volume: 30 },
+  { code: "BDT", name: "Bangladeshi Taka (Bangladesh)", symbol: "৳", flag: "🇧🇩", group: "Markets", gdpRatio: 4.7, volume: 21 },
+  { code: "VND", name: "Vietnamese Dong (Vietnam)", symbol: "₫", flag: "🇻🇳", group: "Markets" },
+  { code: "THB", name: "Thai Baht (Thailand)", symbol: "฿", flag: "🇹🇭", group: "Markets" },
 
   // Additional High GDP% Markets
-  { code: "TOP", name: "Tongan Pa'anga (Kingdom of Tonga)", symbol: "T$", flag: "🇹🇴", group: "Markets", gdpRatio: 37.7 },
-  { code: "LBP", name: "Lebanese Pound (Lebanese Republic)", symbol: "£", flag: "🇱🇧", group: "Markets", gdpRatio: 34.0 },
-  { code: "WST", name: "Samoan Tala (Independent State of Samoa)", symbol: "T", flag: "🇼🇸", group: "Markets", gdpRatio: 32.2 },
-  { code: "TJS", name: "Tajikistani Somoni (Republic of Tajikistan)", symbol: "ЅM", flag: "🇹🇯", group: "Markets", gdpRatio: 31.0 }
+  { code: "KRW", name: "South Korean Won (South Korea)", symbol: "₩", flag: "🇰🇷", group: "Markets" },
+  { code: "TRY", name: "Turkish Lira (Turkey)", symbol: "₺", flag: "🇹🇷", group: "Markets" },
+  { code: "SAR", name: "Saudi Riyal (Saudi Arabia)", symbol: "﷼", flag: "🇸🇦", group: "Markets" }
 ];
 
 export function CurrencyConverter() {
@@ -111,7 +110,19 @@ export function CurrencyConverter() {
       "USD-TOP": 2.38,
       "USD-LBP": 15000,
       "USD-WST": 2.71,
-      "USD-TJS": 10.98
+      "USD-TJS": 10.98,
+      // Global Markets
+      "USD-GBP": 0.78,
+      "USD-JPY": 145.00,
+      "USD-AUD": 1.50,
+      "USD-CAD": 1.35,
+      "USD-CHF": 0.90,
+      "USD-HKD": 7.80,
+      "USD-NZD": 1.65,
+      "USD-SGD": 1.38,
+      "USD-KRW": 1350.00,
+      "USD-SAR": 3.75
+
     };
 
     const key = `${fromCurrency}-${toCurrency}`;
@@ -297,7 +308,7 @@ export function CurrencyConverter() {
             <div className="text-xs text-muted-foreground mb-2">By Volume & GDP Impact</div>
             <div className="space-y-2">
               {SUPPORTED_CURRENCIES
-                .filter(c => c.group === "Markets")
+                .filter(c => c.group === "Markets" || c.group === "Global") // Include Global Markets
                 .sort((a, b) => (b.volume || 0) - (a.volume || 0))
                 .map((currency) => (
                   <div key={currency.code} className="flex justify-between items-center p-2 bg-muted/50 rounded-lg">
