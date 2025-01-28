@@ -107,8 +107,8 @@ export function Hero() {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-full max-w-[500px] aspect-[3/4] relative overflow-hidden rounded-2xl shadow-2xl">
                 <img
-                  src="/nathan-pic.jpg"
-                  alt="SA Nathan"
+                  src="/attached_assets/IMG_0615.jpeg"
+                  alt="SA Nathan - Founder"
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-out"
                 />
               </div>
