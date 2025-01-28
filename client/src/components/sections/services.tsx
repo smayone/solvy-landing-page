@@ -14,7 +14,7 @@ export function Services() {
         "Transparent donation management",
         "Community-focused initiatives"
       ],
-      logo: "/attached_assets/SolvyLogo-1024.png",
+      logo: "/SolvyLogo-1024.png",
       route: "/education"
     },
     {
@@ -27,7 +27,7 @@ export function Services() {
         "Smart contract automation",
         "Comprehensive financial tools"
       ],
-      logo: "/attached_assets/SolvyLogo-1024.png",
+      logo: "/SolvyLogo-1024.png",
       route: "/crypto"
     },
     {
@@ -40,7 +40,7 @@ export function Services() {
         "Transparent audit trails with blockchain",
         "Financial reporting & analytics"
       ],
-      logo: "/attached_assets/SolvyLogo-1024.png",
+      logo: "/SolvyLogo-1024.png",
       route: "/man"
     },
   ];
