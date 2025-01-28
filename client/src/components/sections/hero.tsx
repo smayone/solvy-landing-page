@@ -44,7 +44,6 @@ export function Hero() {
     <section className="min-h-screen bg-background flex items-center">
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Text Content */}
           <div>
             <div>
               <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
@@ -104,7 +103,6 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Enhanced Image Section with cartoon effect and lazy loading */}
           <div className="relative flex items-center justify-center lg:h-full lg:min-h-[600px]">
             <div className="w-full max-w-[400px] aspect-square relative overflow-hidden rounded-2xl shadow-2xl">
               {!imageLoaded && (
@@ -130,35 +128,25 @@ export function Hero() {
                   console.error('Failed to load image:', img.src);
                 }}
               />
-              {/* Enhanced SVG filter for cartoon effect */}
               <svg width="0" height="0" className="absolute">
                 <defs>
                   <filter id="cartoonFilter">
-                    {/* Edge detection */}
-                    <feConvolveMatrix order="3" preserveAlpha="true" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1"/>
-
-                    {/* Color adjustments */}
+                    <feConvolveMatrix order="3" preserveAlpha="true" kernelMatrix="-0.5 -0.5 -0.5 -0.5 4 -0.5 -0.5 -0.5 -0.5"/>
                     <feColorMatrix type="matrix" values="
-                      1.1 0 0 0 0
-                      0 1.1 0 0 0
-                      0 0 1.1 0 0
+                      1.05 0 0 0 0
+                      0 1.05 0 0 0
+                      0 0 1.05 0 0
                       0 0 0 1 0"/>
-
-                    {/* Posterize effect */}
                     <feComponentTransfer>
-                      <feFuncR type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
-                      <feFuncG type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
-                      <feFuncB type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+                      <feFuncR type="discrete" tableValues="0 0.33 0.66 1"/>
+                      <feFuncG type="discrete" tableValues="0 0.33 0.66 1"/>
+                      <feFuncB type="discrete" tableValues="0 0.33 0.66 1"/>
                     </feComponentTransfer>
-
-                    {/* Smoothing */}
-                    <feGaussianBlur stdDeviation="0.5"/>
-
-                    {/* Enhance contrast */}
+                    <feGaussianBlur stdDeviation="0.3"/>
                     <feComponentTransfer>
-                      <feFuncR type="linear" slope="1.5" intercept="-0.25"/>
-                      <feFuncG type="linear" slope="1.5" intercept="-0.25"/>
-                      <feFuncB type="linear" slope="1.5" intercept="-0.25"/>
+                      <feFuncR type="linear" slope="1.2" intercept="-0.1"/>
+                      <feFuncG type="linear" slope="1.2" intercept="-0.1"/>
+                      <feFuncB type="linear" slope="1.2" intercept="-0.1"/>
                     </feComponentTransfer>
                   </filter>
                 </defs>
