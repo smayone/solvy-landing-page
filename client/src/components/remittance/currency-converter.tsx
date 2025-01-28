@@ -62,6 +62,40 @@ export const SUPPORTED_CURRENCIES: Currency[] = [
   { code: "SGD", name: "Singapore Dollar", symbol: "$", flag: "🇸🇬", group: "Global" }
 ];
 
+const ALL_COUNTRIES_FOR_TRANSFER: Currency[] = [
+  ...SUPPORTED_CURRENCIES,
+  { code: "AFN", name: "Afghan Afghani (Afghanistan)", symbol: "؋", flag: "🇦🇫", group: "Global" },
+  { code: "ALL", name: "Albanian Lek (Albania)", symbol: "L", flag: "🇦🇱", group: "Global" },
+  { code: "DZD", name: "Algerian Dinar (Algeria)", symbol: "د.ج", flag: "🇩🇿", group: "Global" },
+  { code: "AOA", name: "Angolan Kwanza (Angola)", symbol: "Kz", flag: "🇦🇴", group: "Global" },
+  { code: "ARS", name: "Argentine Peso (Argentina)", symbol: "$", flag: "🇦🇷", group: "Global" },
+  { code: "AMD", name: "Armenian Dram (Armenia)", symbol: "֏", flag: "🇦🇲", group: "Global" },
+  { code: "AWG", name: "Aruban Florin (Aruba)", symbol: "ƒ", flag: "🇦🇼", group: "Global" },
+  { code: "AZN", name: "Azerbaijani Manat (Azerbaijan)", symbol: "₼", flag: "🇦🇿", group: "Global" },
+  { code: "BSD", name: "Bahamian Dollar (Bahamas)", symbol: "$", flag: "🇧🇸", group: "Global" },
+  { code: "BHD", name: "Bahraini Dinar (Bahrain)", symbol: ".د.ب", flag: "🇧🇭", group: "Global" },
+  { code: "BBD", name: "Barbadian Dollar (Barbados)", symbol: "$", flag: "🇧🇧", group: "Global" },
+  { code: "BZD", name: "Belize Dollar (Belize)", symbol: "BZ$", flag: "🇧🇿", group: "Global" },
+  { code: "BMD", name: "Bermudian Dollar (Bermuda)", symbol: "$", flag: "🇧🇲", group: "Global" },
+  { code: "BTN", name: "Bhutanese Ngultrum (Bhutan)", symbol: "Nu.", flag: "🇧🇹", group: "Global" },
+  { code: "BAM", name: "Bosnia-Herzegovina Convertible Mark (Bosnia)", symbol: "KM", flag: "🇧🇦", group: "Global" },
+  { code: "BWP", name: "Botswanan Pula (Botswana)", symbol: "P", flag: "🇧🇼", group: "Global" },
+  { code: "BND", name: "Brunei Dollar (Brunei)", symbol: "$", flag: "🇧🇳", group: "Global" },
+  { code: "BGN", name: "Bulgarian Lev (Bulgaria)", symbol: "лв", flag: "🇧🇬", group: "Global" },
+  { code: "BIF", name: "Burundian Franc (Burundi)", symbol: "FBu", flag: "🇧🇮", group: "Global" },
+  { code: "KHR", name: "Cambodian Riel (Cambodia)", symbol: "៛", flag: "🇰🇭", group: "Global" },
+  { code: "CVE", name: "Cape Verdean Escudo (Cape Verde)", symbol: "$", flag: "🇨🇻", group: "Global" },
+  { code: "KYD", name: "Cayman Islands Dollar (Cayman Islands)", symbol: "$", flag: "🇰🇾", group: "Global" },
+  { code: "XAF", name: "Central African CFA Franc (CEMAC)", symbol: "FCFA", flag: "🌍", group: "Global" },
+  { code: "XOF", name: "West African CFA Franc (WAEMU)", symbol: "CFA", flag: "🌍", group: "Global" },
+  { code: "CDF", name: "Congolese Franc (DR Congo)", symbol: "FC", flag: "🇨🇩", group: "Global" },
+  { code: "CRC", name: "Costa Rican Colón (Costa Rica)", symbol: "₡", flag: "🇨🇷", group: "Global" },
+  { code: "HRK", name: "Croatian Kuna (Croatia)", symbol: "kn", flag: "🇭🇷", group: "Global" },
+  { code: "DJF", name: "Djiboutian Franc (Djibouti)", symbol: "Fdj", flag: "🇩🇯", group: "Global" },
+  { code: "DOP", name: "Dominican Peso (Dominican Republic)", symbol: "RD$", flag: "🇩🇴", group: "Global" },
+
+];
+
 export function CurrencyConverter() {
   const { t, i18n } = useTranslation();
   const [amount, setAmount] = useState<string>("100");
@@ -179,7 +213,7 @@ export function CurrencyConverter() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {SUPPORTED_CURRENCIES.map((currency) => (
+                  {ALL_COUNTRIES_FOR_TRANSFER.map((currency) => (
                     <SelectItem key={currency.code} value={currency.code}>
                       <span className="flex items-center gap-2">
                         <span>{currency.flag}</span>
@@ -205,7 +239,7 @@ export function CurrencyConverter() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {SUPPORTED_CURRENCIES.map((currency) => (
+                  {ALL_COUNTRIES_FOR_TRANSFER.map((currency) => (
                     <SelectItem key={currency.code} value={currency.code}>
                       <span className="flex items-center gap-2">
                         <span>{currency.flag}</span>
