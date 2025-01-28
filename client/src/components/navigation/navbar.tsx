@@ -35,26 +35,26 @@ const ListItem = ({ children, className, ...props }: React.ComponentProps<"a">) 
 
 export function Navbar({ userRole }: NavbarProps) {
   const { t } = useTranslation();
-  const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain;
 
   return (
     <nav className="fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="flex h-16 items-center px-4 container mx-auto">
-        <div className="flex-shrink-0 mr-8">
+        <div className="flex-shrink-0 mr-4 md:mr-8">
           <Link href="/">
             <img 
               src="/SolvyLogo-1024.png" 
               alt="SOLVY" 
-              className="h-10 w-auto object-contain hover:opacity-90 transition-opacity cursor-pointer"
+              className="h-8 md:h-10 w-auto object-contain hover:opacity-90 transition-opacity cursor-pointer"
             />
           </Link>
         </div>
 
-        <div className="flex-1 flex items-center justify-center space-x-4">
-          <Button variant="ghost" asChild>
-            <Link href="/" className="flex items-center gap-2">
+
+        <div className="flex-1 flex items-center justify-between md:justify-center space-x-2 md:space-x-4 overflow-x-auto">
+          <Button variant="ghost" size="sm" className="md:hidden" asChild>
+            <Link href="/" className="flex items-center gap-1">
               <Home className="h-4 w-4" />
-              {t('nav.home')}
+              <span className="sr-only md:not-sr-only">{t('nav.home')}</span>
             </Link>
           </Button>
 
@@ -62,21 +62,21 @@ export function Navbar({ userRole }: NavbarProps) {
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 md:gap-2">
                     <GraduationCap className="h-4 w-4" />
-                    Education
+                    <span className="hidden md:inline">Education</span>
                   </div>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-7">
+                  <ul className="grid gap-2 p-4 md:p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <li className="row-span-4 md:row-span-7">
                       <NavigationMenuLink asChild>
-                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 md:p-6 no-underline outline-none focus:shadow-md">
                           <BookOpen className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-lg font-medium">
+                          <div className="mb-2 mt-4 text-base md:text-lg font-medium">
                             Education Hub
                           </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
+                          <p className="text-xs md:text-sm leading-tight text-muted-foreground">
                             Your gateway to comprehensive blockchain and financial education
                           </p>
                         </Link>
@@ -141,6 +141,7 @@ export function Navbar({ userRole }: NavbarProps) {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+
           <Button variant="ghost" asChild>
             <Link href="/member" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -185,7 +186,7 @@ export function Navbar({ userRole }: NavbarProps) {
           </Button>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 md:space-x-4">
           <LanguageSwitcher />
           <ThemeToggle />
         </div>
