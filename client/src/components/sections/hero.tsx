@@ -50,7 +50,7 @@ export function Hero() {
             </div>
 
             <img
-              src="/attached_assets/fulllogo.png"
+              src="/fulllogo.png"
               alt="SOLVY - Full Logo"
               className="w-full max-w-[400px] h-auto object-contain my-8"
             />
