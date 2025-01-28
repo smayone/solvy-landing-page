@@ -7,7 +7,8 @@ import {
   integer,
   jsonb,
   decimal,
-  date
+  date,
+  foreignKey
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -406,3 +407,130 @@ export type InsertAccountingEntry = typeof accountingEntries.$inferInsert;
 export type SelectAccountingEntry = typeof accountingEntries.$inferSelect;
 export type InsertTaxFiling = typeof taxFilings.$inferInsert;
 export type SelectTaxFiling = typeof taxFilings.$inferSelect;
+
+
+// Add new NGO-related tables
+export const ngoFinancialReports = pgTable("ngo_financial_reports", {
+  id: serial("id").primaryKey(),
+  organizationId: integer("organization_id").references(() => businessUnits.id),
+  reportingPeriod: text("reporting_period").notNull(),
+  startDate: date("start_date").notNull(),
+  endDate: date("end_date").notNull(),
+  totalDonations: decimal("total_donations", { precision: 15, scale: 2 }),
+  totalExpenses: decimal("total_expenses", { precision: 15, scale: 2 }),
+  programExpenses: decimal("program_expenses", { precision: 15, scale: 2 }),
+  administrativeExpenses: decimal("administrative_expenses", { precision: 15, scale: 2 }),
+  grantAllocations: decimal("grant_allocations", { precision: 15, scale: 2 }),
+  impactMetrics: jsonb("impact_metrics"),
+  verificationStatus: text("verification_status").notNull().default("pending"),
+  verificationDetails: jsonb("verification_details"),
+  blockchainHash: text("blockchain_hash"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at"),
+  createdBy: integer("created_by").references(() => users.id),
+});
+
+export const ngoDonations = pgTable("ngo_donations", {
+  id: serial("id").primaryKey(),
+  organizationId: integer("organization_id").references(() => businessUnits.id),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(),
+  currency: text("currency").notNull().default("USD"),
+  donationType: text("donation_type").notNull(), // one-time, recurring, grant
+  donorName: text("donor_name"),
+  donorEmail: text("donor_email"),
+  donorWalletAddress: text("donor_wallet_address"),
+  purpose: text("purpose"),
+  isAnonymous: boolean("is_anonymous").default(false),
+  transactionHash: text("transaction_hash"),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const ngoExpenses = pgTable("ngo_expenses", {
+  id: serial("id").primaryKey(),
+  organizationId: integer("organization_id").references(() => businessUnits.id),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(),
+  currency: text("currency").notNull().default("USD"),
+  category: text("category").notNull(), // program, administrative, fundraising
+  description: text("description").notNull(),
+  beneficiary: text("beneficiary"),
+  receiptUrl: text("receipt_url"),
+  approvedBy: integer("approved_by").references(() => users.id),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at"),
+});
+
+export const ngoGrants = pgTable("ngo_grants", {
+  id: serial("id").primaryKey(),
+  organizationId: integer("organization_id").references(() => businessUnits.id),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(),
+  currency: text("currency").notNull().default("USD"),
+  grantName: text("grant_name").notNull(),
+  description: text("description"),
+  beneficiary: text("beneficiary").notNull(),
+  startDate: date("start_date").notNull(),
+  endDate: date("end_date"),
+  status: text("status").notNull().default("pending"),
+  impactMetrics: jsonb("impact_metrics"),
+  verificationStatus: text("verification_status").notNull().default("pending"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at"),
+});
+
+// Add relations
+export const ngoFinancialReportsRelations = relations(ngoFinancialReports, ({ one }) => ({
+  organization: one(businessUnits, {
+    fields: [ngoFinancialReports.organizationId],
+    references: [businessUnits.id],
+  }),
+  creator: one(users, {
+    fields: [ngoFinancialReports.createdBy],
+    references: [users.id],
+  }),
+}));
+
+export const ngoDonationsRelations = relations(ngoDonations, ({ one }) => ({
+  organization: one(businessUnits, {
+    fields: [ngoDonations.organizationId],
+    references: [businessUnits.id],
+  }),
+}));
+
+export const ngoExpensesRelations = relations(ngoExpenses, ({ one }) => ({
+  organization: one(businessUnits, {
+    fields: [ngoExpenses.organizationId],
+    references: [businessUnits.id],
+  }),
+  approver: one(users, {
+    fields: [ngoExpenses.approvedBy],
+    references: [users.id],
+  }),
+}));
+
+export const ngoGrantsRelations = relations(ngoGrants, ({ one }) => ({
+  organization: one(businessUnits, {
+    fields: [ngoGrants.organizationId],
+    references: [businessUnits.id],
+  }),
+}));
+
+// Add schemas for the new tables
+export const insertNgoFinancialReportSchema = createInsertSchema(ngoFinancialReports);
+export const selectNgoFinancialReportSchema = createSelectSchema(ngoFinancialReports);
+export const insertNgoDonationSchema = createInsertSchema(ngoDonations);
+export const selectNgoDonationSchema = createSelectSchema(ngoDonations);
+export const insertNgoExpenseSchema = createInsertSchema(ngoExpenses);
+export const selectNgoExpenseSchema = createSelectSchema(ngoExpenses);
+export const insertNgoGrantSchema = createInsertSchema(ngoGrants);
+export const selectNgoGrantSchema = createSelectSchema(ngoGrants);
+
+// Add types for the new tables
+export type InsertNgoFinancialReport = typeof ngoFinancialReports.$inferInsert;
+export type SelectNgoFinancialReport = typeof ngoFinancialReports.$inferSelect;
+export type InsertNgoDonation = typeof ngoDonations.$inferInsert;
+export type SelectNgoDonation = typeof ngoDonations.$inferSelect;
+export type InsertNgoExpense = typeof ngoExpenses.$inferInsert;
+export type SelectNgoExpense = typeof ngoExpenses.$inferSelect;
+export type InsertNgoGrant = typeof ngoGrants.$inferInsert;
+export type SelectNgoGrant = typeof ngoGrants.$inferSelect;
