@@ -111,46 +111,35 @@ export function Hero() {
               <img
                 src="/attached_assets/Eva&Sean-2012.JPG"
                 alt="Eva & Sean"
-                className={`w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500 ease-out ${
+                className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
                   !imageLoaded ? 'opacity-0' : 'opacity-100'
                 }`}
-                style={{
-                  mixBlendMode: 'color-burn',
-                  WebkitFilter: 'url(#cartoonFilter)',
-                  filter: 'url(#cartoonFilter)'
-                }}
                 loading="lazy"
                 decoding="async"
-                onLoad={() => setImageLoaded(true)}
+                onLoad={(e) => {
+                  console.log('Image loaded successfully');
+                  setImageLoaded(true);
+                }}
                 onError={(e) => {
+                  console.error('Failed to load image:', (e.target as HTMLImageElement).src);
                   const img = e.target as HTMLImageElement;
                   img.style.display = 'none';
-                  console.error('Failed to load image:', img.src);
                 }}
               />
-              <svg width="0" height="0" className="absolute">
-                <defs>
-                  <filter id="cartoonFilter">
-                    <feConvolveMatrix order="3" preserveAlpha="true" kernelMatrix="-0.5 -0.5 -0.5 -0.5 4 -0.5 -0.5 -0.5 -0.5"/>
-                    <feColorMatrix type="matrix" values="
-                      1.05 0 0 0 0
-                      0 1.05 0 0 0
-                      0 0 1.05 0 0
-                      0 0 0 1 0"/>
-                    <feComponentTransfer>
-                      <feFuncR type="discrete" tableValues="0 0.33 0.66 1"/>
-                      <feFuncG type="discrete" tableValues="0 0.33 0.66 1"/>
-                      <feFuncB type="discrete" tableValues="0 0.33 0.66 1"/>
-                    </feComponentTransfer>
-                    <feGaussianBlur stdDeviation="0.3"/>
-                    <feComponentTransfer>
-                      <feFuncR type="linear" slope="1.2" intercept="-0.1"/>
-                      <feFuncG type="linear" slope="1.2" intercept="-0.1"/>
-                      <feFuncB type="linear" slope="1.2" intercept="-0.1"/>
-                    </feComponentTransfer>
-                  </filter>
-                </defs>
-              </svg>
+              {imageLoaded && (
+                <svg width="0" height="0">
+                  <defs>
+                    <filter id="cartoonFilter">
+                      <feGaussianBlur stdDeviation="0.5" />
+                      <feColorMatrix type="matrix" values="
+                        1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 20 -10" />
+                    </filter>
+                  </defs>
+                </svg>
+              )}
             </div>
           </div>
         </div>
