@@ -49,34 +49,26 @@ export function Navbar({ userRole }: NavbarProps) {
           </Link>
         </div>
 
-
-        <div className="flex-1 flex items-center justify-between md:justify-center space-x-2 md:space-x-4 overflow-x-auto">
-          <Button variant="ghost" size="sm" className="md:hidden" asChild>
-            <Link href="/" className="flex items-center gap-1">
-              <Home className="h-4 w-4" />
-              <span className="sr-only md:not-sr-only">{t('nav.home')}</span>
-            </Link>
-          </Button>
-
+        <div className="flex-1 flex items-center justify-between md:justify-center space-x-2 md:space-x-4">
           <NavigationMenu>
             <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>
-                  <div className="flex items-center gap-1 md:gap-2">
+              <NavigationMenuItem className="block md:inline-block">
+                <NavigationMenuTrigger className="h-9 px-3">
+                  <div className="flex items-center gap-2">
                     <GraduationCap className="h-4 w-4" />
-                    <span className="hidden md:inline">Education</span>
+                    <span className="inline">Education</span>
                   </div>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid gap-2 p-4 md:p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-4 md:row-span-7">
+                  <ul className="grid w-[300px] md:w-[400px] lg:w-[500px] gap-3 p-4 lg:grid-cols-[.75fr_1fr]">
+                    <li className="row-span-4">
                       <NavigationMenuLink asChild>
-                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 md:p-6 no-underline outline-none focus:shadow-md">
+                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
                           <BookOpen className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-base md:text-lg font-medium">
+                          <div className="mb-2 mt-4 text-base font-medium">
                             Education Hub
                           </div>
-                          <p className="text-xs md:text-sm leading-tight text-muted-foreground">
+                          <p className="text-sm leading-tight text-muted-foreground">
                             Your gateway to comprehensive blockchain and financial education
                           </p>
                         </Link>
