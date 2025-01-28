@@ -106,7 +106,7 @@ export function Hero() {
           <div className="relative">
             <div className="aspect-[4/3] relative overflow-hidden rounded-2xl shadow-2xl">
               <img
-                src="/hero-cartoon.png"
+                src="/nathan-pic.jpg"
                 alt="SOLVY Innovation"
                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-out"
               />
