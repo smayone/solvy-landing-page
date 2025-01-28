@@ -20,6 +20,7 @@ import NotFound from "@/pages/not-found";
 import Reign from "@/pages/reign";
 import DAOPage from "@/pages/dao";
 import ManDashboard from "@/pages/man";
+import Payments from "@/pages/payments";
 import { useTheme } from "@/hooks/use-theme";
 import "./lib/i18n";
 
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/analytics" component={Analytics} />
       <Route path="/why-statement" component={WhyStatement} />
       <Route path="/crypto" component={CryptoPage} />
+      <Route path="/payments" component={Payments} />
       <Route path="/education" component={Education} />
       <Route path="/education/business-case" component={BusinessCase} />
       <Route path="/monitoring-dashboard" component={MonitoringDashboard} />
