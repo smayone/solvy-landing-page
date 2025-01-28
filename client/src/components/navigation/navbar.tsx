@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -52,6 +52,7 @@ export function Navbar({ userRole }: NavbarProps) {
         <div className="flex-1 flex items-center justify-between md:justify-center space-x-2 md:space-x-4">
           <NavigationMenu>
             <NavigationMenuList>
+              {/* Education Menu */}
               <NavigationMenuItem className="block md:inline-block">
                 <NavigationMenuTrigger className="h-9 px-3">
                   <div className="flex items-center gap-2">
@@ -110,22 +111,40 @@ export function Navbar({ userRole }: NavbarProps) {
                         Track your educational achievements and certifications
                       </p>
                     </ListItem>
-                    <ListItem href="/education/bookmarks">
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              {/* Payments & Transfers Menu */}
+              <NavigationMenuItem className="block md:inline-block">
+                <NavigationMenuTrigger className="h-9 px-3">
+                  <div className="flex items-center gap-2">
+                    <Wallet className="h-4 w-4" />
+                    <span className="inline">{t('nav.buy_crypto')}</span>
+                  </div>
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[300px] gap-3 p-4">
+                    <li className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <Link href="/crypto" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
+                          <CreditCard className="h-6 w-6" />
+                          <div className="mb-2 mt-4 text-base font-medium">
+                            Crypto & Payments
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Buy crypto and manage your digital assets
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <ListItem href="/remittance">
                       <div className="flex items-center gap-2">
-                        <BookMarked className="h-4 w-4" />
-                        <div className="text-sm font-medium">Saved Resources</div>
+                        <Send className="h-4 w-4" />
+                        <div className="text-sm font-medium">{t('nav.remittance')}</div>
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Access your bookmarked educational content
-                      </p>
-                    </ListItem>
-                    <ListItem href="/education/tutorials">
-                      <div className="flex items-center gap-2">
-                        <Lightbulb className="h-4 w-4" />
-                        <div className="text-sm font-medium">Tutorials</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Step-by-step guides for using SOLVY platform
+                        Send money to loved ones worldwide
                       </p>
                     </ListItem>
                   </ul>
@@ -162,12 +181,6 @@ export function Navbar({ userRole }: NavbarProps) {
             <Link href="/reign" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
               {t('nav.reign')}
-            </Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/crypto" className="flex items-center gap-2">
-              <Wallet className="h-4 w-4" />
-              {t('nav.buy_crypto')}
             </Link>
           </Button>
           <Button variant="ghost" asChild>

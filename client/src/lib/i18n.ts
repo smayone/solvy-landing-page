@@ -124,7 +124,8 @@ const resources = {
         nft_avatar: 'NFT Avatar',
         ebl: 'EBL',
         buy_crypto: 'Buy Crypto',
-        reign: 'Reign'
+        reign: 'Reign',
+        remittance: 'Send Money'
       },
       education: {
         dao: {
@@ -197,6 +198,37 @@ const resources = {
         booking_error: 'Failed to book appointment. Please try again.',
         gift_card_success: 'Gift card purchased successfully!',
         gift_card_error: 'Failed to purchase gift card. Please try again.',
+      },
+      remittance: {
+        title: 'International Money Transfer',
+        subtitle: 'Send money to your loved ones worldwide',
+        conversion_widget: {
+          title: 'Currency Converter',
+          from: 'From',
+          to: 'To',
+          amount: 'Amount',
+          converted: 'Converted Amount',
+          rate: 'Exchange Rate'
+        },
+        tracking: {
+          title: 'Transfer Tracking',
+          status: {
+            pending: 'Processing',
+            completed: 'Completed',
+            failed: 'Failed'
+          },
+          details: {
+            recipient: 'Recipient',
+            amount: 'Amount',
+            date: 'Date',
+            status: 'Status'
+          }
+        },
+        success: {
+          title: 'Transfer Successful!',
+          message: 'Your money has been sent successfully',
+          recipient_notified: 'Recipient has been notified'
+        }
       }
     }
   },
@@ -231,7 +263,8 @@ const resources = {
         nft_avatar: 'Avatar NFT',
         ebl: 'EBL',
         education: 'Educación',
-        buy_crypto: 'Comprar Cripto'
+        buy_crypto: 'Comprar Cripto',
+        remittance: 'Enviar Dinero'
       },
       education: {
         welcome: {
@@ -354,7 +387,8 @@ const resources = {
         nft_avatar: 'NFT 头像',
         ebl: 'EBL',
         education: '教育',
-        buy_crypto: '购买加密货币'
+        buy_crypto: '购买加密货币',
+        remittance: '汇款'
       }
     }
   },
@@ -389,7 +423,8 @@ const resources = {
         nft_avatar: 'NFT 아바타',
         ebl: 'EBL',
         education: '교육',
-        buy_crypto: '암호화폐 구매'
+        buy_crypto: '암호화폐 구매',
+        remittance: '송금'
       }
     }
   },
@@ -424,7 +459,8 @@ const resources = {
         nft_avatar: 'Avatar NFT',
         ebl: 'EBL',
         education: 'Giáo dục',
-        buy_crypto: 'Mua tiền điện tử'
+        buy_crypto: 'Mua tiền điện tử',
+        remittance: 'Chuyển tiền'
       }
     }
   },
@@ -438,7 +474,8 @@ const resources = {
         analytics: 'Analytique',
         education: 'Éducation',
         buy_crypto: 'Acheter Crypto',
-        reign: 'Reign'
+        reign: 'Reign',
+        remittance: 'Envoyer de l\'argent'
       }
     }
   },
@@ -452,7 +489,8 @@ const resources = {
         analytics: 'Analitik',
         education: 'Edikasyon',
         buy_crypto: 'Achte Kriptomone',
-        reign: 'Reign'
+        reign: 'Reign',
+        remittance: 'Voye lajan'
       }
     }
   }
