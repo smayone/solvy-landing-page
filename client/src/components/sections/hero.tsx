@@ -30,6 +30,7 @@ const storyboardItems = [
 
 export function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const educationDomain = solvyDomains.find(d => d.name === "Education")?.domain;
 
   useEffect(() => {
@@ -53,6 +54,7 @@ export function Hero() {
               src="/fulllogo.png"
               alt="SOLVY - Full Logo"
               className="w-full max-w-[400px] h-auto object-contain my-8"
+              loading="lazy"
             />
 
             <div className="space-y-6 text-lg text-muted-foreground">
@@ -102,18 +104,26 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Enhanced Image Section with cartoon effect */}
+          {/* Enhanced Image Section with cartoon effect and lazy loading */}
           <div className="relative flex items-center justify-center lg:h-full lg:min-h-[600px]">
             <div className="w-full max-w-[400px] aspect-square relative overflow-hidden rounded-2xl shadow-2xl">
+              {!imageLoaded && (
+                <div className="absolute inset-0 bg-muted/10 animate-pulse" />
+              )}
               <img
                 src="/attached_assets/Eva&Sean-2012.JPG"
                 alt="Eva & Sean"
-                className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500 ease-out"
+                className={`w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500 ease-out ${
+                  !imageLoaded ? 'opacity-0' : 'opacity-100'
+                }`}
                 style={{
                   mixBlendMode: 'color-burn',
                   WebkitFilter: 'url(#cartoonFilter)',
                   filter: 'url(#cartoonFilter)'
                 }}
+                loading="lazy"
+                decoding="async"
+                onLoad={() => setImageLoaded(true)}
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
                   img.style.display = 'none';
