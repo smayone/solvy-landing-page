@@ -59,7 +59,7 @@ export function Services() {
                     <img 
                       src={service.logo} 
                       alt={service.title}
-                      className="h-12 w-12"
+                      className="h-12 w-12 object-contain"
                     />
                     <CardTitle>{service.title}</CardTitle>
                   </div>
@@ -73,7 +73,7 @@ export function Services() {
                         <img 
                           src={service.logo}
                           alt="Feature Icon" 
-                          className="h-4 w-4"
+                          className="h-4 w-4 object-contain"
                         />
                         <span className="text-sm">{feature}</span>
                       </li>
