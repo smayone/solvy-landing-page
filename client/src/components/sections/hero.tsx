@@ -109,7 +109,7 @@ export function Hero() {
                 <div className="absolute inset-0 bg-muted/10 animate-pulse" />
               )}
               <img
-                src="/attached_assets/Eva&Sean-2012.JPG"
+                src="Eva&Sean-2012.JPG"
                 alt="Eva & Sean"
                 className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
                   !imageLoaded ? 'opacity-0' : 'opacity-100'
@@ -126,20 +126,6 @@ export function Hero() {
                   img.style.display = 'none';
                 }}
               />
-              {imageLoaded && (
-                <svg width="0" height="0">
-                  <defs>
-                    <filter id="cartoonFilter">
-                      <feGaussianBlur stdDeviation="0.5" />
-                      <feColorMatrix type="matrix" values="
-                        1 0 0 0 0
-                        0 1 0 0 0
-                        0 0 1 0 0
-                        0 0 0 20 -10" />
-                    </filter>
-                  </defs>
-                </svg>
-              )}
             </div>
           </div>
         </div>
