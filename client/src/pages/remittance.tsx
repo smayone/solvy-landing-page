@@ -85,10 +85,10 @@ export default function RemittancePage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="h-5 w-5" />
-                  <span>Global Sovereignititee-to-Sovereignititee Transfer</span>
+                  <span>Borderless Sovereignititee-to-Sovereignititee Transfer</span>
                 </CardTitle>
                 <CardDescription>
-                  Send money securely between verified Sovereignititees anywhere in the world through the SOLVY ecosystem
+                  Send money securely between verified Sovereignititees anywhere in the world. Our global network supports transfers across all countries and territories through the SOLVY ecosystem.
                 </CardDescription>
               </CardHeader>
               <CardContent>
