@@ -13,6 +13,7 @@ interface Currency {
   symbol: string;
   flag: string;
   group?: string;
+  gdpRatio?: number; // Added to show remittance as % of GDP
 }
 
 const SUPPORTED_CURRENCIES: Currency[] = [
@@ -41,31 +42,37 @@ const SUPPORTED_CURRENCIES: Currency[] = [
   { code: "VND", name: "Vietnamese Dong", symbol: "₫", flag: "🇻🇳", group: "BRICS+" },
   { code: "THB", name: "Thai Baht", symbol: "฿", flag: "🇹🇭", group: "BRICS+" },
 
-  // Target Markets
-  { code: "EUR", name: "Euro", symbol: "€", flag: "🇪🇺", group: "Target" },
-  { code: "KRW", name: "Korean Won", symbol: "₩", flag: "🇰🇷", group: "Target" },
-  { code: "MXN", name: "Mexican Peso", symbol: "$", flag: "🇲🇽", group: "Target" },
-  { code: "COP", name: "Colombian Peso", symbol: "$", flag: "🇨🇴", group: "Target" },
+  // Top Remittance Markets (by % of GDP)
+  { code: "TOP", name: "Tongan Pa'anga", symbol: "T$", flag: "🇹🇴", group: "Markets", gdpRatio: 37.7 },
+  { code: "LBP", name: "Lebanese Pound", symbol: "£", flag: "🇱🇧", group: "Markets", gdpRatio: 34.0 },
+  { code: "WST", name: "Samoan Tala", symbol: "T", flag: "🇼🇸", group: "Markets", gdpRatio: 32.2 },
+  { code: "TJS", name: "Tajikistani Somoni", symbol: "ЅM", flag: "🇹🇯", group: "Markets", gdpRatio: 31.0 },
+  { code: "KGS", name: "Kyrgystani Som", symbol: "с", flag: "🇰🇬", group: "Markets", gdpRatio: 31.0 },
+  { code: "PHP", name: "Philippine Peso", symbol: "₱", flag: "🇵🇭", group: "Markets", gdpRatio: 9.3 },
+  { code: "NPR", name: "Nepalese Rupee", symbol: "₨", flag: "🇳🇵", group: "Markets", gdpRatio: 24.0 },
+  { code: "HNL", name: "Honduran Lempira", symbol: "L", flag: "🇭🇳", group: "Markets", gdpRatio: 26.6 },
+  { code: "SVC", name: "Salvadoran Colón", symbol: "₡", flag: "🇸🇻", group: "Markets", gdpRatio: 26.2 },
+  { code: "JMD", name: "Jamaican Dollar", symbol: "J$", flag: "🇯🇲", group: "Markets", gdpRatio: 23.2 },
 ];
 
 export function CurrencyConverter() {
   const { t, i18n } = useTranslation();
   const [amount, setAmount] = useState<string>("100");
   const [fromCurrency, setFromCurrency] = useState<string>("USD");
-  const [toCurrency, setToCurrency] = useState<string>("");
+  const [toCurrency, setToCurrency] = useState<string>("PHP"); // Default to PHP
   const [rate, setRate] = useState<number>(1);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  // Set default 'to' currency based on user's language
+  // Set default 'to' currency based on user's language, with PHP as default
   useEffect(() => {
     const langToCurrency: { [key: string]: string } = {
-      es: "MXN",
-      zh: "CNY",
-      ko: "KRW",
+      es: "SVC",
+      tl: "PHP", // Tagalog -> PHP
       vi: "VND",
-      fr: "EUR"
+      th: "THB",
+      default: "PHP" // Default to PHP
     };
-    setToCurrency(langToCurrency[i18n.language] || "EUR");
+    setToCurrency(langToCurrency[i18n.language] || langToCurrency.default);
   }, [i18n.language]);
 
   const updateRate = () => {
@@ -93,11 +100,17 @@ export function CurrencyConverter() {
       "USD-VND": 24485,
       "USD-THB": 35.25,
 
-      // Target Markets
-      "USD-EUR": 0.92,
-      "USD-KRW": 1330.45,
-      "USD-MXN": 17.15,
-      "USD-COP": 3950.25
+      // Top Remittance Markets
+      "USD-TOP": 2.38,
+      "USD-LBP": 15000,
+      "USD-WST": 2.71,
+      "USD-TJS": 10.98,
+      "USD-KGS": 89.25,
+      "USD-PHP": 56.43,
+      "USD-NPR": 132.50,
+      "USD-HNL": 24.68,
+      "USD-SVC": 8.75,
+      "USD-JMD": 156.85
     };
 
     const key = `${fromCurrency}-${toCurrency}`;
@@ -189,7 +202,10 @@ export function CurrencyConverter() {
                       <span className="flex items-center gap-2">
                         <span>{currency.flag}</span>
                         <span>{currency.code}</span>
-                        <span className="text-muted-foreground">({currency.name})</span>
+                        <span className="text-muted-foreground">
+                          ({currency.name})
+                          {currency.gdpRatio && ` - ${currency.gdpRatio}% GDP`}
+                        </span>
                       </span>
                     </SelectItem>
                   ))}
@@ -262,17 +278,20 @@ export function CurrencyConverter() {
             </div>
           </div>
 
-          {/* Target Markets Column */}
+          {/* Top Remittance Markets Column */}
           <div>
-            <h3 className="font-semibold mb-4">Target Markets</h3>
+            <h3 className="font-semibold mb-4">Top Remittance Markets</h3>
+            <div className="text-xs text-muted-foreground mb-2">By % of GDP</div>
             <div className="space-y-2">
               {SUPPORTED_CURRENCIES
-                .filter(c => c.group === "Target")
+                .filter(c => c.group === "Markets")
+                .sort((a, b) => (b.gdpRatio || 0) - (a.gdpRatio || 0))
                 .map((currency) => (
                   <div key={currency.code} className="flex justify-between items-center p-2 bg-muted/50 rounded-lg">
                     <span className="flex items-center gap-2">
                       <span>{currency.flag}</span>
                       <span>{currency.code}</span>
+                      <span className="text-xs text-muted-foreground">({currency.gdpRatio}%)</span>
                     </span>
                     <span className="font-mono">{formatAmount(rate * (currency.code === toCurrency ? 1 : 0.5), currency.code)}</span>
                   </div>
