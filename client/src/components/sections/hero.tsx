@@ -102,14 +102,16 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Image Grid */}
-          <div className="relative mt-8 lg:mt-0"> {/* Added margin top for better alignment */}
-            <div className="aspect-[2/3] relative overflow-hidden rounded-2xl shadow-2xl mx-auto"> {/* Adjusted aspect ratio and added mx-auto for centering */}
-              <img
-                src="/nathan-pic.jpg"
-                alt="SA Nathan"
-                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-out"
-              />
+          {/* Image Section with improved sizing and positioning */}
+          <div className="relative flex items-center justify-center h-full min-h-[600px] lg:min-h-[800px]">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-full max-w-[500px] aspect-[3/4] relative overflow-hidden rounded-2xl shadow-2xl">
+                <img
+                  src="/nathan-pic.jpg"
+                  alt="SA Nathan"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 ease-out"
+                />
+              </div>
             </div>
           </div>
         </div>
