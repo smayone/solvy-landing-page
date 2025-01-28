@@ -171,12 +171,6 @@ export function Navbar({ userRole }: NavbarProps) {
             </Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/payments" className="flex items-center gap-2">
-              <Wallet className="h-4 w-4" />
-              {t('nav.payments')}
-            </Link>
-          </Button>
-          <Button variant="ghost" asChild>
             <Link href="/man" className="flex items-center gap-2">
               <ChartBar className="h-4 w-4" />
               MAN
