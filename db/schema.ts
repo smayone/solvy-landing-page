@@ -7,9 +7,9 @@ import {
   integer,
   jsonb,
   decimal,
-  date,
-  foreignKey
+  date
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const users = pgTable("users", {
@@ -242,11 +242,22 @@ export const chartOfAccounts = pgTable("chart_of_accounts", {
   description: text("description"),
   accountTypeId: integer("account_type_id").references(() => accountTypes.id),
   isActive: boolean("is_active").default(true),
-  parentAccountId: integer("parent_account_id").references(() => chartOfAccounts.id),
+  parentAccountId: integer("parent_account_id"),
   metadata: jsonb("metadata"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const chartOfAccountsRelations = relations(chartOfAccounts, ({ one }) => ({
+  parentAccount: one(chartOfAccounts, {
+    fields: [chartOfAccounts.parentAccountId],
+    references: [chartOfAccounts.id],
+  }),
+  accountType: one(accountTypes, {
+    fields: [chartOfAccounts.accountTypeId],
+    references: [accountTypes.id],
+  }),
+}));
 
 export const businessUnits = pgTable("business_units", {
   id: serial("id").primaryKey(),
