@@ -44,6 +44,17 @@ export const solvyDomains: Domain[] = [
     registrationDate: "2025-01-06"
   },
   {
+    name: "Remittance",
+    domain: "remit.solvy.chain",
+    description: "International money transfer and remittance services",
+    registrationDate: "2025-01-28",
+    chainConfig: {
+      rpcUrl: "https://polygon-rpc.com",
+      chainId: 137,
+      explorerUrl: "https://polygonscan.com"
+    }
+  },
+  {
     name: "EBL Reign",
     domain: "reign.solvy.chain",
     description: "Sustainable well-being products and services focused on women's health",
