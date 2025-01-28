@@ -341,70 +341,78 @@ export function registerRoutes(app: Express): Server {
     try {
       const { platform = 'web', firstName, lastName, email } = req.body;
 
-      // Create a payment intent instead of onramp session since it's not available
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1000, // Amount in cents
-        currency: 'usd',
-        payment_method_types: ['card'],
-        metadata: {
-          platform,
-          type: 'crypto_purchase'
-        }
+      // Create a Crypto Onramp Session
+      const session = await stripe.crypto.onrampSessions.create({
+        wallet_addresses: {
+          polygon: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e" // Example address, should be configurable
+        },
+        transaction_details: {
+          supported_destination_networks: ['polygon'],
+          supported_destination_currencies: ['usdc']
+        },
+        customer_information: {
+          first_name: firstName,
+          last_name: lastName,
+          email: email
+        },
       });
 
       // Store initial transaction record
-      const [transaction] = await db
+      await db
         .insert(businessUnits)
         .values({
-          sessionId: paymentIntent.id,
-          status: "pending",
-          customerEmail: email,
-          customerName: firstName && lastName ? `${firstName} ${lastName}` : undefined,
-          network: "polygon",
-          destinationCurrency: "usdc",
-          metadata: { platform }
-        })
-        .returning();
+          code: session.id,
+          type: "crypto_onramp",
+          name: `${firstName} ${lastName}`,
+          registrationNumber: email,
+          metadata: { 
+            platform,
+            session_id: session.id,
+            customer_email: email,
+            network: "polygon",
+            currency: "usdc"
+          }
+        });
 
       // Return appropriate response based on platform
       if (platform === 'ios' || platform === 'android') {
         res.json({
-          clientSecret: paymentIntent.client_secret,
+          clientSecret: session.client_secret,
           publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
           merchantIdentifier: "merchant.com.solvy.app", // For Apple Pay
           stripeAccountId: process.env.STRIPE_ACCOUNT_ID
         });
       } else {
-        res.json({ clientSecret: paymentIntent.client_secret });
+        res.json({ clientSecret: session.client_secret });
       }
     } catch (error: any) {
-      console.error('Payment intent creation failed:', error);
+      console.error('Session creation error:', error);
       res.status(500).json({
-        error: "Failed to create payment intent",
+        error: "Failed to create onramp session",
         details: error?.message || "Unknown error occurred"
       });
     }
   });
 
-  // Update transaction status (webhook endpoint)
+  // Update the webhook handler
   app.post("/api/crypto/webhook", async (req: Request, res) => {
     try {
       const event = req.body;
 
-      if (event.type === 'onramp.session.completed') {
+      if (event.type === 'crypto.onramp.session.completed') {
         const session = event.data.object;
 
         await db
           .update(businessUnits)
           .set({
-            status: "completed",
-            sourceAmount: session.source_amount,
-            sourceCurrency: session.source_currency,
-            destinationAmount: session.destination_amount,
-            walletAddress: session.wallet_address,
-            createdAt: new Date()
+            code: session.id,
+            type: "crypto_onramp_completed",
+            metadata: {
+              ...session,
+              completed_at: new Date().toISOString()
+            }
           })
-          .where(eq(businessUnits.sessionId, session.id));
+          .where(eq(businessUnits.code, session.id));
       }
 
       res.json({ received: true });

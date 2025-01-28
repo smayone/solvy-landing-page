@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MobilePayment } from "@/components/payments/mobile-payment";
+import { CryptoOnramp } from "@/components/payments/crypto-onramp";
 import { Wallet, CreditCard, QrCode, Shield } from "lucide-react";
 
 export default function Payments() {
   const [showMobilePayment, setShowMobilePayment] = useState(false);
+  const [showCryptoOnramp, setShowCryptoOnramp] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState<{
     amount?: number;
     recipient?: string;
@@ -34,18 +36,18 @@ export default function Payments() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Wallet className="h-5 w-5 text-primary" />
-                <CardTitle>Crypto Payment</CardTitle>
+                <CardTitle>Buy Crypto</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                Pay with your crypto wallet on Polygon network
+                Purchase cryptocurrency directly with your preferred payment method
               </p>
               <Button 
                 className="w-full"
-                onClick={() => demoPayment(0.1)}
+                onClick={() => setShowCryptoOnramp(true)}
               >
-                Pay 0.1 MATIC
+                Buy Crypto Now
               </Button>
             </CardContent>
           </Card>
@@ -103,6 +105,11 @@ export default function Payments() {
         onOpenChange={setShowMobilePayment}
         amount={paymentDetails.amount}
         recipient={paymentDetails.recipient}
+      />
+
+      <CryptoOnramp 
+        open={showCryptoOnramp}
+        onOpenChange={setShowCryptoOnramp}
       />
     </div>
   );

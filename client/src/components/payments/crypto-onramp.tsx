@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +39,11 @@ interface OnrampSessionRequest {
   email: string;
 }
 
+interface CryptoOnrampProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
 async function createOnrampSession(data: OnrampSessionRequest) {
   const response = await fetch("/api/crypto/create-onramp-session", {
     method: "POST",
@@ -49,7 +61,7 @@ async function createOnrampSession(data: OnrampSessionRequest) {
   return response.json();
 }
 
-export function CryptoOnramp() {
+export function CryptoOnramp({ open, onOpenChange }: CryptoOnrampProps) {
   const { toast } = useToast();
   const [isStripeLoaded, setIsStripeLoaded] = useState(false);
   const [loadingError, setLoadingError] = useState<string | null>(null);
@@ -142,8 +154,10 @@ export function CryptoOnramp() {
       }
     };
 
-    loadStripe();
-  }, []);
+    if (open) {
+      loadStripe();
+    }
+  }, [open]);
 
   const onSubmit = (data: FormData) => {
     createSession({
@@ -153,14 +167,15 @@ export function CryptoOnramp() {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>Buy Crypto</CardTitle>
-        <CardDescription>
-          Purchase cryptocurrency using your preferred payment method
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Buy Crypto</DialogTitle>
+          <DialogDescription>
+            Purchase cryptocurrency using your preferred payment method
+          </DialogDescription>
+        </DialogHeader>
+
         {loadingError && (
           <div className="mb-4 p-4 border border-destructive/50 rounded-lg bg-destructive/10 text-destructive flex items-center gap-2">
             <AlertCircle className="h-4 w-4" />
@@ -241,7 +256,7 @@ export function CryptoOnramp() {
 
           <div id="crypto-onramp-root" className="min-h-[600px] mt-4 bg-card rounded-lg"></div>
         </form>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 }
