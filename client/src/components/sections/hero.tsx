@@ -45,14 +45,15 @@ export function Hero() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
           <div>
+            <div>
+              <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
+            </div>
+
             <img
               src="/attached_assets/fulllogo.png"
               alt="SOLVY - Full Logo"
               className="w-full max-w-[400px] h-auto object-contain my-8"
             />
-            <div>
-              <span className="text-sm font-semibold text-primary">Created by SA Nathan LLC</span>
-            </div>
 
             <div className="space-y-6 text-lg text-muted-foreground">
               <p className="leading-relaxed">
