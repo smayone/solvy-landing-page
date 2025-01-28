@@ -13,7 +13,7 @@ interface Currency {
   symbol: string;
   flag: string;
   group?: string;
-  gdpRatio?: number; // Added to show remittance as % of GDP
+  gdpRatio?: number;
 }
 
 const SUPPORTED_CURRENCIES: Currency[] = [
@@ -21,62 +21,58 @@ const SUPPORTED_CURRENCIES: Currency[] = [
   { code: "USD", name: "US Dollar", symbol: "$", flag: "🇺🇸" },
 
   // Original BRICS
-  { code: "BRL", name: "Brazilian Real", symbol: "R$", flag: "🇧🇷", group: "BRICS" },
-  { code: "RUB", name: "Russian Ruble", symbol: "₽", flag: "🇷🇺", group: "BRICS" },
-  { code: "INR", name: "Indian Rupee", symbol: "₹", flag: "🇮🇳", group: "BRICS" },
-  { code: "CNY", name: "Chinese Yuan", symbol: "¥", flag: "🇨🇳", group: "BRICS" },
-  { code: "ZAR", name: "South African Rand", symbol: "R", flag: "🇿🇦", group: "BRICS" },
+  { code: "BRL", name: "Brazilian Real (Brazil)", symbol: "R$", flag: "🇧🇷", group: "BRICS" },
+  { code: "RUB", name: "Russian Ruble (Russia)", symbol: "₽", flag: "🇷🇺", group: "BRICS" },
+  { code: "INR", name: "Indian Rupee (India)", symbol: "₹", flag: "🇮🇳", group: "BRICS" },
+  { code: "CNY", name: "Chinese Yuan (China)", symbol: "¥", flag: "🇨🇳", group: "BRICS" },
+  { code: "ZAR", name: "South African Rand (South Africa)", symbol: "R", flag: "🇿🇦", group: "BRICS" },
 
   // BRICS+ Current Members
-  { code: "EGP", name: "Egyptian Pound", symbol: "£", flag: "🇪🇬", group: "BRICS+" },
-  { code: "ETB", name: "Ethiopian Birr", symbol: "Br", flag: "🇪🇹", group: "BRICS+" },
-  { code: "SAR", name: "Saudi Riyal", symbol: "﷼", flag: "🇸🇦", group: "BRICS+" },
-  { code: "AED", name: "UAE Dirham", symbol: "د.إ", flag: "🇦🇪", group: "BRICS+" },
-  { code: "ARS", name: "Argentine Peso", symbol: "$", flag: "🇦🇷", group: "BRICS+" },
+  { code: "EGP", name: "Egyptian Pound (Egypt)", symbol: "£", flag: "🇪🇬", group: "BRICS+" },
+  { code: "ETB", name: "Ethiopian Birr (Ethiopia)", symbol: "Br", flag: "🇪🇹", group: "BRICS+" },
+  { code: "AED", name: "UAE Dirham (United Arab Emirates)", symbol: "د.إ", flag: "🇦🇪", group: "BRICS+" },
 
   // BRICS+ Future Expansion
-  { code: "IDR", name: "Indonesian Rupiah", symbol: "Rp", flag: "🇮🇩", group: "BRICS+" },
-  { code: "KZT", name: "Kazakhstani Tenge", symbol: "₸", flag: "🇰🇿", group: "BRICS+" },
-  { code: "NGN", name: "Nigerian Naira", symbol: "₦", flag: "🇳🇬", group: "BRICS+" },
-  { code: "TRY", name: "Turkish Lira", symbol: "₺", flag: "🇹🇷", group: "BRICS+" },
-  { code: "VND", name: "Vietnamese Dong", symbol: "₫", flag: "🇻🇳", group: "BRICS+" },
-  { code: "THB", name: "Thai Baht", symbol: "฿", flag: "🇹🇭", group: "BRICS+" },
+  { code: "IDR", name: "Indonesian Rupiah (Indonesia)", symbol: "Rp", flag: "🇮🇩", group: "BRICS+" },
+  { code: "KZT", name: "Kazakhstani Tenge (Kazakhstan)", symbol: "₸", flag: "🇰🇿", group: "BRICS+" },
+  { code: "NGN", name: "Nigerian Naira (Nigeria)", symbol: "₦", flag: "🇳🇬", group: "BRICS+" },
+  { code: "TRY", name: "Turkish Lira (Turkey)", symbol: "₺", flag: "🇹🇷", group: "BRICS+" },
+  { code: "VND", name: "Vietnamese Dong (Vietnam)", symbol: "₫", flag: "🇻🇳", group: "BRICS+" },
+  { code: "THB", name: "Thai Baht (Thailand)", symbol: "฿", flag: "🇹🇭", group: "BRICS+" },
 
   // Top Remittance Markets (by % of GDP)
-  { code: "TOP", name: "Tongan Pa'anga", symbol: "T$", flag: "🇹🇴", group: "Markets", gdpRatio: 37.7 },
-  { code: "LBP", name: "Lebanese Pound", symbol: "£", flag: "🇱🇧", group: "Markets", gdpRatio: 34.0 },
-  { code: "WST", name: "Samoan Tala", symbol: "T", flag: "🇼🇸", group: "Markets", gdpRatio: 32.2 },
-  { code: "TJS", name: "Tajikistani Somoni", symbol: "ЅM", flag: "🇹🇯", group: "Markets", gdpRatio: 31.0 },
-  { code: "KGS", name: "Kyrgystani Som", symbol: "с", flag: "🇰🇬", group: "Markets", gdpRatio: 31.0 },
-  { code: "PHP", name: "Philippine Peso", symbol: "₱", flag: "🇵🇭", group: "Markets", gdpRatio: 9.3 },
-  { code: "NPR", name: "Nepalese Rupee", symbol: "₨", flag: "🇳🇵", group: "Markets", gdpRatio: 24.0 },
-  { code: "HNL", name: "Honduran Lempira", symbol: "L", flag: "🇭🇳", group: "Markets", gdpRatio: 26.6 },
-  { code: "SVC", name: "Salvadoran Colón", symbol: "₡", flag: "🇸🇻", group: "Markets", gdpRatio: 26.2 },
-  { code: "JMD", name: "Jamaican Dollar", symbol: "J$", flag: "🇯🇲", group: "Markets", gdpRatio: 23.2 },
+  { code: "TOP", name: "Tongan Pa'anga (Tonga)", symbol: "T$", flag: "🇹🇴", group: "Markets", gdpRatio: 37.7 },
+  { code: "LBP", name: "Lebanese Pound (Lebanon)", symbol: "£", flag: "🇱🇧", group: "Markets", gdpRatio: 34.0 },
+  { code: "WST", name: "Samoan Tala (Samoa)", symbol: "T", flag: "🇼🇸", group: "Markets", gdpRatio: 32.2 },
+  { code: "TJS", name: "Tajikistani Somoni (Tajikistan)", symbol: "ЅM", flag: "🇹🇯", group: "Markets", gdpRatio: 31.0 },
+  { code: "KGS", name: "Kyrgystani Som (Kyrgyzstan)", symbol: "с", flag: "🇰🇬", group: "Markets", gdpRatio: 31.0 },
+  { code: "PHP", name: "Philippine Peso (Philippines)", symbol: "₱", flag: "🇵🇭", group: "Markets", gdpRatio: 9.3 },
+  { code: "NPR", name: "Nepalese Rupee (Nepal)", symbol: "₨", flag: "🇳🇵", group: "Markets", gdpRatio: 24.0 },
+  { code: "HNL", name: "Honduran Lempira (Honduras)", symbol: "L", flag: "🇭🇳", group: "Markets", gdpRatio: 26.6 },
+  { code: "SVC", name: "Salvadoran Colón (El Salvador)", symbol: "₡", flag: "🇸🇻", group: "Markets", gdpRatio: 26.2 },
+  { code: "JMD", name: "Jamaican Dollar (Jamaica)", symbol: "J$", flag: "🇯🇲", group: "Markets", gdpRatio: 23.2 },
 ];
 
 export function CurrencyConverter() {
   const { t, i18n } = useTranslation();
   const [amount, setAmount] = useState<string>("100");
   const [fromCurrency, setFromCurrency] = useState<string>("USD");
-  const [toCurrency, setToCurrency] = useState<string>("PHP"); // Default to PHP
+  const [toCurrency, setToCurrency] = useState<string>("PHP");
   const [rate, setRate] = useState<number>(1);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  // Set default 'to' currency based on user's language, with PHP as default
   useEffect(() => {
     const langToCurrency: { [key: string]: string } = {
       es: "SVC",
-      tl: "PHP", // Tagalog -> PHP
+      tl: "PHP",
       vi: "VND",
       th: "THB",
-      default: "PHP" // Default to PHP
+      default: "PHP"
     };
     setToCurrency(langToCurrency[i18n.language] || langToCurrency.default);
   }, [i18n.language]);
 
   const updateRate = () => {
-    // Simulated rates - would be replaced with actual API call
     const mockRates: { [key: string]: number } = {
       // BRICS
       "USD-BRL": 4.95,
@@ -88,9 +84,7 @@ export function CurrencyConverter() {
       // BRICS+ Current
       "USD-EGP": 30.90,
       "USD-ETB": 56.50,
-      "USD-SAR": 3.75,
       "USD-AED": 3.67,
-      "USD-ARS": 823.45,
 
       // BRICS+ Future
       "USD-IDR": 15750,
@@ -159,7 +153,6 @@ export function CurrencyConverter() {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid md:grid-cols-3 gap-6">
-          {/* Currency Selection */}
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>{t('remittance.conversion_widget.from')}</Label>
@@ -171,16 +164,14 @@ export function CurrencyConverter() {
                   <SelectItem value="USD">
                     <span className="flex items-center gap-2">
                       <span>🇺🇸</span>
-                      <span>USD</span>
-                      <span className="text-muted-foreground">(US Dollar)</span>
+                      <span>USD - United States Dollar</span>
                     </span>
                   </SelectItem>
                   {SUPPORTED_CURRENCIES.filter(c => c.code !== "USD").map((currency) => (
                     <SelectItem key={currency.code} value={currency.code}>
                       <span className="flex items-center gap-2">
                         <span>{currency.flag}</span>
-                        <span>{currency.code}</span>
-                        <span className="text-muted-foreground">({currency.name})</span>
+                        <span>{currency.code} - {currency.name}</span>
                       </span>
                     </SelectItem>
                   ))}
@@ -240,11 +231,9 @@ export function CurrencyConverter() {
           </div>
         </div>
 
-        {/* Exchange Rates Display */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* BRICS Column */}
           <div>
-            <h3 className="font-semibold mb-4">BRICS</h3>
+            <h3 className="font-semibold mb-4">BRICS (Original Members)</h3>
             <div className="space-y-2">
               {SUPPORTED_CURRENCIES
                 .filter(c => c.group === "BRICS")
@@ -253,6 +242,7 @@ export function CurrencyConverter() {
                     <span className="flex items-center gap-2">
                       <span>{currency.flag}</span>
                       <span>{currency.code}</span>
+                      <span className="text-xs text-muted-foreground">({currency.name})</span>
                     </span>
                     <span className="font-mono">{formatAmount(rate * (currency.code === toCurrency ? 1 : 0.5), currency.code)}</span>
                   </div>
@@ -260,9 +250,8 @@ export function CurrencyConverter() {
             </div>
           </div>
 
-          {/* BRICS+ Column */}
           <div>
-            <h3 className="font-semibold mb-4">BRICS+ Expansion</h3>
+            <h3 className="font-semibold mb-4">BRICS+ (Expansion)</h3>
             <div className="space-y-2">
               {SUPPORTED_CURRENCIES
                 .filter(c => c.group === "BRICS+")
@@ -271,6 +260,7 @@ export function CurrencyConverter() {
                     <span className="flex items-center gap-2">
                       <span>{currency.flag}</span>
                       <span>{currency.code}</span>
+                      <span className="text-xs text-muted-foreground">({currency.name})</span>
                     </span>
                     <span className="font-mono">{formatAmount(rate * (currency.code === toCurrency ? 1 : 0.5), currency.code)}</span>
                   </div>
@@ -278,7 +268,6 @@ export function CurrencyConverter() {
             </div>
           </div>
 
-          {/* Top Remittance Markets Column */}
           <div>
             <h3 className="font-semibold mb-4">Top Remittance Markets</h3>
             <div className="text-xs text-muted-foreground mb-2">By % of GDP</div>
@@ -291,7 +280,9 @@ export function CurrencyConverter() {
                     <span className="flex items-center gap-2">
                       <span>{currency.flag}</span>
                       <span>{currency.code}</span>
-                      <span className="text-xs text-muted-foreground">({currency.gdpRatio}%)</span>
+                      <span className="text-xs text-muted-foreground">
+                        ({currency.name}) - {currency.gdpRatio}% GDP
+                      </span>
                     </span>
                     <span className="font-mono">{formatAmount(rate * (currency.code === toCurrency ? 1 : 0.5), currency.code)}</span>
                   </div>
