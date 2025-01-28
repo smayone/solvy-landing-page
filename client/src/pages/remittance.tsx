@@ -2,6 +2,7 @@ import { CurrencyConverter } from "@/components/remittance/currency-converter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SovereignitityCTA } from "@/components/ui/sovereignitity-cta";
 import {
   Form,
   FormControl,
@@ -71,16 +72,7 @@ export default function RemittancePage() {
     <div className="min-h-screen bg-background pt-16">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto space-y-8">
-          <div className="text-center space-y-4">
-            <h1 className="text-3xl font-bold">Sovereignititee Money Transfer</h1>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              We believe in a future where everyone is a Sovereignititee, free to control their own data and identity. 
-              We are building a community of Sovereignititees who are leading the way in the data ownership revolution. 
-              Our goal is to help more people become Sovereignititees through education and access to the SOLVY platform. 
-              The SOLVY platform empowers individuals to become Sovereignititees, taking control of their digital lives. 
-              Join our community of Sovereignititees who have achieved Sovereignitity and are shaping the future of digital identity.
-            </p>
-          </div>
+          <SovereignitityCTA />
 
           {/* Currency Converter - Top */}
           <div className="w-full">
