@@ -104,7 +104,7 @@ export function Hero() {
 
           {/* Image Grid */}
           <div className="relative mt-8 lg:mt-0"> {/* Added margin top for better alignment */}
-            <div className="aspect-[2/3] relative overflow-hidden rounded-2xl shadow-2xl  mx-auto"> {/* Adjusted aspect ratio and added mx-auto for centering */}
+            <div className="aspect-[2/3] relative overflow-hidden rounded-2xl shadow-2xl mx-auto"> {/* Adjusted aspect ratio and added mx-auto for centering */}
               <img
                 src="/nathan-pic.jpg"
                 alt="SA Nathan"
