@@ -21,23 +21,28 @@ const SUPPORTED_CURRENCIES: Currency[] = [
   // Base Currency
   { code: "USD", name: "United States Dollar (United States of America)", symbol: "$", flag: "🇺🇸" },
 
-  // BRICS Original/Full Members
+  // BRICS Full Members
   { code: "BRL", name: "Brazilian Real (Federative Republic of Brazil)", symbol: "R$", flag: "🇧🇷", group: "BRICS-Full" },
   { code: "RUB", name: "Russian Ruble (Russian Federation)", symbol: "₽", flag: "🇷🇺", group: "BRICS-Full" },
   { code: "INR", name: "Indian Rupee (Republic of India)", symbol: "₹", flag: "🇮🇳", group: "BRICS-Full", gdpRatio: 3.3, volume: 129 },
   { code: "CNY", name: "Chinese Yuan (People's Republic of China)", symbol: "¥", flag: "🇨🇳", group: "BRICS-Full", gdpRatio: 0.1, volume: 51 },
   { code: "ZAR", name: "South African Rand (Republic of South Africa)", symbol: "R", flag: "🇿🇦", group: "BRICS-Full" },
+  { code: "EGP", name: "Egyptian Pound (Arab Republic of Egypt)", symbol: "£", flag: "🇪🇬", group: "BRICS-Full", gdpRatio: 5.9, volume: 32 },
+  { code: "ETB", name: "Ethiopian Birr (Federal Democratic Republic of Ethiopia)", symbol: "Br", flag: "🇪🇹", group: "BRICS-Full" },
+  { code: "IDR", name: "Indonesian Rupiah (Republic of Indonesia)", symbol: "Rp", flag: "🇮🇩", group: "BRICS-Full" },
+  { code: "IRR", name: "Iranian Rial (Islamic Republic of Iran)", symbol: "﷼", flag: "🇮🇷", group: "BRICS-Full" },
+  { code: "AED", name: "UAE Dirham (United Arab Emirates)", symbol: "د.إ", flag: "🇦🇪", group: "BRICS-Full" },
 
-  // BRICS Partner Nations
-  { code: "EGP", name: "Egyptian Pound (Arab Republic of Egypt)", symbol: "£", flag: "🇪🇬", group: "BRICS-Partner", gdpRatio: 5.9, volume: 32 },
-  { code: "ETB", name: "Ethiopian Birr (Federal Democratic Republic of Ethiopia)", symbol: "Br", flag: "🇪🇹", group: "BRICS-Partner" },
-  { code: "AED", name: "UAE Dirham (United Arab Emirates)", symbol: "د.إ", flag: "🇦🇪", group: "BRICS-Partner" },
-  { code: "IDR", name: "Indonesian Rupiah (Republic of Indonesia)", symbol: "Rp", flag: "🇮🇩", group: "BRICS-Partner" },
+  // BRICS Partner Countries
+  { code: "BYN", name: "Belarusian Ruble (Republic of Belarus)", symbol: "Br", flag: "🇧🇾", group: "BRICS-Partner" },
+  { code: "BOB", name: "Bolivian Boliviano (Plurinational State of Bolivia)", symbol: "Bs.", flag: "🇧🇴", group: "BRICS-Partner" },
   { code: "KZT", name: "Kazakhstani Tenge (Republic of Kazakhstan)", symbol: "₸", flag: "🇰🇿", group: "BRICS-Partner" },
-  { code: "NGN", name: "Nigerian Naira (Federal Republic of Nigeria)", symbol: "₦", flag: "🇳🇬", group: "BRICS-Partner", gdpRatio: 4.3, volume: 20 },
-  { code: "TRY", name: "Turkish Lira (Republic of Türkiye)", symbol: "₺", flag: "🇹🇷", group: "BRICS-Partner" },
-  { code: "VND", name: "Vietnamese Dong (Socialist Republic of Vietnam)", symbol: "₫", flag: "🇻🇳", group: "BRICS-Partner" },
+  { code: "CUP", name: "Cuban Peso (Republic of Cuba)", symbol: "₱", flag: "🇨🇺", group: "BRICS-Partner" },
+  { code: "MYR", name: "Malaysian Ringgit (Malaysia)", symbol: "RM", flag: "🇲🇾", group: "BRICS-Partner" },
   { code: "THB", name: "Thai Baht (Kingdom of Thailand)", symbol: "฿", flag: "🇹🇭", group: "BRICS-Partner" },
+  { code: "UGX", name: "Ugandan Shilling (Republic of Uganda)", symbol: "USh", flag: "🇺🇬", group: "BRICS-Partner" },
+  { code: "UZS", name: "Uzbekistani Som (Republic of Uzbekistan)", symbol: "soʻm", flag: "🇺🇿", group: "BRICS-Partner" },
+  { code: "NGN", name: "Nigerian Naira (Federal Republic of Nigeria)", symbol: "₦", flag: "🇳🇬", group: "BRICS-Partner", gdpRatio: 4.3, volume: 20 },
 
   // High Volume Remittance Markets
   { code: "MXN", name: "Mexican Peso (United Mexican States)", symbol: "$", flag: "🇲🇽", group: "Markets", gdpRatio: 4.2, volume: 61 },
@@ -242,7 +247,8 @@ export function CurrencyConverter() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <h3 className="font-semibold mb-4">BRICS Original Members</h3>
+            <h3 className="font-semibold mb-4">BRICS Full Members</h3>
+            <div className="text-xs text-muted-foreground mb-2">As of 2025</div>
             <div className="space-y-2">
               {SUPPORTED_CURRENCIES
                 .filter(c => c.group === "BRICS-Full")
@@ -264,7 +270,8 @@ export function CurrencyConverter() {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-4">BRICS Partner Nations</h3>
+            <h3 className="font-semibold mb-4">BRICS Partner Countries</h3>
+            <div className="text-xs text-muted-foreground mb-2">As of 2025</div>
             <div className="space-y-2">
               {SUPPORTED_CURRENCIES
                 .filter(c => c.group === "BRICS-Partner")
