@@ -106,15 +106,34 @@ export function Hero() {
           <div className="relative flex items-center justify-center lg:h-full lg:min-h-[600px]">
             <div className="w-full max-w-[400px] aspect-square relative overflow-hidden rounded-2xl shadow-2xl">
               <img
-                src="/attached_assets/IMG_0615.jpeg"
-                alt="SA Nathan - Founder"
-                className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500 ease-out"
+                src="/attached_assets/Eva&Sean-2012.JPG"
+                alt="Eva & Sean"
+                className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500 ease-out filter contrast-125 saturate-150 brightness-110"
+                style={{
+                  mixBlendMode: 'multiply',
+                  WebkitFilter: 'url(#pictureFilter)',
+                  filter: 'url(#pictureFilter)'
+                }}
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
                   img.style.display = 'none';
                   console.error('Failed to load image:', img.src);
                 }}
               />
+              {/* SVG filter for cartoon effect */}
+              <svg width="0" height="0" className="absolute">
+                <defs>
+                  <filter id="pictureFilter">
+                    <feGaussianBlur stdDeviation="1" />
+                    <feColorMatrix type="matrix"
+                      values="1 0 0 0 0
+                              0 1 0 0 0
+                              0 0 1 0 0
+                              0 0 0 20 -10" />
+                    <feComposite operator="in" in2="SourceGraphic" />
+                  </filter>
+                </defs>
+              </svg>
             </div>
           </div>
         </div>
