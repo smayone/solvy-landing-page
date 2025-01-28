@@ -102,17 +102,17 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Image Section with improved sizing and positioning */}
+          {/* Enhanced Image Section with cartoon effect */}
           <div className="relative flex items-center justify-center lg:h-full lg:min-h-[600px]">
             <div className="w-full max-w-[400px] aspect-square relative overflow-hidden rounded-2xl shadow-2xl">
               <img
                 src="/attached_assets/Eva&Sean-2012.JPG"
                 alt="Eva & Sean"
-                className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500 ease-out filter contrast-125 saturate-150 brightness-110"
+                className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500 ease-out"
                 style={{
-                  mixBlendMode: 'multiply',
-                  WebkitFilter: 'url(#pictureFilter)',
-                  filter: 'url(#pictureFilter)'
+                  mixBlendMode: 'color-burn',
+                  WebkitFilter: 'url(#cartoonFilter)',
+                  filter: 'url(#cartoonFilter)'
                 }}
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
@@ -120,17 +120,36 @@ export function Hero() {
                   console.error('Failed to load image:', img.src);
                 }}
               />
-              {/* SVG filter for cartoon effect */}
+              {/* Enhanced SVG filter for cartoon effect */}
               <svg width="0" height="0" className="absolute">
                 <defs>
-                  <filter id="pictureFilter">
-                    <feGaussianBlur stdDeviation="1" />
-                    <feColorMatrix type="matrix"
-                      values="1 0 0 0 0
-                              0 1 0 0 0
-                              0 0 1 0 0
-                              0 0 0 20 -10" />
-                    <feComposite operator="in" in2="SourceGraphic" />
+                  <filter id="cartoonFilter">
+                    {/* Edge detection */}
+                    <feConvolveMatrix order="3" preserveAlpha="true" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1"/>
+
+                    {/* Color adjustments */}
+                    <feColorMatrix type="matrix" values="
+                      1.1 0 0 0 0
+                      0 1.1 0 0 0
+                      0 0 1.1 0 0
+                      0 0 0 1 0"/>
+
+                    {/* Posterize effect */}
+                    <feComponentTransfer>
+                      <feFuncR type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+                      <feFuncG type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+                      <feFuncB type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+                    </feComponentTransfer>
+
+                    {/* Smoothing */}
+                    <feGaussianBlur stdDeviation="0.5"/>
+
+                    {/* Enhance contrast */}
+                    <feComponentTransfer>
+                      <feFuncR type="linear" slope="1.5" intercept="-0.25"/>
+                      <feFuncG type="linear" slope="1.5" intercept="-0.25"/>
+                      <feFuncB type="linear" slope="1.5" intercept="-0.25"/>
+                    </feComponentTransfer>
                   </filter>
                 </defs>
               </svg>
