@@ -1,9 +1,25 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CryptoOnramp } from "@/components/payments/crypto-onramp";
+import { MobilePayment } from "@/components/payments/mobile-payment";
+import { Wallet, CreditCard, QrCode, Shield } from "lucide-react";
 
 export default function CryptoPage() {
   const [showCryptoOnramp, setShowCryptoOnramp] = useState(false);
+  const [showMobilePayment, setShowMobilePayment] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState<{
+    amount?: number;
+    recipient?: string;
+  }>({});
+
+  const demoPayment = (amount: number) => {
+    setPaymentDetails({
+      amount,
+      recipient: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e" // Example Polygon address
+    });
+    setShowMobilePayment(true);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -44,6 +60,80 @@ export default function CryptoPage() {
         </div>
       </section>
 
+      {/* Payment Options Section */}
+      <section className="py-12 border-b">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-8 text-center">Payment Options</h2>
+          <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Wallet className="h-5 w-5 text-primary" />
+                  <CardTitle>Buy Crypto</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Purchase cryptocurrency directly with your preferred payment method
+                </p>
+                <Button 
+                  className="w-full"
+                  onClick={() => setShowCryptoOnramp(true)}
+                >
+                  Buy Crypto Now
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <CreditCard className="h-5 w-5 text-primary" />
+                  <CardTitle>SOLVY Card</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Use your SOLVY card for instant payments, including VA benefits
+                </p>
+                <div className="space-y-2">
+                  <Button 
+                    className="w-full"
+                    onClick={() => demoPayment(10)}
+                  >
+                    Pay $10
+                  </Button>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Shield className="h-3 w-3" />
+                    VA Payment Ready
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <QrCode className="h-5 w-5 text-primary" />
+                  <CardTitle>QR Payment</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Scan and pay instantly with your mobile device
+                </p>
+                <Button 
+                  className="w-full"
+                  onClick={() => demoPayment(5)}
+                >
+                  Pay $5
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-12">
         <div className="container mx-auto px-4">
@@ -70,10 +160,17 @@ export default function CryptoPage() {
         </div>
       </section>
 
-      {/* Onramp Dialog */}
+      {/* Dialogs */}
       <CryptoOnramp 
         open={showCryptoOnramp}
         onOpenChange={setShowCryptoOnramp}
+      />
+
+      <MobilePayment 
+        open={showMobilePayment}
+        onOpenChange={setShowMobilePayment}
+        amount={paymentDetails.amount}
+        recipient={paymentDetails.recipient}
       />
     </div>
   );
