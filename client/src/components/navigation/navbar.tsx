@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -69,7 +69,7 @@ export function Navbar({ userRole }: NavbarProps) {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-6">
+                    <li className="row-span-7">
                       <NavigationMenuLink asChild>
                         <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                           <BookOpen className="h-6 w-6" />
@@ -82,6 +82,15 @@ export function Navbar({ userRole }: NavbarProps) {
                         </Link>
                       </NavigationMenuLink>
                     </li>
+                    <ListItem href="/education/business-case">
+                      <div className="flex items-center gap-2">
+                        <Briefcase className="h-4 w-4" />
+                        <div className="text-sm font-medium">Business Case</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Strategic value proposition for upwardly mobile markets
+                      </p>
+                    </ListItem>
                     <ListItem href="/education/learning-paths">
                       <div className="flex items-center gap-2">
                         <Map className="h-4 w-4" />

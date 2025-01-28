@@ -13,6 +13,7 @@ import Analytics from "@/pages/analytics";
 import WhyStatement from "@/pages/why-statement";
 import CryptoPage from "@/pages/crypto";
 import Education from "@/pages/education";
+import BusinessCase from "@/pages/education/business-case";
 import MonitoringDashboard from "@/pages/monitoring-dashboard";
 import NGOTransparencyPage from "@/pages/ngo-transparency";
 import NotFound from "@/pages/not-found";
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/why-statement" component={WhyStatement} />
       <Route path="/crypto" component={CryptoPage} />
       <Route path="/education" component={Education} />
+      <Route path="/education/business-case" component={BusinessCase} />
       <Route path="/monitoring-dashboard" component={MonitoringDashboard} />
       <Route path="/reign" component={Reign} />
       <Route path="/reign/dao" component={DAOPage} />
