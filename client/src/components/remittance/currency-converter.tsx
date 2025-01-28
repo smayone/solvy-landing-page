@@ -26,15 +26,14 @@ const SUPPORTED_CURRENCIES: Currency[] = [
   { code: "CNY", name: "Chinese Yuan", symbol: "¥", flag: "🇨🇳", group: "BRICS" },
   { code: "ZAR", name: "South African Rand", symbol: "R", flag: "🇿🇦", group: "BRICS" },
 
-  // BRICS+ Expansion - Current
-  { code: "EGP", name: "Egyptian Pound", symbol: "E£", flag: "🇪🇬", group: "BRICS+" },
+  // BRICS+ Current Members
+  { code: "EGP", name: "Egyptian Pound", symbol: "£", flag: "🇪🇬", group: "BRICS+" },
   { code: "ETB", name: "Ethiopian Birr", symbol: "Br", flag: "🇪🇹", group: "BRICS+" },
-  { code: "IRR", name: "Iranian Rial", symbol: "﷼", flag: "🇮🇷", group: "BRICS+" },
   { code: "SAR", name: "Saudi Riyal", symbol: "﷼", flag: "🇸🇦", group: "BRICS+" },
   { code: "AED", name: "UAE Dirham", symbol: "د.إ", flag: "🇦🇪", group: "BRICS+" },
   { code: "ARS", name: "Argentine Peso", symbol: "$", flag: "🇦🇷", group: "BRICS+" },
 
-  // BRICS+ Future Expansion (Added)
+  // BRICS+ Future Expansion
   { code: "IDR", name: "Indonesian Rupiah", symbol: "Rp", flag: "🇮🇩", group: "BRICS+" },
   { code: "KZT", name: "Kazakhstani Tenge", symbol: "₸", flag: "🇰🇿", group: "BRICS+" },
   { code: "NGN", name: "Nigerian Naira", symbol: "₦", flag: "🇳🇬", group: "BRICS+" },
@@ -45,7 +44,6 @@ const SUPPORTED_CURRENCIES: Currency[] = [
   // Target Markets
   { code: "EUR", name: "Euro", symbol: "€", flag: "🇪🇺", group: "Target" },
   { code: "KRW", name: "Korean Won", symbol: "₩", flag: "🇰🇷", group: "Target" },
-  { code: "HTG", name: "Haitian Gourde", symbol: "G", flag: "🇭🇹", group: "Target" },
   { code: "MXN", name: "Mexican Peso", symbol: "$", flag: "🇲🇽", group: "Target" },
   { code: "COP", name: "Colombian Peso", symbol: "$", flag: "🇨🇴", group: "Target" },
 ];
@@ -65,8 +63,7 @@ export function CurrencyConverter() {
       zh: "CNY",
       ko: "KRW",
       vi: "VND",
-      fr: "EUR",
-      "fr-HT": "HTG"
+      fr: "EUR"
     };
     setToCurrency(langToCurrency[i18n.language] || "EUR");
   }, [i18n.language]);
@@ -84,7 +81,6 @@ export function CurrencyConverter() {
       // BRICS+ Current
       "USD-EGP": 30.90,
       "USD-ETB": 56.50,
-      "USD-IRR": 42000,
       "USD-SAR": 3.75,
       "USD-AED": 3.67,
       "USD-ARS": 823.45,
@@ -100,7 +96,6 @@ export function CurrencyConverter() {
       // Target Markets
       "USD-EUR": 0.92,
       "USD-KRW": 1330.45,
-      "USD-HTG": 132.50,
       "USD-MXN": 17.15,
       "USD-COP": 3950.25
     };
@@ -115,6 +110,18 @@ export function CurrencyConverter() {
       updateRate();
     }
   }, [fromCurrency, toCurrency]);
+
+  const formatAmount = (value: number, currencyCode: string) => {
+    try {
+      return new Intl.NumberFormat(i18n.language, {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(value) + ' ' + currencyCode;
+    } catch (error) {
+      return value.toFixed(2) + ' ' + currencyCode;
+    }
+  };
 
   const convertedAmount = parseFloat(amount || "0") * rate;
 
@@ -191,7 +198,6 @@ export function CurrencyConverter() {
             </div>
           </div>
 
-          {/* Amount Input and Result */}
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>{t('remittance.conversion_widget.amount')}</Label>
@@ -208,11 +214,7 @@ export function CurrencyConverter() {
 
         <div className="w-full p-4 bg-muted rounded-lg text-center">
           <div className="text-2xl font-semibold">
-            {new Intl.NumberFormat(i18n.language, {
-              style: 'currency',
-              currency: toCurrency,
-              maximumFractionDigits: 2
-            }).format(convertedAmount)}
+            {formatAmount(convertedAmount, toCurrency)}
           </div>
           <div className="text-sm text-muted-foreground mt-2">
             1 {fromCurrency} = {rate.toFixed(4)} {toCurrency}
@@ -236,7 +238,7 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span>{currency.code}</span>
                     </span>
-                    <span className="font-mono">{(rate * (currency.code === toCurrency ? 1 : 0.5)).toFixed(2)}</span>
+                    <span className="font-mono">{formatAmount(rate * (currency.code === toCurrency ? 1 : 0.5), currency.code)}</span>
                   </div>
                 ))}
             </div>
@@ -254,7 +256,7 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span>{currency.code}</span>
                     </span>
-                    <span className="font-mono">{(rate * (currency.code === toCurrency ? 1 : 0.5)).toFixed(2)}</span>
+                    <span className="font-mono">{formatAmount(rate * (currency.code === toCurrency ? 1 : 0.5), currency.code)}</span>
                   </div>
                 ))}
             </div>
@@ -272,7 +274,7 @@ export function CurrencyConverter() {
                       <span>{currency.flag}</span>
                       <span>{currency.code}</span>
                     </span>
-                    <span className="font-mono">{(rate * (currency.code === toCurrency ? 1 : 0.5)).toFixed(2)}</span>
+                    <span className="font-mono">{formatAmount(rate * (currency.code === toCurrency ? 1 : 0.5), currency.code)}</span>
                   </div>
                 ))}
             </div>
