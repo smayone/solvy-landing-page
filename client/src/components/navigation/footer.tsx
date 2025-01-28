@@ -7,8 +7,8 @@ export function Footer() {
   return (
     <footer className="w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2 flex flex-col items-center lg:items-start">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div className="lg:col-span-1 flex flex-col items-center lg:items-start">
             <Link href="/">
               <img 
                 src="/SolvyLogo-1024.png" 
@@ -74,21 +74,21 @@ export function Footer() {
           </div>
 
           <div className="text-center lg:text-left">
-            <h3 className="font-semibold mb-4">Sovereignitity</h3>
+            <h3 className="font-semibold mb-4">About</h3>
             <ul className="space-y-3">
               <li>
                 <Link href="/why-statement" className="text-sm text-muted-foreground hover:text-primary">
-                  Our Mission
+                  Why SOLVY
                 </Link>
               </li>
               <li>
-                <Link href="/why-statement#evolution" className="text-sm text-muted-foreground hover:text-primary">
-                  Economic Evolution
+                <Link href="/education" className="text-sm text-muted-foreground hover:text-primary">
+                  Education Hub
                 </Link>
               </li>
               <li>
-                <Link href="/why-statement#solution" className="text-sm text-muted-foreground hover:text-primary">
-                  The Solution
+                <Link href="/ngo-transparency" className="text-sm text-muted-foreground hover:text-primary">
+                  NGO Transparency
                 </Link>
               </li>
             </ul>

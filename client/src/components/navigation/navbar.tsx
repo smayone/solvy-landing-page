@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -57,6 +57,81 @@ export function Navbar({ userRole }: NavbarProps) {
               {t('nav.home')}
             </Link>
           </Button>
+
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    Education
+                  </div>
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] lg:grid-cols-[.75fr_1fr]">
+                    <li className="row-span-6">
+                      <NavigationMenuLink asChild>
+                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                          <BookOpen className="h-6 w-6" />
+                          <div className="mb-2 mt-4 text-lg font-medium">
+                            Education Hub
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Your gateway to comprehensive blockchain and financial education
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <ListItem href="/education/learning-paths">
+                      <div className="flex items-center gap-2">
+                        <Map className="h-4 w-4" />
+                        <div className="text-sm font-medium">Learning Paths</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Personalized educational journeys tailored to your goals
+                      </p>
+                    </ListItem>
+                    <ListItem href="/education/courses">
+                      <div className="flex items-center gap-2">
+                        <School className="h-4 w-4" />
+                        <div className="text-sm font-medium">Courses</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Structured learning paths for blockchain and finance
+                      </p>
+                    </ListItem>
+                    <ListItem href="/education/progress">
+                      <div className="flex items-center gap-2">
+                        <Trophy className="h-4 w-4" />
+                        <div className="text-sm font-medium">My Progress</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Track your educational achievements and certifications
+                      </p>
+                    </ListItem>
+                    <ListItem href="/education/bookmarks">
+                      <div className="flex items-center gap-2">
+                        <BookMarked className="h-4 w-4" />
+                        <div className="text-sm font-medium">Saved Resources</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Access your bookmarked educational content
+                      </p>
+                    </ListItem>
+                    <ListItem href="/education/tutorials">
+                      <div className="flex items-center gap-2">
+                        <Lightbulb className="h-4 w-4" />
+                        <div className="text-sm font-medium">Tutorials</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Step-by-step guides for using SOLVY platform
+                      </p>
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
           <Button variant="ghost" asChild>
             <Link href="/member" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -81,64 +156,6 @@ export function Navbar({ userRole }: NavbarProps) {
               {t('nav.analytics')}
             </Link>
           </Button>
-
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>
-                  <div className="flex items-center gap-2">
-                    <GraduationCap className="h-4 w-4" />
-                    Education
-                  </div>
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-4">
-                      <NavigationMenuLink asChild>
-                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
-                          <BookOpen className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-lg font-medium">
-                            Education Hub
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Comprehensive learning resources for financial literacy and blockchain technology
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/education/courses">
-                      <div className="flex items-center gap-2">
-                        <School className="h-4 w-4" />
-                        <div className="text-sm font-medium">Courses</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Structured learning paths for blockchain and finance
-                      </p>
-                    </ListItem>
-                    <ListItem href="/education/courses/data-privacy">
-                      <div className="flex items-center gap-2">
-                        <Shield className="h-4 w-4" />
-                        <div className="text-sm font-medium">Data Privacy</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Understanding data sovereignty and Self-Sovereign Identity
-                      </p>
-                    </ListItem>
-                    <ListItem href="/education/tutorials">
-                      <div className="flex items-center gap-2">
-                        <Lightbulb className="h-4 w-4" />
-                        <div className="text-sm font-medium">Tutorials</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Step-by-step guides for using SOLVY platform
-                      </p>
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-
           <Button variant="ghost" asChild>
             <Link href="/reign" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
