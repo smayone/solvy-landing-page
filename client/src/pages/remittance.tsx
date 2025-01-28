@@ -1,5 +1,5 @@
 import { CurrencyConverter } from "@/components/remittance/currency-converter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,7 +20,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
@@ -31,7 +31,7 @@ const remittanceSchema = z.object({
   amount: z.string().min(1, "Amount is required"),
   originCountry: z.string().min(1, "Origin country is required"),
   recipientCountry: z.string().min(1, "Recipient country is required"),
-  recipientAddress: z.string().min(1, "Recipient address is required"),
+  recipientSovereignititee: z.string().min(1, "Recipient Sovereignititee ID is required"),
   paymentMethod: z.enum(["crypto", "bank", "mobile"]),
 });
 
@@ -46,7 +46,7 @@ export default function RemittancePage() {
       amount: "",
       originCountry: "",
       recipientCountry: "",
-      recipientAddress: "",
+      recipientSovereignititee: "",
       paymentMethod: "crypto",
     },
   });
@@ -56,7 +56,7 @@ export default function RemittancePage() {
       console.log("Processing remittance:", data);
       toast({
         title: "Remittance Initiated",
-        description: "Your transfer is being processed.",
+        description: "Your Sovereignititee-to-Sovereignititee transfer is being processed.",
       });
     } catch (error) {
       toast({
@@ -71,7 +71,14 @@ export default function RemittancePage() {
     <div className="min-h-screen bg-background pt-16">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto space-y-8">
-          <h1 className="text-3xl font-bold">International Money Transfer</h1>
+          <div className="text-center space-y-4">
+            <h1 className="text-3xl font-bold">Sovereignititee Money Transfer</h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              We believe in a future where everyone is a Sovereignititee, free to control their own data and identity. 
+              We are building a community of Sovereignititees who are leading the way in the data ownership revolution. 
+              Our goal is to help more people achieve Sovereignitity through education and access to the SOLVY platform.
+            </p>
+          </div>
 
           {/* Currency Converter - Top */}
           <div className="w-full">
@@ -79,10 +86,16 @@ export default function RemittancePage() {
           </div>
 
           {/* Send Money Form - Middle */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="col-span-full">
+          <div className="grid grid-cols-1 gap-6">
+            <Card>
               <CardHeader>
-                <CardTitle>Send Money</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  <span>Sovereignititee-to-Sovereignititee Transfer</span>
+                </CardTitle>
+                <CardDescription>
+                  Send money securely between verified Sovereignititees within the SOLVY ecosystem
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -190,12 +203,12 @@ export default function RemittancePage() {
 
                     <FormField
                       control={form.control}
-                      name="recipientAddress"
+                      name="recipientSovereignititee"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Recipient Address</FormLabel>
+                          <FormLabel>Recipient Sovereignititee ID</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} placeholder="Enter recipient's Sovereignititee ID" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -203,7 +216,7 @@ export default function RemittancePage() {
                     />
 
                     <Button type="submit" className="w-full">
-                      Send Money <ArrowRight className="ml-2 h-4 w-4" />
+                      Send to Sovereignititee <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </form>
                 </Form>
