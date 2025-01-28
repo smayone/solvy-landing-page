@@ -22,36 +22,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react"; // Added this import back in
+import { useState } from "react";
 
-
-// Sample exchange rates - in production, these would come from an API
-const exchangeRates = {
-  // BRICS
-  BRL: 4.95, // Brazilian Real
-  RUB: 89.50, // Russian Ruble
-  INR: 83.12, // Indian Rupee
-  CNY: 7.18, // Chinese Yuan
-  ZAR: 19.05, // South African Rand
-
-  // BRICS+ Expansion
-  EGP: 30.90, // Egyptian Pound
-  ETB: 56.50, // Ethiopian Birr
-  IRR: 42000, // Iranian Rial
-  SAR: 3.75, // Saudi Riyal
-  AED: 3.67, // UAE Dirham
-  ARS: 823.45, // Argentine Peso
-
-  // Target Markets
-  EUR: 0.92, // Euro
-  KRW: 148.45, // Korean Won
-  VND: 24585, // Vietnamese Dong
-  HTG: 131.82, // Haitian Gourde
-  PHP: 56.43, // Philippine Peso
-};
+// Import the currency list from the converter component
+import { SUPPORTED_CURRENCIES } from "@/components/remittance/currency-converter";
 
 const remittanceSchema = z.object({
   amount: z.string().min(1, "Amount is required"),
+  originCountry: z.string().min(1, "Origin country is required"),
   recipientCountry: z.string().min(1, "Recipient country is required"),
   recipientAddress: z.string().min(1, "Recipient address is required"),
   paymentMethod: z.enum(["crypto", "bank", "mobile"]),
@@ -61,11 +39,12 @@ type RemittanceForm = z.infer<typeof remittanceSchema>;
 
 export default function RemittancePage() {
   const { toast } = useToast();
-  const [calculatedAmount, setCalculatedAmount] = useState<string | null>(null); // Added this back in
+  const [calculatedAmount, setCalculatedAmount] = useState<string | null>(null);
   const form = useForm<RemittanceForm>({
     resolver: zodResolver(remittanceSchema),
     defaultValues: {
       amount: "",
+      originCountry: "",
       recipientCountry: "",
       recipientAddress: "",
       paymentMethod: "crypto",
@@ -108,7 +87,7 @@ export default function RemittancePage() {
               <CardContent>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid md:grid-cols-3 gap-6">
+                    <div className="grid md:grid-cols-4 gap-6">
                       <FormField
                         control={form.control}
                         name="amount"
@@ -125,24 +104,59 @@ export default function RemittancePage() {
 
                       <FormField
                         control={form.control}
-                        name="recipientCountry"
+                        name="originCountry"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Recipient Country</FormLabel>
+                            <FormLabel>From Country</FormLabel>
                             <Select onValueChange={field.onChange}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select country" />
+                                  <SelectValue placeholder="Select origin country" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {/* Countries will be populated from the currency list */}
-                                <SelectItem value="BRL">Brazil</SelectItem>
-                                <SelectItem value="RUB">Russia</SelectItem>
-                                <SelectItem value="INR">India</SelectItem>
-                                <SelectItem value="CNY">China</SelectItem>
-                                <SelectItem value="ZAR">South Africa</SelectItem>
-                                {/* Add other countries here */}
+                                {SUPPORTED_CURRENCIES.map((currency) => (
+                                  <SelectItem key={currency.code} value={currency.code}>
+                                    <span className="flex items-center gap-2">
+                                      <span>{currency.flag}</span>
+                                      <span className="font-medium">{currency.code}</span>
+                                      <span className="text-muted-foreground">
+                                        {currency.name.split('(')[1]?.replace(')', '')}
+                                      </span>
+                                    </span>
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="recipientCountry"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>To Country</FormLabel>
+                            <Select onValueChange={field.onChange}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select destination country" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {SUPPORTED_CURRENCIES.map((currency) => (
+                                  <SelectItem key={currency.code} value={currency.code}>
+                                    <span className="flex items-center gap-2">
+                                      <span>{currency.flag}</span>
+                                      <span className="font-medium">{currency.code}</span>
+                                      <span className="text-muted-foreground">
+                                        {currency.name.split('(')[1]?.replace(')', '')}
+                                      </span>
+                                    </span>
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                             <FormMessage />

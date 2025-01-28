@@ -17,7 +17,7 @@ interface Currency {
   volume?: number;
 }
 
-const SUPPORTED_CURRENCIES: Currency[] = [
+export const SUPPORTED_CURRENCIES: Currency[] = [
   // Base Currency
   { code: "USD", name: "United States Dollar (United States of America)", symbol: "$", flag: "🇺🇸" },
 
