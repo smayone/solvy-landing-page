@@ -208,7 +208,9 @@ const resources = {
           to: 'To',
           amount: 'Amount',
           converted: 'Converted Amount',
-          rate: 'Exchange Rate'
+          rate: 'Exchange Rate',
+          update_rates: 'Update Rates',
+          last_updated: 'Last updated'
         },
         tracking: {
           title: 'Transfer Tracking',
