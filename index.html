@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY - Web3 Financial Platform</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo/solvy-favicon.svg">
+
+    <!-- Load D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #468EF0;
+            --secondary-color: #2563eb;
+            --accent-color: #F59E0B;
+            --text-color: #333333;
+            --background-light: #f5f8ff;
+            --background-dark: #1a1f2c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background-light);
+        }
+
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 50px; /* Adjusted height for better visibility of the full logo */
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--background-light) 0%, #ffffff 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: var(--secondary-color);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-button {
+            background: #1877F2;  /* Facebook blue */
+            margin: 0 auto;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .social-button:hover {
+            background: #1560BD;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            .ecosystem-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+        }
+        .ecosystem {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .ecosystem-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .ecosystem-card {
+            padding: 2rem;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .ecosystem-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .ecosystem-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .ecosystem-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            padding: 4rem 2rem;
+            background: var(--background-light);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .newsletter {
+            padding: 4rem 2rem;
+            background: var(--background-dark);
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .email-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <img src="./assets/images/logo/fulllogo.svg" alt="SOLVY Logo">
+            </div>
+            <div class="nav-links">
+                <a href="#ecosystem">Ecosystem</a>
+                <a href="#features">Features</a>
+                <a href="#education">Education</a>
+                <a href="https://github.com/SA-Nathan/solvy-landing-page" target="_blank">GitHub</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to SOLVY</h1>
+        <p>A revolutionary Web3 financial platform supported by DECIDEY NGO, ensuring financial empowerment and data ownership through transparent digital interactions. Together with MAN (Mandatory Audit Network), we're building a secure and inclusive financial future.</p>
+        <div class="hero-buttons">
+            <a href="https://www.facebook.com/SANathanLLC" target="_blank" class="cta-button social-button">
+                SA Nathan
+            </a>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="ecosystem">
+        <div class="ecosystem-grid">
+            <div class="ecosystem-card">
+                <img src="./assets/images/logo/SolvyLogo-1024.svg" alt="DECIDEY Logo">
+                <h3>DECIDEY NGO</h3>
+                <p>Decentralized Empowerment Control Identity Data Economy of Yours</p>
+                <p>Supporting financial empowerment and data ownership through charitable contributions and tech partnerships, under the guidance of SA Nathan LLC.</p>
+            </div>
+            <div class="ecosystem-card">
+                <img src="./assets/images/logo/SolvyLogo-1024.svg" alt="SOLVY Logo">
+                <h3>SOLVY Platform</h3>
+                <p>Solution Valued You</p>
+                <p>Our flagship Web3 interface platform providing transparent and accessible digital financial services, developed with SA Nathan LLC.</p>
+            </div>
+            <div class="ecosystem-card">
+                <img src="./assets/images/logo/SolvyLogo-1024.svg" alt="MAN Logo">
+                <h3>MAN</h3>
+                <p>Mandatory Audit Network</p>
+                <p>Ensuring compliance, transparency, and security within the SOLVY ecosystem through continuous monitoring and verification.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>SOLVY Education</h3>
+                <p>Access comprehensive learning resources about Web3 finance, digital sovereignty, and blockchain technology, curated by SA Nathan LLC.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Transparent Operations</h3>
+                <p>All transactions and processes are verified by MAN for maximum security and trust, ensuring the highest standards of compliance.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Community Driven</h3>
+                <p>Supported by DECIDEY NGO's mission for financial empowerment and inclusion, with guidance from SA Nathan LLC.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h2>Stay Updated on SOLVY's Revolution</h2>
+        <p>Join our mailing list to receive updates about new features, educational content, and the latest developments in our ecosystem.</p>
+        <form class="email-form">
+            <input type="email" placeholder="Enter your email" class="email-input" required>
+            <button type="submit" class="cta-button">Keep Me Updated</button>
+        </form>
+    </section>
+
+    <script>
+        // Form submission handler
+        document.querySelector('.email-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            // TODO: Implement email signup functionality
+            alert('Thank you for subscribing! We\'ll keep you updated on SOLVY\'s progress.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

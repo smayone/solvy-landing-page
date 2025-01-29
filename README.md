@@ -2,6 +2,30 @@
 
 A cutting-edge Web3 financial solutions platform leveraging blockchain technologies to empower service-based businesses with advanced payment and identity management solutions.
 
+## Project Structure
+
+```
+solvy-landing/
+├── assets/
+│   └── images/
+│       └── logo/           # Logo files directory
+│           ├── fulllogo.png       # Main navigation logo
+│           └── SolvyLogo-1024.png # Ecosystem section logo
+├── chrome-extension/       # Chrome extension files
+├── client/                # Frontend application
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── hooks/        # Custom React hooks
+│   │   ├── lib/          # Utility functions
+│   │   └── pages/        # Application pages
+├── ios/                   # iOS native application (coming soon)
+├── android/              # Android native application (coming soon)
+├── contracts/            # Smart contracts
+├── db/                   # Database schema and migrations
+├── docs/                 # Documentation
+└── server/              # Backend API
+```
+
 ## Overview
 
 SOLVY is building the future of decentralized finance by providing:
@@ -16,7 +40,7 @@ SOLVY is building the future of decentralized finance by providing:
 - React with TypeScript
 - Web3.js for blockchain interactions
 - i18next for internationalization
-- OpenAI integration for advanced features
+- OpenAI integration
 - shadcn/ui components with Tailwind CSS
 
 ### Mobile Applications
@@ -70,23 +94,6 @@ RPC_URL=https://...
 4. Start the development server:
 ```bash
 npm run dev
-```
-
-## Project Structure
-
-```
-├── client/                  # Frontend application
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── lib/           # Utility functions
-│   │   └── pages/         # Application pages
-├── ios/                    # iOS native application (coming soon)
-├── android/               # Android native application (coming soon)
-├── contracts/             # Smart contracts
-├── db/                    # Database schema and migrations
-├── docs/                  # Documentation
-└── server/               # Backend API
 ```
 
 ## Features

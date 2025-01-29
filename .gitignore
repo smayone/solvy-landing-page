@@ -18,6 +18,7 @@ server/public
 .vscode/
 *.swp
 *.swo
+Thumbs.db
 
 # Debug logs
 npm-debug.log*
@@ -46,3 +47,6 @@ postgres-data/
 .secrets/
 *secret*
 *key*
+
+__pycache__/
+*.py[cod]
