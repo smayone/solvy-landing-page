@@ -265,14 +265,14 @@ export default function WhyStatement() {
 
       {/* Web of Debt Section - Now at the bottom */}
       <div className="mt-16 space-y-6 pt-8 border-t">
-        <h3 className="text-2xl font-semibold text-primary">Understanding the Banking System</h3>
-        <p className="text-lg text-muted-foreground">
+        <h3 className="text-2xl font-bold text-primary">Understanding the Banking System</h3>
+        <p className="text-lg text-muted-foreground leading-relaxed">
           Ellen Brown's "Web of Debt" reveals how the private banking system has created a complex web of financial control, often misunderstood by the general public.
         </p>
         <div className="grid gap-4 md:grid-cols-2">
           <Card className="p-4 bg-destructive/10">
-            <h4 className="font-semibold mb-2">Key Revelations</h4>
-            <ul className="list-disc pl-6 space-y-2">
+            <h4 className="font-semibold mb-2 text-foreground">Key Revelations</h4>
+            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
               <li>Money creation is controlled by private banks</li>
               <li>Federal Reserve serves private interests</li>
               <li>Public banking alternatives work</li>
@@ -280,8 +280,8 @@ export default function WhyStatement() {
             </ul>
           </Card>
           <Card className="p-4 bg-primary/10">
-            <h4 className="font-semibold mb-2">SOLVY's Alternative</h4>
-            <p className="text-sm">
+            <h4 className="font-semibold mb-2 text-foreground">SOLVY's Alternative</h4>
+            <p className="text-muted-foreground">
               We're building a transparent, community-controlled financial ecosystem that returns power to the people.
               Through blockchain technology and community-driven governance, we're creating an alternative to the traditional
               banking system - one where financial power truly belongs to the people.
@@ -291,10 +291,10 @@ export default function WhyStatement() {
 
         {/* Bank Cash Flow Explanation */}
         <div className="mt-8 space-y-6">
-          <h4 className="text-xl font-semibold">Understanding Bank Cash Flows</h4>
+          <h4 className="text-xl font-semibold text-foreground">Understanding Bank Cash Flows</h4>
           <div className="grid gap-6">
             <Card className="p-6 bg-muted/50">
-              <h5 className="font-semibold mb-3">Traditional Banking Cash Flow Model</h5>
+              <h5 className="font-semibold mb-3 text-foreground">Traditional Banking Cash Flow Model</h5>
               <p className="mb-4 text-muted-foreground">
                 As Ellen Brown explains in "Web of Debt", traditional banks operate on a debt-based model where:
               </p>
@@ -308,7 +308,7 @@ export default function WhyStatement() {
             </Card>
 
             <Card className="p-6 bg-primary/5">
-              <h5 className="font-semibold mb-3">SOLVY's Different Approach</h5>
+              <h5 className="font-semibold mb-3 text-foreground">SOLVY's Different Approach</h5>
               <p className="mb-4 text-muted-foreground">
                 SOLVY operates fundamentally differently from traditional banks:
               </p>
@@ -320,7 +320,7 @@ export default function WhyStatement() {
                 <li>Growth is based on real economic activity, not debt expansion</li>
               </ul>
               <div className="mt-6 p-4 bg-primary/10 rounded-lg">
-                <h6 className="font-semibold mb-2">Why This Matters</h6>
+                <h6 className="font-semibold mb-2 text-foreground">Why This Matters</h6>
                 <p className="text-sm text-muted-foreground">
                   Our model ensures sustainable growth without contributing to systemic debt.
                   Unlike traditional banks that profit from perpetual debt cycles, SOLVY's
