@@ -189,7 +189,7 @@ const communityChannels: CommunityChannel[] = [
     name: "Sean Foo",
     description: "Financial education and digital entrepreneurship insights",
     channelId: "https://www.youtube.com/@SeanFoo",
-    category: "Financial Education",
+    category: "Global Perspectives",
     latestVideo: {
       title: "Building Wealth Through Digital Assets",
       thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
