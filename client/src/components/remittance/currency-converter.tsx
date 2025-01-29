@@ -279,7 +279,10 @@ export function CurrencyConverter() {
             1 {fromCurrency} = {rate.toFixed(4)} {toCurrency}
           </div>
           <div className="text-xs text-muted-foreground mt-1">
-            {t('remittance.conversion_widget.last_updated')}: {lastUpdated.toLocaleTimeString()}
+            Last Updated: {lastUpdated.toLocaleTimeString()}
+            <span className="block mt-1 text-[11px] italic">
+              Note: Exchange rates are simulated for development purposes. Live rates will be integrated in production.
+            </span>
           </div>
         </div>
 
