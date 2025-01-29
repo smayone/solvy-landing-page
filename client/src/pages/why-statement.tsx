@@ -288,6 +288,49 @@ export default function WhyStatement() {
             </p>
           </Card>
         </div>
+
+        {/* Bank Cash Flow Explanation */}
+        <div className="mt-8 space-y-6">
+          <h4 className="text-xl font-semibold">Understanding Bank Cash Flows</h4>
+          <div className="grid gap-6">
+            <Card className="p-6 bg-muted/50">
+              <h5 className="font-semibold mb-3">Traditional Banking Cash Flow Model</h5>
+              <p className="mb-4 text-muted-foreground">
+                As Ellen Brown explains in "Web of Debt", traditional banks operate on a debt-based model where:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+                <li>Banks create money through lending, not from existing deposits</li>
+                <li>When loans are made, new money enters circulation as debt</li>
+                <li>Interest payments create a perpetual cycle of increasing debt</li>
+                <li>Banks profit from both loan interest and fees</li>
+                <li>The system requires continuous growth of debt to maintain stability</li>
+              </ul>
+            </Card>
+
+            <Card className="p-6 bg-primary/5">
+              <h5 className="font-semibold mb-3">SOLVY's Different Approach</h5>
+              <p className="mb-4 text-muted-foreground">
+                SOLVY operates fundamentally differently from traditional banks:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+                <li>We don't create money through lending or debt instruments</li>
+                <li>Revenue comes from legitimate service fees and value creation</li>
+                <li>Members benefit directly from the platform's success through the DAO structure</li>
+                <li>Cash flows are transparent and traceable on the blockchain</li>
+                <li>Growth is based on real economic activity, not debt expansion</li>
+              </ul>
+              <div className="mt-6 p-4 bg-primary/10 rounded-lg">
+                <h6 className="font-semibold mb-2">Why This Matters</h6>
+                <p className="text-sm text-muted-foreground">
+                  Our model ensures sustainable growth without contributing to systemic debt.
+                  Unlike traditional banks that profit from perpetual debt cycles, SOLVY's
+                  revenue comes from facilitating real economic activity and providing valuable
+                  services to our community.
+                </p>
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
