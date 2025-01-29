@@ -28,7 +28,7 @@ import {
   CreditCard,
   Smartphone,
   Check,
-  Wallet // Added import for Wallet icon
+  Wallet
 } from "lucide-react";
 import { DecideySlides } from "@/components/education/DecideySlides";
 
@@ -665,7 +665,7 @@ export default function Education() {
                       >
                         Previous
                       </Button>
-                      <span className="flex items-center text-lg font-medium">
+                      <span className="flex items-center text-lg fontmedium">
                         {currentIndex + 1} of {categoryChannels.length}
                       </span>
                       <Button
@@ -731,72 +731,49 @@ export default function Education() {
           </div>
         </section>
 
-        {/* Learning Modules Section */}
-        <section className="py-24">
+        {/* Module Sections */}
+        <section id="modules" className="py-24 border-b">
           <div className="text-center mb-16">
             <GraduationCap className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-3xl font-bold mb-4">Learning Modules</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Structured learning paths to master blockchain concepts
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
+              Your structured path to understanding blockchain and financial sovereignty
             </p>
           </div>
-          <div className="max-w-4xl mx-auto">
-            <Tabs defaultValue="decidey" className="space-y-8">
-              <TabsList className="grid w-full grid-cols-3">
-                {modules.map((module) => (
-                  <TabsTrigger key={module.id} value={module.id} className="flex items-center gap-2">
-                    <module.icon className="h-5 w-5" />
-                    {module.title}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
 
-              {modules.map((module) => (
-                <TabsContent key={module.id} value={module.id}>
-                  <Card>
-                    <CardHeader>
-                      <div className="text-center">
-                        <module.icon className="h-16 w-16 text-primary mx-auto mb-6" />
-                        <CardTitle className="text-2xl mb-4">{module.title}</CardTitle>
-                        <p className="text-muted-foreground max-w-2xl mx-auto">
-                          {module.description}
-                        </p>
+          <div className="grid gap-8">
+            {modules.map((module) => (
+              <div key={module.id} id={module.id} className="scroll-mt-24">
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <div className="bg-primary/10 p-4 rounded-full">
+                        <module.icon className="h-6 w-6 text-primary" />
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-6">
-                        {module.topics.map((topic, index) => (
-                          <Card key={index}>
-                            <CardContent className="p-8">
-                              <div className="flex items-center justify-between gap-8">
-                                <div className="flex-1">
-                                  <h3 className="text-2xl font-bold mb-3">
-                                    {topic.title}
-                                  </h3>
-                                  <p className="text-muted-foreground mb-6">
-                                    {topic.description}
-                                  </p>
-                                  <Button
-                                    variant="outline"
-                                    size="lg"
-                                    className="flex items-center gap-2"
-                                    onClick={() => window.open(`https://www.youtube.com/watch?v=${topic.videoId}`, '_blank')}
-                                  >
-                                    <Video className="h-5 w-5" />
-                                    Watch Video
-                                  </Button>
-                                </div>
-                                <Progress value={33} className="w-[160px]" />
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
+                      <div>
+                        <CardTitle>{module.title}</CardTitle>
+                        <p className="text-muted-foreground">{module.description}</p>
                       </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              ))}
-            </Tabs>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-6">
+                      {module.topics.map((topic, index) => (
+                        <div key={index} className="flex items-start gap-4">
+                          <div className="bg-muted p-2 rounded-full mt-1">
+                            <Video className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <h4 className="font-medium">{topic.title}</h4>
+                            <p className="text-sm text-muted-foreground">{topic.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
           </div>
         </section>
       </div>
