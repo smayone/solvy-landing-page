@@ -26,6 +26,7 @@ import {
   BookCheck,
   Briefcase
 } from "lucide-react";
+import { DecideySlides } from "@/components/education/DecideySlides";
 
 // First define all constants
 const channelCategories = [
@@ -538,6 +539,19 @@ export default function Education() {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Add the slide deck here */}
+      <section className="py-24 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Understanding DECIDEY</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              A quick introduction to data sovereignty and your digital future
+            </p>
+          </div>
+          <DecideySlides />
         </div>
       </section>
 
