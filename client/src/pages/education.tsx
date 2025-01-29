@@ -24,7 +24,10 @@ import {
   Heart,
   CircleDollarSign,
   BookCheck,
-  Briefcase
+  Briefcase,
+  CreditCard,
+  Smartphone,
+  Check
 } from "lucide-react";
 import { DecideySlides } from "@/components/education/DecideySlides";
 
@@ -468,8 +471,80 @@ const modules = [
         description: 'Practical steps to implement your personal banking system'
       }
     ]
+  },
+  {
+    id: 'solvy-vehicle',
+    title: 'SOLVY: Your Financial Vehicle',
+    description: 'Understanding how SOLVY empowers your financial sovereignty',
+    icon: Building2,
+    topics: [
+      {
+        title: 'SOLVY Payment System',
+        description: 'Physical debit cards and mobile apps for iOS/Android',
+        content: `
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">SOLVY Payment Infrastructure</h3>
+            <p>SOLVY provides a complete financial ecosystem through:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+              <Card className="p-4">
+                <div class="flex items-center gap-3">
+                  <CreditCard className="h-8 w-8 text-primary" />
+                  <div>
+                    <h4 class="font-semibold">Physical Debit Card</h4>
+                    <p class="text-sm text-muted-foreground">Secure worldwide transactions</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-4">
+                <div class="flex items-center gap-3">
+                  <Smartphone className="h-8 w-8 text-primary" />
+                  <div>
+                    <h4 class="font-semibold">Mobile Apps</h4>
+                    <p class="text-sm text-muted-foreground">iOS and Android support</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            <h3 class="text-lg font-semibold mt-8">DAO Fee Structure</h3>
+            <p>All transaction fees are reinvested into the community:</p>
+            <ul class="list-disc pl-6 space-y-2 mt-4">
+              <li>Fees collected remain within the DAO ecosystem</li>
+              <li>Accumulated as tokens for community distribution</li>
+              <li>Funds community-driven projects and initiatives</li>
+              <li>Supports member benefits and growth</li>
+            </ul>
+
+            <div class="bg-primary/5 p-6 rounded-lg mt-8">
+              <h4 class="font-semibold mb-2">Member Benefits</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-green-500" />
+                  <span>Participate in DAO governance</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-green-500" />
+                  <span>Earn tokens through regular usage</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-green-500" />
+                  <span>Vote on community projects</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-green-500" />
+                  <span>Access exclusive financial tools</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      }
+    ]
   }
 ];
+
 
 
 import { useQuery } from "@tanstack/react-query";
