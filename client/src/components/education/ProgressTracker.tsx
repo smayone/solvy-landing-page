@@ -70,16 +70,18 @@ export function ProgressTracker() {
           <Trophy className="h-5 w-5 text-primary" />
           <h3 className="font-semibold">Your Learning Progress</h3>
         </div>
-        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-          <BarChart className="h-4 w-4" />
-          <span>{Math.round(progress)}% Complete</span>
-        </div>
       </div>
 
-      <Progress value={progress} className="mb-4" />
-
-      <div className="mb-4">
-        <p className="text-sm text-muted-foreground">
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-muted-foreground">Overall Progress</span>
+          <div className="flex items-center gap-2">
+            <BarChart className="h-4 w-4 text-primary" />
+            <span className="text-lg font-semibold">{Math.round(progress)}%</span>
+          </div>
+        </div>
+        <Progress value={progress} className="h-2" />
+        <p className="text-sm text-muted-foreground mt-2">
           Completed {completedModules} of {totalModules} modules
         </p>
       </div>
