@@ -63,27 +63,17 @@ export function Navbar({ userRole }: NavbarProps) {
                   <ul className="grid w-[300px] md:w-[400px] lg:w-[500px] gap-3 p-4 lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
-                        <Link href="/education#overview" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
+                        <Link href="/why-statement" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
                           <BookOpen className="h-6 w-6" />
                           <div className="mb-2 mt-4 text-base font-medium">
-                            Start Here: Education Hub
+                            Why SOLVY?
                           </div>
                           <p className="text-sm leading-tight text-muted-foreground">
-                            Begin your blockchain and finance learning journey
+                            Discover our mission and vision
                           </p>
                         </Link>
                       </NavigationMenuLink>
                     </li>
-
-                    <ListItem href="/education#why-solvy">
-                      <div className="flex items-center gap-2">
-                        <Lightbulb className="h-4 w-4" />
-                        <div className="text-sm font-medium">Why SOLVY?</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Quick intro to SOLVY's mission and benefits
-                      </p>
-                    </ListItem>
 
                     <ListItem href="/education#decidey">
                       <div className="flex items-center gap-2">
