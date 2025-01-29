@@ -4,55 +4,11 @@ import { db } from "@db";
 import { businessUnits, chartOfAccounts, accountTypes, manFinancialReports, learningProgress, memberships } from "@db/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import Stripe from "stripe";
-import * as os from 'os';
 
 // Initialize stripe with the secret key from environment variables
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2023-10-16",
 });
-
-// Type definitions for health check responses
-interface HealthStatus {
-  status: "ok" | "error" | "unknown";
-  message?: string;
-}
-
-interface SystemHealth {
-  status: "healthy" | "degraded" | "error";
-  checks: {
-    api: HealthStatus;
-    database: HealthStatus;
-    stripe: HealthStatus;
-    timestamp: string;
-  };
-  metrics?: {
-    memory: NodeJS.MemoryUsage;
-    uptime: number;
-    lastRestart?: string;
-  };
-  environment: string;
-  version: string;
-}
-
-interface DetailedSystemMetrics {
-  cpu: {
-    usage: number;
-    load: number[];
-  };
-  memory: NodeJS.MemoryUsage;
-  disk: {
-    total: number;
-    free: number;
-  };
-}
-
-// Extend Request type to include user property
-interface AuthenticatedRequest extends Request {
-  user?: {
-    id: number;
-    role?: string;
-  };
-}
 
 export function registerRoutes(app: Express): Server {
   // Basic health check endpoint
@@ -994,7 +950,536 @@ export function registerRoutes(app: Express): Server {
       const progress = await db.select()
         .from(learningProgress)
         .where(and(
-          eq(learningProgress.userIdid, req.user.id),
+          eq(learningProgress.userId, req.user.id),
+          eq(learningProgress.progress, 100)
+        ));
+
+      const isBeginnerCompleted = progress.length >= 4; // Assuming 4 modules in beginner course
+
+      if (isBeginnerCompleted) {
+        // Activate membership
+        await db.insert(memberships)
+          .values({
+            userId: req.user.id,
+            type: "basic",
+            isActive: true,
+            metadata: { activatedVia: "beginner_course_completion" }
+          })
+          .onConflictDoUpdate({
+            target: [memberships.userId],
+            set: {
+              isActive: true,
+              metadata: { activatedVia: "beginner_course_completion" }
+            }
+          });
+      }
+
+      res.json({ 
+        success: true, 
+        isBeginnerCompleted,
+        progress: progress.length
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update learning progress" });
+    }
+  });
+
+  // Get beginner course progress
+  app.get("/api/education/progress/beginner", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const progress = await db.select()
+        .from(learningProgress)
+        .where(and(
+          eq(learningProgress.userId, req.user.id),
+          eq(learningProgress.topicId, "beginner")
+        ));
+
+      const membership = await db.select()
+        .from(memberships)
+        .where(eq(memberships.userId, req.user.id))
+        .limit(1);
+
+      res.json({
+        progress,
+        membership: membership[0] || null
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch learning progress" });
+    }
+  });
+
+  // Add new endpoints for progress tracking and MAN analytics
+  app.get("/api/man/learning-analytics", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      // Get aggregated learning progress statistics
+      const progressStats = await db
+        .select({
+          totalUsers: sql<number>`count(distinct ${learningProgress.userId})`,
+          avgProgress: sql<number>`avg(${learningProgress.progress})`,
+          completedModules: sql<number>`count(case when ${learningProgress.progress} = 100 then 1 end)`,
+          totalModules: sql<number>`count(*)`,
+        })
+        .from(learningProgress);
+
+      // Get progress breakdown by module
+      const moduleStats = await db
+        .select({
+          moduleId: learningProgress.moduleId,
+          avgProgress: sql<number>`avg(${learningProgress.progress})`,
+          completionRate: sql<number>`sum(case when ${learningProgress.progress} = 100 then 1 else 0 end) * 100.0 / count(*)`,
+          activeUsers: sql<number>`count(distinct ${learningProgress.userId})`
+        })
+        .from(learningProgress)
+        .groupBy(learningProgress.moduleId);
+
+      // Store analytics data
+      await db.insert(manAnalytics).values({
+        metricName: 'learning_progress',
+        metricValue: progressStats[0].avgProgress,
+        dimension: 'platform',
+        timeframe: 'daily',
+        category: 'education',
+        source: 'system',
+        metadata: {
+          timestamp: new Date().toISOString(),
+          stats: progressStats[0],
+          moduleBreakdown: moduleStats
+        }
+      });
+
+      res.json({
+        overallStats: progressStats[0],
+        moduleStats,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      console.error('Error fetching learning analytics:', error);
+      res.status(500).json({
+        error: "Failed to fetch learning analytics",
+        details: error?.message
+      });
+    }
+  });
+
+  // Create a payment intent
+  app.post("/api/payments/create-intent", async (req: Request, res) => {
+    try {
+      const { amount, currency = 'usd', payment_method_types = ['card'] } = req.body;
+
+      // Create a PaymentIntent with the order amount and currency
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency,
+        payment_method_types,
+        metadata: {
+          integration_type: 'solvy_standard',
+        },
+      });
+
+      res.json({
+        clientSecret: paymentIntent.client_secret,
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      });
+    } catch (error: any) {
+      console.error('Payment intent creation error:', error);
+      res.status(500).json({
+        error: "Failed to create payment intent",
+        details: error?.message
+      });
+    }
+  });
+
+  // Enhanced webhook handler to process all types of payments
+  app.post("/api/payments/webhook", async (req: Request, res) => {
+    const sig = req.headers['stripe-signature'];
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    try {
+      let event;
+
+      if (endpointSecret && sig) {
+        event = stripe.webhooks.constructEvent(
+          req.body,
+          sig,
+          endpointSecret
+        );
+      } else {
+        event = req.body;
+      }
+
+      // Handle different event types
+      switch (event.type) {
+        case 'payment_intent.succeeded':
+          const paymentIntent = event.data.object;
+          // Record successful payment
+          await db
+            .insert(businessUnits)
+            .values({
+              type: "payment_success",
+              code: paymentIntent.id,
+              name: `Payment ${paymentIntent.amount / 100}`,
+              metadata: {
+                payment_id: paymentIntent.id,
+                amount: paymentIntent.amount,
+                currency: paymentIntent.currency,
+                status: paymentIntent.status,
+                payment_method: paymentIntent.payment_method,
+              }
+            });
+          break;
+
+        case 'crypto.onramp.session.completed':
+          // Handle crypto onramp completion
+          const session = event.data.object;
+          await db
+            .update(businessUnits)
+            .set({
+              code: session.id,
+              type: "crypto_onramp_completed",
+              metadata: {
+                ...session,
+                completed_at: new Date().toISOString()
+              }
+            })
+            .where(eq(businessUnits.code, session.id));
+          break;
+
+        case 'payment_intent.payment_failed':
+          const failedPayment = event.data.object;
+          // Record failed payment
+          await db
+            .insert(businessUnits)
+            .values({
+              type: "payment_failed",
+              code: failedPayment.id,
+              name: `Failed Payment ${failedPayment.amount / 100}`,
+              metadata: {
+                payment_id: failedPayment.id,
+                error: failedPayment.last_payment_error,
+                amount: failedPayment.amount,
+                currency: failedPayment.currency,
+              }
+            });
+          break;
+      }
+
+      res.json({ received: true });
+    } catch (error: any) {
+      console.error('Webhook processing failed:', error);
+      res.status(400).json({
+        error: "Webhook processing failed",
+        details: error?.message
+      });
+    }
+  });
+
+  // Attach a payment method to a customer
+  app.post("/api/payments/attach-payment-method", async (req: Request, res) => {
+    try {
+      const { paymentMethodId, customerId } = req.body;
+
+      // Attach the payment method to the customer
+      await stripe.paymentMethods.attach(paymentMethodId, {
+        customer: customerId,
+      });
+
+      // Set it as the default payment method
+      await stripe.customers.update(customerId, {
+        invoice_settings: {
+          default_payment_method: paymentMethodId,
+        },
+      });
+
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error('Payment method attachment error:', error);
+      res.status(500).json({
+        error: "Failed to attach payment method",
+        details: error?.message
+      });
+    }
+  });
+
+  // Owner-only chart of accounts endpoint
+  app.get("/api/man/accounts/overview", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      // Get complete business structure with accounts
+      const overview = await db.transaction(async (tx) => {
+        // Get business units
+        const businesses = await tx
+          .select()
+          .from(businessUnits)
+          .where(eq(businessUnits.isActive, true));
+
+        // Get chart of accounts with metadata
+        const accounts = await tx
+          .select({
+            accountNumber: chartOfAccounts.accountNumber,
+            name: chartOfAccounts.name,
+            description: chartOfAccounts.description,
+            accountType: accountTypes.code,
+            isActive: chartOfAccounts.isActive,
+            metadata: chartOfAccounts.metadata,
+          })
+          .from(chartOfAccounts)
+          .innerJoin(accountTypes, eq(chartOfAccounts.accountTypeId, accountTypes.id))
+          .where(eq(chartOfAccounts.isActive, true));
+
+        // Organize data by business unit
+        const businessStructure = businesses.map(business => ({
+          code: business.code,
+          name: business.name,
+          type: business.type,
+          metadata: business.metadata,
+          accounts: accounts.filter(account =>
+            account.metadata?.business_unit === business.code
+          ).map(account => ({
+            number: account.accountNumber,
+            name: account.name,
+            type: account.accountType,
+            taxTreatment: account.metadata?.tax_treatment || 'standard',
+            category: account.metadata?.category,
+            effectiveDate: account.metadata?.effective_date
+          }))
+        }));
+
+        return {
+          timestamp: new Date().toISOString(),
+          businesses: businessStructure
+        };
+      });
+
+      res.json(overview);
+    } catch (error: any) {
+      console.error('Error fetching chart of accounts:', error);
+      res.status(500).json({
+        error: "Failed to fetch chart of accounts overview",
+        details: error?.message
+      });
+    }
+  });
+
+  // NGO Financial Reporting endpoints
+  app.get("/api/ngo/financial-reports", async (req: AuthenticatedRequest, res) => {
+    try {
+      const { businessUnit = 'DECIDEY', period } = req.query;
+
+      // For demonstration purposes, allow access without authentication
+      // In production, uncomment the authentication check
+      // if (!req.user?.id) {
+      //   return res.status(401).json({ error: "Unauthorized" });
+      // }
+
+      // Return structured mock data for initial implementation
+      const report = {
+        organizationInfo: {
+          name: "DECIDEY Foundation",
+          type: "ngo",
+          reportingPeriod: period || "2024 Q1",
+          generatedAt: new Date().toISOString(),
+        },
+        metrics: {
+          totalDonations: 1250000,
+          programExpenses: 875000,
+          administrativeCosts: 125000,
+          grantAllocations: 250000,
+        },
+        ratios: {
+          programEfficiency: 87.5,
+          administrativeRatio: 12.5,
+          grantAllocationRatio: 20,
+        },
+        transactionSummary: {
+          total: 156,
+          latestTransaction: new Date().toISOString(),
+        },
+        transparency: {
+          dataCompleteness: "98%",
+          lastUpdated: new Date().toISOString(),
+          verificationStatus: "verified",
+        }
+      };
+
+      res.json({ report, reportId: 1 });
+
+    } catch (error: any) {
+      console.error('NGO Financial Report Generation Error:', error);
+      res.status(500).json({
+        error: "Failed to generate NGO financial report",
+        details: error?.message || "Unknown error occurred"
+      });
+    }
+  });
+
+  app.get("/api/ngo/donations", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const mockDonations = [
+        {
+          id: 1,
+          amount: 50000,
+          currency: "USD",
+          donationType: "one-time",
+          donorName: "Anonymous",
+          purpose: "Education Initiative",
+          status: "completed",
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 2,
+          amount: 25000,
+          currency: "USD",
+          donationType: "recurring",
+          donorName: "Community Foundation",
+          purpose: "Healthcare Programs",
+          status: "completed",
+          createdAt: new Date().toISOString()
+        }
+      ];
+
+      res.json({ donations: mockDonations });
+    } catch (error: any) {
+      res.status(500).json({
+        error: "Failed to fetch donations",
+        details: error?.message || "Unknown error occurred"
+      });
+    }
+  });
+
+  app.get("/api/ngo/expenses", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const mockExpenses = [
+        {
+          id: 1,
+          amount: 75000,
+          currency: "USD",
+          category: "program",
+          description: "Educational Materials Distribution",
+          beneficiary: "Local Schools",
+          status: "completed",
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 2,
+          amount: 45000,
+          currency: "USD",
+          category: "administrative",
+          description: "Staff Training Program",
+          status: "completed",
+          createdAt: new Date().toISOString()
+        }
+      ];
+
+      res.json({ expenses: mockExpenses });
+    } catch (error: any) {
+      res.status(500).json({
+        error: "Failed to fetch expenses",
+        details: error?.message || "Unknown error occurred"
+      });
+    }
+  });
+
+  app.get("/api/ngo/grants", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const mockGrants = [
+        {
+          id: 1,
+          amount: 150000,
+          currency: "USD",
+          grantName: "Community Education Initiative",
+          beneficiary: "Rural Schools Network",
+          status: "active",
+          startDate: "2024-01-01",
+          endDate: "2024-12-31",
+          impactMetrics: {
+            schoolsReached: 15,
+            studentsImpacted: 2500,
+            teachersTrained: 100
+          }
+        },
+        {
+          id: 2,
+          amount: 100000,
+          currency: "USD",
+          grantName: "Healthcare Access Program",
+          beneficiary: "Community Health Centers",
+          status: "active",
+          startDate: "2024-01-01",
+          endDate: "2024-12-31",
+          impactMetrics: {
+            clinicsSupported: 5,
+            patientsServed: 1000,
+            medicationProvided: true
+          }
+        }
+      ];
+
+      res.json({ grants: mockGrants });
+    } catch (error: any) {
+      res.status(500).json({
+        error: "Failed to fetch grants",
+        details: error?.message || "Unknown error occurred"
+      });
+    }
+  });
+
+  // Add new endpoints for beginner course progress and membership
+  app.post("/api/education/progress/beginner", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const { moduleId, completed } = req.body;
+
+      // Insert or update learning progress
+      await db.insert(learningProgress)
+        .values({
+          userId: req.user.id,
+          moduleId,
+          topicId: "beginner",
+          progress: completed ? 100 : 0,
+          completedAt: completed ? new Date() : null,
+          metadata: { source: "beginner_course" }
+        })
+        .onConflictDoUpdate({
+          target: [learningProgress.userId, learningProgress.moduleId],
+          set: {
+            progress: completed ? 100 : 0,
+            completedAt: completed ? new Date() : null,
+            updatedAt: new Date()
+          }
+        });
+
+      // Check if all beginner modules are completed
+      const progress = await db.select()
+        .from(learningProgress)
+        .where(and(
+          eq(learningProgress.userId, req.user.id),
           eq(learningProgress.progress, 100)
         ));
 
