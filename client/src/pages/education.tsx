@@ -82,6 +82,14 @@ interface CommunityChannel {
 
 const glossaryTerms = [
   {
+    term: "Public Banking",
+    definition: "A banking system where public banks operate in the public interest, rather than for private profit. Based on Ellen Brown's research, public banks can reduce costs, support local communities, and provide financial services without the profit-driven motives of commercial banks.\n\nKey Concepts:\n- Public ownership and accountability\n- Reinvestment in local communities\n- Lower costs for public projects\n- Partnership with local banks\n\nHistorical Example:\n- Bank of North Dakota (BND), founded 1919, America's only state-owned bank"
+  },
+  {
+    term: "Fractional Reserve Banking",
+    definition: "A banking system where banks are required to keep only a fraction of their deposits in reserve and can lend out the rest, effectively creating new money in the process. As explained in 'Web of Debt', this system underlies modern monetary creation.\n\nKey Components:\n- Reserve requirements\n- Money multiplication\n- Credit creation\n- Central bank oversight\n\nImplications:\n- Money supply expansion\n- Economic growth potential\n- Banking system stability\n- Monetary policy transmission"
+  },
+  {
     term: "Period Poverty DAO",
     definition: "A decentralized autonomous organization dedicated to addressing period poverty through community-driven initiatives, blockchain transparency, and collective governance. This DAO combines social impact with blockchain technology to ensure efficient resource distribution and community engagement.\n\nKey Components:\n- Community Governance: Members participate in decision-making\n- Transparent Distribution: Blockchain-verified aid delivery\n- Impact Tracking: Real-time metrics and accountability\n- Resource Allocation: Community-driven funding priorities"
   },
@@ -185,6 +193,18 @@ const availableLetters = Object.keys(groupedTerms).sort();
 
 // Community channels data
 const communityChannels: CommunityChannel[] = [
+  {
+    name: "Ellen Brown Web of Debt",
+    description: "Public banking advocate and author explaining the history and mechanics of the US banking system",
+    channelId: "https://www.youtube.com/@PublicBankingTV",
+    category: "Economic Analysis",
+    latestVideo: {
+      title: "The Public Banking Solution",
+      thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+      publishedAt: "2025-01-29",
+      views: "15K"
+    }
+  },
   {
     name: "Sean Foo",
     description: "Financial education and digital entrepreneurship insights",
@@ -629,7 +649,7 @@ export default function Education() {
                                 key={pIndex}
                                 className={pIndex === 0 ? "text-lg" : "text-muted-foreground"}
                               >
-                                {paragraph}
+                                                               {paragraph}
                               </p>
                             ))}
                           </div>
