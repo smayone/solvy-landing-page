@@ -17,7 +17,7 @@ export default function MemberHome() {
       {/* Hero Section with Crowned Avatar */}
       <section className="relative py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center text-center">
+          <div className="flex flex-col items-center">
             <div className="relative mb-8">
               <Crown className="absolute -top-8 left-1/2 -translate-x-1/2 w-48 h-48 text-primary/20" />
               <Avatar className="w-32 h-32 relative z-10">
@@ -27,11 +27,26 @@ export default function MemberHome() {
                 </AvatarFallback>
               </Avatar>
             </div>
-            <h1 className="text-4xl font-bold mb-4">Welcome to SOLVY!</h1>
-            <h2 className="text-2xl mb-4">[Member Name]! You're now a member of the DECIDEY NGO!</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl">
-              We're excited to have you! This community is your gateway to sovereignitity, financial sovereignty securing your digital identity. Share your audacity to be a sovereignititee.
-            </p>
+            <h1 className="text-4xl font-bold mb-8 text-center">
+              Welcome to SOLVY!
+            </h1>
+            <h2 className="text-3xl mb-8 text-center">
+              [Member Name]
+            </h2>
+            <h3 className="text-2xl mb-8 text-center">
+              You're now a member of the DECIDEY NGO!
+            </h3>
+            <div className="space-y-4 text-center max-w-2xl">
+              <p className="text-xl text-muted-foreground">
+                We're excited to have you!
+              </p>
+              <p className="text-xl text-muted-foreground">
+                This community is your gateway to sovereignitity, financial sovereignty securing your digital identity.
+              </p>
+              <p className="text-xl text-muted-foreground">
+                Share your audacity to be a sovereignititee.
+              </p>
+            </div>
           </div>
         </div>
       </section>
