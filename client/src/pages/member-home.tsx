@@ -27,9 +27,10 @@ export default function MemberHome() {
                 </AvatarFallback>
               </Avatar>
             </div>
-            <h1 className="text-4xl font-bold mb-4">Welcome to SOLVY</h1>
+            <h1 className="text-4xl font-bold mb-4">Welcome to SOLVY!</h1>
+            <h2 className="text-2xl mb-4">[Member Name]! You're now a member of the DECIDEY NGO!</h2>
             <p className="text-xl text-muted-foreground max-w-2xl">
-              Your gateway to financial sovereignty and secure digital identity
+              We're excited to have you! This community is your gateway to sovereignitity, financial sovereignty securing your digital identity. Share your audacity to be a sovereignititee.
             </p>
           </div>
         </div>
