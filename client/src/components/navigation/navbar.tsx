@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard, BarChart } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard, BarChart, Laptop, Box, Key } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -60,27 +60,8 @@ export function Navbar({ userRole }: NavbarProps) {
                   </div>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[300px] md:w-[400px] lg:w-[500px] gap-3 p-4 lg:grid-cols-[.75fr_1fr]">
-                    <ListItem href="/education#decidey">
-                      <div className="flex items-center gap-2">
-                        <Shield className="h-4 w-4" />
-                        <div className="text-sm font-medium">DECIDEY Basics</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Learn about data ownership and control
-                      </p>
-                    </ListItem>
-
-                    <ListItem href="/education#modules">
-                      <div className="flex items-center gap-2">
-                        <School className="h-4 w-4" />
-                        <div className="text-sm font-medium">Interactive Modules</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Hands-on learning with blockchain demos
-                      </p>
-                    </ListItem>
-
+                  <ul className="grid w-[400px] md:w-[500px] lg:w-[600px] gap-3 p-4 lg:grid-cols-[.75fr_1fr]">
+                    {/* Learning Path Section */}
                     <ListItem href="/education/progress">
                       <div className="flex items-center gap-2">
                         <Trophy className="h-4 w-4" />
@@ -88,21 +69,64 @@ export function Navbar({ userRole }: NavbarProps) {
                       </div>
                       <div className="space-y-2">
                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          Track completed modules and badges
+                          Track your learning journey
                         </p>
                         <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                          <div className="h-full bg-primary" style={{ width: '60%' }} /> {/* We'll make this dynamic */}
+                          <div className="h-full bg-primary" style={{ width: '60%' }} />
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                          <BarChart className="inline-block h-3 w-3 mr-1" />
-                          60% Complete
-                        </p>
                       </div>
                     </ListItem>
 
-                    <li className="row-span-3">
+                    {/* Learning Modules Section */}
+                    <div className="lg:col-span-2">
+                      <h4 className="mb-3 text-sm font-medium leading-none">Learning Modules</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        <ListItem href="/education/blockchain-basics">
+                          <div className="flex items-center gap-2">
+                            <Box className="h-4 w-4" />
+                            <div className="text-sm font-medium">Blockchain Basics</div>
+                          </div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Introduction to blockchain technology
+                          </p>
+                        </ListItem>
+
+                        <ListItem href="/education/decidey-foundation">
+                          <div className="flex items-center gap-2">
+                            <Shield className="h-4 w-4" />
+                            <div className="text-sm font-medium">DECIDEY Foundation</div>
+                          </div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Community empowerment through blockchain
+                          </p>
+                        </ListItem>
+
+                        <ListItem href="/education/digital-identity">
+                          <div className="flex items-center gap-2">
+                            <Key className="h-4 w-4" />
+                            <div className="text-sm font-medium">Digital Identity</div>
+                          </div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Self-sovereign identity principles
+                          </p>
+                        </ListItem>
+
+                        <ListItem href="/education/web3-development">
+                          <div className="flex items-center gap-2">
+                            <Laptop className="h-4 w-4" />
+                            <div className="text-sm font-medium">Web3 Development</div>
+                          </div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Build decentralized applications
+                          </p>
+                        </ListItem>
+                      </div>
+                    </div>
+
+                    {/* Why SOLVY Section */}
+                    <li className="lg:col-span-2">
                       <NavigationMenuLink asChild>
-                        <Link href="/why-statement" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
+                        <Link href="/why-statement" className="flex w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
                           <BookOpen className="h-6 w-6" />
                           <div className="mb-2 mt-4 text-base font-medium">
                             Why SOLVY?

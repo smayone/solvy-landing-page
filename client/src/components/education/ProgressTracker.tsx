@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
-import { Trophy, CheckCircle, BarChart } from "lucide-react";
+import { Trophy, CheckCircle, BarChart, Check } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface VisitedLink {
   path: string;
   title: string;
   visited: boolean;
+  completed: boolean;
 }
 
 interface LearningProgress {
@@ -23,20 +25,21 @@ export function ProgressTracker() {
   });
 
   const [visitedLinks, setVisitedLinks] = useState<VisitedLink[]>([
-    { path: '/education#decidey', title: 'DECIDEY Basics', visited: false },
-    { path: '/education#modules', title: 'Interactive Modules', visited: false },
-    { path: '/why-statement', title: 'Why SOLVY?', visited: false },
+    { path: '/education/blockchain-basics', title: 'Blockchain Basics', visited: false, completed: false },
+    { path: '/education/decidey-foundation', title: 'DECIDEY Foundation', visited: false, completed: false },
+    { path: '/education/digital-identity', title: 'Digital Identity', visited: false, completed: false },
+    { path: '/education/web3-development', title: 'Web3 Development', visited: false, completed: false },
   ]);
 
   useEffect(() => {
-    // Load visited links from localStorage
+    // Load visited and completed status from localStorage
     const storedLinks = localStorage.getItem('visitedLinks');
     if (storedLinks) {
       setVisitedLinks(JSON.parse(storedLinks));
     }
 
     // Track page visits
-    const currentPath = window.location.pathname + window.location.hash;
+    const currentPath = window.location.pathname;
     const updatedLinks = visitedLinks.map(link => ({
       ...link,
       visited: link.visited || link.path === currentPath
@@ -46,7 +49,15 @@ export function ProgressTracker() {
       setVisitedLinks(updatedLinks);
       localStorage.setItem('visitedLinks', JSON.stringify(updatedLinks));
     }
-  }, [window.location.pathname, window.location.hash]);
+  }, [window.location.pathname]);
+
+  const toggleCompleted = (index: number) => {
+    const updatedLinks = visitedLinks.map((link, i) => 
+      i === index ? { ...link, completed: !link.completed } : link
+    );
+    setVisitedLinks(updatedLinks);
+    localStorage.setItem('visitedLinks', JSON.stringify(updatedLinks));
+  };
 
   const progress = progressData?.progress.avgProgress || 0;
   const completedModules = progressData?.progress.completedModules || 0;
@@ -75,16 +86,26 @@ export function ProgressTracker() {
 
       <div className="space-y-2">
         {visitedLinks.map((link, index) => (
-          <Link key={index} href={link.path}>
-            <div className="flex items-center gap-2 p-2 rounded-md hover:bg-accent cursor-pointer">
-              <CheckCircle 
-                className={`h-4 w-4 ${link.visited ? 'text-primary' : 'text-muted'}`} 
-              />
-              <span className={`text-sm ${link.visited ? 'text-foreground' : 'text-muted-foreground'}`}>
-                {link.title}
-              </span>
-            </div>
-          </Link>
+          <div key={index} className="flex items-center gap-2 p-2 rounded-md hover:bg-accent">
+            <Checkbox
+              checked={link.completed}
+              onCheckedChange={() => toggleCompleted(index)}
+              className="h-4 w-4"
+            />
+            <Link href={link.path}>
+              <div className="flex items-center gap-2 cursor-pointer flex-1">
+                <CheckCircle 
+                  className={`h-4 w-4 ${link.visited ? 'text-primary' : 'text-muted'}`} 
+                />
+                <span className={`text-sm ${link.visited ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  {link.title}
+                </span>
+                {link.completed && (
+                  <Check className="h-4 w-4 text-green-500 ml-auto" />
+                )}
+              </div>
+            </Link>
+          </div>
         ))}
       </div>
     </Card>
