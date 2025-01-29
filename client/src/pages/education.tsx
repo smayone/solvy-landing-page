@@ -367,24 +367,24 @@ const modules = [
     icon: Shield,
     topics: [
       {
-        title: 'Understanding DECIDEY',
-        videoId: '6WG7D47tGb0',
-        description: 'Introduction to DECIDEY and its mission for community empowerment'
+        title: 'Understanding DECIDEY: Own Your Data, Own Your Future',
+        videoId: 'decidey-intro-101',
+        description: 'Introduction to DECIDEY and the power of data ownership'
       },
       {
-        title: 'Community Education Initiative',
-        videoId: 'HNC-BhJO_zQ',
-        description: 'How DECIDEY empowers communities through blockchain education'
+        title: 'The Data Problem: Are You in Control?',
+        videoId: 'decidey-data-102',
+        description: 'Understanding current challenges in data ownership and control'
       },
       {
-        title: 'Digital Identity Fundamentals',
-        videoId: 'wZR4f3cqtr0',
-        description: 'Understanding the basics of digital identity and self-sovereignty'
+        title: 'DECIDEY Solution: Your Data, Your Rules',
+        videoId: 'decidey-solution-103',
+        description: 'How DECIDEY empowers you through data sovereignty'
       },
       {
-        title: 'Path to Sovereignitity',
-        videoId: 'xyz123',
-        description: 'The journey from education to self-sovereign identity through DECIDEY'
+        title: 'Building a Better Future Together',
+        videoId: 'decidey-future-104',
+        description: 'Join the movement for data sovereignty and community empowerment'
       }
     ]
   },
@@ -547,6 +547,7 @@ const modules = [
 
 
 
+
 import { useQuery } from "@tanstack/react-query";
 import {
   HoverCard,
@@ -673,8 +674,7 @@ export default function Education() {
             {/* Alphabetical Navigation */}
             <div className="flex flex-wrap justify-center gap-2 mb-8">
               {availableLetters.map((letter) => (
-                <Button
-                  key={letter}
+                <Button                  key={letter}
                   variant={currentLetter === letter ? "default" : "outline"}
                   size="sm"
                   onClick={() => scrollToLetter(letter)}
