@@ -120,6 +120,26 @@ export function Navbar({ userRole }: NavbarProps) {
                             Build decentralized applications
                           </p>
                         </ListItem>
+
+                        <ListItem href="/education/modules/tokenomics">
+                          <div className="flex items-center gap-2">
+                            <LineChart className="h-4 w-4" />
+                            <div className="text-sm font-medium">Tokenomics</div>
+                          </div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Understanding token economics and design
+                          </p>
+                        </ListItem>
+
+                        <ListItem href="/education/modules/defi">
+                          <div className="flex items-center gap-2">
+                            <Wallet className="h-4 w-4" />
+                            <div className="text-sm font-medium">DeFi Fundamentals</div>
+                          </div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Explore decentralized finance concepts
+                          </p>
+                        </ListItem>
                       </div>
                     </div>
 
