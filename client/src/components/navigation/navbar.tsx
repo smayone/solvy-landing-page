@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard, BarChart, Laptop, Box, Key, Database, Building2, CircleDollarSign } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard, Database, Building2, CircleDollarSign } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -91,16 +91,6 @@ export function Navbar({ userRole }: NavbarProps) {
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education#decidey">
-                          <div className="flex items-center gap-2">
-                            <Shield className="h-4 w-4" />
-                            <div className="text-sm font-medium">DECIDEY Foundation</div>
-                          </div>
-                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Data sovereignty and community empowerment
-                          </p>
-                        </ListItem>
-
                         <ListItem href="/education#blockchain">
                           <div className="flex items-center gap-2">
                             <Database className="h-4 w-4" />
@@ -108,6 +98,16 @@ export function Navbar({ userRole }: NavbarProps) {
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
                             Master core blockchain concepts
+                          </p>
+                        </ListItem>
+
+                        <ListItem href="/education#decidey">
+                          <div className="flex items-center gap-2">
+                            <Shield className="h-4 w-4" />
+                            <div className="text-sm font-medium">DECIDEY Foundation</div>
+                          </div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Data sovereignty and community empowerment
                           </p>
                         </ListItem>
 
@@ -131,13 +131,13 @@ export function Navbar({ userRole }: NavbarProps) {
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education#solvy-vehicle">
+                        <ListItem href="/education#defi">
                           <div className="flex items-center gap-2">
-                            <Briefcase className="h-4 w-4" />
-                            <div className="text-sm font-medium">SOLVY Vehicle</div>
+                            <Wallet className="h-4 w-4" />
+                            <div className="text-sm font-medium">DeFi Fundamentals</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Complete financial ecosystem integration
+                            Understanding decentralized finance
                           </p>
                         </ListItem>
                       </div>
