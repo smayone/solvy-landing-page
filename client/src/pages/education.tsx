@@ -133,8 +133,8 @@ const glossaryTerms = [
     definition: "A financial strategy developed by Nelson Nash that utilizes specially engineered dividend-paying whole life insurance as a personal banking system. It allows individuals to become their own bankers by borrowing against their policy's cash value for investments and expenses, while maintaining control over their money and earning compound interest.\n\nKey Components:\n- Specially engineered dividend-paying whole life insurance (not typical agent-sold policies)\n- Policy loans for personal financing\n- Tax-advantaged growth under the IRS 7-Pay Test (7-year rule)\n- Uninterrupted compound interest\n- Legacy building\n\nImportant Note: These policies are specifically designed for banking purposes and differ significantly from traditional whole life insurance policies typically sold by agents. The IRS 7-Pay Test is crucial - it determines the maximum amount that can be paid into the policy over the first seven years while maintaining tax advantages and avoiding Modified Endowment Contract (MEC) status. This engineering requires expertise to maximize cash value while staying within these guidelines."
   },
   {
-    term: "Banking Policy",
-    definition: "A specifically engineered dividend-paying whole life insurance policy structured to maximize cash value growth and banking capabilities within the Infinite Banking Concept framework. Unlike traditional life insurance policies sold by typical agents, these banking policies are specially designed with precise specifications to optimize cash value accumulation while staying within IRS guidelines.\n\nKey Features:\n- High cash value to premium ratio through specific engineering\n- Structured around the IRS 7-Pay Test, which sets premium limits for the first seven years to avoid MEC status\n- Carefully balanced base premium and paid-up additions to maximize growth within IRS guidelines\n- Dividend participation\n- Flexible premium payment structure\n- Quick access to capital through policy loans\n\nNote: These policies require specific design expertise and differ substantially from standard whole life insurance. The 7-Pay Test is a critical IRS rule that determines how much can be contributed to the policy in the first seven years while maintaining its tax advantages. Exceeding these limits converts the policy to a Modified Endowment Contract (MEC), which loses many of the banking benefits."
+    term: "IBC Banking Policy",
+    definition: "A specifically engineered dividend-paying whole life insurance policy structured to maximize cash value growth and banking capabilities within the Infinite Banking Concept framework. Unlike traditional life insurance policies sold by typical agents, these banking policies are specially designed with precise specifications to optimize cash value accumulation while staying within IRS guidelines.\n\nKey Features:\n- High cash value to premium ratio through specific engineering\n- Structured around the IRS 7-Pay Test, which sets premium limits for the first seven years to avoid MEC status\n- Carefully balanced base premium and paid-up additions to maximize growth within IRS guidelines\n- Dividend participation\n- Flexible premium payment structure\n- Quick access to capital through policy loans"
   },
   {
     term: "Policy Loan",
@@ -668,7 +668,7 @@ export default function Education() {
                         variant="outline"
                         size="lg"
                         onClick={() => handlePrevChannel(category)}
-                        disabled={currentIndex === 0}
+                        disabled={currentIndex ===0}
                       >
                         Previous
                       </Button>
