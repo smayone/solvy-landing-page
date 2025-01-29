@@ -7,13 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, PlayCircle, Trophy } from "lucide-react";
 import { useState } from "react";
 
-interface Module {
-  id: string;
-  title: string;
-  content: string;
-}
-
-const MODULES: Module[] = [
+const MODULES = [
   {
     id: "blockchain-basics",
     title: "Introduction to Blockchain",
@@ -125,11 +119,17 @@ export default function BeginnerCourse() {
   const queryClient = useQueryClient();
   const [currentModule, setCurrentModule] = useState(0);
 
-  const { data: progressData } = useQuery<{ 
-    progress: any[],
-    membership: { isActive: boolean } | null 
-  }>(["/api/education/progress/beginner"]);
+  // Query for user progress
+  const { data: progressData } = useQuery({
+    queryKey: ["/api/education/progress/beginner"],
+    queryFn: async () => {
+      const res = await fetch("/api/education/progress/beginner");
+      if (!res.ok) throw new Error("Failed to fetch progress");
+      return res.json();
+    }
+  });
 
+  // Mutation for completing modules
   const completeMutation = useMutation({
     mutationFn: async (moduleId: string) => {
       const res = await fetch("/api/education/progress/beginner", {
@@ -141,7 +141,7 @@ export default function BeginnerCourse() {
       return res.json();
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["/api/education/progress/beginner"]);
+      queryClient.invalidateQueries({ queryKey: ["/api/education/progress/beginner"] });
       toast({
         title: "Progress Saved",
         description: data.isBeginnerCompleted 
@@ -160,7 +160,7 @@ export default function BeginnerCourse() {
   return (
     <div className="container mx-auto py-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">{t("education.blockchain_basics.title")}</h1>
+        <h1 className="text-4xl font-bold mb-4">Blockchain Basics</h1>
         <Progress value={progressPercentage} className="w-full" />
         <p className="text-sm text-muted-foreground mt-2">
           {completedModules.length} of {MODULES.length} modules completed
@@ -177,7 +177,7 @@ export default function BeginnerCourse() {
         <div className="lg:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>{t("education.modules")}</CardTitle>
+              <CardTitle>Course Modules</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -208,7 +208,7 @@ export default function BeginnerCourse() {
                 <>
                   <h2 className="text-2xl font-bold mb-4">{MODULES[currentModule].title}</h2>
                   <div 
-                    className="prose max-w-none" 
+                    className="prose prose-slate max-w-none dark:prose-invert" 
                     dangerouslySetInnerHTML={{ __html: MODULES[currentModule].content }} 
                   />
                   <Button
