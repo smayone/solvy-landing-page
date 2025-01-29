@@ -41,9 +41,9 @@ export function Navbar({ userRole }: NavbarProps) {
       <div className="flex h-16 items-center px-4 container mx-auto">
         <div className="flex-shrink-0 mr-4 md:mr-8">
           <Link href="/">
-            <img 
-              src="/SolvyLogo-1024.png" 
-              alt="SOLVY" 
+            <img
+              src="/SolvyLogo-1024.png"
+              alt="SOLVY"
               className="h-8 md:h-10 w-auto object-contain hover:opacity-90 transition-opacity cursor-pointer"
             />
           </Link>
@@ -52,8 +52,7 @@ export function Navbar({ userRole }: NavbarProps) {
         <div className="flex-1 flex items-center justify-between md:justify-center space-x-2 md:space-x-4">
           <NavigationMenu>
             <NavigationMenuList>
-              {/* Education Menu */}
-              <NavigationMenuItem className="block md:inline-block">
+              <NavigationMenuItem>
                 <NavigationMenuTrigger className="h-9 px-3">
                   <div className="flex items-center gap-2">
                     <GraduationCap className="h-4 w-4" />
@@ -64,49 +63,61 @@ export function Navbar({ userRole }: NavbarProps) {
                   <ul className="grid w-[300px] md:w-[400px] lg:w-[500px] gap-3 p-4 lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
-                        <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
+                        <Link href="/education#overview" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
                           <BookOpen className="h-6 w-6" />
                           <div className="mb-2 mt-4 text-base font-medium">
-                            Education Hub
+                            Start Here: Education Hub
                           </div>
                           <p className="text-sm leading-tight text-muted-foreground">
-                            Your gateway to comprehensive blockchain and financial education
+                            Begin your blockchain and finance learning journey
                           </p>
                         </Link>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/education/business-case">
+
+                    <ListItem href="/education#why-solvy">
                       <div className="flex items-center gap-2">
-                        <Briefcase className="h-4 w-4" />
-                        <div className="text-sm font-medium">Business Case</div>
+                        <Lightbulb className="h-4 w-4" />
+                        <div className="text-sm font-medium">Why SOLVY?</div>
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Strategic value proposition for upwardly mobile markets
+                        Quick intro to SOLVY's mission and benefits
                       </p>
                     </ListItem>
+
+                    <ListItem href="/education#decidey">
+                      <div className="flex items-center gap-2">
+                        <Shield className="h-4 w-4" />
+                        <div className="text-sm font-medium">DECIDEY Basics</div>
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Learn about data ownership and control
+                      </p>
+                    </ListItem>
+
                     <ListItem href="/education#modules">
                       <div className="flex items-center gap-2">
                         <School className="h-4 w-4" />
-                        <div className="text-sm font-medium">Learning Modules</div>
+                        <div className="text-sm font-medium">Interactive Modules</div>
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Structured learning content for blockchain and finance
+                        Hands-on learning with blockchain demos
                       </p>
                     </ListItem>
-                    <ListItem href="/education/progress">
+
+                    <ListItem href="/education#achievements">
                       <div className="flex items-center gap-2">
                         <Trophy className="h-4 w-4" />
-                        <div className="text-sm font-medium">My Progress</div>
+                        <div className="text-sm font-medium">Your Progress</div>
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Track your educational achievements and certifications
+                        Track completed modules and badges
                       </p>
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* Payments & Transfers Menu */}
               <NavigationMenuItem className="block md:inline-block">
                 <NavigationMenuTrigger className="h-9 px-3">
                   <div className="flex items-center gap-2">
