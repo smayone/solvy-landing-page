@@ -474,7 +474,7 @@ const modules = [
   },
   {
     id: 'solvy-vehicle',
-    title: 'SOLVY: Your Financial Vehicle',
+    title: 'SOLVY Integration',
     description: 'Understanding how SOLVY empowers your financial sovereignty',
     icon: Building2,
     topics: [
