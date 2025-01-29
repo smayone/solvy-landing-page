@@ -27,7 +27,8 @@ import {
   Briefcase,
   CreditCard,
   Smartphone,
-  Check
+  Check,
+  Wallet // Added import for Wallet icon
 } from "lucide-react";
 import { DecideySlides } from "@/components/education/DecideySlides";
 
@@ -333,62 +334,6 @@ const communityChannels: CommunityChannel[] = [
 // Learning modules
 const modules = [
   {
-    id: 'period-poverty-dao',
-    title: 'Period Poverty DAO',
-    description: 'Community-driven initiatives for addressing period poverty through blockchain',
-    icon: Heart,
-    topics: [
-      {
-        title: 'Understanding Period Poverty',
-        videoId: 'pp101',
-        description: 'Introduction to period poverty and its global impact'
-      },
-      {
-        title: 'DAO Governance Models',
-        videoId: 'pp102',
-        description: 'How DAOs can drive community-led social impact'
-      },
-      {
-        title: 'Blockchain Transparency',
-        videoId: 'pp103',
-        description: 'Using blockchain to ensure accountability in social initiatives'
-      },
-      {
-        title: 'Community Engagement',
-        videoId: 'pp104',
-        description: 'Building and growing the Period Poverty DAO community'
-      }
-    ]
-  },
-  {
-    id: 'decidey',
-    title: 'DECIDEY Foundation',
-    description: 'Decentralized Empowerment Control Identity Data Economy of Yours',
-    icon: Shield,
-    topics: [
-      {
-        title: 'Understanding DECIDEY: Own Your Data, Own Your Future',
-        videoId: 'decidey-intro-101',
-        description: 'Introduction to DECIDEY and the power of data ownership'
-      },
-      {
-        title: 'The Data Problem: Are You in Control?',
-        videoId: 'decidey-data-102',
-        description: 'Understanding current challenges in data ownership and control'
-      },
-      {
-        title: 'DECIDEY Solution: Your Data, Your Rules',
-        videoId: 'decidey-solution-103',
-        description: 'How DECIDEY empowers you through data sovereignty'
-      },
-      {
-        title: 'Building a Better Future Together',
-        videoId: 'decidey-future-104',
-        description: 'Join the movement for data sovereignty and community empowerment'
-      }
-    ]
-  },
-  {
     id: 'blockchain',
     title: 'Blockchain Fundamentals',
     description: 'Master core blockchain concepts for your journey to Sovereignitity',
@@ -401,7 +346,7 @@ const modules = [
       },
       {
         title: 'Decentralization Explained',
-        videoId: 'HNC-BhJO_zQ',
+        videoId: 'SZqNQLtTB3o',
         description: 'Understanding the power of decentralized systems'
       },
       {
@@ -411,8 +356,31 @@ const modules = [
       },
       {
         title: 'Consensus Mechanisms',
-        videoId: 'abc456',
+        videoId: 'q3HvJ3-a_JM',
         description: 'How blockchain networks achieve agreement'
+      }
+    ]
+  },
+  {
+    id: 'decidey',
+    title: 'DECIDEY Foundation',
+    description: 'Decentralized Empowerment Control Identity Data Economy of Yours',
+    icon: Shield,
+    topics: [
+      {
+        title: 'Understanding DECIDEY',
+        videoId: 'decidey-intro-101',
+        description: 'Introduction to DECIDEY and data ownership principles'
+      },
+      {
+        title: 'Data Sovereignty',
+        videoId: 'decidey-data-102',
+        description: 'Understanding data ownership and control'
+      },
+      {
+        title: 'Community Empowerment',
+        videoId: 'decidey-solution-103',
+        description: 'How DECIDEY empowers communities through blockchain'
       }
     ]
   },
@@ -430,15 +398,10 @@ const modules = [
       {
         title: 'Sovereignitity in Practice',
         videoId: 'ZE2HxTmxfrI',
-        description: 'Applying DECIDEY education through SOLVY platform'
+        description: 'Applying DECIDEY principles through SOLVY'
       },
       {
-        title: 'Self-Sovereign Identity',
-        videoId: '2tTVJL4bpTU',
-        description: 'Managing your digital identity and financial sovereignty'
-      },
-      {
-        title: 'Advanced SOLVY Features',
+        title: 'Financial Integration',
         videoId: 'ClnnLI1SClA',
         description: 'Maximizing your potential with SOLVY tools'
       }
@@ -452,100 +415,40 @@ const modules = [
     topics: [
       {
         title: 'IBC Fundamentals',
-        videoId: 'ibc101',
-        description: 'Introduction to the Infinite Banking Concept and its principles'
+        videoId: 'GsvA4fNjzSs',
+        description: 'Introduction to the Infinite Banking Concept'
       },
       {
-        title: 'Banking Policies Explained',
+        title: 'Policy Design',
         videoId: 'ibc102',
-        description: 'Understanding dividend-paying whole life insurance policies'
+        description: 'Understanding dividend-paying whole life insurance'
       },
       {
-        title: 'Policy Loans & Financing',
-        videoId: 'ibc103',
-        description: 'How to leverage your policy for investments and expenses'
-      },
-      {
-        title: 'Building Your Banking System',
+        title: 'Banking System Implementation',
         videoId: 'ibc104',
-        description: 'Practical steps to implement your personal banking system'
+        description: 'Building your personal banking system'
       }
     ]
   },
   {
-    id: 'solvy-vehicle',
-    title: 'SOLVY Integration',
-    description: 'Understanding how SOLVY empowers your financial sovereignty',
-    icon: Building2,
+    id: 'defi',
+    title: 'DeFi Fundamentals',
+    description: 'Understanding Decentralized Finance',
+    icon: Wallet,
     topics: [
       {
-        title: 'SOLVY Payment System',
-        description: 'Physical debit cards and mobile apps for iOS/Android',
-        content: `
-          <div class="space-y-4">
-            <h3 class="text-lg font-semibold">SOLVY Payment Infrastructure</h3>
-            <p>SOLVY provides a complete financial ecosystem through:</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-              <Card className="p-4">
-                <div class="flex items-center gap-3">
-                  <CreditCard className="h-8 w-8 text-primary" />
-                  <div>
-                    <h4 class="font-semibold">Physical Debit Card</h4>
-                    <p class="text-sm text-muted-foreground">Secure worldwide transactions</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-4">
-                <div class="flex items-center gap-3">
-                  <Smartphone className="h-8 w-8 text-primary" />
-                  <div>
-                    <h4 class="font-semibold">Mobile Apps</h4>
-                    <p class="text-sm text-muted-foreground">iOS and Android support</p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-
-            <h3 class="text-lg font-semibold mt-8">DAO Fee Structure</h3>
-            <p>All transaction fees are reinvested into the community:</p>
-            <ul class="list-disc pl-6 space-y-2 mt-4">
-              <li>Fees collected remain within the DAO ecosystem</li>
-              <li>Accumulated as tokens for community distribution</li>
-              <li>Funds community-driven projects and initiatives</li>
-              <li>Supports member benefits and growth</li>
-            </ul>
-
-            <div class="bg-primary/5 p-6 rounded-lg mt-8">
-              <h4 class="font-semibold mb-2">Member Benefits</h4>
-              <ul class="space-y-2">
-                <li class="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-green-500" />
-                  <span>Participate in DAO governance</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-green-500" />
-                  <span>Earn tokens through regular usage</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-green-500" />
-                  <span>Vote on community projects</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-green-500" />
-                  <span>Access exclusive financial tools</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        `
+        title: 'Introduction to DeFi',
+        videoId: '17QRFlml4pA',
+        description: 'The basics of decentralized finance'
+      },
+      {
+        title: 'DeFi Protocols',
+        videoId: 'H-O3r2YMWJ4',
+        description: 'Understanding different DeFi protocols and their uses'
       }
     ]
   }
 ];
-
-
 
 
 import { useQuery } from "@tanstack/react-query";
@@ -674,7 +577,8 @@ export default function Education() {
             {/* Alphabetical Navigation */}
             <div className="flex flex-wrap justify-center gap-2 mb-8">
               {availableLetters.map((letter) => (
-                <Button                  key={letter}
+                <Button
+                  key={letter}
                   variant={currentLetter === letter ? "default" : "outline"}
                   size="sm"
                   onClick={() => scrollToLetter(letter)}

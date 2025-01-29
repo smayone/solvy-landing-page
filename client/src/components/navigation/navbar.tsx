@@ -81,13 +81,13 @@ export function Navbar({ userRole }: NavbarProps) {
                     <div className="lg:col-span-2">
                       <h4 className="mb-3 text-sm font-medium leading-none">Learning Modules</h4>
                       <div className="grid grid-cols-2 gap-2">
-                        <ListItem href="/education#period-poverty-dao">
+                        <ListItem href="/reign/dao">
                           <div className="flex items-center gap-2">
                             <Heart className="h-4 w-4" />
-                            <div className="text-sm font-medium">Period Poverty DAO</div>
+                            <div className="text-sm font-medium">REIGN Period Poverty DAO</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Community-driven initiatives through blockchain
+                            Learn from our real-world blockchain initiative
                           </p>
                         </ListItem>
 
