@@ -17,27 +17,34 @@ export default function Education() {
       id: "beginner",
       title: t("education.learning_paths.beginner"),
       modules: [
-        "blockchain_basics.intro",
-        "blockchain_basics.decentralization",
-        "blockchain_basics.consensus",
-        "blockchain_basics.cryptography",
-        "blockchain_basics.smart_contracts"
+        {
+          id: "blockchain_basics",
+          title: "Blockchain Basics",
+          description: "Introduction to blockchain technology and fundamentals",
+        },
+        {
+          id: "web3_fundamentals",
+          title: "Web3 Fundamentals",
+          description: "Understanding Web3 and decentralized applications",
+        },
+        {
+          id: "digital_identity",
+          title: "Digital Identity",
+          description: "Self-sovereign identity and privacy in Web3",
+        }
       ]
     },
     {
       id: "intermediate",
       title: t("education.learning_paths.intermediate"),
       locked: !progress?.completed?.includes("beginner"),
+      modules: []
     },
     {
       id: "advanced",
       title: t("education.learning_paths.advanced"),
       locked: !progress?.completed?.includes("intermediate"),
-    },
-    {
-      id: "expert",
-      title: t("education.learning_paths.expert"),
-      locked: !progress?.completed?.includes("advanced"),
+      modules: []
     }
   ];
 
@@ -63,9 +70,12 @@ export default function Education() {
             </CardHeader>
             <CardContent>
               {path.modules?.map((module) => (
-                <div key={module} className="flex items-center gap-2 mb-2">
+                <div key={module.id} className="flex items-center gap-2 mb-4">
                   <BookOpen className="w-4 h-4" />
-                  <span>{t(`education.${module}`)}</span>
+                  <div>
+                    <h3 className="font-medium">{module.title}</h3>
+                    <p className="text-sm text-muted-foreground">{module.description}</p>
+                  </div>
                 </div>
               ))}
               <Button
