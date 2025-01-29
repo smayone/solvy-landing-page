@@ -7,9 +7,11 @@ import { BookOpen, CheckCircle, Circle } from "lucide-react";
 
 export default function Education() {
   const { t } = useTranslation();
-  
-  const { data: progress } = useQuery<{ completed: string[] }>(["/api/education/progress"]);
-  
+
+  const { data: progress } = useQuery({
+    queryKey: ["/api/education/progress"],
+  });
+
   const paths = [
     {
       id: "beginner",
@@ -68,12 +70,16 @@ export default function Education() {
               ))}
               <Button
                 className="mt-4 w-full"
-                asChild
+                asChild={!path.locked}
                 disabled={path.locked}
               >
-                <Link href={`/education/${path.id}`}>
-                  {t("education.welcome.start_learning")}
-                </Link>
+                {path.locked ? (
+                  <span>{t("education.welcome.locked")}</span>
+                ) : (
+                  <Link href={`/education/${path.id}`}>
+                    {t("education.welcome.start_learning")}
+                  </Link>
+                )}
               </Button>
             </CardContent>
           </Card>
