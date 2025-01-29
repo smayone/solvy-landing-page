@@ -62,7 +62,7 @@ export function Navbar({ userRole }: NavbarProps) {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[300px] md:w-[400px] lg:w-[500px] gap-3 p-4 lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-4">
+                    <li className="row-span-3">
                       <NavigationMenuLink asChild>
                         <Link href="/education" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
                           <BookOpen className="h-6 w-6" />
@@ -84,22 +84,13 @@ export function Navbar({ userRole }: NavbarProps) {
                         Strategic value proposition for upwardly mobile markets
                       </p>
                     </ListItem>
-                    <ListItem href="/education/learning-paths">
-                      <div className="flex items-center gap-2">
-                        <Map className="h-4 w-4" />
-                        <div className="text-sm font-medium">Learning Paths</div>
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Personalized educational journeys tailored to your goals
-                      </p>
-                    </ListItem>
-                    <ListItem href="/education/courses">
+                    <ListItem href="/education#modules">
                       <div className="flex items-center gap-2">
                         <School className="h-4 w-4" />
-                        <div className="text-sm font-medium">Courses</div>
+                        <div className="text-sm font-medium">Learning Modules</div>
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Structured learning paths for blockchain and finance
+                        Structured learning content for blockchain and finance
                       </p>
                     </ListItem>
                     <ListItem href="/education/progress">
