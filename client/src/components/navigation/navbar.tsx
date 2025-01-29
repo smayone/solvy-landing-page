@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard, BarChart, Laptop, Box, Key } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard, BarChart, Laptop, Box, Key, Database, Building2, CircleDollarSign } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -81,63 +81,63 @@ export function Navbar({ userRole }: NavbarProps) {
                     <div className="lg:col-span-2">
                       <h4 className="mb-3 text-sm font-medium leading-none">Learning Modules</h4>
                       <div className="grid grid-cols-2 gap-2">
-                        <ListItem href="/education/modules/blockchain">
+                        <ListItem href="/education#period-poverty-dao">
                           <div className="flex items-center gap-2">
-                            <Box className="h-4 w-4" />
-                            <div className="text-sm font-medium">Introduction to Blockchain</div>
+                            <Heart className="h-4 w-4" />
+                            <div className="text-sm font-medium">Period Poverty DAO</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Start with the fundamentals of blockchain technology
+                            Community-driven initiatives through blockchain
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/modules/decidey">
+                        <ListItem href="/education#decidey">
                           <div className="flex items-center gap-2">
                             <Shield className="h-4 w-4" />
                             <div className="text-sm font-medium">DECIDEY Foundation</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Community empowerment through blockchain
+                            Data sovereignty and community empowerment
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/modules/identity">
+                        <ListItem href="/education#blockchain">
                           <div className="flex items-center gap-2">
-                            <Key className="h-4 w-4" />
-                            <div className="text-sm font-medium">Digital Identity</div>
+                            <Database className="h-4 w-4" />
+                            <div className="text-sm font-medium">Blockchain Fundamentals</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Self-sovereign identity principles
+                            Master core blockchain concepts
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/modules/web3">
+                        <ListItem href="/education#solvy">
                           <div className="flex items-center gap-2">
-                            <Laptop className="h-4 w-4" />
-                            <div className="text-sm font-medium">Web3 Development</div>
+                            <Building2 className="h-4 w-4" />
+                            <div className="text-sm font-medium">SOLVY Integration</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Build decentralized applications
+                            Your vehicle for financial sovereignty
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/modules/tokenomics">
+                        <ListItem href="/education#infinite-banking">
                           <div className="flex items-center gap-2">
-                            <LineChart className="h-4 w-4" />
-                            <div className="text-sm font-medium">Tokenomics</div>
+                            <CircleDollarSign className="h-4 w-4" />
+                            <div className="text-sm font-medium">Infinite Banking</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Understanding token economics and design
+                            Master becoming your own banker
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/modules/defi">
+                        <ListItem href="/education#solvy-vehicle">
                           <div className="flex items-center gap-2">
-                            <Wallet className="h-4 w-4" />
-                            <div className="text-sm font-medium">DeFi Fundamentals</div>
+                            <Briefcase className="h-4 w-4" />
+                            <div className="text-sm font-medium">SOLVY Vehicle</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Explore decentralized finance concepts
+                            Complete financial ecosystem integration
                           </p>
                         </ListItem>
                       </div>
