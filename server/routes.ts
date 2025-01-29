@@ -2,7 +2,7 @@ import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
 import { businessUnits, chartOfAccounts, accountTypes, manFinancialReports, learningProgress, memberships } from "@db/schema";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, sql } from "drizzle-orm";
 import Stripe from "stripe";
 import * as os from 'os';
 
@@ -290,24 +290,52 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Track learning progress
+  // Track learning progress (UPDATED)
   app.post("/api/learning-progress", async (req: AuthenticatedRequest, res) => {
     try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
       const { moduleId, topicId, progress } = req.body;
 
-      await db.insert(businessUnits).values({
-        userId: req.user?.id,
+      // Insert progress
+      await db.insert(learningProgress).values({
+        userId: req.user.id,
         moduleId,
         topicId,
         progress,
-        createdAt: new Date()
+        completedAt: progress === 100 ? new Date() : null,
+        metadata: { 
+          source: 'user_action',
+          timestamp: new Date().toISOString()
+        }
       });
 
-      res.json({ status: "success" });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to update learning progress" });
+      // Get user's overall progress
+      const userProgress = await db
+        .select({
+          totalModules: sql<number>`count(*)`,
+          completedModules: sql<number>`count(case when ${learningProgress.progress} = 100 then 1 end)`,
+          avgProgress: sql<number>`avg(${learningProgress.progress})`
+        })
+        .from(learningProgress)
+        .where(eq(learningProgress.userId, req.user.id));
+
+      res.json({ 
+        status: "success",
+        progress: userProgress[0]
+      });
+
+    } catch (error: any) {
+      console.error('Error updating learning progress:', error);
+      res.status(500).json({ 
+        error: "Failed to update learning progress",
+        details: error?.message
+      });
     }
   });
+
 
   // Existing tech companies endpoints
   app.get("/api/tech-companies", async (_req, res) => {
@@ -934,7 +962,7 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Add new routes for beginner course progress and membership
+  // Add new endpoints for beginner course progress and membership
   app.post("/api/education/progress/beginner", async (req: AuthenticatedRequest, res) => {
     try {
       if (!req.user?.id) {
@@ -966,7 +994,7 @@ export function registerRoutes(app: Express): Server {
       const progress = await db.select()
         .from(learningProgress)
         .where(and(
-          eq(learningProgress.userId, req.user.id),
+          eq(learningProgress.userIdid, req.user.id),
           eq(learningProgress.progress, 100)
         ));
 
@@ -997,7 +1025,7 @@ export function registerRoutes(app: Express): Server {
       });
     } catch (error) {
       res.status(500).json({ error: "Failed to update learning progress" });
-        }
+    }
   });
 
   // Get beginner course progress
@@ -1025,6 +1053,64 @@ export function registerRoutes(app: Express): Server {
       });
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch learning progress" });
+    }
+  });
+
+  // Add new endpoints for progress tracking and MAN analytics
+  app.get("/api/man/learning-analytics", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (req.user?.role !== 'owner') {
+        return res.status(403).json({ error: "Owner access required" });
+      }
+
+      // Get aggregated learning progress statistics
+      const progressStats = await db
+        .select({
+          totalUsers: sql<number>`count(distinct ${learningProgress.userId})`,
+          avgProgress: sql<number>`avg(${learningProgress.progress})`,
+          completedModules: sql<number>`count(case when ${learningProgress.progress} = 100 then 1 end)`,
+          totalModules: sql<number>`count(*)`,
+        })
+        .from(learningProgress);
+
+      // Get progress breakdown by module
+      const moduleStats = await db
+        .select({
+          moduleId: learningProgress.moduleId,
+          avgProgress: sql<number>`avg(${learningProgress.progress})`,
+          completionRate: sql<number>`sum(case when ${learningProgress.progress} = 100 then 1 else 0 end) * 100.0 / count(*)`,
+          activeUsers: sql<number>`count(distinct ${learningProgress.userId})`
+        })
+        .from(learningProgress)
+        .groupBy(learningProgress.moduleId);
+
+      // Store analytics data
+      await db.insert(manAnalytics).values({
+        metricName: 'learning_progress',
+        metricValue: progressStats[0].avgProgress,
+        dimension: 'platform',
+        timeframe: 'daily',
+        category: 'education',
+        source: 'system',
+        metadata: {
+          timestamp: new Date().toISOString(),
+          stats: progressStats[0],
+          moduleBreakdown: moduleStats
+        }
+      });
+
+      res.json({
+        overallStats: progressStats[0],
+        moduleStats,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      console.error('Error fetching learning analytics:', error);
+      res.status(500).json({
+        error: "Failed to fetch learning analytics",
+        details: error?.message
+      });
     }
   });
 

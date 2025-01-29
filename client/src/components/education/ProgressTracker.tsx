@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
-import { Trophy, CheckCircle } from "lucide-react";
+import { Trophy, CheckCircle, BarChart } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 
 interface VisitedLink {
   path: string;
@@ -9,15 +11,22 @@ interface VisitedLink {
   visited: boolean;
 }
 
+interface LearningProgress {
+  totalModules: number;
+  completedModules: number;
+  avgProgress: number;
+}
+
 export function ProgressTracker() {
+  const { data: progressData } = useQuery<{ progress: LearningProgress }>({
+    queryKey: ['/api/learning-progress'],
+  });
+
   const [visitedLinks, setVisitedLinks] = useState<VisitedLink[]>([
     { path: '/education#decidey', title: 'DECIDEY Basics', visited: false },
     { path: '/education#modules', title: 'Interactive Modules', visited: false },
     { path: '/why-statement', title: 'Why SOLVY?', visited: false },
-    // Add more educational content links as needed
   ]);
-
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     // Load visited links from localStorage
@@ -37,33 +46,45 @@ export function ProgressTracker() {
       setVisitedLinks(updatedLinks);
       localStorage.setItem('visitedLinks', JSON.stringify(updatedLinks));
     }
-
-    // Calculate progress
-    const completedCount = updatedLinks.filter(link => link.visited).length;
-    const newProgress = Math.round((completedCount / updatedLinks.length) * 100);
-    setProgress(newProgress);
   }, [window.location.pathname, window.location.hash]);
+
+  const progress = progressData?.progress.avgProgress || 0;
+  const completedModules = progressData?.progress.completedModules || 0;
+  const totalModules = progressData?.progress.totalModules || 0;
 
   return (
     <Card className="p-4">
-      <div className="flex items-center gap-2 mb-4">
-        <Trophy className="h-5 w-5 text-primary" />
-        <h3 className="font-semibold">Your Learning Progress</h3>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Trophy className="h-5 w-5 text-primary" />
+          <h3 className="font-semibold">Your Learning Progress</h3>
+        </div>
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+          <BarChart className="h-4 w-4" />
+          <span>{Math.round(progress)}% Complete</span>
+        </div>
       </div>
-      
+
       <Progress value={progress} className="mb-4" />
-      <p className="text-sm text-muted-foreground mb-4">
-        {progress}% Complete
-      </p>
+
+      <div className="mb-4">
+        <p className="text-sm text-muted-foreground">
+          Completed {completedModules} of {totalModules} modules
+        </p>
+      </div>
 
       <div className="space-y-2">
         {visitedLinks.map((link, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <CheckCircle className={`h-4 w-4 ${link.visited ? 'text-primary' : 'text-muted'}`} />
-            <span className={`text-sm ${link.visited ? 'text-foreground' : 'text-muted-foreground'}`}>
-              {link.title}
-            </span>
-          </div>
+          <Link key={index} href={link.path}>
+            <div className="flex items-center gap-2 p-2 rounded-md hover:bg-accent cursor-pointer">
+              <CheckCircle 
+                className={`h-4 w-4 ${link.visited ? 'text-primary' : 'text-muted'}`} 
+              />
+              <span className={`text-sm ${link.visited ? 'text-foreground' : 'text-muted-foreground'}`}>
+                {link.title}
+              </span>
+            </div>
+          </Link>
         ))}
       </div>
     </Card>
