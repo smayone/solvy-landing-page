@@ -14,6 +14,7 @@ import WhyStatement from "@/pages/why-statement";
 import CryptoPage from "@/pages/crypto";
 import Education from "@/pages/education";
 import BusinessCase from "@/pages/education/business-case";
+import BeginnerCourse from "@/pages/education/beginner";
 import MonitoringDashboard from "@/pages/monitoring-dashboard";
 import NGOTransparencyPage from "@/pages/ngo-transparency";
 import NotFound from "@/pages/not-found";
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/payments" component={Payments} />
       <Route path="/remittance" component={Remittance} />
       <Route path="/education" component={Education} />
+      <Route path="/education/beginner" component={BeginnerCourse} />
       <Route path="/education/business-case" component={BusinessCase} />
       <Route path="/monitoring-dashboard" component={MonitoringDashboard} />
       <Route path="/reign" component={Reign} />

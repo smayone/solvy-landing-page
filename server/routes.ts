@@ -1,7 +1,7 @@
 import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { db } from "@db";
-import { businessUnits, chartOfAccounts, accountTypes, manFinancialReports } from "@db/schema";
+import { businessUnits, chartOfAccounts, accountTypes, manFinancialReports, learningProgress, memberships } from "@db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import Stripe from "stripe";
 import * as os from 'os';
@@ -931,6 +931,100 @@ export function registerRoutes(app: Express): Server {
         error: "Failed to fetch grants",
         details: error?.message || "Unknown error occurred"
       });
+    }
+  });
+
+  // Add new routes for beginner course progress and membership
+  app.post("/api/education/progress/beginner", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const { moduleId, completed } = req.body;
+
+      // Insert or update learning progress
+      await db.insert(learningProgress)
+        .values({
+          userId: req.user.id,
+          moduleId,
+          topicId: "beginner",
+          progress: completed ? 100 : 0,
+          completedAt: completed ? new Date() : null,
+          metadata: { source: "beginner_course" }
+        })
+        .onConflictDoUpdate({
+          target: [learningProgress.userId, learningProgress.moduleId],
+          set: {
+            progress: completed ? 100 : 0,
+            completedAt: completed ? new Date() : null,
+            updatedAt: new Date()
+          }
+        });
+
+      // Check if all beginner modules are completed
+      const progress = await db.select()
+        .from(learningProgress)
+        .where(and(
+          eq(learningProgress.userId, req.user.id),
+          eq(learningProgress.progress, 100)
+        ));
+
+      const isBeginnerCompleted = progress.length >= 4; // Assuming 4 modules in beginner course
+
+      if (isBeginnerCompleted) {
+        // Activate membership
+        await db.insert(memberships)
+          .values({
+            userId: req.user.id,
+            type: "basic",
+            isActive: true,
+            metadata: { activatedVia: "beginner_course_completion" }
+          })
+          .onConflictDoUpdate({
+            target: [memberships.userId],
+            set: {
+              isActive: true,
+              metadata: { activatedVia: "beginner_course_completion" }
+            }
+          });
+      }
+
+      res.json({ 
+        success: true, 
+        isBeginnerCompleted,
+        progress: progress.length
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update learning progress" });
+        }
+  });
+
+  // Get beginner course progress
+  app.get("/api/education/progress/beginner", async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const progress = await db.select()
+        .from(learningProgress)
+        .where(and(
+          eq(learningProgress.userId, req.user.id),
+          eq(learningProgress.topicId, "beginner")
+        ));
+
+      const membership = await db.select()
+        .from(memberships)
+        .where(eq(memberships.userId, req.user.id))
+        .limit(1);
+
+      res.json({
+        progress,
+        membership: membership[0] || null
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch learning progress" });
     }
   });
 
