@@ -186,6 +186,18 @@ const availableLetters = Object.keys(groupedTerms).sort();
 // Community channels data
 const communityChannels: CommunityChannel[] = [
   {
+    name: "Sean Foo",
+    description: "Financial education and digital entrepreneurship insights",
+    channelId: "https://www.youtube.com/@SeanFoo",
+    category: "Financial Education",
+    latestVideo: {
+      title: "Building Wealth Through Digital Assets",
+      thumbnailUrl: `https://i.ytimg.com/vi/latest-video-id/maxresdefault.jpg`,
+      publishedAt: "2025-01-28",
+      views: "25K"
+    }
+  },
+  {
     name: "Democracy at Work",
     description: "Economic analysis and socialist perspective",
     channelId: "UCK-6FjMu9OI8i0Fo6bkW0VA",
@@ -652,7 +664,7 @@ export default function Education() {
                     {category === "Economic Analysis" && <Landmark className="h-8 w-8 text-primary" />}
                     {category === "Global Perspectives" && <Globe className="h-8 w-8 text-primary" />}
                     {category === "Financial Education" && <BookOpen className="h-8 w-8 text-primary" />}
-                    {category === "Market Analysis" &&<Coins className="h-8 w-8 text-primary" />}
+                    {category === "Market Analysis" &&<Coins className="h-8 w8 text-primary" />}
                     <h3 className="text-3xl font-bold">{category}</h3>
                   </div>
                   <div className="flex flex-col items-center">
