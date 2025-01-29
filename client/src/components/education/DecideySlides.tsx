@@ -93,6 +93,35 @@ const slides: Slide[] = [
     background: "bg-primary/5"
   },
   {
+    id: "web-of-debt",
+    title: "Understanding the Banking System",
+    link: "/education#banking-system",
+    content: (
+      <div className="space-y-6">
+        <p className="text-xl">Ellen Brown's "Web of Debt" Reveals Banking Truth</p>
+        <div className="grid gap-4">
+          <Card className="p-4 bg-destructive/10">
+            <h3 className="font-semibold mb-2">Key Revelations</h3>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>Money creation is controlled by private banks</li>
+              <li>Federal Reserve serves private interests</li>
+              <li>Public banking alternatives work</li>
+              <li>Current system creates unnecessary debt</li>
+            </ul>
+          </Card>
+          <Card className="p-4 bg-primary/10">
+            <h3 className="font-semibold mb-2">SOLVY's Alternative</h3>
+            <p>We're building a transparent, community-controlled financial ecosystem that returns power to the people</p>
+          </Card>
+        </div>
+        <Link href="/education#banking-system" className="inline-block mt-4">
+          <Button variant="link" className="p-0">Learn more about banking alternatives →</Button>
+        </Link>
+      </div>
+    ),
+    background: "bg-orange-50 dark:bg-orange-950/30"
+  },
+  {
     id: "decidey-how",
     title: "DECIDEY: It's Easier Than You Think",
     link: "/education#get-started",

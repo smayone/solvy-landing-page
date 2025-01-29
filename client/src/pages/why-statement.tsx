@@ -195,47 +195,7 @@ export default function WhyStatement() {
           </div>
         </div>
       ),
-    },
-    {
-      id: "banking-truth",
-      title: "Banking Reality",
-      content: (
-        <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-foreground">The Web of Debt</h3>
-          <p className="text-muted-foreground">
-            Ellen Brown's groundbreaking book "Web of Debt" reveals how the private banking system has
-            created a complex web of financial control, often misunderstood by the general public.
-          </p>
-          <div className="grid gap-4">
-            <div className="bg-destructive/10 p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">Key Revelations</h4>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Money creation is largely controlled by private banks through lending</li>
-                <li>The Federal Reserve, despite its name, is primarily controlled by private interests</li>
-                <li>Public banking alternatives have historically proven successful</li>
-                <li>The current system creates unnecessary debt and economic instability</li>
-              </ul>
-            </div>
-            <div className="bg-primary/10 p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">SOLVY's Response</h4>
-              <p className="text-sm">
-                Understanding these banking realities strengthens our mission at SOLVY. We're building
-                a new financial ecosystem that promotes transparency, community control, and individual
-                sovereignty - directly addressing the issues exposed in "Web of Debt".
-              </p>
-            </div>
-            <div className="bg-primary/10 p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">Path to Change</h4>
-              <p className="text-sm">
-                By combining blockchain technology with community-driven governance, we're creating
-                an alternative to the traditional banking system - one where financial power returns
-                to the people.
-              </p>
-            </div>
-          </div>
-        </div>
-      ),
-    },
+    }
   ];
 
   const nextChapter = () => {
