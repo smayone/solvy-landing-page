@@ -81,17 +81,17 @@ export function Navbar({ userRole }: NavbarProps) {
                     <div className="lg:col-span-2">
                       <h4 className="mb-3 text-sm font-medium leading-none">Learning Modules</h4>
                       <div className="grid grid-cols-2 gap-2">
-                        <ListItem href="/education/blockchain-basics">
+                        <ListItem href="/education/modules/blockchain">
                           <div className="flex items-center gap-2">
                             <Box className="h-4 w-4" />
-                            <div className="text-sm font-medium">Blockchain Basics</div>
+                            <div className="text-sm font-medium">Introduction to Blockchain</div>
                           </div>
                           <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                            Introduction to blockchain technology
+                            Start with the fundamentals of blockchain technology
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/decidey-foundation">
+                        <ListItem href="/education/modules/decidey">
                           <div className="flex items-center gap-2">
                             <Shield className="h-4 w-4" />
                             <div className="text-sm font-medium">DECIDEY Foundation</div>
@@ -101,7 +101,7 @@ export function Navbar({ userRole }: NavbarProps) {
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/digital-identity">
+                        <ListItem href="/education/modules/identity">
                           <div className="flex items-center gap-2">
                             <Key className="h-4 w-4" />
                             <div className="text-sm font-medium">Digital Identity</div>
@@ -111,7 +111,7 @@ export function Navbar({ userRole }: NavbarProps) {
                           </p>
                         </ListItem>
 
-                        <ListItem href="/education/web3-development">
+                        <ListItem href="/education/modules/web3">
                           <div className="flex items-center gap-2">
                             <Laptop className="h-4 w-4" />
                             <div className="text-sm font-medium">Web3 Development</div>
