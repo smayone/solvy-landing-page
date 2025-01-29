@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, PlayCircle, Trophy } from "lucide-react";
 import { useState } from "react";
+import { BlockchainDemo } from "@/components/education/BlockchainDemo";
 
 const MODULES = [
   {
@@ -24,7 +25,11 @@ const MODULES = [
           <li>Consensus: Network participants agree on the state of the ledger</li>
         </ul>
 
-        <h3 class="text-lg font-semibold">Benefits of Blockchain:</h3>
+        <div class="my-8">
+          <BlockchainDemo />
+        </div>
+
+        <h3 class="text-lg font-semibold mt-8">Benefits of Blockchain:</h3>
         <ul class="list-disc pl-6 space-y-2">
           <li>Enhanced security through cryptography</li>
           <li>Reduced need for intermediaries</li>
@@ -144,8 +149,8 @@ export default function BeginnerCourse() {
       queryClient.invalidateQueries({ queryKey: ["/api/education/progress/beginner"] });
       toast({
         title: "Progress Saved",
-        description: data.isBeginnerCompleted 
-          ? "Congratulations! You've completed the beginner course and unlocked basic membership!" 
+        description: data.isBeginnerCompleted
+          ? "Congratulations! You've completed the beginner course and unlocked basic membership!"
           : "Module completed successfully!",
       });
     },
@@ -207,9 +212,9 @@ export default function BeginnerCourse() {
               {MODULES[currentModule] && (
                 <>
                   <h2 className="text-2xl font-bold mb-4">{MODULES[currentModule].title}</h2>
-                  <div 
-                    className="prose prose-slate max-w-none dark:prose-invert" 
-                    dangerouslySetInnerHTML={{ __html: MODULES[currentModule].content }} 
+                  <div
+                    className="prose prose-slate max-w-none dark:prose-invert"
+                    dangerouslySetInnerHTML={{ __html: MODULES[currentModule].content }}
                   />
                   <Button
                     className="mt-6"
