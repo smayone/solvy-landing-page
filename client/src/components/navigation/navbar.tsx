@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard } from "lucide-react";
+import { Home, Users, Image, LineChart, Sparkles, GraduationCap, Wallet, Heart, ChartBar, BookOpen, Lightbulb, School, Shield, BookMarked, Trophy, Map, Briefcase, Send, CreditCard, BarChart } from "lucide-react";
 import { solvyDomains } from "@/lib/domains";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -61,20 +61,6 @@ export function Navbar({ userRole }: NavbarProps) {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[300px] md:w-[400px] lg:w-[500px] gap-3 p-4 lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <Link href="/why-statement" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
-                          <BookOpen className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-base font-medium">
-                            Why SOLVY?
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Discover our mission and vision
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-
                     <ListItem href="/education#decidey">
                       <div className="flex items-center gap-2">
                         <Shield className="h-4 w-4" />
@@ -95,19 +81,41 @@ export function Navbar({ userRole }: NavbarProps) {
                       </p>
                     </ListItem>
 
-                    <ListItem href="/education#achievements">
+                    <ListItem href="/education/progress">
                       <div className="flex items-center gap-2">
                         <Trophy className="h-4 w-4" />
                         <div className="text-sm font-medium">Your Progress</div>
                       </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Track completed modules and badges
-                      </p>
+                      <div className="space-y-2">
+                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          Track completed modules and badges
+                        </p>
+                        <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-primary" style={{ width: '60%' }} /> {/* We'll make this dynamic */}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          <BarChart className="inline-block h-3 w-3 mr-1" />
+                          60% Complete
+                        </p>
+                      </div>
                     </ListItem>
+
+                    <li className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <Link href="/why-statement" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md">
+                          <BookOpen className="h-6 w-6" />
+                          <div className="mb-2 mt-4 text-base font-medium">
+                            Why SOLVY?
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Discover our mission and vision
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-
               <NavigationMenuItem className="block md:inline-block">
                 <NavigationMenuTrigger className="h-9 px-3">
                   <div className="flex items-center gap-2">
@@ -144,7 +152,6 @@ export function Navbar({ userRole }: NavbarProps) {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-
           <Button variant="ghost" asChild>
             <Link href="/member" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
