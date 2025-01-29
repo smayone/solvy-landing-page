@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Shield, Users, Coins, Book } from "lucide-react";
 import { Link } from "wouter";
 import { solvyDomains } from "@/lib/domains";
+import { Card } from "@/components/ui/card";
 
 const storyboardItems = [
   {
@@ -91,6 +92,31 @@ export function Hero() {
                   </div>
                 </motion.div>
               </AnimatePresence>
+            </div>
+
+            {/* Web of Debt Section */}
+            <div className="mt-12 space-y-6 border-t pt-8">
+              <h3 className="text-2xl font-semibold text-primary">Understanding the Banking System</h3>
+              <p className="text-lg text-muted-foreground">
+                Ellen Brown's "Web of Debt" reveals how the private banking system has created a complex web of financial control, often misunderstood by the general public.
+              </p>
+              <div className="grid gap-4">
+                <Card className="p-4 bg-destructive/10">
+                  <h4 className="font-semibold mb-2">Key Revelations</h4>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>Money creation is controlled by private banks</li>
+                    <li>Federal Reserve serves private interests</li>
+                    <li>Public banking alternatives work</li>
+                    <li>Current system creates unnecessary debt</li>
+                  </ul>
+                </Card>
+                <Card className="p-4 bg-primary/10">
+                  <h4 className="font-semibold mb-2">SOLVY's Alternative</h4>
+                  <p>
+                    We're building a transparent, community-controlled financial ecosystem that returns power to the people.
+                  </p>
+                </Card>
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-6 mt-8">
