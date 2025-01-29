@@ -227,40 +227,13 @@ export default function WhyStatement() {
         ))}
       </div>
 
-      {/* Web of Debt Section */}
-      <div className="mb-12 space-y-6 border-b pb-8">
-        <h3 className="text-2xl font-semibold text-primary">Understanding the Banking System</h3>
-        <p className="text-lg text-muted-foreground">
-          Ellen Brown's "Web of Debt" reveals how the private banking system has created a complex web of financial control, often misunderstood by the general public.
-        </p>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card className="p-4 bg-destructive/10">
-            <h4 className="font-semibold mb-2">Key Revelations</h4>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Money creation is controlled by private banks</li>
-              <li>Federal Reserve serves private interests</li>
-              <li>Public banking alternatives work</li>
-              <li>Current system creates unnecessary debt</li>
-            </ul>
-          </Card>
-          <Card className="p-4 bg-primary/10">
-            <h4 className="font-semibold mb-2">SOLVY's Alternative</h4>
-            <p className="text-sm">
-              We're building a transparent, community-controlled financial ecosystem that returns power to the people.
-              Through blockchain technology and community-driven governance, we're creating an alternative to the traditional
-              banking system - one where financial power truly belongs to the people.
-            </p>
-          </Card>
-        </div>
-      </div>
-
       <div className="prose prose-lg max-w-none mb-8 dark:prose-invert">
         <div className="min-h-[400px]">
           {chapters[currentChapter].content}
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-8">
+      <div className="flex justify-between items-center mt-8 mb-12">
         <button
           onClick={prevChapter}
           disabled={currentChapter === 0}
@@ -288,6 +261,33 @@ export default function WhyStatement() {
           Next
           <ChevronRight className="h-5 w-5" />
         </button>
+      </div>
+
+      {/* Web of Debt Section - Now at the bottom */}
+      <div className="mt-16 space-y-6 pt-8 border-t">
+        <h3 className="text-2xl font-semibold text-primary">Understanding the Banking System</h3>
+        <p className="text-lg text-muted-foreground">
+          Ellen Brown's "Web of Debt" reveals how the private banking system has created a complex web of financial control, often misunderstood by the general public.
+        </p>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card className="p-4 bg-destructive/10">
+            <h4 className="font-semibold mb-2">Key Revelations</h4>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>Money creation is controlled by private banks</li>
+              <li>Federal Reserve serves private interests</li>
+              <li>Public banking alternatives work</li>
+              <li>Current system creates unnecessary debt</li>
+            </ul>
+          </Card>
+          <Card className="p-4 bg-primary/10">
+            <h4 className="font-semibold mb-2">SOLVY's Alternative</h4>
+            <p className="text-sm">
+              We're building a transparent, community-controlled financial ecosystem that returns power to the people.
+              Through blockchain technology and community-driven governance, we're creating an alternative to the traditional
+              banking system - one where financial power truly belongs to the people.
+            </p>
+          </Card>
+        </div>
       </div>
     </div>
   );
